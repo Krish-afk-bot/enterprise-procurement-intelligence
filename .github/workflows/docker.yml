@@ -1,0 +1,73 @@
+name: Docker
+
+on:
+  pull_request:
+    branches: [master, main]
+    paths:
+      - "backend/Dockerfile"
+      - "frontend/Dockerfile"
+      - "docker-compose.yml"
+      - ".github/workflows/docker.yml"
+  push:
+    branches: [master, main]
+    paths:
+      - "backend/Dockerfile"
+      - "frontend/Dockerfile"
+      - "docker-compose.yml"
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-backend:
+    name: Build Backend Image
+    runs-on: ubuntu-latest
+    # NOTE: backend/Dockerfile does not exist yet. This job will fail until
+    # it is created (see COMMITS.md RQ-1). The `if` guard prevents a false
+    # failure in the meantime.
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Dockerfile exists
+        id: check
+        run: |
+          if [ -f "backend/Dockerfile" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::backend/Dockerfile does not exist yet. See COMMITS.md RQ-1."
+          fi
+
+      - name: Build backend Docker image
+        if: steps.check.outputs.exists == 'true'
+        run: |
+          docker build \
+            -f backend/Dockerfile \
+            -t epi-backend:ci-${{ github.sha }} \
+            .
+
+  build-frontend:
+    name: Build Frontend Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frontend Docker image
+        run: |
+          docker build \
+            -f frontend/Dockerfile \
+            -t epi-frontend:ci-${{ github.sha }} \
+            ./frontend
+
+  compose-validate:
+    name: Validate docker-compose.yml
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate compose file (infra services only)
+        run: docker compose config --quiet

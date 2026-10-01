@@ -1,0 +1,41 @@
+name: Deploy — Staging
+
+# PLANNED: This workflow is defined but not yet functional.
+# A staging environment has not been provisioned.
+# See COMMITS.md INFRA-1 and docs/deployment.md for the production
+# architecture target.
+#
+# When a staging environment is ready, fill in the deployment steps
+# below and remove this notice.
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA to deploy (defaults to HEAD)"
+        required: false
+        default: ""
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      # url: https://staging.example.com   # set when environment is provisioned
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Staging deployment (PLACEHOLDER)
+        run: |
+          echo "Staging deployment not yet configured."
+          echo "See docs/deployment.md for the target architecture."
+          echo "See COMMITS.md INFRA-1 for the implementation task."
+          exit 0

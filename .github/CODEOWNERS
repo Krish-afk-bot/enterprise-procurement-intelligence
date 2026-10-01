@@ -1,0 +1,26 @@
+# CODEOWNERS
+# GitHub uses this file to determine required reviewers for changed paths.
+# Each pattern follows the same rules as .gitignore.
+# The last matching rule takes precedence.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything not matched below
+* @Krish-afk-bot
+
+# Security-sensitive paths — require explicit review
+/backend/app/security/            @Krish-afk-bot
+/backend/app/providers/           @Krish-afk-bot
+/backend/alembic/                 @Krish-afk-bot
+
+# CI/CD and GitHub configuration
+/.github/                         @Krish-afk-bot
+/.github/workflows/               @Krish-afk-bot
+
+# Environment and secrets templates
+/.env.example                     @Krish-afk-bot
+/docker-compose.yml               @Krish-afk-bot
+
+# Documentation
+/docs/                            @Krish-afk-bot
+/README.md                        @Krish-afk-bot
+/SECURITY.md                      @Krish-afk-bot

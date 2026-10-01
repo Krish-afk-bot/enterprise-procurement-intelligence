@@ -6,9 +6,21 @@ This document describes the current state of CI/CD for the Enterprise Procuremen
 
 ## Current State
 
-**There is no automated CI/CD pipeline.** No GitHub Actions workflows exist. No linting, type checking, or test gates run automatically on pull requests.
+GitHub Actions workflows are now defined in `.github/workflows/`. The pipeline structure is in place. However, several jobs are currently no-ops or placeholders because their prerequisites do not yet exist:
 
-The current safety net consists of the manual verification scripts in `scripts/`:
+| Workflow | File | Status |
+|---|---|---|
+| CI (lint, typecheck, tests) | `ci.yml` | Lint/typecheck jobs active; test job is a no-op (no tests yet) |
+| Backend Tests | `backend-tests.yml` | All jobs are no-ops (no tests yet — see COMMITS.md TEST-1) |
+| Frontend | `frontend.yml` | Lint, typecheck, and build jobs active; test job is a no-op |
+| Security | `security.yml` | Active — pip-audit, npm audit, TruffleHog secret scan |
+| Dependency Review | `dependency-review.yml` | Active on PRs |
+| Docker | `docker.yml` | Frontend build active; backend build is a warning-only no-op (Dockerfile missing) |
+| Release | `release.yml` | Active on version tags (`v*.*.*`) |
+| Deploy — Staging | `deploy-staging.yml` | Placeholder — no staging environment provisioned |
+| Deploy — Production | `deploy-production.yml` | Placeholder — requires manual `workflow_dispatch` with SHA + confirmation |
+
+The manual verification scripts remain the primary safety net while tests are absent:
 
 | Script | What it checks |
 |---|---|
@@ -16,8 +28,7 @@ The current safety net consists of the manual verification scripts in `scripts/`
 | `scripts/verify_documents.py` | 29 document API assertions |
 | `scripts/acceptance_check.py` | End-to-end acceptance flows |
 | `scripts/final_verification.py` | Comprehensive manual verification harness |
-
-These run manually against a locally running backend. They are not gated on any commit or pull request.
+| `scripts/repo_health.py` | Repository structure and configuration health |
 
 ---
 

@@ -1,0 +1,60 @@
+name: Deploy — Production
+
+# PLANNED: This workflow is defined but not yet functional.
+# No production environment has been provisioned.
+# See docs/deployment.md for the target production architecture.
+#
+# Production deployments require:
+# - A staging environment that has passed smoke tests
+# - Manual approval via a GitHub Environment protection rule
+# - Secrets configured in the GitHub repository settings
+#
+# When the production environment is ready, fill in the deployment steps
+# below and remove this notice.
+
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA to deploy"
+        required: true
+      confirmed:
+        description: "Type DEPLOY to confirm production deployment"
+        required: true
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    name: Deployment Guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify confirmation
+        run: |
+          if [ "${{ inputs.confirmed }}" != "DEPLOY" ]; then
+            echo "Confirmation text must be exactly DEPLOY — aborting."
+            exit 1
+          fi
+          echo "Confirmation accepted. Proceeding."
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: guard
+    environment:
+      name: production
+      # url: https://app.example.com   # set when environment is provisioned
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sha }}
+
+      - name: Production deployment (PLACEHOLDER)
+        run: |
+          echo "Production deployment not yet configured."
+          echo "See docs/deployment.md for the target architecture."
+          echo "Targeting SHA: ${{ inputs.sha }}"
+          exit 0

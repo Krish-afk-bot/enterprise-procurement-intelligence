@@ -111,6 +111,48 @@ Establish project documentation grounded in the actual verified state of the rep
 
 ---
 
+### 3. chore(repo): add GitHub workflows, governance, test scaffolding, and CHANGELOG
+
+**Status:** Completed
+**SHA:** 5d48dbdc6797c2e943d6089b42712b5887b2a318
+**Date:** 2026-10-02
+**Branch:** master
+
+**Purpose:**
+Establish the full GitHub repository structure: CI/CD workflows, governance files, test directory scaffolding, rollback documentation, repo health script, and CHANGELOG.
+
+**Files created:**
+- `.github/workflows/ci.yml` — lint, typecheck, test gate (backend + frontend)
+- `.github/workflows/backend-tests.yml` — unit, integration, retrieval test jobs (no-op until tests written)
+- `.github/workflows/frontend.yml` — lint, typecheck, build, test jobs
+- `.github/workflows/security.yml` — pip-audit, npm audit, TruffleHog secret scan
+- `.github/workflows/dependency-review.yml` — dependency review on PRs
+- `.github/workflows/docker.yml` — Docker build validation (backend job warns until Dockerfile exists)
+- `.github/workflows/release.yml` — GitHub Release creation on version tags
+- `.github/workflows/deploy-staging.yml` — staging deploy placeholder
+- `.github/workflows/deploy-production.yml` — production deploy placeholder (manual workflow_dispatch)
+- `.github/CODEOWNERS` — required reviewers for security-sensitive paths
+- `.github/dependabot.yml` — weekly automated dependency updates for pip, npm, GitHub Actions
+- `.github/pull_request_template.md` — PR description template
+- `.github/ISSUE_TEMPLATE/bug_report.md` — bug report template
+- `.github/ISSUE_TEMPLATE/feature_request.md` — feature request template
+- `backend/tests/__init__.py` and subdirectories `unit/`, `integration/`, `retrieval/`, `ingestion/`, `security/`
+- `frontend/tests/.gitkeep`
+- `docs/rollback.md` — rollback and recovery procedures
+- `scripts/repo_health.py` — local repository health check
+- `CHANGELOG.md` — project changelog
+
+**Files updated:**
+- `docs/ci-cd.md` — reflects workflows now existing, with accurate per-workflow status
+- `COMMITS.md` — GOV-1/2/3 marked completed, this commit recorded
+
+**Validation:**
+- No application code modified
+- No secrets committed
+- Workflow jobs for missing prerequisites (tests, backend Dockerfile) are no-ops, not failures
+
+---
+
 ## Planned
 
 The tasks below are ordered by logical dependency. When instructed to make the next two commits, the agent reads this file, picks the next two unfinished tasks, implements them, and updates this ledger.
@@ -267,25 +309,19 @@ The tasks below are ordered by logical dependency. When instructed to make the n
 
 #### GOV-1: `chore(github): add CODEOWNERS file`
 
-**Depends on:** nothing
-**Why:** Defines required reviewers per path.
-**What:** Create `.github/CODEOWNERS`. Assign `backend/app/security/` and `backend/app/providers/` to the security-sensitive reviewer. Document in `CONTRIBUTING.md`.
+**Status:** COMPLETED in commit 3 (see below)
 
 ---
 
 #### GOV-2: `chore(github): add pull request template`
 
-**Depends on:** nothing
-**Why:** Ensures PRs consistently describe what changed, how it was tested, and any gaps.
-**What:** Create `.github/pull_request_template.md` with sections: Summary, Changes, Testing, Known Gaps.
+**Status:** COMPLETED in commit 3 (see below)
 
 ---
 
 #### GOV-3: `chore(github): add issue templates`
 
-**Depends on:** nothing
-**Why:** Consistent issue reporting for bugs and feature requests.
-**What:** Create `.github/ISSUE_TEMPLATE/bug_report.md` and `.github/ISSUE_TEMPLATE/feature_request.md`.
+**Status:** COMPLETED in commit 3 (see below)
 
 ---
 

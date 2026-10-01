@@ -1,0 +1,117 @@
+# ============================================================
+# Enterprise Procurement Intelligence — .gitignore
+# ============================================================
+
+# ------------------------------------------------------------------ Node / Frontend
+node_modules/
+dist/
+.vite/
+coverage/
+*.tsbuildinfo
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+
+# ------------------------------------------------------------------ Python / Backend
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+*.whl
+pip-wheel-metadata/
+
+# ------------------------------------------------------------------ Environment / Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# ------------------------------------------------------------------ IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------------ OS
+.DS_Store
+.AppleDouble
+.LSOverride
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# ------------------------------------------------------------------ Runtime state
+# Intentionally ignore all generated runtime state and local databases.
+# The source of truth is the code and migrations, not the local var/ directory.
+backend/var/
+*.sqlite
+*.sqlite3
+*.db
+!backend/alembic/versions/
+
+# ------------------------------------------------------------------ Vector / Embedding caches
+# On-disk vector index and BM25 state rebuilt from ingestion.
+backend/var/vector_index/
+backend/var/storage/
+backend/var/graph.db
+*.npy
+*.faiss
+*.annoy
+
+# ------------------------------------------------------------------ Model weight caches
+# Never commit downloaded model weights to the repository.
+.cache/
+huggingface/
+sentence_transformers/
+torch_cache/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.onnx
+
+# ------------------------------------------------------------------ Logs
+logs/
+*.log
+*.log.*
+
+# ------------------------------------------------------------------ Docker
+.docker/
+
+# ------------------------------------------------------------------ Freebuff IDE artefacts
+.freebuff/
+.fb_token
+*.fb_token
+
+# ------------------------------------------------------------------ Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# ------------------------------------------------------------------ Evaluation outputs (generated, not source)
+# The golden dataset and corpus card ARE committed (they are fixtures).
+# Generated run outputs are not.
+data/evaluation/runs/
+data/evaluation/outputs/
+
+# ------------------------------------------------------------------ CI cache
+.github/cache/

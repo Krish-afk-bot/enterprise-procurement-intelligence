@@ -26,7 +26,7 @@ jobs:
     # backend/tests/unit/ is populated (see COMMITS.md TEST-1).
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -56,7 +56,7 @@ jobs:
     # NOTE: No integration tests exist yet. See COMMITS.md TEST-2.
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -86,7 +86,7 @@ jobs:
     # NOTE: No retrieval tests exist yet. See COMMITS.md TEST-3.
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5

@@ -48,7 +48,7 @@ jobs:
       # url: https://app.example.com   # set when environment is provisioned
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.sha }}
 

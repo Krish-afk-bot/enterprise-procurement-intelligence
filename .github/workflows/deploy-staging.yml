@@ -31,7 +31,7 @@ jobs:
       # url: https://staging.example.com   # set when environment is provisioned
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Staging deployment (PLACEHOLDER)
         run: |

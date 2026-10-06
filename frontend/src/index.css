@@ -1,0 +1,323 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens.
+ *
+ * Light-first, neutral base, one restrained accent. Every value here is a
+ * deliberate choice: no decorative gradients, no glow, no second brand colour.
+ */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 30% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 30% 12%;
+
+    /* The single brand accent: a deep, calm blue. */
+    --primary: 217 71% 38%;
+    --primary-foreground: 210 40% 99%;
+
+    --secondary: 220 16% 96%;
+    --secondary-foreground: 222 30% 12%;
+
+    --muted: 220 16% 96.5%;
+    --muted-foreground: 220 9% 44%;
+
+    --accent: 220 16% 96%;
+    --accent-foreground: 222 30% 12%;
+
+    --destructive: 0 66% 44%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 145 58% 31%;
+    --warning: 32 84% 36%;
+    --info: 213 74% 42%;
+
+    /*
+     * Playful accents. Warm yellow and coral are for the three-dimensional world
+     * and for small emphasis; they are deliberately NOT the primary action colour,
+     * and they are never used for a verified or success state — green and cyan
+     * stay reserved for that.
+     */
+    --warm: 42 92% 55%;
+    --warm-foreground: 30 60% 18%;
+    --coral: 12 84% 62%;
+    --coral-foreground: 8 60% 20%;
+    --paper: 40 44% 97%;
+
+    --border: 220 15% 90%;
+    --input: 220 15% 87%;
+    --ring: 217 71% 45%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 32% 8%;
+    --foreground: 210 24% 94%;
+
+    --card: 222 30% 11%;
+    --card-foreground: 210 24% 94%;
+
+    --popover: 222 30% 11%;
+    --popover-foreground: 210 24% 94%;
+
+    --primary: 214 84% 62%;
+    --primary-foreground: 222 32% 9%;
+
+    --secondary: 220 18% 17%;
+    --secondary-foreground: 210 24% 94%;
+
+    --muted: 220 18% 16%;
+    --muted-foreground: 218 12% 66%;
+
+    --accent: 220 18% 17%;
+    --accent-foreground: 210 24% 94%;
+
+    --destructive: 0 62% 56%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 145 48% 52%;
+    --warning: 36 84% 58%;
+    --info: 213 78% 62%;
+    --warm: 42 92% 60%;
+    --warm-foreground: 30 60% 14%;
+    --coral: 12 80% 64%;
+    --coral-foreground: 8 60% 14%;
+    --paper: 40 20% 90%;
+
+    --border: 220 16% 20%;
+    --input: 220 16% 22%;
+    --ring: 214 84% 62%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Numeric columns line up; identifiers are monospaced. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Nothing should move for someone who asked for no motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.16);
+  }
+}
+
+@layer components {
+  /* A quiet, full-width section rule used instead of nested cards. */
+  .hairline {
+    @apply border-b border-border/80;
+  }
+
+  .skip-link {
+    @apply absolute left-3 top-3 z-50 -translate-y-16 rounded-md border bg-background px-3 py-2 text-sm font-medium shadow-sm transition-transform focus:translate-y-0;
+  }
+
+  .surface-muted {
+    background: hsl(var(--muted) / 0.5);
+  }
+
+  /* Marks the passage a citation pointed at. */
+  .cited-passage {
+    @apply border-l-2 border-l-primary bg-primary/5 pl-3;
+  }
+
+  /*
+   * A stack of document layers: two thin sheets behind a card, offset up and to
+   * the right so a version reads as one sheet in a pile. Pure CSS, no canvas, so
+   * a long version list stays cheap.
+   */
+  .stack-layers {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .stack-layers::before,
+  .stack-layers::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    background: hsl(var(--card));
+  }
+
+  .stack-layers::before {
+    transform: translate(3px, -3px) scale(0.995);
+    opacity: 0.7;
+  }
+
+  .stack-layers::after {
+    transform: translate(6px, -6px) scale(0.99);
+    opacity: 0.4;
+  }
+
+  /* The sheet currently governing sits in front and slightly proud of the pile. */
+  .stack-layers-current::before,
+  .stack-layers-current::after {
+    border-color: hsl(var(--primary) / 0.35);
+  }
+
+  /* A page of a document, given one restrained elevation step. */
+  .page-sheet {
+    @apply rounded-lg border bg-card;
+    box-shadow: 0 10px 26px -22px rgb(15 23 42 / 0.35);
+  }
+}
+
+@layer utilities {
+  .prose-answer {
+    @apply whitespace-pre-wrap break-words text-sm leading-relaxed;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply rounded-full border-2 border-transparent bg-border bg-clip-content;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 180ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  .animate-rise {
+    animation: rise 220ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  /* A larger transition: used when a whole panel or page view changes. */
+  .animate-page {
+    animation: page-in 320ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  /* Evidence → answer: the cited passage settles into place as the answer
+     appears. Short, one pass, no bounce. */
+  .animate-cite {
+    animation: cite-focus 420ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  /* Cards that lift when chosen. Transform only, so nothing reflows. */
+  .lift-selected {
+    @apply -translate-y-0.5 shadow-[0_10px_24px_-16px_rgb(15_23_42_/_0.35)];
+  }
+
+  /*
+   * Evidence → answer. A soft, slow pulse on the connector dots, on an ambient
+   * loop well outside the UI durations because nothing depends on it. The
+   * reduced-motion rule in the base layer stops it entirely.
+   */
+  .flow-dot {
+    animation: flow-pulse 4.8s ease-in-out infinite;
+  }
+
+  .flow-dot:nth-of-type(2) {
+    animation-delay: 0.6s;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.996);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flow-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes cite-focus {
+  0% {
+    opacity: 0;
+    transform: translateY(3px);
+    background-color: hsl(var(--primary) / 0.14);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    background-color: hsl(var(--primary) / 0.05);
+  }
+}

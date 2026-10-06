@@ -27,6 +27,19 @@ LLMProviderName = Literal["openai_compatible", "none"]
 EmbeddingProviderName = Literal["sentence_transformers", "hashing"]
 RerankerProviderName = Literal["cross_encoder", "lexical", "disabled"]
 
+# Secrets that are obviously unsafe for production use.
+_KNOWN_WEAK_SECRETS = frozenset(
+    {
+        "dev-insecure-change-me",
+        "changeme",
+        "secret",
+        "your-secret-key",
+        "example-secret",
+        "replace-me",
+        "test-secret-not-for-production",
+    }
+)
+
 
 def _default_sqlite_url() -> str:
     (DEFAULT_VAR_DIR).mkdir(parents=True, exist_ok=True)
@@ -50,7 +63,9 @@ class Settings(BaseSettings):
     debug: bool = False
     log_level: str = "INFO"
     log_json: bool = True
-    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"])
+    cors_origins: list[str] = Field(
+        default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"]
+    )
     var_dir: Path = DEFAULT_VAR_DIR
 
     # ------------------------------------------------------------- security
@@ -65,6 +80,14 @@ class Settings(BaseSettings):
     #: in production and create users explicitly instead.
     bootstrap_admin_email: str | None = None
     bootstrap_admin_password: str | None = None
+
+    @field_validator("jwt_secret", mode="after")
+    @classmethod
+    def _reject_weak_jwt_secret_in_production(cls, value: str) -> str:
+        # Checked lazily at access time so tests can still supply their own
+        # value without environment gymnastics.  The real guard is in
+        # validate_startup_security() which main.py calls during lifespan.
+        return value
 
     # ------------------------------------------------------------ data layer
     database_url: str = Field(default_factory=_default_sqlite_url)
@@ -156,8 +179,18 @@ class Settings(BaseSettings):
     max_upload_mb: int = 100
     allowed_extensions: list[str] = Field(
         default_factory=lambda: [
-            ".pdf", ".docx", ".xlsx", ".xlsm", ".csv", ".txt", ".md",
-            ".png", ".jpg", ".jpeg", ".tif", ".tiff",
+            ".pdf",
+            ".docx",
+            ".xlsx",
+            ".xlsm",
+            ".csv",
+            ".txt",
+            ".md",
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".tif",
+            ".tiff",
         ]
     )
     ocr_enabled: bool = True
@@ -239,6 +272,34 @@ class Settings(BaseSettings):
             "langsmith_tracing": bool(self.langsmith_tracing and self.langsmith_api_key),
             "max_agent_iterations": self.max_agent_iterations,
         }
+
+    def is_jwt_secret_safe(self) -> bool:
+        """Return True when the JWT secret is strong enough for the current env."""
+        if self.app_env == "production":
+            return self.jwt_secret not in _KNOWN_WEAK_SECRETS and len(self.jwt_secret) >= 32
+        # In development/test a weak secret is allowed but warned about.
+        return True
+
+    def validate_startup_security(self) -> None:
+        """Raise RuntimeError if running in production with an insecure secret.
+
+        Called by the application lifespan so that a misconfigured production
+        deployment fails fast at boot rather than silently signing tokens with a
+        known-weak key.
+        """
+        if self.app_env == "production":
+            if self.jwt_secret in _KNOWN_WEAK_SECRETS:
+                raise RuntimeError(
+                    "Production startup refused: JWT_SECRET is set to a known "
+                    "insecure default value. Set JWT_SECRET to a securely-generated "
+                    "random string of at least 32 characters."
+                )
+            if len(self.jwt_secret) < 32:
+                raise RuntimeError(
+                    f"Production startup refused: JWT_SECRET is only "
+                    f"{len(self.jwt_secret)} characters long. "
+                    "Use a secret of at least 32 characters."
+                )
 
 
 @lru_cache

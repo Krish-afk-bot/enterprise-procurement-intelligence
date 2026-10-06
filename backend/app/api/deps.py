@@ -89,7 +89,9 @@ def rate_limit(bucket: str, limit_attr: str) -> Callable[..., Awaitable[None]]:
         if container.rate_limiter is None:
             return
         limit = int(getattr(settings, limit_attr, 0))
-        scope = request.headers.get("x-forwarded-for", "") or (request.client.host if request.client else "anonymous")
+        scope = request.headers.get("x-forwarded-for", "") or (
+            request.client.host if request.client else "anonymous"
+        )
         allowed, _remaining, retry_after = await container.rate_limiter.check(bucket, scope, limit)
         if not allowed:
             raise RateLimitError(

@@ -226,7 +226,11 @@ class ContextBuilder:
             bundle.token_estimate += tokens
             bundle.blocks.append(
                 ContextBlock(
-                    marker=marker, text=block_text, citation=citation, content_type=content_type, is_synthetic=False
+                    marker=marker,
+                    text=block_text,
+                    citation=citation,
+                    content_type=content_type,
+                    is_synthetic=False,
                 )
             )
             bundle.citations.append(citation)

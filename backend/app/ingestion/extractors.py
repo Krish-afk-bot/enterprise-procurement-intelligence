@@ -35,7 +35,9 @@ HEADER_SYNONYMS: dict[str, tuple[str, ...]] = {
     "supplier": ("supplier", "vendor", "awarded to"),
 }
 
-_AMOUNT_RE = re.compile(r"([$€£¥]?)\s?([\d][\d,]*(?:\.\d{1,4})?)\s*(%|percent|k|m|million|thousand)?", re.IGNORECASE)
+_AMOUNT_RE = re.compile(
+    r"([$€£¥]?)\s?([\d][\d,]*(?:\.\d{1,4})?)\s*(%|percent|k|m|million|thousand)?", re.IGNORECASE
+)
 _DATE_RE = re.compile(
     r"\b(\d{4}-\d{2}-\d{2}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|[A-Z][a-z]{2,8}\s+\d{1,2},?\s+\d{4}|\d{1,2}\s+[A-Z][a-z]{2,8}\s+\d{4})\b"
 )
@@ -49,7 +51,9 @@ TERM_PATTERNS: dict[str, re.Pattern[str]] = {
         re.IGNORECASE,
     ),
     "renewal": re.compile(r"(renewal[^\n.;]{0,120})", re.IGNORECASE),
-    "termination_notice": re.compile(r"(terminat\w+[^\n.;]{0,100}(?:notice|days)[^\n.;]{0,40})", re.IGNORECASE),
+    "termination_notice": re.compile(
+        r"(terminat\w+[^\n.;]{0,100}(?:notice|days)[^\n.;]{0,40})", re.IGNORECASE
+    ),
     "discount": re.compile(r"(\d{1,2}(?:\.\d+)?)\s*%\s*(?:discount|rebate)", re.IGNORECASE),
     "warranty": re.compile(r"(warranty[^\n.;]{0,120})", re.IGNORECASE),
     "governing_law": re.compile(r"(governing law[^\n.;]{0,80})", re.IGNORECASE),

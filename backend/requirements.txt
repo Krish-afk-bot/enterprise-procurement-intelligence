@@ -1,19 +1,25 @@
 # backend/requirements.txt
-# Generated from pyproject.toml declared dependencies.
-# These are the exact versions verified in the development environment.
+# Pinned versions for all direct runtime dependencies declared in pyproject.toml.
 #
-# To regenerate after dependency changes:
+# DEPENDENCY STRATEGY:
+#   pyproject.toml: authoritative dependency list with minimum-version constraints (>=)
+#   requirements.txt: exact pinned snapshot for reproducible CI/Docker builds
+#
+# When to update requirements.txt:
+#   1. After adding/changing a dependency in pyproject.toml
+#   2. After a deliberate dependency upgrade
+#
+# To regenerate:
 #   pip install pip-tools
 #   pip-compile pyproject.toml --output-file requirements.txt
-#
-# Or with uv (recommended):
+#   # or with uv (faster):
 #   uv pip compile pyproject.toml -o requirements.txt
 #
-# Install pinned deps:
+# To install for development:
 #   pip install -r requirements.txt
+#   pip install -e ".[eval]"       # adds pytest, pytest-asyncio
 #
-# Install the package itself (editable, all extras):
-#   pip install -e ".[ocr,vision,eval,observability]"
+# Docker uses this file: COPY requirements.txt . && pip install -r requirements.txt
 
 # --- web ---
 fastapi==0.115.0
@@ -56,6 +62,7 @@ sentence-transformers==5.1.2
 structlog==26.1.0
 PyJWT==2.10.1
 argon2-cffi==25.1.0
+email-validator==2.3.0
 
 # --- eval extras (optional) ---
 pytest==8.3.3

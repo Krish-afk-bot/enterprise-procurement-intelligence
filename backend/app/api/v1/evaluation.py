@@ -54,7 +54,9 @@ async def golden_dataset(
     from app.evaluation.dataset import load_golden_dataset
 
     dataset = load_golden_dataset(settings.evaluation_dir)
-    summary["questions"] = [GoldenQuestionOut(**question.as_dict()).model_dump() for question in dataset.questions]
+    summary["questions"] = [
+        GoldenQuestionOut(**question.as_dict()).model_dump() for question in dataset.questions
+    ]
     return summary
 
 

@@ -87,9 +87,7 @@ def parse_read_query(query: str) -> ReadQueryPlan:
     """Parse the supported Cypher subset or raise ``UnsupportedQueryError``."""
     text = " ".join(query.split())
     if not text.upper().startswith("MATCH"):
-        raise UnsupportedQueryError(
-            "The local graph provider only executes MATCH ... RETURN read queries."
-        )
+        raise UnsupportedQueryError("The local graph provider only executes MATCH ... RETURN read queries.")
 
     match_section = text
     for marker in ("WHERE", "RETURN", "LIMIT"):

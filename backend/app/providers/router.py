@@ -11,14 +11,14 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator, Sequence
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel
 
 from app.config.settings import Settings
 from app.observability.logging import get_logger
-from app.providers.base import LLMProvider, RerankerProvider, UnavailableProviderError
+from app.providers.base import LLMProvider, UnavailableProviderError
 from app.providers.embedding import CachedEmbeddingProvider
 from app.providers.reranking import CrossEncoderReranker, DisabledReranker, LexicalReranker
 from app.providers.types import LLMMessage, LLMResponse, ProviderStatus, RerankScore, VisionResponse
@@ -27,26 +27,26 @@ from app.providers.vision import OpenAICompatibleVisionProvider
 logger = get_logger(__name__)
 
 
-class Task(str, Enum):
+class Task(StrEnum):
     """Routing tasks. The value documents the intended engine."""
 
-    CLASSIFY = "classify"          # cheap structure extraction
-    PLAN = "plan"                  # query planning / tool selection
-    REWRITE = "rewrite"            # query rewriting / expansion
-    GENERATE = "generate"          # final grounded answer
-    COMPARE = "compare"            # multi-document synthesis
-    VERIFY = "verify"              # grounding / claim verification
-    VISION = "vision"              # page image understanding
-    EXTRACT = "extract"            # table/metadata extraction from text
+    CLASSIFY = "classify"  # cheap structure extraction
+    PLAN = "plan"  # query planning / tool selection
+    REWRITE = "rewrite"  # query rewriting / expansion
+    GENERATE = "generate"  # final grounded answer
+    COMPARE = "compare"  # multi-document synthesis
+    VERIFY = "verify"  # grounding / claim verification
+    VISION = "vision"  # page image understanding
+    EXTRACT = "extract"  # table/metadata extraction from text
 
 
 #: engine kinds the router can select
 ENGINE_LLM = "llm"
 ENGINE_SMALL_LLM = "small_llm"
 ENGINE_VLM = "vlm"
-ENGINE_PYTHON = "python"       # deterministic arithmetic
-ENGINE_SQL = "sql"            # PostgreSQL aggregation
-ENGINE_GRAPH = "graph"        # Neo4j traversal
+ENGINE_PYTHON = "python"  # deterministic arithmetic
+ENGINE_SQL = "sql"  # PostgreSQL aggregation
+ENGINE_GRAPH = "graph"  # Neo4j traversal
 
 
 @dataclass(slots=True)
@@ -94,7 +94,9 @@ class ModelRouter:
         self.routing_overrides = routing_overrides or {}
 
     # ---------------------------------------------------------------- routing
-    def route(self, task: Task, *, complexity: str | None = None, requires_vision: bool = False) -> RouteDecision:
+    def route(
+        self, task: Task, *, complexity: str | None = None, requires_vision: bool = False
+    ) -> RouteDecision:
         """Decide which engine serves a task."""
         override = self.routing_overrides.get(task.value)
         if override:
@@ -102,7 +104,9 @@ class ModelRouter:
 
         if requires_vision or task is Task.VISION:
             if self.vision_provider is None or not self.vision_provider.configured:
-                return RouteDecision(task, ENGINE_LLM, None, "vision unavailable; falling back to text evidence")
+                return RouteDecision(
+                    task, ENGINE_LLM, None, "vision unavailable; falling back to text evidence"
+                )
             return RouteDecision(task, ENGINE_VLM, self.settings.vlm_model, "visual task")
 
         engine = _DEFAULT_ENGINES.get(task, ENGINE_LLM)
@@ -176,7 +180,9 @@ class ModelRouter:
     ) -> BaseModel | None:
         decision = self.route(task, complexity=complexity)
         if decision.engine == ENGINE_VLM:
-            decision = RouteDecision(task, ENGINE_LLM, self.settings.llm_model, "structured output needs a text model")
+            decision = RouteDecision(
+                task, ENGINE_LLM, self.settings.llm_model, "structured output needs a text model"
+            )
         provider = self._provider_for(decision.engine)
         return await provider.complete_structured(messages, schema, model=decision.model)
 
@@ -208,7 +214,9 @@ class ModelRouter:
         return self.embeddings.dimension if self.embeddings else 0
 
     # --------------------------------------------------------------- rerankng
-    async def rerank(self, query: str, documents: Sequence[str], *, top_n: int | None = None) -> list[RerankScore]:
+    async def rerank(
+        self, query: str, documents: Sequence[str], *, top_n: int | None = None
+    ) -> list[RerankScore]:
         if self.reranker is None:
             return [RerankScore(index=i, score=0.0) for i in range(len(documents))]
         return await self.reranker.rank(query, documents, top_n=top_n)
@@ -261,11 +269,36 @@ class ModelRouter:
             )
         rows.extend(
             [
-                {"task": "deterministic_calculation", "engine": ENGINE_PYTHON, "model": None, "reason": "exact arithmetic"},
-                {"task": "aggregation", "engine": ENGINE_SQL, "model": None, "reason": "exact SQL aggregation over stored rows"},
-                {"task": "relationship_traversal", "engine": ENGINE_GRAPH, "model": None, "reason": "graph store traversal"},
-                {"task": "embedding", "engine": "embedding", "model": self.settings.embedding_model if self.embeddings else None, "reason": "dense retrieval"},
-                {"task": "reranking", "engine": "reranker", "model": self.settings.reranker_model if self.reranker else None, "reason": "retrieval precision"},
+                {
+                    "task": "deterministic_calculation",
+                    "engine": ENGINE_PYTHON,
+                    "model": None,
+                    "reason": "exact arithmetic",
+                },
+                {
+                    "task": "aggregation",
+                    "engine": ENGINE_SQL,
+                    "model": None,
+                    "reason": "exact SQL aggregation over stored rows",
+                },
+                {
+                    "task": "relationship_traversal",
+                    "engine": ENGINE_GRAPH,
+                    "model": None,
+                    "reason": "graph store traversal",
+                },
+                {
+                    "task": "embedding",
+                    "engine": "embedding",
+                    "model": self.settings.embedding_model if self.embeddings else None,
+                    "reason": "dense retrieval",
+                },
+                {
+                    "task": "reranking",
+                    "engine": "reranker",
+                    "model": self.settings.reranker_model if self.reranker else None,
+                    "reason": "retrieval precision",
+                },
             ]
         )
         return rows

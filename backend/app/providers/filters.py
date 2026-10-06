@@ -128,14 +128,10 @@ def to_qdrant_filter(filters: dict[str, Any] | None) -> Any:
                         )
                     )
                 elif op == "$exists" and operand:
-                    conditions.append(
-                        qmodels.IsNullCondition(is_null=qmodels.PayloadField(key=key))
-                    )
+                    conditions.append(qmodels.IsNullCondition(is_null=qmodels.PayloadField(key=key)))
         else:
             conditions.append(
-                qmodels.FieldCondition(
-                    key=key, match=qmodels.MatchValue(value=_as_comparable(expected))
-                )
+                qmodels.FieldCondition(key=key, match=qmodels.MatchValue(value=_as_comparable(expected)))
             )
     return qmodels.Filter(must=conditions) if conditions else None
 

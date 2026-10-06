@@ -198,7 +198,9 @@ async def list_documents(
     )
 
 
-@router.get("/{document_id}", response_model=DocumentDetailOut, summary="Document detail with pages and tables")
+@router.get(
+    "/{document_id}", response_model=DocumentDetailOut, summary="Document detail with pages and tables"
+)
 async def get_document(
     document_id: str,
     session: AsyncSession = Depends(get_db),
@@ -207,7 +209,11 @@ async def get_document(
 ) -> DocumentDetailOut:
     detail = await document_service.document_detail(session, container, principal, document_id)
     await audit.record_principal_action(
-        session, principal, action=audit.ACTION_DOCUMENT_READ, resource_type="document", resource_id=document_id
+        session,
+        principal,
+        action=audit.ACTION_DOCUMENT_READ,
+        resource_type="document",
+        resource_id=document_id,
     )
     return detail
 
@@ -268,7 +274,9 @@ async def document_versions(
     ]
 
 
-@router.get("/{document_id}/pages/{page_number}", response_model=PageOut, summary="Single page content and tables")
+@router.get(
+    "/{document_id}/pages/{page_number}", response_model=PageOut, summary="Single page content and tables"
+)
 async def get_page(
     document_id: str,
     page_number: int,
@@ -363,8 +371,9 @@ async def page_image(
     client), so a page image can only be fetched for a document the caller may
     read.
     """
-    from app.db.models import DocumentPage
     from sqlalchemy import select
+
+    from app.db.models import DocumentPage
 
     document = await document_service.get_document(session, principal, document_id)
     page = (

@@ -59,7 +59,9 @@ def _node_id(label: str, key: str, tenant_id: str | None) -> str:
 
 
 def _edge_id(edge: GraphEdge, tenant_id: str | None) -> str:
-    raw = f"{tenant_id or '*'}|{edge.type}|{edge.start_label}|{edge.start_key}|{edge.end_label}|{edge.end_key}"
+    raw = (
+        f"{tenant_id or '*'}|{edge.type}|{edge.start_label}|{edge.start_key}|{edge.end_label}|{edge.end_key}"
+    )
     return hashlib.blake2b(raw.encode("utf-8"), digest_size=16).hexdigest()
 
 
@@ -276,9 +278,7 @@ class LocalGraphStore:
         return rows
 
     async def _execute_plan(self, plan: ReadQueryPlan, params: dict[str, Any]) -> list[dict[str, Any]]:
-        start_props = {
-            _strip_param(key): _resolve(value, params) for key, value in plan.start.props.items()
-        }
+        start_props = {_strip_param(key): _resolve(value, params) for key, value in plan.start.props.items()}
         starts = await self.find_nodes(
             plan.start.label or "",
             name_contains=str(start_props.get("name_contains") or "") or None,
@@ -335,9 +335,7 @@ class LocalGraphStore:
                 if types:
                     clauses.append(f"type IN ({','.join('?' for _ in types)})")
                     args.extend(types)
-                cursor = connection.execute(
-                    f"SELECT * FROM graph_edges WHERE {' AND '.join(clauses)}", args
-                )
+                cursor = connection.execute(f"SELECT * FROM graph_edges WHERE {' AND '.join(clauses)}", args)
                 return [
                     GraphEdge(
                         type=r["type"],
@@ -357,7 +355,9 @@ class LocalGraphStore:
                 row = cursor.fetchone()
                 if row is None:
                     return None
-                return GraphNode(label=row["label"], key=row["key"], properties=json.loads(row["properties"] or "{}"))
+                return GraphNode(
+                    label=row["label"], key=row["key"], properties=json.loads(row["properties"] or "{}")
+                )
 
             max_hops = max(1, hop.max_hops)
             frontier: list[tuple[GraphNode, list[GraphEdge]]] = [(node, [])]
@@ -378,7 +378,9 @@ class LocalGraphStore:
                             continue
                         if depth + 1 >= hop.min_hops:
                             updated = {**bound, hop.var: other}
-                            self._walk(plan, other, hop_index + 1, updated, [*path, *new_trail], results, params)
+                            self._walk(
+                                plan, other, hop_index + 1, updated, [*path, *new_trail], results, params
+                            )
                             if len(results) >= plan.limit:
                                 return
                         if depth + 1 < max_hops:

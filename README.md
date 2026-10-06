@@ -101,7 +101,7 @@ The table below reflects the actual state of the repository as verified by the a
 | Component | Status |
 |---|---|
 | Local runtime (SQLite + on-disk vector + SQLite graph + filesystem) | **Working** |
-| Docker Compose (postgres, qdrant, neo4j, redis, minio) | File present — **app profile cannot build** (backend/Dockerfile missing) |
+| Docker Compose (postgres, qdrant, neo4j, redis, minio) | File present — app profile builds (backend/Dockerfile exists) |
 | PostgreSQL adapter | Code exists — **not verified** against live server |
 | Qdrant adapter | Code exists — **not verified** against live server |
 | Neo4j adapter | Code exists — **not verified** against live server |
@@ -113,10 +113,10 @@ The table below reflects the actual state of the repository as verified by the a
 
 | Area | Status |
 |---|---|
-| Automated backend unit tests | **Absent** |
-| Automated frontend tests | **Absent** |
-| Manual verification scripts (`scripts/`) | **Present and passing** |
-| 29/29 document API verification harness | **Passing** |
+| Backend unit tests | **122 tests passing** (unit, integration, retrieval, security) |
+| Frontend tests | Absent |
+| Manual verification scripts (`scripts/`) | Present and passing |
+| 29/29 document API verification harness | Passing |
 
 ---
 
@@ -145,7 +145,7 @@ React 18 + TypeScript + Vite + Tailwind CSS application with 14 routes:
 
 ## Technology Stack
 
-**Backend:** Python 3.11+, FastAPI, SQLAlchemy 2.0 async, Alembic, LangChain, LangGraph, Pydantic v2, structlog, PyJWT + argon2.
+**Backend:** Python 3.12, FastAPI, SQLAlchemy 2.0 async, Alembic, LangChain, LangGraph, Pydantic v2, structlog, PyJWT + argon2, email-validator.
 
 **Frontend:** React 18, TypeScript 5.7, Vite 6, Tailwind CSS 3, shadcn/ui (Radix-backed), TanStack Query 5, Zustand, React Router 6, Recharts, Lucide.
 
@@ -168,10 +168,11 @@ See [docs/development.md](docs/development.md) for the full guide.
 # Backend
 cd backend
 python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -e ".[ocr]"
-cp ../.env.example ../.env    # review and edit .env
-python -m app.cli ingest      # ingest the synthetic corpus (optional)
+.venv\Scripts\activate        # Windows (.venv/bin/activate on Linux/macOS)
+pip install -r requirements.txt   # install pinned dependencies
+pip install -e ".[eval]"          # install package + test deps
+cp ../.env.example ../.env        # review and edit .env
+python -m app.cli ingest          # ingest the synthetic corpus (optional)
 uvicorn app.main:app --reload --port 8000
 
 # Frontend (separate terminal)

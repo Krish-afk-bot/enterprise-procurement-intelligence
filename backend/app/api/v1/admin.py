@@ -77,14 +77,16 @@ async def stats(
         select(func.count(Document.id)).where(Document.tenant_id == tenant_id, Document.status == "failed")
     )
     scanned = await scalar(
-        select(func.count(DocumentPage.id)).where(DocumentPage.tenant_id == tenant_id, DocumentPage.is_scanned.is_(True))
+        select(func.count(DocumentPage.id)).where(
+            DocumentPage.tenant_id == tenant_id, DocumentPage.is_scanned.is_(True)
+        )
     )
     synthetic_documents = await scalar(
-        select(func.count(Document.id)).where(Document.tenant_id == tenant_id, Document.is_synthetic.is_(True))
+        select(func.count(Document.id)).where(
+            Document.tenant_id == tenant_id, Document.is_synthetic.is_(True)
+        )
     )
-    queries_total = await scalar(
-        select(func.count(QueryRecord.id)).where(QueryRecord.tenant_id == tenant_id)
-    )
+    queries_total = await scalar(select(func.count(QueryRecord.id)).where(QueryRecord.tenant_id == tenant_id))
     insufficient = await scalar(
         select(func.count(AnswerRecord.id)).where(
             AnswerRecord.tenant_id == tenant_id, AnswerRecord.status == "insufficient_evidence"
@@ -117,7 +119,11 @@ async def stats(
         graph_edges=int(graph_stats.get("edges") or 0),
         synthetic_documents=synthetic_documents,
         breakdown=[
-            {"label": "Documents", "value": counts["documents"], "detail": f"{counts['pages']} page record(s)"},
+            {
+                "label": "Documents",
+                "value": counts["documents"],
+                "detail": f"{counts['pages']} page record(s)",
+            },
             {"label": "Chunks", "value": counts["chunks"], "detail": f"{counts['chunks_embedded']} embedded"},
             {"label": "Tables", "value": counts["tables"], "detail": "extracted table records"},
             {"label": "Prices", "value": counts["prices"], "detail": "negotiated price rows"},
@@ -262,7 +268,9 @@ async def list_datasources(
     statement = select(DataSourceRecord).where(DataSourceRecord.tenant_id == principal.tenant_id)
     total = int(await session.scalar(select(func.count()).select_from(statement.subquery())) or 0)
     rows = list(
-        (await session.execute(statement.order_by(DataSourceRecord.name).offset(offset).limit(limit))).scalars()
+        (
+            await session.execute(statement.order_by(DataSourceRecord.name).offset(offset).limit(limit))
+        ).scalars()
     )
     items = [
         DataSourceOut(
@@ -343,7 +351,9 @@ async def audit_log(
         statement = statement.where(AuditLog.action == action)
     total = int(await session.scalar(select(func.count()).select_from(statement.subquery())) or 0)
     rows = list(
-        (await session.execute(statement.order_by(AuditLog.created_at.desc()).offset(offset).limit(limit))).scalars()
+        (
+            await session.execute(statement.order_by(AuditLog.created_at.desc()).offset(offset).limit(limit))
+        ).scalars()
     )
     items = [
         AuditEntryOut(
@@ -379,7 +389,11 @@ async def traces(
         statement = statement.where(AgentTrace.query_id == query_id)
     total = int(await session.scalar(select(func.count()).select_from(statement.subquery())) or 0)
     rows = list(
-        (await session.execute(statement.order_by(AgentTrace.created_at.desc()).offset(offset).limit(limit))).scalars()
+        (
+            await session.execute(
+                statement.order_by(AgentTrace.created_at.desc()).offset(offset).limit(limit)
+            )
+        ).scalars()
     )
     items = [
         TraceOut(

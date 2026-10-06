@@ -175,7 +175,9 @@ async def structured_lookup(
     # what makes "no price was agreed for 2030" a real finding rather than a
     # stale figure shown under the wrong year.
     if plan.date_from is not None or plan.date_to is not None:
-        in_period = [fact for fact in result.facts if fact_valid_in_period(fact, plan.date_from, plan.date_to)]
+        in_period = [
+            fact for fact in result.facts if fact_valid_in_period(fact, plan.date_from, plan.date_to)
+        ]
         outside = [fact for fact in result.facts if fact not in in_period]
         if outside:
             result.notes.append(
@@ -198,7 +200,11 @@ async def structured_lookup(
         )
 
     if wants_price_rows and (wants_structured or plan.year):
-        wants_totals = plan.intent in {Intent.AGGREGATION, Intent.COMPARISON} or bool(plan.year) or plan.requires_comparison
+        wants_totals = (
+            plan.intent in {Intent.AGGREGATION, Intent.COMPARISON}
+            or bool(plan.year)
+            or plan.requires_comparison
+        )
         result.aggregations.extend(
             await _aggregate(session, principal, plan, result.facts, include_totals=wants_totals)
         )
@@ -304,10 +310,9 @@ async def _aggregate(
         )
 
     # -- procurement records by year (Layer B structured dataset)
-    statement = (
-        select(ProcurementRecord.award_date, ProcurementRecord.value, ProcurementRecord.supplier_id)
-        .where(ProcurementRecord.tenant_id == tenant_id)
-    )
+    statement = select(
+        ProcurementRecord.award_date, ProcurementRecord.value, ProcurementRecord.supplier_id
+    ).where(ProcurementRecord.tenant_id == tenant_id)
     if plan.supplier_ids:
         statement = statement.where(ProcurementRecord.supplier_id.in_(plan.supplier_ids))
     records = (await session.execute(statement.limit(5000))).all()
@@ -386,7 +391,11 @@ async def _aggregate(
                     f"{cheapest.supplier_name}"
                     + (f" for {cheapest.product_name}" if cheapest.product_name else "")
                     + (f" (MOQ {cheapest.minimum_quantity})" if cheapest.minimum_quantity else "")
-                    + (f", effective {cheapest.effective_date.isoformat()}" if cheapest.effective_date else "")
+                    + (
+                        f", effective {cheapest.effective_date.isoformat()}"
+                        if cheapest.effective_date
+                        else ""
+                    )
                     + cross_product_note
                     + "."
                 ),
@@ -464,8 +473,10 @@ def _comparison_aggregations(facts: list[PriceFact]) -> list[Aggregation]:
 async def _contract_overview(
     session: AsyncSession, principal: Principal, plan: QueryPlan
 ) -> list[dict[str, Any]]:
-    statement = select(Contract, Supplier.name).outerjoin(Supplier, Contract.supplier_id == Supplier.id).where(
-        Contract.tenant_id == principal.tenant_id
+    statement = (
+        select(Contract, Supplier.name)
+        .outerjoin(Supplier, Contract.supplier_id == Supplier.id)
+        .where(Contract.tenant_id == principal.tenant_id)
     )
     if plan.contract_ids:
         statement = statement.where(Contract.id.in_(plan.contract_ids))
@@ -643,8 +654,16 @@ async def comparison_matrix(
         supplier_certificates = [c for c in certificates if c.supplier_id == supplier.id]
         cells: dict[str, Any] = {}
 
-        def cell(key: str, value: Any, *, source: str = "structured", citations: list[dict[str, Any]] | None = None, notes: list[str] | None = None) -> None:
-            cells[key] = {
+        def cell(
+            key: str,
+            value: Any,
+            *,
+            source: str = "structured",
+            citations: list[dict[str, Any]] | None = None,
+            notes: list[str] | None = None,
+            _cells: dict[str, Any] = cells,  # bind loop variable explicitly (B023)
+        ) -> None:
+            _cells[key] = {
                 "key": key,
                 "value": value,
                 "formatted": _format(value),
@@ -674,7 +693,9 @@ async def comparison_matrix(
                 "payment_terms",
                 "delivery_terms",
             ):
-                cell(key, None, source="unavailable", notes=["No structured price row matched this supplier."])
+                cell(
+                    key, None, source="unavailable", notes=["No structured price row matched this supplier."]
+                )
             unresolved.append(f"{supplier.name}: no structured price row")
 
         if supplier_contracts:
@@ -700,7 +721,11 @@ async def comparison_matrix(
                 cell(key, None, source="unavailable", notes=["No contract row for this supplier."])
 
         if supplier_certificates:
-            active = [c for c in supplier_certificates if c.status == "active" and not (c.expiry_date and c.expiry_date < as_of)]
+            active = [
+                c
+                for c in supplier_certificates
+                if c.status == "active" and not (c.expiry_date and c.expiry_date < as_of)
+            ]
             cell(
                 "compliance",
                 ", ".join(sorted({c.certificate_type for c in active})) or None,

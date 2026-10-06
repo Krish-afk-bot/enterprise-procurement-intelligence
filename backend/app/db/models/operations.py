@@ -77,9 +77,7 @@ class EvaluationRun(Base, TenantScopedMixin, TimestampMixin):
     started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
-    results: Mapped[list[EvaluationResult]] = relationship(
-        back_populates="run", cascade="all, delete-orphan"
-    )
+    results: Mapped[list[EvaluationResult]] = relationship(back_populates="run", cascade="all, delete-orphan")
 
 
 class EvaluationResult(Base, TenantScopedMixin, TimestampMixin):

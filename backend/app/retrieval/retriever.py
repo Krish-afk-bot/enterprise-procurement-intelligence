@@ -167,12 +167,26 @@ class HybridRetriever:
 
         if mode == "dense":
             fused = [
-                FusedHit(id=hit.id, fused_score=hit.score, payload=dict(hit.payload), dense_score=hit.score, dense_rank=rank, matched_by=["dense"])
+                FusedHit(
+                    id=hit.id,
+                    fused_score=hit.score,
+                    payload=dict(hit.payload),
+                    dense_score=hit.score,
+                    dense_rank=rank,
+                    matched_by=["dense"],
+                )
                 for rank, hit in enumerate(dense_hits, start=1)
             ]
         elif mode == "sparse":
             fused = [
-                FusedHit(id=hit.id, fused_score=hit.score, payload=dict(hit.payload), sparse_score=hit.score, sparse_rank=rank, matched_by=["sparse"])
+                FusedHit(
+                    id=hit.id,
+                    fused_score=hit.score,
+                    payload=dict(hit.payload),
+                    sparse_score=hit.score,
+                    sparse_rank=rank,
+                    matched_by=["sparse"],
+                )
                 for rank, hit in enumerate(sparse_hits, start=1)
             ]
         else:
@@ -182,7 +196,9 @@ class HybridRetriever:
                     name="fusion",
                     detail="Reciprocal Rank Fusion over dense and BM25 rankings",
                     candidates=len(fused),
-                    metadata=describe_fusion(len(dense_hits), len(sparse_hits), len(fused), self.settings.rrf_k),
+                    metadata=describe_fusion(
+                        len(dense_hits), len(sparse_hits), len(fused), self.settings.rrf_k
+                    ),
                 )
             )
 
@@ -223,10 +239,14 @@ class HybridRetriever:
         return result
 
     # ------------------------------------------------------------------ stages
-    async def _dense_search(self, query: str, filters: dict[str, Any]) -> tuple[list[VectorHit], RetrievalStep]:
+    async def _dense_search(
+        self, query: str, filters: dict[str, Any]
+    ) -> tuple[list[VectorHit], RetrievalStep]:
         started = time.perf_counter()
         if self.container.router is None or self.container.embeddings is None:
-            return [], RetrievalStep(name="dense_search", status="skipped", detail="embedding provider unavailable")
+            return [], RetrievalStep(
+                name="dense_search", status="skipped", detail="embedding provider unavailable"
+            )
         try:
             vector = await self.container.router.embed_query(query)
         except Exception as exc:  # noqa: BLE001
@@ -239,7 +259,9 @@ class HybridRetriever:
             )
         except Exception as exc:  # noqa: BLE001
             return [], RetrievalStep(
-                name="dense_search", status="unavailable", detail=f"vector search failed: {type(exc).__name__}"
+                name="dense_search",
+                status="unavailable",
+                detail=f"vector search failed: {type(exc).__name__}",
             )
         return hits, RetrievalStep(
             name="dense_search",
@@ -254,7 +276,9 @@ class HybridRetriever:
     ) -> tuple[list[VectorHit], RetrievalStep]:
         started = time.perf_counter()
         if self.container.sparse is None:
-            return [], RetrievalStep(name="sparse_search", status="skipped", detail="no BM25 index configured")
+            return [], RetrievalStep(
+                name="sparse_search", status="skipped", detail="no BM25 index configured"
+            )
         try:
             hits = await self.container.sparse.search(
                 query, tenant_id=principal.tenant_id, limit=self.settings.sparse_top_k, filters=filters
@@ -294,7 +318,11 @@ class HybridRetriever:
         by_index = {score.index: score.score for score in scores}
         for index, chunk in enumerate(chunks):
             chunk.rerank_score = by_index.get(index)
-        ordered = sorted(chunks, key=lambda chunk: chunk.rerank_score if chunk.rerank_score is not None else -1e9, reverse=True)
+        ordered = sorted(
+            chunks,
+            key=lambda chunk: chunk.rerank_score if chunk.rerank_score is not None else -1e9,
+            reverse=True,
+        )
         return ordered, RetrievalStep(
             name="rerank",
             detail=f"cross-encoder reranking with {self.container.reranker.name}",  # type: ignore[union-attr]

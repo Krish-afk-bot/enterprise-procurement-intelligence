@@ -96,7 +96,9 @@ async def list_contracts(
     )
 
 
-@router.get("/contracts/{contract_id}", response_model=ContractDetailOut, summary="Contract detail with versions")
+@router.get(
+    "/contracts/{contract_id}", response_model=ContractDetailOut, summary="Contract detail with versions"
+)
 async def contract_detail(
     contract_id: str,
     session: AsyncSession = Depends(get_db),
@@ -172,9 +174,7 @@ async def list_compliance(
 
     from app.db.models import ComplianceCertificate
 
-    statement = select(ComplianceCertificate).where(
-        ComplianceCertificate.tenant_id == principal.tenant_id
-    )
+    statement = select(ComplianceCertificate).where(ComplianceCertificate.tenant_id == principal.tenant_id)
     if supplier_id:
         statement = statement.where(ComplianceCertificate.supplier_id == supplier_id)
     total = int(await session.scalar(select(func.count()).select_from(statement.subquery())) or 0)
@@ -224,9 +224,7 @@ async def compare_suppliers(
     dimensions = payload.dimensions
     columns = []
     for column in matrix.get("columns") or []:
-        cells = {
-            key: value for key, value in (column.get("cells") or {}).items() if key in dimensions
-        }
+        cells = {key: value for key, value in (column.get("cells") or {}).items() if key in dimensions}
         columns.append({**column, "cells": cells})
     return ComparisonOut(
         dimensions=dimensions,

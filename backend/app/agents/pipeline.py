@@ -20,7 +20,16 @@ from app.agents.graph import build_agent_graph
 from app.agents.nodes import AgentRuntime
 from app.config.container import Container
 from app.config.settings import Settings
-from app.db.models import AgentTrace, AnswerRecord, Citation as CitationModel, Conversation, Message, QueryRecord
+from app.db.models import (
+    AgentTrace,
+    AnswerRecord,
+    Conversation,
+    Message,
+    QueryRecord,
+)
+from app.db.models import (
+    Citation as CitationModel,
+)
 from app.db.session import session_scope
 from app.observability.logging import get_logger, query_id_var
 from app.schemas.query import (
@@ -130,7 +139,10 @@ class AnswerPipeline:
             debug=debug,
         )
         emitted = 0
-        yield {"type": "status", "event": {"node": "start", "event": "Query received", "detail": question[:200]}}
+        yield {
+            "type": "status",
+            "event": {"node": "start", "event": "Query received", "detail": question[:200]},
+        }
         async with session_scope() as session:
             graph = build_agent_graph(self.runtime, session)
             snapshot: dict[str, Any] = state
@@ -295,7 +307,7 @@ class AnswerPipeline:
         citations: list[CitationModel],
     ) -> AnswerOut:
         retrieval = state.get("retrieval") or {}
-        structured = state.get("structured") or {}
+        _structured = state.get("structured") or {}  # noqa: F841 — reserved for future structured-stats output
         notes = list(dict.fromkeys(state.get("notes") or []))
         if not (state.get("generation_mode") == "llm"):
             notes.append(

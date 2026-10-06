@@ -20,12 +20,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.container import Container
-from app.db.models import ComplianceCertificate, Contract, Document, Price, Product, Supplier
+from app.db.models import ComplianceCertificate, Document, Price, Product, Supplier
 from app.graph.builder import (
-    LABEL_COMPLIANCE,
-    LABEL_CONTRACT,
     LABEL_PRICE,
-    LABEL_PRODUCT,
     LABEL_SUPPLIER,
 )
 from app.observability.logging import get_logger
@@ -109,9 +106,7 @@ async def graph_lookup(
 
     price_pages = await _price_sources(session, principal, supplier_ids)
     for supplier_id in supplier_ids[:4]:
-        edges = await container.graph.traverse(
-            LABEL_SUPPLIER, supplier_id, max_hops=max_hops
-        )
+        edges = await container.graph.traverse(LABEL_SUPPLIER, supplier_id, max_hops=max_hops)
         tenant_edges = [
             edge for edge in edges if edge.properties.get("tenant_id") in {None, principal.tenant_id}
         ]
@@ -123,9 +118,7 @@ async def graph_lookup(
             GraphPath(
                 hops=len(chain),
                 description=_describe_chain(chain, supplier_id),
-                nodes=[
-                    {"id": edge["to"], "label": edge["to_label"]} for edge in chain
-                ],
+                nodes=[{"id": edge["to"], "label": edge["to_label"]} for edge in chain],
                 edges=chain,
                 citations=citations,
             )
@@ -140,7 +133,9 @@ async def graph_lookup(
     if plan.intent.value == "compliance_check":
         certificates = await _compliance_paths(session, principal, supplier_ids)
         for certificate in certificates:
-            result.paths.append(GraphPath(hops=2, description=certificate["description"], citations=certificate["citations"]))
+            result.paths.append(
+                GraphPath(hops=2, description=certificate["description"], citations=certificate["citations"])
+            )
             result.citations.extend(
                 CitationDraft(
                     chunk_id=None,
@@ -199,14 +194,27 @@ async def _price_sources(
     """Map price_id → source document/page so graph hops can be cited."""
     rows = (
         await session.execute(
-            select(Price.id, Price.source_document_id, Price.source_page, Document.title, Document.filename, Price.currency, Price.unit_price, Price.effective_date, Price.amendment_ref, Price.product_id)
+            select(
+                Price.id,
+                Price.source_document_id,
+                Price.source_page,
+                Document.title,
+                Document.filename,
+                Price.currency,
+                Price.unit_price,
+                Price.effective_date,
+                Price.amendment_ref,
+                Price.product_id,
+            )
             .outerjoin(Document, Price.source_document_id == Document.id)
             .where(Price.tenant_id == principal.tenant_id)
         )
     ).all()
     product_names: dict[str, str] = {}
     for product_id, name in (
-        await session.execute(select(Product.id, Product.name).where(Product.tenant_id == principal.tenant_id))
+        await session.execute(
+            select(Product.id, Product.name).where(Product.tenant_id == principal.tenant_id)
+        )
     ).all():
         product_names[product_id] = name
     return {
@@ -224,7 +232,9 @@ async def _price_sources(
     }
 
 
-def _citations_for_chain(chain: list[dict[str, Any]], price_sources: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+def _citations_for_chain(
+    chain: list[dict[str, Any]], price_sources: dict[str, dict[str, Any]]
+) -> list[dict[str, Any]]:
     citations: list[dict[str, Any]] = []
     for entry in chain:
         citation = _edge_citation_payload(entry, price_sources)
@@ -233,7 +243,9 @@ def _citations_for_chain(chain: list[dict[str, Any]], price_sources: dict[str, d
     return citations
 
 
-def _citation_from_edge(edge: dict[str, Any], price_sources: dict[str, dict[str, Any]]) -> CitationDraft | None:
+def _citation_from_edge(
+    edge: dict[str, Any], price_sources: dict[str, dict[str, Any]]
+) -> CitationDraft | None:
     payload = _edge_citation_payload(edge, price_sources)
     if not payload:
         return None
@@ -250,7 +262,9 @@ def _citation_from_edge(edge: dict[str, Any], price_sources: dict[str, dict[str,
     )
 
 
-def _edge_citation_payload(edge: dict[str, Any], price_sources: dict[str, dict[str, Any]]) -> dict[str, Any] | None:
+def _edge_citation_payload(
+    edge: dict[str, Any], price_sources: dict[str, dict[str, Any]]
+) -> dict[str, Any] | None:
     if edge["to_label"] == LABEL_PRICE:
         price_id = edge["to"].split(":", 1)[-1]
         source = price_sources.get(price_id)
@@ -317,7 +331,9 @@ async def _compliance_paths(
     return paths
 
 
-async def entity_summary(container: Container, *, tenant_id: str, label: str, limit: int = 50) -> list[dict[str, Any]]:
+async def entity_summary(
+    container: Container, *, tenant_id: str, label: str, limit: int = 50
+) -> list[dict[str, Any]]:
     nodes = await container.graph.find_nodes(label, tenant_id=tenant_id, limit=limit)
     return [{"label": node.label, "key": node.key, "properties": node.properties} for node in nodes]
 

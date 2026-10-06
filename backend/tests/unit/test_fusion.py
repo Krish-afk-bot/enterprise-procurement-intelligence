@@ -5,16 +5,13 @@ Pure logic tests: no I/O, no database, no model dependencies.
 
 from __future__ import annotations
 
-import pytest
-
 from app.providers.types import VectorHit
-from app.retrieval.fusion import FusedHit, describe_fusion, reciprocal_rank_fusion
+from app.retrieval.fusion import describe_fusion, reciprocal_rank_fusion
 
 
 def make_hits(ids: list[str], base_score: float = 1.0) -> list[VectorHit]:
     return [
-        VectorHit(id=id_, score=base_score - i * 0.05, payload={"chunk_id": id_})
-        for i, id_ in enumerate(ids)
+        VectorHit(id=id_, score=base_score - i * 0.05, payload={"chunk_id": id_}) for i, id_ in enumerate(ids)
     ]
 
 

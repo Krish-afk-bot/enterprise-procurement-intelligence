@@ -13,7 +13,9 @@ from dataclasses import dataclass, field
 from app.ingestion.types import ParsedDocument, ParsedPage, TextBlock
 
 CLAUSE_PATTERNS = [
-    re.compile(r"^(?P<label>(?:section|article|clause)\s+\d+(?:\.\d+)*)\s*[:.\-]?\s*(?P<title>.*)$", re.IGNORECASE),
+    re.compile(
+        r"^(?P<label>(?:section|article|clause)\s+\d+(?:\.\d+)*)\s*[:.\-]?\s*(?P<title>.*)$", re.IGNORECASE
+    ),
     re.compile(r"^(?P<label>\d+(?:\.\d+){0,3})\s+(?P<title>[A-Z][^.]{3,90})$"),
     re.compile(r"^(?P<label>[A-Z])\.\s+(?P<title>[A-Z][^.]{3,80})$"),
 ]
@@ -117,7 +119,11 @@ def detect_structure(document: ParsedDocument) -> DocumentStructure:
 
     for name, pages in section_pages.items():
         structure.sections.append(
-            {"section": name, "pages": sorted(set(pages)), "line_count": sum(1 for line in structure.lines if line.section == name)}
+            {
+                "section": name,
+                "pages": sorted(set(pages)),
+                "line_count": sum(1 for line in structure.lines if line.section == name),
+            }
         )
     return structure
 

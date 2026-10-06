@@ -38,7 +38,9 @@ class ParsedTable:
     def to_markdown(self) -> str:
         if not self.headers and not self.rows:
             return ""
-        header = self.headers or [f"col{i + 1}" for i in range(max(len(r) for r in self.rows) if self.rows else 0)]
+        header = self.headers or [
+            f"col{i + 1}" for i in range(max(len(r) for r in self.rows) if self.rows else 0)
+        ]
         lines = ["| " + " | ".join(_clean(c) for c in header) + " |"]
         lines.append("| " + " | ".join("---" for _ in header) + " |")
         for row in self.rows:

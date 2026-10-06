@@ -21,7 +21,7 @@ from app.schemas.auth import (
 )
 from app.security import audit
 from app.security.rbac import ROLE_ACCESS_CEILING, ROLE_PERMISSIONS, Principal, role_exists
-from app.security.tokens import REFRESH_TOKEN_TYPE, create_token, decode_token
+from app.security.tokens import REFRESH_TOKEN_TYPE, decode_token
 from app.services import auth as auth_service
 
 logger = get_logger(__name__)

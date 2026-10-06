@@ -13,6 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.generation import AnswerGenerator
@@ -44,8 +45,7 @@ from app.retrieval.query_understanding import (
 )
 from app.retrieval.retriever import HybridRetriever, RetrievalResult, expand_parents
 from app.retrieval.structured import StructuredResult, structured_lookup
-from app.security.rbac import Principal, Principal as _Principal  # noqa: F401  (typing import)
-from sqlalchemy import select
+from app.security.rbac import Principal  # noqa: F401  (typing import)
 
 logger = get_logger(__name__)
 
@@ -118,7 +118,10 @@ class AgentRuntime:
         state["events"] = events
         state.setdefault("notes", [])
         state["notes"] = [*state.get("notes", []), *plan.notes]
-        state["timings"] = {**(state.get("timings") or {}), "understand_ms": int((time.perf_counter() - started) * 1000)}
+        state["timings"] = {
+            **(state.get("timings") or {}),
+            "understand_ms": int((time.perf_counter() - started) * 1000),
+        }
         state["iteration"] = state.get("iteration", 0)
         state["rewrites"] = state.get("rewrites", [])
         state["question"] = question
@@ -219,9 +222,8 @@ class AgentRuntime:
         state["structured"] = result.as_dict()
         conflicts = [conflict.as_dict() for conflict in result.conflicts]
         state["conflicts"] = conflicts
-        detail = (
-            f"{len(result.facts)} price row(s), {len(result.aggregations)} aggregation(s)"
-            + (f", {len(conflicts)} conflict(s) detected" if conflicts else "")
+        detail = f"{len(result.facts)} price row(s), {len(result.aggregations)} aggregation(s)" + (
+            f", {len(conflicts)} conflict(s) detected" if conflicts else ""
         )
         state["events"] = add_event(
             state, "structured", "Queried structured procurement data", detail, rows=len(result.facts)
@@ -251,7 +253,10 @@ class AgentRuntime:
             f"{len(result.paths)} path(s), up to {result.limits.get('max_hops')} hops",
             paths=len(result.paths),
         )
-        state["timings"] = {**(state.get("timings") or {}), "graph_ms": int((time.perf_counter() - started) * 1000)}
+        state["timings"] = {
+            **(state.get("timings") or {}),
+            "graph_ms": int((time.perf_counter() - started) * 1000),
+        }
         return state
 
     # ----------------------------------------------------------------- vision
@@ -312,12 +317,14 @@ class AgentRuntime:
             state["events"] = add_event(
                 state, "vision", "Analysed page imagery with the vision model", f"{len(analyses)} page(s)"
             )
-        state["timings"] = {**(state.get("timings") or {}), "vision_ms": int((time.perf_counter() - started) * 1000)}
+        state["timings"] = {
+            **(state.get("timings") or {}),
+            "vision_ms": int((time.perf_counter() - started) * 1000),
+        }
         return state
 
     # ------------------------------------------------------------- evaluation
     async def evaluate_evidence(self, state: AgentState) -> AgentState:
-        from app.retrieval.retriever import RetrievedChunk
 
         hits = state.get("retrieval", {}).get("hits") or []
         structured = state.get("structured") or {}
@@ -493,7 +500,7 @@ class AgentRuntime:
         if grounding is None:
             grounding = judge_grounding_lexical(claims, evidence_texts)
 
-        from app.retrieval.context import ContextBundle, ContextBlock, CitationDraft
+        from app.retrieval.context import CitationDraft, ContextBlock, ContextBundle
 
         # Rebuild the bundle that generation actually saw, rather than an empty
         # stand-in, so criterion counts describe the real context.
@@ -649,8 +656,9 @@ async def _conflict_evidence_blocks(
     session: AsyncSession, principal: Principal, state: AgentState, chunks: list[Any]
 ) -> list[tuple[Any, str, str]]:
     """Pull in the source pages of conflicting values."""
-    from app.retrieval.context import CitationDraft
     from sqlalchemy import select as _select
+
+    from app.retrieval.context import CitationDraft
 
     conflicts = state.get("conflicts") or []
     if not conflicts:
@@ -757,7 +765,9 @@ def _extra_context_blocks(state: AgentState) -> list[tuple[Any, str, str]]:
             verified=True,
             metadata={"model": analysis.get("model")},
         )
-        blocks.append((citation, f"VISION ANALYSIS (page {analysis.get('page')}): {analysis.get('text')}", "vision"))
+        blocks.append(
+            (citation, f"VISION ANALYSIS (page {analysis.get('page')}): {analysis.get('text')}", "vision")
+        )
     return blocks
 
 
@@ -811,9 +821,7 @@ def _structured_from_payload(payload: dict[str, Any] | None) -> StructuredResult
     result = StructuredResult(
         queried=payload.get("queried", False),
         purpose=payload.get("purpose", ""),
-        aggregations=[
-            _aggregation_from_payload(item) for item in (payload.get("aggregations") or [])
-        ],
+        aggregations=[_aggregation_from_payload(item) for item in (payload.get("aggregations") or [])],
         contracts=payload.get("contracts") or [],
         compliance=payload.get("compliance") or [],
         suppliers=payload.get("suppliers") or [],
@@ -885,4 +893,10 @@ def _parse_date(value: Any):
         return None
 
 
-__all__ = ["AgentRuntime", "NodeReport", "detect_price_conflicts", "fetch_price_facts", "understand_query_rule_based"]
+__all__ = [
+    "AgentRuntime",
+    "NodeReport",
+    "detect_price_conflicts",
+    "fetch_price_facts",
+    "understand_query_rule_based",
+]

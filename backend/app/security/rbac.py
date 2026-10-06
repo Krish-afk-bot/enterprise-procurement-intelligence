@@ -9,8 +9,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from app.db.models.tenancy import ACCESS_LEVELS, ROLES
 from app.core.errors import AuthorizationError
+from app.db.models.tenancy import ACCESS_LEVELS, ROLES
 
 #: Permission strings used by API dependencies and tool guards.
 PERM_QUERY = "query:run"
@@ -51,9 +51,7 @@ ALL_PERMISSIONS: frozenset[str] = frozenset(
     }
 )
 
-READ_ONLY_SHARED = frozenset(
-    {PERM_QUERY, PERM_DOCUMENTS_READ, PERM_SUPPLIERS_READ, PERM_CONTRACTS_READ}
-)
+READ_ONLY_SHARED = frozenset({PERM_QUERY, PERM_DOCUMENTS_READ, PERM_SUPPLIERS_READ, PERM_CONTRACTS_READ})
 
 ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
     "admin": ALL_PERMISSIONS,
@@ -73,7 +71,9 @@ ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
         }
     ),
     "buyer": frozenset({*READ_ONLY_SHARED, PERM_COMPARE, PERM_SQL_READ}),
-    "compliance": frozenset({*READ_ONLY_SHARED, PERM_COMPARE, PERM_EVALUATION_READ, PERM_ADMIN_READ, PERM_GRAPH_READ}),
+    "compliance": frozenset(
+        {*READ_ONLY_SHARED, PERM_COMPARE, PERM_EVALUATION_READ, PERM_ADMIN_READ, PERM_GRAPH_READ}
+    ),
     "viewer": READ_ONLY_SHARED,
 }
 

@@ -11,7 +11,7 @@ graph can answer version-aware and multi-hop questions
 
 from __future__ import annotations
 
-from typing import Any, Protocol
+from typing import Any
 
 from app.db.models import ComplianceCertificate, Contract, Price, Product, Supplier
 from app.observability.logging import get_logger
@@ -124,7 +124,9 @@ def document_node(
     return GraphNode(
         label=LABEL_DOCUMENT,
         key=document_id,
-        properties=_props(tenant_id, name=title, document_type=document_type, version=version, document_id=document_id),
+        properties=_props(
+            tenant_id, name=title, document_type=document_type, version=version, document_id=document_id
+        ),
     )
 
 
@@ -212,9 +214,7 @@ class GraphBuilder:
                 key=contract.superseded_by_id,
                 properties=_props(contract.tenant_id),
             )
-            edges.append(
-                edge("SUPERSEDED_BY", contract_n, replacement, tenant_id=contract.tenant_id)
-            )
+            edges.append(edge("SUPERSEDED_BY", contract_n, replacement, tenant_id=contract.tenant_id))
         if edges:
             await self.graph.upsert_edges(edges)
 
@@ -314,14 +314,24 @@ class GraphBuilder:
         contract: Contract | None,
     ) -> None:
         document = document_node(
-            document_id=document_id, tenant_id=tenant_id, title=title, document_type=document_type, version=version
+            document_id=document_id,
+            tenant_id=tenant_id,
+            title=title,
+            document_type=document_type,
+            version=version,
         )
         nodes = [document]
         edges: list[GraphEdge] = []
         if supplier is not None:
             nodes.append(supplier_node(supplier))
             edges.append(
-                edge("EVIDENCED_BY", supplier_node(supplier), document, tenant_id=tenant_id, document_id=document_id)
+                edge(
+                    "EVIDENCED_BY",
+                    supplier_node(supplier),
+                    document,
+                    tenant_id=tenant_id,
+                    document_id=document_id,
+                )
             )
         if contract is not None:
             nodes.append(contract_node(contract))
@@ -348,7 +358,10 @@ async def multi_hop_supplier_price_chain(
 ) -> list[GraphEdge]:
     """Supplier → Contract → Amendment/Price → Product traversal."""
     return await graph.traverse(
-        LABEL_SUPPLIER, supplier_id, max_hops=max_hops, edge_types=("HAS_CONTRACT", "AMENDS", "CONTAINS", "HAS_PRICE", "APPLIES_TO")
+        LABEL_SUPPLIER,
+        supplier_id,
+        max_hops=max_hops,
+        edge_types=("HAS_CONTRACT", "AMENDS", "CONTAINS", "HAS_PRICE", "APPLIES_TO"),
     )
 
 

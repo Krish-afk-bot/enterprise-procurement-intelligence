@@ -18,13 +18,36 @@ EVIDENCE_OPEN = "<<<EVIDENCE>>>"
 EVIDENCE_CLOSE = "<<<END_EVIDENCE>>>"
 
 _INJECTION_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("instruction_override", re.compile(r"\b(ignore|disregard|forget)\b[^.\n]{0,40}\b(previous|prior|above|earlier|all)\b[^.\n]{0,30}\b(instruction|prompt|rule|context)", re.I)),
+    (
+        "instruction_override",
+        re.compile(
+            r"\b(ignore|disregard|forget)\b[^.\n]{0,40}\b(previous|prior|above|earlier|all)\b[^.\n]{0,30}\b(instruction|prompt|rule|context)",
+            re.I,
+        ),
+    ),
     ("system_impersonation", re.compile(r"^\s*(system|assistant)\s*:", re.I | re.M)),
     ("role_switch", re.compile(r"\byou are now\b|\bact as\b[^.\n]{0,30}\b(admin|system|root)\b", re.I)),
-    ("secret_exfiltration", re.compile(r"\b(print|reveal|show|output|leak)\b[^.\n]{0,30}\b(system prompt|api key|password|secret|instructions)\b", re.I)),
-    ("tool_abuse", re.compile(r"\b(call|invoke|execute)\b[^.\n]{0,25}\b(tool|function|command|shell)\b", re.I)),
-    ("policy_override", re.compile(r"\b(jailbreak|developer mode|without restrictions|citation requirements do not apply)\b", re.I)),
-    ("fabricated_citation", re.compile(r"\[\s*(?:Contract|Amendment)\s+[^\]]*\]\s*(?:is|must be)\s+marked", re.I)),
+    (
+        "secret_exfiltration",
+        re.compile(
+            r"\b(print|reveal|show|output|leak)\b[^.\n]{0,30}\b(system prompt|api key|password|secret|instructions)\b",
+            re.I,
+        ),
+    ),
+    (
+        "tool_abuse",
+        re.compile(r"\b(call|invoke|execute)\b[^.\n]{0,25}\b(tool|function|command|shell)\b", re.I),
+    ),
+    (
+        "policy_override",
+        re.compile(
+            r"\b(jailbreak|developer mode|without restrictions|citation requirements do not apply)\b", re.I
+        ),
+    ),
+    (
+        "fabricated_citation",
+        re.compile(r"\[\s*(?:Contract|Amendment)\s+[^\]]*\]\s*(?:is|must be)\s+marked", re.I),
+    ),
 )
 
 #: Zero-width and bidi characters used to smuggle instructions past filters.

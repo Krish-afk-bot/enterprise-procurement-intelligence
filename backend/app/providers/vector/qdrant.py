@@ -49,7 +49,14 @@ class QdrantVectorStore:
                 collection_name=name,
                 vectors_config=qmodels.VectorParams(size=dimension, distance=qmodels.Distance.COSINE),
             )
-            for field in ("tenant_id", "supplier_id", "contract_id", "document_id", "document_type", "access_level"):
+            for field in (
+                "tenant_id",
+                "supplier_id",
+                "contract_id",
+                "document_id",
+                "document_type",
+                "access_level",
+            ):
                 await client.create_payload_index(
                     collection_name=name,
                     field_name=field,
@@ -70,7 +77,9 @@ class QdrantVectorStore:
             return 0
         client = self._get_client()
         batch = [
-            qmodels.PointStruct(id=_point_uuid(p.id), vector=list(p.vector), payload={**p.payload, "point_id": p.id})
+            qmodels.PointStruct(
+                id=_point_uuid(p.id), vector=list(p.vector), payload={**p.payload, "point_id": p.id}
+            )
             for p in points
         ]
         await client.upsert(collection_name=collection, points=batch, wait=True)
@@ -121,7 +130,9 @@ class QdrantVectorStore:
             collection_name=collection,
             points_selector=qmodels.FilterSelector(
                 filter=qmodels.Filter(
-                    must=[qmodels.FieldCondition(key="document_id", match=qmodels.MatchValue(value=document_id))]
+                    must=[
+                        qmodels.FieldCondition(key="document_id", match=qmodels.MatchValue(value=document_id))
+                    ]
                 )
             ),
             wait=True,
@@ -143,7 +154,11 @@ class QdrantVectorStore:
             collections = await client.get_collections()
             names = [c.name for c in getattr(collections, "collections", [])]
             return ProviderStatus.of(
-                "vector", self.name, True, detail=f"connected to {self.url}", collections={n: None for n in names}
+                "vector",
+                self.name,
+                True,
+                detail=f"connected to {self.url}",
+                collections={n: None for n in names},
             )
         except Exception as exc:  # noqa: BLE001
             return ProviderStatus.of("vector", self.name, False, detail=f"unreachable: {type(exc).__name__}")

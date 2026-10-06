@@ -8,7 +8,7 @@ returned as null with a note rather than being estimated.
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from typing import Any
 
 from sqlalchemy import func, or_, select
@@ -75,9 +75,7 @@ async def list_suppliers(
         statement = statement.where(Supplier.category == category)
     total = await session.scalar(select(func.count()).select_from(statement.subquery())) or 0
     rows = list(
-        (
-            await session.execute(statement.order_by(Supplier.name).offset(offset).limit(limit))
-        ).scalars()
+        (await session.execute(statement.order_by(Supplier.name).offset(offset).limit(limit))).scalars()
     )
     counts = await _supplier_counts(session, principal, [supplier.id for supplier in rows])
     items: list[dict[str, Any]] = []
@@ -200,9 +198,7 @@ async def supplier_detail(session: AsyncSession, principal: Principal, supplier_
     product_ids = {price.product_id for price in prices if price.product_id}
     products: list[dict[str, Any]] = []
     if product_ids:
-        for product in (
-            await session.execute(select(Product).where(Product.id.in_(product_ids)))
-        ).scalars():
+        for product in (await session.execute(select(Product).where(Product.id.in_(product_ids)))).scalars():
             products.append(
                 {
                     "id": product.id,
@@ -307,7 +303,9 @@ async def list_contracts(
     if status:
         statement = statement.where(Contract.status == status)
     total = await session.scalar(select(func.count()).select_from(statement.subquery())) or 0
-    rows = (await session.execute(statement.order_by(Contract.contract_number).offset(offset).limit(limit))).all()
+    rows = (
+        await session.execute(statement.order_by(Contract.contract_number).offset(offset).limit(limit))
+    ).all()
     visible = await _document_visibility(session, principal)
     items = [
         _contract_payload(contract, visible.get(contract.id), supplier_name=supplier_name)
@@ -353,7 +351,11 @@ async def contract_detail(session: AsyncSession, principal: Principal, contract_
     clauses = (
         await session.execute(
             select(Chunk)
-            .where(Chunk.tenant_id == principal.tenant_id, Chunk.contract_id == contract_id, Chunk.clause.is_not(None))
+            .where(
+                Chunk.tenant_id == principal.tenant_id,
+                Chunk.contract_id == contract_id,
+                Chunk.clause.is_not(None),
+            )
             .order_by(Chunk.page_number, Chunk.chunk_index)
             .limit(200)
         )
@@ -383,7 +385,9 @@ async def contract_detail(session: AsyncSession, principal: Principal, contract_
     )
     return {
         **_contract_payload(contract, supplier_name=supplier.name if supplier else None),
-        "prices": [_price_payload(price, supplier_name=supplier.name if supplier else None) for price in prices],
+        "prices": [
+            _price_payload(price, supplier_name=supplier.name if supplier else None) for price in prices
+        ],
         "documents": [
             {
                 "id": document.id,
@@ -500,7 +504,9 @@ async def list_prices(
     return items, int(total)
 
 
-def _price_payload(price: Price, *, supplier_name: str | None = None, product_name: str | None = None) -> dict[str, Any]:
+def _price_payload(
+    price: Price, *, supplier_name: str | None = None, product_name: str | None = None
+) -> dict[str, Any]:
     return {
         "id": price.id,
         "supplier_id": price.supplier_id,
@@ -544,7 +550,12 @@ def compliance_payload(certificate: ComplianceCertificate) -> dict[str, Any]:
 
 # -------------------------------------------------------------------- products
 async def list_products(
-    session: AsyncSession, principal: Principal, *, search: str | None = None, limit: int = 100, offset: int = 0
+    session: AsyncSession,
+    principal: Principal,
+    *,
+    search: str | None = None,
+    limit: int = 100,
+    offset: int = 0,
 ) -> tuple[list[dict[str, Any]], int]:
     statement = select(Product).where(Product.tenant_id == principal.tenant_id)
     if search:
@@ -606,13 +617,17 @@ async def compare(
         ).scalar_one_or_none()
         if match is None:
             match = (
-                await session.execute(
-                    select(Supplier).where(
-                        Supplier.tenant_id == principal.tenant_id,
-                        func.lower(Supplier.name).like(f"%{name.lower()}%"),
+                (
+                    await session.execute(
+                        select(Supplier).where(
+                            Supplier.tenant_id == principal.tenant_id,
+                            func.lower(Supplier.name).like(f"%{name.lower()}%"),
+                        )
                     )
                 )
-            ).scalars().first()
+                .scalars()
+                .first()
+            )
         if match is None:
             unresolved.append(f"No supplier record matches '{name}'.")
             continue
@@ -636,10 +651,8 @@ async def compare(
         session, principal, supplier_ids=resolved, product_ids=products or None, as_of=as_of
     )
     matrix["unresolved"] = [*unresolved, *(matrix.get("unresolved") or [])]
-    matrix["product"] = (
-        {"id": products[0], "name": product_query} if products and product_query else None
-    )
-    matrix["generated_at"] = datetime.now(timezone.utc)
+    matrix["product"] = {"id": products[0], "name": product_query} if products and product_query else None
+    matrix["generated_at"] = datetime.now(UTC)
     return matrix
 
 
@@ -658,15 +671,11 @@ async def corpus_stats(session: AsyncSession, principal: Principal) -> dict[str,
 
     documents = await count(Document, Document.access_level.in_(visible_levels))
     pages = int(
-        await session.scalar(
-            select(func.count(DocumentPage.id)).where(DocumentPage.tenant_id == tenant_id)
-        )
+        await session.scalar(select(func.count(DocumentPage.id)).where(DocumentPage.tenant_id == tenant_id))
         or 0
     )
     tables = int(
-        await session.scalar(
-            select(func.count(TableRecord.id)).where(TableRecord.tenant_id == tenant_id)
-        )
+        await session.scalar(select(func.count(TableRecord.id)).where(TableRecord.tenant_id == tenant_id))
         or 0
     )
     chunks = await count(Chunk)

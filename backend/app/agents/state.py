@@ -65,7 +65,9 @@ class AgentState(TypedDict, total=False):
     timings: dict[str, int]
 
 
-def add_event(state: AgentState, node: str, event: str, detail: str = "", **data: Any) -> list[dict[str, Any]]:
+def add_event(
+    state: AgentState, node: str, event: str, detail: str = "", **data: Any
+) -> list[dict[str, Any]]:
     """Append a presentable status event (never hidden reasoning)."""
     import time
 

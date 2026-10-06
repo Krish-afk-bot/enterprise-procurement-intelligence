@@ -16,7 +16,8 @@ from __future__ import annotations
 
 import math
 import re
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 
 def _unique(values: Sequence[str]) -> list[str]:

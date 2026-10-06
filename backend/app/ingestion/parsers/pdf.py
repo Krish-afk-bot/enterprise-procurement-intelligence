@@ -115,7 +115,7 @@ def _blocks_from_dict(text_dict: dict, tables: list[ParsedTable]) -> list[TextBl
             not in_table
             and size >= dominant_size + 0.9
             and len(text) <= 140
-            and not text.endswith(('.', ';'))
+            and not text.endswith((".", ";"))
         )
         blocks.append(
             TextBlock(

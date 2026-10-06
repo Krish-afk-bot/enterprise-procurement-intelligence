@@ -84,7 +84,11 @@ class Neo4jGraphStore:
         grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
         for edge in edges:
             grouped.setdefault(
-                (_ident(edge.start_label, "label"), _ident(edge.type, "relationship type"), _ident(edge.end_label, "label")),
+                (
+                    _ident(edge.start_label, "label"),
+                    _ident(edge.type, "relationship type"),
+                    _ident(edge.end_label, "label"),
+                ),
                 [],
             ).append(
                 {
@@ -149,7 +153,7 @@ class Neo4jGraphStore:
             "UNWIND relationships(p) AS r "
             "RETURN DISTINCT type(r) AS type, labels(startNode(r))[0] AS start_label, startNode(r).key AS start_key, "
             "labels(endNode(r))[0] AS end_label, endNode(r).key AS end_key, r.props_json AS props_json LIMIT 500",
-            {"key": key, "types": list(edge_types or [])},
+            {"key": start_key, "types": list(edge_types or [])},
         )
         return [_row_to_edge(row) for row in rows]
 
@@ -170,7 +174,9 @@ class Neo4jGraphStore:
             for row in rows
         ]
 
-    async def run_read_query(self, query: str, parameters: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    async def run_read_query(
+        self, query: str, parameters: dict[str, Any] | None = None
+    ) -> list[dict[str, Any]]:
         lowered = query.lower()
         forbidden = ("create", "merge", "delete", "set ", "remove", "drop", "call apoc")
         if any(word in lowered for word in forbidden):
@@ -194,9 +200,7 @@ class Neo4jGraphStore:
     async def status(self) -> ProviderStatus:
         try:
             counts = await self.counts()
-            return ProviderStatus.of(
-                "graph", self.name, True, detail=f"connected to {self.uri}", **counts
-            )
+            return ProviderStatus.of("graph", self.name, True, detail=f"connected to {self.uri}", **counts)
         except Exception as exc:  # noqa: BLE001
             return ProviderStatus.of("graph", self.name, False, detail=f"unreachable: {type(exc).__name__}")
 

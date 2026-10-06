@@ -5,8 +5,6 @@ Pure unit tests: no I/O, no database, no HTTP.
 
 from __future__ import annotations
 
-import time
-
 import pytest
 
 from app.core.errors import AuthenticationError
@@ -20,8 +18,8 @@ from app.security.tokens import (
     verify_password,
 )
 
-
 # ------------------------------------------------------------------ fixtures
+
 
 @pytest.fixture()
 def settings(settings):  # noqa: F811 — shadows session-scoped conftest fixture
@@ -29,6 +27,7 @@ def settings(settings):  # noqa: F811 — shadows session-scoped conftest fixtur
 
 
 # ------------------------------------------------------------------ password hashing
+
 
 class TestHashPassword:
     def test_hash_is_not_plaintext(self) -> None:
@@ -64,6 +63,7 @@ class TestHashPassword:
 
 
 # ------------------------------------------------------------------ JWT
+
 
 class TestCreateDecodeToken:
     def test_roundtrip_access_token(self, settings) -> None:
@@ -102,28 +102,22 @@ class TestCreateDecodeToken:
             decode_token(settings, token, expected_type=REFRESH_TOKEN_TYPE)
 
     def test_tampered_token_raises(self, settings) -> None:
-        token, _ = create_token(
-            settings, subject="usr", tenant_id="ten", role="viewer"
-        )
+        token, _ = create_token(settings, subject="usr", tenant_id="ten", role="viewer")
         tampered = token[:-4] + "XXXX"
         with pytest.raises(AuthenticationError):
             decode_token(settings, tampered)
 
     def test_wrong_secret_raises(self, settings) -> None:
-        from app.config.settings import Settings
 
-        token, _ = create_token(
-            settings, subject="usr", tenant_id="ten", role="viewer"
-        )
+        token, _ = create_token(settings, subject="usr", tenant_id="ten", role="viewer")
         bad_settings = settings.model_copy(update={"jwt_secret": "wrong-secret"})
         with pytest.raises(AuthenticationError):
             decode_token(bad_settings, token)
 
     def test_issuer_claim_is_epi(self, settings) -> None:
-        token, _ = create_token(
-            settings, subject="usr", tenant_id="ten", role="viewer"
-        )
+        token, _ = create_token(settings, subject="usr", tenant_id="ten", role="viewer")
         import jwt as pyjwt
+
         payload = pyjwt.decode(
             token,
             settings.jwt_secret,

@@ -15,9 +15,18 @@ tenant_id_var: contextvars.ContextVar[str | None] = contextvars.ContextVar("tena
 user_id_var: contextvars.ContextVar[str | None] = contextvars.ContextVar("user_id", default=None)
 
 _SENSITIVE_KEYS = {
-    "password", "hashed_password", "token", "access_token", "refresh_token",
-    "api_key", "authorization", "jwt_secret", "secret", "neo4j_password",
-    "s3_secret_key", "llm_api_key",
+    "password",
+    "hashed_password",
+    "token",
+    "access_token",
+    "refresh_token",
+    "api_key",
+    "authorization",
+    "jwt_secret",
+    "secret",
+    "neo4j_password",
+    "s3_secret_key",
+    "llm_api_key",
 }
 
 
@@ -44,9 +53,7 @@ def redact_secrets(_logger: Any, _method: str, event_dict: dict[str, Any]) -> di
 
 def configure_logging(level: str = "INFO", json_output: bool = True) -> None:
     renderer: Any = (
-        structlog.processors.JSONRenderer()
-        if json_output
-        else structlog.dev.ConsoleRenderer(colors=False)
+        structlog.processors.JSONRenderer() if json_output else structlog.dev.ConsoleRenderer(colors=False)
     )
     structlog.configure(
         processors=[

@@ -95,7 +95,9 @@ class LocalVectorStore:
         async with self._lock:
             target = self._collection(collection)
             await target.load()
-            keep = [i for i, payload in enumerate(target.payloads) if payload.get("document_id") != document_id]
+            keep = [
+                i for i, payload in enumerate(target.payloads) if payload.get("document_id") != document_id
+            ]
             removed = target.size - len(keep)
             if removed:
                 target.retain(keep)

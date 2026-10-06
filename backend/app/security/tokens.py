@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import jwt
 from argon2 import PasswordHasher
-from argon2.exceptions import VerifyMismatchError, VerificationError, InvalidHashError
+from argon2.exceptions import InvalidHashError, VerificationError, VerifyMismatchError
 
 from app.config.settings import Settings
 from app.core.errors import AuthenticationError
@@ -50,13 +50,13 @@ def create_token(
         if token_type == ACCESS_TOKEN_TYPE
         else settings.refresh_token_ttl_minutes
     )
-    expires_at = datetime.now(timezone.utc) + timedelta(minutes=ttl)
+    expires_at = datetime.now(UTC) + timedelta(minutes=ttl)
     payload: dict[str, Any] = {
         "sub": subject,
         "tid": tenant_id,
         "role": role,
         "typ": token_type,
-        "iat": int(datetime.now(timezone.utc).timestamp()),
+        "iat": int(datetime.now(UTC).timestamp()),
         "exp": int(expires_at.timestamp()),
         "iss": "epi",
     }

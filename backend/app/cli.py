@@ -13,18 +13,18 @@ import json
 import sys
 from pathlib import Path
 
+from sqlalchemy import func, select
+
 from app.config.container import Container, get_container, set_container
-from app.config.settings import Settings, get_settings
+from app.config.settings import get_settings
 from app.db.models import Chunk, Contract, Document, DocumentPage, Price, ProcurementRecord, Supplier
 from app.db.session import dispose_engine, init_db, session_scope
 from app.ingestion.connectors import import_csv_source
 from app.ingestion.pipeline import IngestionPipeline
 from app.ingestion.validation import validate_upload
 from app.observability.logging import configure_logging, get_logger
-from app.security.rbac import Principal
 from app.services import auth as auth_service
 from app.services.documents import store_upload
-from sqlalchemy import func, select
 
 logger = get_logger(__name__)
 
@@ -70,11 +70,17 @@ async def cmd_ingest(args: argparse.Namespace) -> int:
     if not directory.exists():
         print(f"Directory not found: {directory}", file=sys.stderr)
         return 2
-    extensions = {".pdf", ".docx", ".xlsx", ".csv", ".txt", ".md"} if not args.images else set(settings.allowed_extensions)
+    extensions = (
+        {".pdf", ".docx", ".xlsx", ".csv", ".txt", ".md"}
+        if not args.images
+        else set(settings.allowed_extensions)
+    )
     files = sorted(
         path
         for path in directory.rglob("*")
-        if path.is_file() and path.suffix.lower() in extensions and path.name not in {"manifest.json", "corpus_card.json"}
+        if path.is_file()
+        and path.suffix.lower() in extensions
+        and path.name not in {"manifest.json", "corpus_card.json"}
     )
     if not files:
         print(f"No ingestable files found in {directory}", file=sys.stderr)
@@ -152,12 +158,16 @@ async def cmd_ingest(args: argparse.Namespace) -> int:
             # chunker or metadata changes take effect without deleting the row.
             print(f"REPROCESS {path.name}: re-running ingestion for {duplicate_of}")
             document_id = duplicate_of
-        outcome = await pipeline.process_document(document_id, run_ocr=not args.no_ocr, run_vision=not args.no_vision)
+        outcome = await pipeline.process_document(
+            document_id, run_ocr=not args.no_ocr, run_vision=not args.no_vision
+        )
         results.append(outcome.as_dict() | {"file": path.name, "title": title})
         status = outcome.status
-        print(f"[{status}] {path.name} -> {document_id} pages={outcome.metrics.get('page_count')} "
-              f"chunks={outcome.metrics.get('chunk_count')} prices={outcome.metrics.get('prices')} "
-              f"ocr={outcome.metrics.get('ocr')} vision={outcome.metrics.get('vision')}")
+        print(
+            f"[{status}] {path.name} -> {document_id} pages={outcome.metrics.get('page_count')} "
+            f"chunks={outcome.metrics.get('chunk_count')} prices={outcome.metrics.get('prices')} "
+            f"ocr={outcome.metrics.get('ocr')} vision={outcome.metrics.get('vision')}"
+        )
         for warning in outcome.warnings:
             print(f"    ! {warning}")
 
@@ -166,14 +176,24 @@ async def cmd_ingest(args: argparse.Namespace) -> int:
 
     async with session_scope() as session:
         counts = {
-            "documents": await session.scalar(select(func.count(Document.id)).where(Document.tenant_id == tenant_id)),
-            "pages": await session.scalar(select(func.count(DocumentPage.id)).where(DocumentPage.tenant_id == tenant_id)),
+            "documents": await session.scalar(
+                select(func.count(Document.id)).where(Document.tenant_id == tenant_id)
+            ),
+            "pages": await session.scalar(
+                select(func.count(DocumentPage.id)).where(DocumentPage.tenant_id == tenant_id)
+            ),
             "chunks": await session.scalar(select(func.count(Chunk.id)).where(Chunk.tenant_id == tenant_id)),
             "chunks_embedded": await session.scalar(
-                select(func.count(Chunk.id)).where(Chunk.tenant_id == tenant_id, Chunk.embedding_indexed.is_(True))
+                select(func.count(Chunk.id)).where(
+                    Chunk.tenant_id == tenant_id, Chunk.embedding_indexed.is_(True)
+                )
             ),
-            "suppliers": await session.scalar(select(func.count(Supplier.id)).where(Supplier.tenant_id == tenant_id)),
-            "contracts": await session.scalar(select(func.count(Contract.id)).where(Contract.tenant_id == tenant_id)),
+            "suppliers": await session.scalar(
+                select(func.count(Supplier.id)).where(Supplier.tenant_id == tenant_id)
+            ),
+            "contracts": await session.scalar(
+                select(func.count(Contract.id)).where(Contract.tenant_id == tenant_id)
+            ),
             "prices": await session.scalar(select(func.count(Price.id)).where(Price.tenant_id == tenant_id)),
             "procurement_records": await session.scalar(
                 select(func.count(ProcurementRecord.id)).where(ProcurementRecord.tenant_id == tenant_id)

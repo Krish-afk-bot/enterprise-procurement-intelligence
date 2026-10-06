@@ -12,13 +12,37 @@ from app.core.ids import new_id
 from app.db.base import Base, ProvenanceMixin, TenantScopedMixin, TimestampMixin
 
 DOCUMENT_STATUSES = (
-    "uploaded", "queued", "processing", "indexed", "failed", "needs_review", "archived",
+    "uploaded",
+    "queued",
+    "processing",
+    "indexed",
+    "failed",
+    "needs_review",
+    "archived",
 )
 DOCUMENT_TYPES = (
-    "contract", "amendment", "pricing_agreement", "pricing_schedule", "compliance_certificate",
-    "purchase_order", "invoice", "specification", "tender", "supplier_record", "other",
+    "contract",
+    "amendment",
+    "pricing_agreement",
+    "pricing_schedule",
+    "compliance_certificate",
+    "purchase_order",
+    "invoice",
+    "specification",
+    "tender",
+    "supplier_record",
+    "other",
 )
-CONTENT_TYPES = ("paragraph", "clause", "heading", "table", "table_summary", "list", "image_caption", "page_vision")
+CONTENT_TYPES = (
+    "paragraph",
+    "clause",
+    "heading",
+    "table",
+    "table_summary",
+    "list",
+    "image_caption",
+    "page_vision",
+)
 
 
 class Document(Base, TenantScopedMixin, TimestampMixin, ProvenanceMixin):

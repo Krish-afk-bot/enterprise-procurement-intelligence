@@ -15,7 +15,11 @@ from app.config.settings import Settings, get_settings
 from app.db.session import get_session_factory
 from app.observability.logging import get_logger
 from app.providers.cache import CacheLike, MemoryCache, RateLimiter, RedisCache
-from app.providers.embedding import CachedEmbeddingProvider, HashingEmbeddingProvider, SentenceTransformerEmbeddingProvider
+from app.providers.embedding import (
+    CachedEmbeddingProvider,
+    HashingEmbeddingProvider,
+    SentenceTransformerEmbeddingProvider,
+)
 from app.providers.graph.local import LocalGraphStore
 from app.providers.graph.neo4j import Neo4jGraphStore
 from app.providers.llm.openai_compatible import OpenAICompatibleProvider
@@ -39,7 +43,12 @@ class FallbackNote:
     reason: str
 
     def as_dict(self) -> dict[str, str]:
-        return {"kind": self.kind, "configured": self.configured, "active": self.active, "reason": self.reason}
+        return {
+            "kind": self.kind,
+            "configured": self.configured,
+            "active": self.active,
+            "reason": self.reason,
+        }
 
 
 @dataclass
@@ -220,7 +229,11 @@ class Container:
                 FallbackNote(kind=kind, configured=configured, active=replacement.name, reason=status.detail)
             )
             logger.warning(
-                "provider_fallback", kind=kind, configured=configured, active=replacement.name, reason=status.detail
+                "provider_fallback",
+                kind=kind,
+                configured=configured,
+                active=replacement.name,
+                reason=status.detail,
             )
             if kind == "vector":
                 self.vector = replacement
@@ -237,7 +250,9 @@ class Container:
                 self.storage = replacement
 
         if settings.vector_provider != "local":
-            await check("vector", self.vector, lambda: LocalVectorStore(self.settings.var_dir / "vector_index"))
+            await check(
+                "vector", self.vector, lambda: LocalVectorStore(self.settings.var_dir / "vector_index")
+            )
         if settings.graph_provider != "local":
             await check("graph", self.graph, lambda: LocalGraphStore(self.settings.var_dir / "graph.db"))
         if settings.cache_provider != "memory":
@@ -253,7 +268,9 @@ class Container:
                 try:
                     await closer()
                 except Exception as exc:  # noqa: BLE001
-                    logger.warning("provider_close_failed", provider=getattr(provider, "name", "?"), error=str(exc))
+                    logger.warning(
+                        "provider_close_failed", provider=getattr(provider, "name", "?"), error=str(exc)
+                    )
         self.started = False
 
     # ----------------------------------------------------------------- health
@@ -278,7 +295,11 @@ class Container:
 
     async def health_payload(self) -> dict[str, Any]:
         statuses = await self.provider_statuses()
-        degraded = any(not status.available for status in statuses.values() if status.kind in {"vector", "graph", "cache", "storage", "embedding"})
+        degraded = any(
+            not status.available
+            for status in statuses.values()
+            if status.kind in {"vector", "graph", "cache", "storage", "embedding"}
+        )
         return {
             "config": self.settings.public_dict(),
             "providers": {name: status.model_dump() for name, status in statuses.items()},

@@ -20,7 +20,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import date
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -35,7 +35,7 @@ from app.providers.types import LLMMessage
 logger = get_logger(__name__)
 
 
-class Intent(str, Enum):
+class Intent(StrEnum):
     PRICE_LOOKUP = "price_lookup"
     CONTRACT_TERMS = "contract_terms"
     COMPARISON = "comparison"
@@ -86,37 +86,93 @@ class QueryPlan(BaseModel):
 
 
 COMPARISON_PATTERNS = (
-    r"\bcompare\b", r"\bvs\.?\b", r"\bversus\b", r"\bdifference between\b",
+    r"\bcompare\b",
+    r"\bvs\.?\b",
+    r"\bversus\b",
+    r"\bdifference between\b",
     r"\bwhich (?:supplier|vendor) (?:is )?(?:cheaper|cheapest|more expensive)\b",
-    r"\bbetter (?:price|deal)\b", r"\bcheaper\b",
+    r"\bbetter (?:price|deal)\b",
+    r"\bcheaper\b",
 )
 TEMPORAL_PATTERNS = (
-    r"\bcurrent(?:ly)?\b", r"\blatest\b", r"\bmost recent\b", r"\bstill valid\b", r"\bvalid\b",
-    r"\bamended\b", r"\bamendment\b", r"\bwhat changed\b", r"\bchanged between\b", r"\bsupersed\w*\b",
-    r"\bexpired?\b", r"\bafter the (?:latest )?amendment\b", r"\bnew price\b", r"\bin force\b",
+    r"\bcurrent(?:ly)?\b",
+    r"\blatest\b",
+    r"\bmost recent\b",
+    r"\bstill valid\b",
+    r"\bvalid\b",
+    r"\bamended\b",
+    r"\bamendment\b",
+    r"\bwhat changed\b",
+    r"\bchanged between\b",
+    r"\bsupersed\w*\b",
+    r"\bexpired?\b",
+    r"\bafter the (?:latest )?amendment\b",
+    r"\bnew price\b",
+    r"\bin force\b",
 )
 AGGREGATION_PATTERNS = (
-    r"\btotal\b", r"\bsum\b", r"\bcombined\b", r"\baverage\b", r"\bmean\b", r"\bhow much\b",
-    r"\bcount\b", r"\bnumber of\b", r"\blowest\b", r"\bhighest\b", r"\bcheapest\b", r"\bmost expensive\b",
-    r"\bspend\b", r"\bspent\b", r"\bvalue of\b", r"\baggregate\b",
+    r"\btotal\b",
+    r"\bsum\b",
+    r"\bcombined\b",
+    r"\baverage\b",
+    r"\bmean\b",
+    r"\bhow much\b",
+    r"\bcount\b",
+    r"\bnumber of\b",
+    r"\blowest\b",
+    r"\bhighest\b",
+    r"\bcheapest\b",
+    r"\bmost expensive\b",
+    r"\bspend\b",
+    r"\bspent\b",
+    r"\bvalue of\b",
+    r"\baggregate\b",
 )
 GRAPH_PATTERNS = (
-    r"\bwhich (?:suppliers?|vendors?)\b", r"\brelated\b", r"\bconnected\b", r"\bchain\b",
-    r"\bthrough\b.*\bcontract\b", r"\blinked\b", r"\bamendment\b.*\bproduct\b",
-    r"\bsuppl\w+ .*\bcompliance\b", r"\bmulti-?hop\b",
+    r"\bwhich (?:suppliers?|vendors?)\b",
+    r"\brelated\b",
+    r"\bconnected\b",
+    r"\bchain\b",
+    r"\bthrough\b.*\bcontract\b",
+    r"\blinked\b",
+    r"\bamendment\b.*\bproduct\b",
+    r"\bsuppl\w+ .*\bcompliance\b",
+    r"\bmulti-?hop\b",
 )
 VISION_PATTERNS = (
-    r"\btable\b", r"\bchart\b", r"\bdiagram\b", r"\bsignature\b", r"\bstamp\b", r"\bscanned\b",
-    r"\bpage \d+\b", r"\bimage\b", r"\bfigure\b", r"\bvisual\b",
+    r"\btable\b",
+    r"\bchart\b",
+    r"\bdiagram\b",
+    r"\bsignature\b",
+    r"\bstamp\b",
+    r"\bscanned\b",
+    r"\bpage \d+\b",
+    r"\bimage\b",
+    r"\bfigure\b",
+    r"\bvisual\b",
 )
 COMPLIANCE_PATTERNS = (r"\biso\b", r"\bsoc ?2\b", r"\bcertificat\w+\b", r"\bcomplian\w+\b", r"\baudit\b")
 PRICE_PATTERNS = (
-    r"\bprice\b", r"\bpricing\b", r"\brate\b", r"\bcost\b", r"\bunit price\b", r"\bhow much\b",
-    r"\b(?:moq|minimum order)\b", r"\bdiscount\b", r"\bquote\b",
+    r"\bprice\b",
+    r"\bpricing\b",
+    r"\brate\b",
+    r"\bcost\b",
+    r"\bunit price\b",
+    r"\bhow much\b",
+    r"\b(?:moq|minimum order)\b",
+    r"\bdiscount\b",
+    r"\bquote\b",
 )
 TERMS_PATTERNS = (
-    r"\bpayment terms?\b", r"\bdelivery\b", r"\blead time\b", r"\brenewal\b", r"\btermination\b",
-    r"\bwarranty\b", r"\bgoverning law\b", r"\bclause\b", r"\bterms\b",
+    r"\bpayment terms?\b",
+    r"\bdelivery\b",
+    r"\blead time\b",
+    r"\brenewal\b",
+    r"\btermination\b",
+    r"\bwarranty\b",
+    r"\bgoverning law\b",
+    r"\bclause\b",
+    r"\bterms\b",
 )
 DOCUMENT_TYPE_HINTS: tuple[tuple[str, str], ...] = (
     (r"\bamendment\b|\baddendum\b", "amendment"),
@@ -135,11 +191,65 @@ _CLAUSE_RE = re.compile(r"\b(?:clause|section|article)\s+\d+(?:\.\d+)*\b", re.IG
 _MONEY_RE = re.compile(r"[$€£]\s?\d[\d,]*(?:\.\d+)?")
 
 _STOPWORDS = {
-    "what", "which", "who", "whose", "when", "where", "why", "how", "is", "are", "was", "were",
-    "the", "a", "an", "of", "for", "to", "in", "on", "at", "and", "or", "do", "does", "did",
-    "we", "our", "us", "it", "its", "this", "that", "these", "those", "any", "all", "with",
-    "between", "from", "by", "as", "be", "been", "has", "have", "had", "can", "could", "should",
-    "would", "will", "please", "show", "me", "give", "tell", "about", "there",
+    "what",
+    "which",
+    "who",
+    "whose",
+    "when",
+    "where",
+    "why",
+    "how",
+    "is",
+    "are",
+    "was",
+    "were",
+    "the",
+    "a",
+    "an",
+    "of",
+    "for",
+    "to",
+    "in",
+    "on",
+    "at",
+    "and",
+    "or",
+    "do",
+    "does",
+    "did",
+    "we",
+    "our",
+    "us",
+    "it",
+    "its",
+    "this",
+    "that",
+    "these",
+    "those",
+    "any",
+    "all",
+    "with",
+    "between",
+    "from",
+    "by",
+    "as",
+    "be",
+    "been",
+    "has",
+    "have",
+    "had",
+    "can",
+    "could",
+    "should",
+    "would",
+    "will",
+    "please",
+    "show",
+    "me",
+    "give",
+    "tell",
+    "about",
+    "there",
 }
 
 
@@ -171,7 +281,9 @@ async def load_vocabulary(session: AsyncSession, tenant_id: str, *, limit: int =
     vocabulary = TenantVocabulary()
     supplier_rows = (
         await session.execute(
-            select(Supplier.id, Supplier.name, Supplier.attributes).where(Supplier.tenant_id == tenant_id).limit(limit)
+            select(Supplier.id, Supplier.name, Supplier.attributes)
+            .where(Supplier.tenant_id == tenant_id)
+            .limit(limit)
         )
     ).all()
     vocabulary.suppliers = [(row[0], row[1]) for row in supplier_rows]
@@ -185,7 +297,9 @@ async def load_vocabulary(session: AsyncSession, tenant_id: str, *, limit: int =
         (row[0], row[1], row[2] or "")
         for row in (
             await session.execute(
-                select(Product.id, Product.name, Product.sku).where(Product.tenant_id == tenant_id).limit(limit)
+                select(Product.id, Product.name, Product.sku)
+                .where(Product.tenant_id == tenant_id)
+                .limit(limit)
             )
         ).all()
     ]
@@ -238,7 +352,9 @@ def understand_query_rule_based(
             plan.supplier_ids.append(supplier_id)
             plan.suppliers.append(supplier_name)
             plan.entities.append(
-                LinkedEntity(kind="supplier", value=supplier_name, matched_id=supplier_id, matched_name=supplier_name)
+                LinkedEntity(
+                    kind="supplier", value=supplier_name, matched_id=supplier_id, matched_name=supplier_name
+                )
             )
 
     # "supplier A" / "supplier northwind" style references use recorded aliases.
@@ -271,7 +387,9 @@ def understand_query_rule_based(
             plan.product_ids.append(product_id)
             plan.products.append(product_name)
             plan.entities.append(
-                LinkedEntity(kind="product", value=product_name, matched_id=product_id, matched_name=product_name)
+                LinkedEntity(
+                    kind="product", value=product_name, matched_id=product_id, matched_name=product_name
+                )
             )
 
     for contract_id, contract_number in vocabulary.contracts:
@@ -279,7 +397,12 @@ def understand_query_rule_based(
             plan.contract_ids.append(contract_id)
             plan.contract_numbers.append(contract_number)
             plan.entities.append(
-                LinkedEntity(kind="contract", value=contract_number, matched_id=contract_id, matched_name=contract_number)
+                LinkedEntity(
+                    kind="contract",
+                    value=contract_number,
+                    matched_id=contract_id,
+                    matched_name=contract_number,
+                )
             )
 
     # ----------------------------------------------------- literal identifiers
@@ -351,7 +474,9 @@ def understand_query_rule_based(
         # structured rows, not by comparing prose.
         or (requires_temporal and bool(plan.document_types))
     )
-    plan.requires_graph = requires_graph or (requires_compliance and bool(plan.suppliers)) or len(plan.suppliers) >= 2
+    plan.requires_graph = (
+        requires_graph or (requires_compliance and bool(plan.suppliers)) or len(plan.suppliers) >= 2
+    )
     plan.requires_vision = requires_vision
     plan.complexity = _complexity(plan)
 
@@ -418,7 +543,24 @@ def _name_mentioned(text: str, name: str) -> bool:
     tokens = [token for token in re.findall(r"[a-z0-9]+", candidate) if len(token) > 2]
     if not tokens:
         return False
-    distinctive = [token for token in tokens if token not in {"inc", "ltd", "llc", "co", "corp", "group", "limited", "supplies", "supply", "industrial", "partners"}]
+    distinctive = [
+        token
+        for token in tokens
+        if token
+        not in {
+            "inc",
+            "ltd",
+            "llc",
+            "co",
+            "corp",
+            "group",
+            "limited",
+            "supplies",
+            "supply",
+            "industrial",
+            "partners",
+        }
+    ]
     if not distinctive:
         distinctive = tokens[:1]
     hits = sum(1 for token in distinctive if token in lowered)

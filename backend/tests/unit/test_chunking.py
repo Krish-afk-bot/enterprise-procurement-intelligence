@@ -11,17 +11,12 @@ import pytest
 
 from app.config.settings import Settings
 from app.ingestion.chunking import (
-    CONTENT_CLAUSE,
-    CONTENT_PARAGRAPH,
-    CONTENT_SECTION,
     CONTENT_TABLE,
     ChunkDraft,
     chunk_document,
 )
 from app.ingestion.layout import DocumentStructure, StructureLine, detect_structure
-from app.ingestion.tokens import count_tokens
-from app.ingestion.types import ParsedDocument, ParsedPage, ParsedTable, TextBlock
-
+from app.ingestion.types import ParsedDocument, ParsedPage, ParsedTable
 
 # ------------------------------------------------------------------ fixtures
 
@@ -40,10 +35,7 @@ def minimal_settings(settings: Settings) -> Settings:
 
 def make_simple_document(pages_text: list[str]) -> ParsedDocument:
     """Build a ParsedDocument with plain text pages (no block-level metadata)."""
-    pages = [
-        ParsedPage(page_number=i + 1, text=text)
-        for i, text in enumerate(pages_text)
-    ]
+    pages = [ParsedPage(page_number=i + 1, text=text) for i, text in enumerate(pages_text)]
     return ParsedDocument(pages=pages)
 
 
@@ -86,9 +78,7 @@ class TestChunkDraftWithCounts:
 
 
 class TestChunkDocumentBasic:
-    def test_empty_document_returns_no_content_chunks(
-        self, minimal_settings: Settings
-    ) -> None:
+    def test_empty_document_returns_no_content_chunks(self, minimal_settings: Settings) -> None:
         doc = make_simple_document([""])
         structure = detect_structure(doc)
         drafts = chunk_document(doc, structure, minimal_settings)
@@ -126,9 +116,7 @@ class TestChunkDocumentBasic:
 
 
 class TestChunkDocumentLargeText:
-    def test_oversized_text_produces_multiple_chunks(
-        self, minimal_settings: Settings
-    ) -> None:
+    def test_oversized_text_produces_multiple_chunks(self, minimal_settings: Settings) -> None:
         # Each sentence is ~10 tokens; 12 sentences × 10 = ~120 tokens > target (50)
         sentences = " ".join(
             [f"Sentence number {i} contains some contract pricing information." for i in range(12)]
@@ -139,9 +127,7 @@ class TestChunkDocumentLargeText:
         assert len(drafts) >= 2
 
     def test_max_tokens_not_exceeded(self, minimal_settings: Settings) -> None:
-        sentences = " ".join(
-            [f"The vendor agrees to supply item {i} at the agreed rate." for i in range(20)]
-        )
+        sentences = " ".join([f"The vendor agrees to supply item {i} at the agreed rate." for i in range(20)])
         doc = make_simple_document([sentences])
         structure = detect_structure(doc)
         drafts = chunk_document(doc, structure, minimal_settings)
@@ -159,9 +145,7 @@ class TestChunkDocumentStructure:
         assert len(sections) >= 1
 
     def test_parent_ref_set_on_split_chunks(self, minimal_settings: Settings) -> None:
-        long_text = " ".join(
-            [f"Clause {i}: The supplier will deliver within 30 days." for i in range(10)]
-        )
+        long_text = " ".join([f"Clause {i}: The supplier will deliver within 30 days." for i in range(10)])
         doc = make_simple_document([long_text])
         structure = detect_structure(doc)
         drafts = chunk_document(doc, structure, minimal_settings)

@@ -6,7 +6,7 @@ nothing here invents a metric, and an experiment that cannot run on this
 deployment is reported as unavailable rather than skipped silently.
 """
 
-from app.evaluation.dataset import GoldenQuestion, GoldenDataset, load_golden_dataset
+from app.evaluation.dataset import GoldenDataset, GoldenQuestion, load_golden_dataset
 from app.evaluation.metrics import (
     answer_keywords,
     citation_validity,

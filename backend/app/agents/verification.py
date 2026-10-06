@@ -31,10 +31,45 @@ logger = get_logger(__name__)
 NUMBER_RE = re.compile(r"\d[\d,]*(?:\.\d+)?")
 _TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9\-]{2,}")
 STOPWORDS = {
-    "the", "and", "for", "with", "that", "this", "are", "was", "were", "has", "have", "had", "not",
-    "but", "from", "into", "under", "over", "each", "per", "any", "all", "which", "while", "there",
-    "their", "than", "then", "when", "where", "according", "system", "evidence", "available",
-    "summary", "extractive", "configured", "platform", "documents",
+    "the",
+    "and",
+    "for",
+    "with",
+    "that",
+    "this",
+    "are",
+    "was",
+    "were",
+    "has",
+    "have",
+    "had",
+    "not",
+    "but",
+    "from",
+    "into",
+    "under",
+    "over",
+    "each",
+    "per",
+    "any",
+    "all",
+    "which",
+    "while",
+    "there",
+    "their",
+    "than",
+    "then",
+    "when",
+    "where",
+    "according",
+    "system",
+    "evidence",
+    "available",
+    "summary",
+    "extractive",
+    "configured",
+    "platform",
+    "documents",
 }
 
 REFUSAL_TEXT = "I couldn't verify this from the available procurement documents."
@@ -142,7 +177,8 @@ def assess_query_coverage(
     result = CoverageResult()
     structured = structured if structured is not None else StructuredResult(queried=False)
     texts = [(block.text or "") + " " + (block.citation.snippet or "") for block in bundle.blocks]
-    blob = "\n".join(texts)
+    # blob is built for future claim-text comparison; currently used implicitly through texts
+    _blob = "\n".join(texts)  # noqa: F841
     price_intent = plan.get("intent") in {
         "price_lookup",
         "aggregation",
@@ -156,7 +192,9 @@ def assess_query_coverage(
     for index, name in enumerate(names):
         supplier_id = ids[index] if index < len(ids) else None
         fact_hits = [fact for fact in structured.facts if supplier_id and fact.supplier_id == supplier_id]
-        certificate_hits = [item for item in structured.compliance if supplier_id and item.get("supplier_id") == supplier_id]
+        certificate_hits = [
+            item for item in structured.compliance if supplier_id and item.get("supplier_id") == supplier_id
+        ]
         text_hits = sum(1 for text in texts if _mentions(text, name))
         if fact_hits:
             satisfied, detail = True, f"{len(fact_hits)} structured price row(s) for {name}"
@@ -199,7 +237,8 @@ def assess_query_coverage(
         year_rows = [
             aggregation
             for aggregation in structured.aggregations
-            if aggregation.row_count and (aggregation.group or {}).get("year") in _period_years(date_from, date_to)
+            if aggregation.row_count
+            and (aggregation.group or {}).get("year") in _period_years(date_from, date_to)
         ]
         corpus_years: set[str] = set()
         for text in texts:

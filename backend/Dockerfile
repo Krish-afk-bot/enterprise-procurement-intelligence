@@ -29,11 +29,17 @@ RUN apt-get update \
 
 WORKDIR /app/backend
 
-# Dependency layer first: application edits then do not reinstall the wheels.
+# Dependency layer first — use pinned requirements.txt so Docker builds are
+# reproducible. Application edits after this point do not reinstall the wheels.
+COPY backend/requirements.txt /app/backend/requirements.txt
+RUN python -m pip install --upgrade pip \
+    && python -m pip install -r requirements.txt
+
+# Install the package itself (editable installs don't work in Docker; use a
+# regular install from the source tree).
 COPY backend/pyproject.toml /app/backend/pyproject.toml
 COPY backend/app /app/backend/app
-RUN python -m pip install --upgrade pip \
-    && python -m pip install "/app/backend[ocr]"
+RUN python -m pip install --no-deps "/app/backend[ocr]"
 
 # The rest of the backend is code and configuration, not dependencies.
 COPY backend/alembic.ini /app/backend/alembic.ini

@@ -36,7 +36,9 @@ PARTIES_RE = re.compile(
     r"(?P<supplier>[A-Z][A-Za-z0-9&.,'\- ]{3,80}?)\s*(?:\(|,|\.|\n|$)",
     re.IGNORECASE,
 )
-SUPPLIER_FIELD_RE = re.compile(r"\b(?:supplier|vendor|contractor)\s*(?:name)?\s*[:#]\s*([^\n]{3,80})", re.IGNORECASE)
+SUPPLIER_FIELD_RE = re.compile(
+    r"\b(?:supplier|vendor|contractor)\s*(?:name)?\s*[:#]\s*([^\n]{3,80})", re.IGNORECASE
+)
 SUPPLIER_PHRASE_RE = re.compile(
     r"\b(?:supplied\s+by|issued\s+to|provided\s+by|on\s+behalf\s+of)\s*[:]?\s+([A-Z][A-Za-z0-9&.,'\- ]{3,80}?)"
     r"(?=\s+(?:under|per|for|pursuant|in\s+respect|$)|[\n,;.]|$)",
@@ -62,7 +64,10 @@ TOTAL_VALUE_RE = re.compile(
 
 DOCUMENT_TYPE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("amendment", ("amendment", "addendum", "variation", "change order", "amended")),
-    ("compliance_certificate", ("certificate", "iso 9001", "compliance certificate", "certification", "audit certificate")),
+    (
+        "compliance_certificate",
+        ("certificate", "iso 9001", "compliance certificate", "certification", "audit certificate"),
+    ),
     ("pricing_schedule", ("price list", "pricing schedule", "rate card", "price schedule", "unit prices")),
     ("pricing_agreement", ("pricing agreement", "price agreement", "rebate agreement")),
     ("purchase_order", ("purchase order", "po number")),
@@ -145,7 +150,13 @@ def extract_metadata(
         match = pattern.search(head) or pattern.search(full_text)
         if match:
             meta.contract_number = match.group(1).strip().upper()
-            _record(meta, "contract_number", meta.contract_number, match.group(0), _page_of(full_text, match.group(0), document))
+            _record(
+                meta,
+                "contract_number",
+                meta.contract_number,
+                match.group(0),
+                _page_of(full_text, match.group(0), document),
+            )
             break
 
     # --- amendment / version
@@ -154,14 +165,26 @@ def extract_metadata(
         label = f"{amendment.group(1).title()} {amendment.group(2).upper()}"
         meta.amendment_label = label
         meta.amendment_number = _roman_or_int(amendment.group(2))
-        _record(meta, "amendment_label", label, amendment.group(0), _page_of(full_text, amendment.group(0), document))
+        _record(
+            meta,
+            "amendment_label",
+            label,
+            amendment.group(0),
+            _page_of(full_text, amendment.group(0), document),
+        )
     version_match = VERSION_RE.search(head)
     if version_match:
         try:
             meta.version = int(float(version_match.group(1)))
         except ValueError:
             meta.version = None
-        _record(meta, "version", meta.version, version_match.group(0), _page_of(full_text, version_match.group(0), document))
+        _record(
+            meta,
+            "version",
+            meta.version,
+            version_match.group(0),
+            _page_of(full_text, version_match.group(0), document),
+        )
 
     # --- parties
     parties = PARTIES_RE.search(head) or PARTIES_RE.search(full_text)
@@ -170,7 +193,13 @@ def extract_metadata(
         buyer = _clean_party(parties.group("buyer"))
         if supplier:
             meta.supplier_name = supplier
-            _record(meta, "supplier_name", supplier, parties.group(0), _page_of(full_text, parties.group(0), document))
+            _record(
+                meta,
+                "supplier_name",
+                supplier,
+                parties.group(0),
+                _page_of(full_text, parties.group(0), document),
+            )
         if buyer:
             meta.buyer_name = buyer
     if not meta.supplier_name:
@@ -202,13 +231,25 @@ def extract_metadata(
         parsed = _parse_date(effective.group(1))
         if parsed:
             meta.effective_date = parsed
-            _record(meta, "effective_date", parsed.isoformat(), effective.group(0), _page_of(full_text, effective.group(0), document))
+            _record(
+                meta,
+                "effective_date",
+                parsed.isoformat(),
+                effective.group(0),
+                _page_of(full_text, effective.group(0), document),
+            )
     expiry = EXPIRY_RE.search(head) or EXPIRY_RE.search(full_text)
     if expiry:
         parsed = _parse_date(expiry.group(1))
         if parsed:
             meta.expiry_date = parsed
-            _record(meta, "expiry_date", parsed.isoformat(), expiry.group(0), _page_of(full_text, expiry.group(0), document))
+            _record(
+                meta,
+                "expiry_date",
+                parsed.isoformat(),
+                expiry.group(0),
+                _page_of(full_text, expiry.group(0), document),
+            )
 
     # --- money
     currency = CURRENCY_RE.search(head)
@@ -224,7 +265,9 @@ def extract_metadata(
         amount = _parse_amount(total.group(1), total.group(2))
         if amount is not None:
             meta.total_value = amount
-            _record(meta, "total_value", amount, total.group(0), _page_of(full_text, total.group(0), document))
+            _record(
+                meta, "total_value", amount, total.group(0), _page_of(full_text, total.group(0), document)
+            )
 
     # --- document type
     meta.document_type = declared_type or _classify_type(
@@ -319,8 +362,30 @@ def _parse_date(raw: str) -> date | None:
 
 
 _STOPWORDS = {
-    "the", "and", "for", "with", "that", "this", "shall", "will", "from", "such", "have", "been",
-    "which", "under", "upon", "any", "all", "not", "are", "its", "may", "each", "other", "herein",
+    "the",
+    "and",
+    "for",
+    "with",
+    "that",
+    "this",
+    "shall",
+    "will",
+    "from",
+    "such",
+    "have",
+    "been",
+    "which",
+    "under",
+    "upon",
+    "any",
+    "all",
+    "not",
+    "are",
+    "its",
+    "may",
+    "each",
+    "other",
+    "herein",
 }
 
 

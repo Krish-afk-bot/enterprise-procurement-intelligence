@@ -13,8 +13,8 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 from sqlalchemy.pool import NullPool, StaticPool
 
 from app.config.settings import Settings, get_settings
-from app.db.base import Base
 from app.db import models as _models  # noqa: F401  (registers metadata)
+from app.db.base import Base
 
 _engine: AsyncEngine | None = None
 _session_factory: async_sessionmaker[AsyncSession] | None = None

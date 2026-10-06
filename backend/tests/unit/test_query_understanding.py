@@ -6,18 +6,15 @@ All vocabulary is constructed in-memory.
 
 from __future__ import annotations
 
-import pytest
-
 from app.retrieval.query_understanding import (
     Intent,
-    QueryPlan,
     TenantVocabulary,
     keyword_terms,
     understand_query_rule_based,
 )
 
-
 # ------------------------------------------------------------------ helpers
+
 
 def make_vocab(
     suppliers: list[tuple[str, str]] | None = None,
@@ -33,6 +30,7 @@ def make_vocab(
 
 
 # ------------------------------------------------------------------ keyword_terms
+
 
 class TestKeywordTerms:
     def test_empty_query_returns_empty(self) -> None:
@@ -70,6 +68,7 @@ class TestKeywordTerms:
 
 
 # ------------------------------------------------------------------ understand_query_rule_based
+
 
 class TestIntentDetection:
     def test_price_lookup_intent(self) -> None:
@@ -137,12 +136,8 @@ class TestEntityLinking:
         assert plan.supplier_ids == []
 
     def test_multiple_suppliers_linked(self) -> None:
-        vocab = make_vocab(
-            suppliers=[("sup_001", "Acme Corp"), ("sup_002", "Beta Industries")]
-        )
-        plan = understand_query_rule_based(
-            "Compare prices between Acme Corp and Beta Industries", vocab
-        )
+        vocab = make_vocab(suppliers=[("sup_001", "Acme Corp"), ("sup_002", "Beta Industries")])
+        plan = understand_query_rule_based("Compare prices between Acme Corp and Beta Industries", vocab)
         assert "sup_001" in plan.supplier_ids
         assert "sup_002" in plan.supplier_ids
 

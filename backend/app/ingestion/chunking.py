@@ -144,7 +144,10 @@ def chunk_document(
                 continue
             clause_label = next((line.clause for line in group if line.clause), None)
             for piece in _split_token_aware(
-                group_text, settings.chunk_target_tokens, settings.chunk_max_tokens, settings.chunk_overlap_tokens
+                group_text,
+                settings.chunk_target_tokens,
+                settings.chunk_max_tokens,
+                settings.chunk_overlap_tokens,
             ):
                 drafts.append(
                     ChunkDraft(
@@ -217,9 +220,7 @@ def _clause_groups(unit: _Unit) -> list[list[StructureLine]]:
     return groups
 
 
-def _split_token_aware(
-    text: str, target_tokens: int, max_tokens: int, overlap_tokens: int
-) -> list[str]:
+def _split_token_aware(text: str, target_tokens: int, max_tokens: int, overlap_tokens: int) -> list[str]:
     if count_tokens(text) <= max_tokens:
         return [text]
     sentences = split_sentences(text) or [text]
@@ -303,7 +304,11 @@ def _looks_like_list(text: str) -> bool:
     lines = [line for line in text.splitlines() if line.strip()]
     if len(lines) < 3:
         return False
-    bullets = sum(1 for line in lines if line.strip()[:2] in {"- ", "* ", "• "} or line.strip()[:3].rstrip(".").isdigit())
+    bullets = sum(
+        1
+        for line in lines
+        if line.strip()[:2] in {"- ", "* ", "• "} or line.strip()[:3].rstrip(".").isdigit()
+    )
     return bullets >= len(lines) * 0.6
 
 

@@ -1501,3 +1501,198 @@ reaches a reader who does not open a 3D view.
    They are stored, as designed, in the workspace's question history.
 2. Synthetic pointer sequences were driven over the Relationships canvas for frame-timing evidence. They
    changed nothing on disk.
+---
+
+# Verification Pass — Persistent 3D World Layer
+
+This section records a second, independent verification pass over the frontend redesign
+described in the brief *Final frontend redesign + 3D experience implementation*. It was
+performed after the first brief (*Frontend visual redesign — 3D + playful enterprise*) had
+already been implemented and reported.
+
+## Method
+
+The preview webview of this workspace never composites: it reports
+`document.visibilityState === "hidden"` permanently, requestAnimationFrame never ticks, and
+neither `document.hidden` nor `document.visibilityState` can be redefined inside it. No
+animation, frame-timing or trusted-input evidence can come from there.
+
+All behaviour below was therefore measured in **real headless Chrome** driven over the
+Chrome DevTools Protocol (`.freebuff/world-check.mjs`, a test tool that is not part of the
+application): `--headless=new`, a 1440x900 window, `Page.setWebLifecycleState("active")` so
+frames actually run, `Input.dispatchMouseEvent` / `Input.insertText` for trusted input,
+`Emulation.setCPUThrottlingRate` for the quality ladder, `Emulation.setEmulatedMedia` for
+reduced motion, and `Emulation.setDeviceMetricsOverride` for phone and tablet widths. The
+backend was the real local API (`uvicorn app.main:app` on 127.0.0.1:8000) over the real
+synthetic procurement corpus, and the frontend was the real Vite dev server.
+
+## Defects found in this pass and fixed
+
+Each of these was a regression introduced by the 3D work itself, and each was invisible to
+the DOM-only checks that had been run previously.
+
+### 1. The 3D canvas made the entire application unclickable
+
+`WorldCanvas` wraps its `<Canvas>` in a `pointer-events-none fixed inset-0 z-10` overlay,
+which is what keeps the world decorative. But `@react-three/fiber` writes
+`pointerEvents: "auto"` onto **its own** wrapper element
+(`react-three-fiber.esm.js`: `const pointerEvents = eventSource ? 'none' : 'auto'`), and a
+used value of `auto` on an intermediate element overrides the `none` inherited from the
+parent. The result was an invisible full-viewport surface above every page of the
+authenticated application.
+
+Measured before the fix, at the centre of the **Run query** button on `/ask`:
+`document.elementFromPoint(610, 442)` returned `CANVAS`, and a trusted click there produced
+`pointerdown:CANVAS`, `mousedown:CANVAS`, `click:CANVAS` — no form submit, no request. The
+canvas covered the whole viewport, band included (viewport `1422x804`; overlay rect
+`1422x804`; band at `y 77..207`).
+
+Fix: pass `style={{ pointerEvents: "none" }}` to `<Canvas>`. r3f spreads a caller's `style`
+after its own defaults, so this is the way to keep the render surface non-interactive. Bands
+and scenes receive input through their own DOM elements and through r3f's `events.connect`
+hand-off (`EventBridge`), never through the canvas.
+
+Measured after the fix, same point: `elementFromPoint` returns the `BUTTON`; the click
+produces `pointerdown:BUTTON`, `mousedown:BUTTON`, `click:BUTTON`, `submit:FORM`; the button
+label flips to "Running"; and the backend logs `POST /api/v1/conversations` 200 followed by
+`POST /api/v1/query/stream` 200.
+
+### 2. The Courier never walked
+
+`Courier` starts at `w.x = -halfSpan` and turns when it reaches a bound, but the bound test
+checked **both** ends regardless of the direction of travel:
+
+```
+if (w.x > halfSpan - 45) { w.dir = -1; w.pause = PAUSE_SECONDS; }
+else if (w.x < -halfSpan + 45) { w.dir = 1; w.pause = PAUSE_SECONDS; }
+```
+
+The spawn point sits inside the left margin (`-halfSpan < -halfSpan + 45`), so on the first
+step out of every pause the second branch fired immediately: the courier reversed and paused
+for another 2.4 s. It advanced exactly one frame (0.2 px) per pause cycle, about 0.1 px/s
+instead of 33.4 px/s, and effectively stood at the left edge for the whole session.
+
+Measured before the fix, sampling the published position every 250 ms for 5.85 s: total
+travel **0.6 px**, while its suitcase tag's screen position did not change at all
+(`tagLeft` constant at 311 across 24 samples). Instrumentation confirmed a single courier
+instance whose `pause` counter reset to 2.4 s each time it reached zero.
+
+Fix: turn only at the far end of the direction being walked
+(`w.dir === 1 ? w.x > halfSpan - 45 : w.x < -halfSpan + 45`).
+
+Measured after the fix: **195.9 px in 5.85 s, i.e. 33.4 px/s**, matching the designed
+`(halfSpan * 2 - 90) / 28` — one crossing in 28 s, inside the brief's 20-40 s loop — and its
+suitcase tag travelled 196 px with it, with its DOM node identity stable throughout.
+
+### 3. The adaptive quality ladder could never fire
+
+`FrameMeter` accumulates the `delta` that r3f passes to `useFrame`, which is in **seconds**,
+and compared the rolling average directly against `FRAME_BUDGET_MS = 22` and
+`FRAME_RECOVER_MS = 12`, which are milliseconds. The budget was therefore 22 *seconds* long:
+no frame any machine can draw could miss it, so the downgrade branch was unreachable. The
+recovery comparison was the mirror image — always true — but a no-op at the top tier, so the
+defect produced no visible symptom.
+
+Measured before the fix, under `Emulation.setCPUThrottlingRate(12)` for 16 s: median frame
+interval **42-54 ms** against the 22 ms budget, the tier stayed `high` for all 16 samples,
+and instrumented averages read 28.7 ms while `overSince` was never set.
+
+Fix: convert once (`averageMs = (s.sum / s.frames) * 1000`) and compare in one unit. The
+recovery floor was also made reachable on an ordinary display: headroom is now
+`max(FRAME_RECOVER_MS, fastestFrameMs * 1.4)`, because a vsync-locked 60 Hz screen never
+reports a frame below 16.7 ms and a fixed 12 ms floor made recovery impossible there. It
+still requires `averageMs <= FRAME_BUDGET_MS`, so a machine that is genuinely too slow
+cannot promote itself.
+
+Measured after the fix, under the same throttling: `high` (paper 21 sheets) to `medium` after
+about 2.5 s (paper **11** = `OBJECT_BUDGET.medium.paper 14 x 0.8`) to `low` (**6** = `7 x 0.8`)
+to `static` (**0 canvases, 3 SVG elements** in the band, frame interval back to 6.1 ms). The
+scene object counts are GL-side reads independent of React state, so the ladder is confirmed
+by what was actually drawn, not only by a store value.
+
+## Measurements from this pass
+
+| Quantity | Value | How it was measured |
+| --- | --- | --- |
+| WebGL canvases in the authenticated app | **1** | `document.querySelectorAll('canvas')` on `/ask`, on every route, and in the no-WebGL run (0) |
+| Canvas persists across routes | **yes, same DOM node** | `sameCanvasNode: true` for all 10 authenticated routes |
+| Canvas size / backing store | 1422x804 CSS, 1422x804 backing, dpr 1 | canvas rect vs `canvas.width/height` on this dpr-1 host |
+| WebGL context | WebGL 2.0 (OpenGL ES 3.0 Chromium) | context `VERSION` parameter |
+| WebGL layer init | canvas inserted 431 ms after `responseEnd` (band DOM at 222 ms) | `MutationObserver` installed with `Page.addScriptToEvaluateOnNewDocument` |
+| Frame time / FPS | avg **6.07 ms**, median 6.1 ms, p95 6.3 ms, **~165 fps** | 180 rAF intervals |
+| Draw calls / clears | 4794.7 draws/s, 165.3 clears/s | patched `WebGL2RenderingContext.prototype` counters |
+| Scene inventory | 1 scene, 27 meshes, 1 `InstancedMesh` with **21 instances** | scene-graph walk captured on `Object3D.prototype.updateMatrixWorld` |
+| Cursor tracking latency | **90.1 ms** from trusted pointer event to the first frame with the pupil moved >1 px | pupil world x sampled per frame |
+| Pupil travel | x -1.956 -> +4.076 (6.032 units) between two screen corners | trusted `Input.dispatchMouseEvent` |
+| Blink cadence | min lid openness 0.099, 3 low-lid frames in 120 samples over 10 s | per-frame eye-scale samples |
+| Idle doze | lid openness 0.06 after 40 s without movement | forced `lastMove`, then sampled |
+| Keyboard focus gaze | pupil x 0.329 toward a focused control at normalised x 0.08 | focusin, then per-frame pupil sample |
+| Courier walk | 33.4 px/s, one crossing in 28 s | published position sampled 24 times over 5.85 s |
+| Courier click | stops (0 px during the pause), hat tips -49 deg, authored line shown | trusted click plus a 60 ms hat-rotation sampler |
+| Watcher click | authored deadpan line in `[role=status]`, `isAuthoredLine: true` | trusted click |
+| Paper flow | 21 instances, distinct lanes, all moving | `getMatrixAt` on the `InstancedMesh` before and after |
+| Band pixels | 742-777 distinct colours at 1x, 10.9 % ink over the paper background, 0.6-0.8 % warm accents, 0.8-0.9 % navy ink; **9.7 % of pixels changed** between two crops 1.2 s apart | `Page.captureScreenshot` crops analysed with numpy/PIL |
+| Reduced motion | courier 0 px, pupil x 0, paper 0 px, head rotZ 0 | emulated `prefers-reduced-motion: reduce` |
+| Mobile 390x844 | 0 canvases, **3 SVG elements**, band 64 px, overflow 0 | `setDeviceMetricsOverride` |
+| Tablet 1024x768 | 1 canvas, band 80 px, canvas dpr 1.5, overflow 0 | as above |
+| Desktop 1440x900 | 1 canvas, band 96 px, dpr 1, overflow 0 | as above |
+| Settings persistence | `epi-world` holds only `reduceEffects` and `hideBuddy`; after a real reload `aria-pressed` still reads `Hide buddy=true` | localStorage read, reload, aria read |
+| No-WebGL run | 0 canvases, 3 SVG elements, real per-route suitcase labels, **0 console errors across 10 routes** | `--disable-webgl --disable-webgl2 --disable-3d-apis` |
+| Accessibility tree | both controls exposed as `button`; **0 nodes with the canvas role**; 2 `image` nodes (the scene regions) | `Accessibility.getFullAXTree` |
+| Initial bundle delta | **+4 878 B gzip** (146 812 -> 151 690 B), `gzip -9` on the entry chunk | two builds: with the world layer, and with its mount point and state bridge removed (restoring reproduced the identical entry hash) |
+| Lazy 3D band chunk | `BandRegion-*.js` 14 411 B raw / **4 772 B gzip** | build output |
+| three.js chunk | `palette-*.js` 858 078 B raw / 231 153 B gzip; absent from the baseline build entirely | build output; `WebGLRenderer` appears 0 times in the entry chunk |
+| `npx tsc --noEmit` | **exit 0** | run after every source change |
+
+## Status of the brief's acceptance criteria
+
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| One persistent WebGL canvas | **VERIFIED** | exactly 1 canvas on every authenticated route, the same DOM node across all 10 |
+| Scenes mount and unmount inside the shared renderer | **VERIFIED** | canvas node identity is unchanged as the band scene and the page scenes swap; route scenes are drei `View` regions scissored into that one framebuffer |
+| Global Watcher: cursor tracking, blinks, idle doze, keyboard gaze | **VERIFIED** | 90.1 ms latency, 6.03 units of pupil travel, blinks inside a 10 s window, doze at 40 s, gaze on focus |
+| Watcher reacts to real states | **VERIFIED** | driven through the real UI and the real pipeline: a `supported` answer moved brow 14.5 -> 17.9 and eye scale 0.95 -> 1.0; an `insufficient_evidence` refusal moved brow 14.5 -> 13.82 and eye scale 0.95 -> 0.46 |
+| Courier with suitcase, 20-40 s loop | **VERIFIED after fix** | 33.4 px/s, 28 s crossing, suitcase label is a real collection per route |
+| Courier click reaction | **VERIFIED** | stops, hat tips -49 deg, authored line shown |
+| Instanced paper flow on curved paths | **VERIFIED** | 1 `InstancedMesh`, 21 instances, lanes differ, all moving |
+| Route-aware scene registry | **VERIFIED** | per-route suitcase labels: Prices, Documents, Contracts, Suppliers, Evidence |
+| Adaptive quality with downgrade | **VERIFIED after fix** | high -> medium -> low -> static under a 12x CPU throttle, confirmed by GL-side sheet counts and by the SVG fallback appearing |
+| Pause when `document.visibilityState === "hidden"` | **NOT VERIFIED** | the lifecycle control used here keeps the page active, and the preview webview is permanently hidden so it cannot exercise the transition either. The code path exists (`useVisibility` -> `frameloop: "never"`), but no measurement was obtained. |
+| Invalidate-on-demand when calm | **NOT VERIFIED** | same reason |
+| Reduce effects / Hide buddy, persisted | **VERIFIED** | both controls act, both persist in `epi-world`, both survive a reload |
+| Reduced motion | **VERIFIED** | courier, pupils, paper and head rotation all stop |
+| No-WebGL fallback | **VERIFIED** | 0 canvases, 3 SVG elements, correct labels, 0 console errors on 10 routes |
+| Mobile and tablet behaviour | **VERIFIED** | 390 px: written band, 64 px, no canvas; 1024 px: canvas, 80 px; 1440 px: canvas, 96 px; no horizontal overflow at any width |
+| Accessibility | **PARTIAL** | the canvas is `aria-hidden` and absent from the accessibility tree, the two controls are buttons with pressed states, and the band has a text alternative; but the characters can only be poked with a pointer |
+| Initial bundle delta within about 10 KB gzip | **VERIFIED** | +4 878 B gzip |
+| No fabricated data | **VERIFIED** | every label, count and mood comes from the API or from what the page is really doing; the world introduces no numbers of its own |
+
+## Known limitations recorded in this pass
+
+1. **`static` is terminal for the session.** At `static` the canvas unmounts, so the frame
+   meter that would measure recovery unmounts with it; a machine that reaches `static` keeps
+   the written band until it reloads. This matches the documented intent ("the last step"),
+   but the recovery branch cannot run from there.
+2. **`/ask` has no `h1`.** The route-table sweep recorded an empty heading for `/ask`.
+   Pre-existing, not introduced here, and not fixed in this pass.
+3. **The characters have no keyboard path.** Poking the Watcher or the Courier is a
+   pointer-only affordance. They are decorative and `aria-hidden`, and every fact they hint
+   at is on the page, but a keyboard user cannot poke them.
+4. **`npm run lint` still cannot run** — eslint is not installed in `frontend/`.
+5. **No automated test suite exists.** Everything above is harness-driven browser
+   verification against the running application, not a repeatable test job in CI.
+6. **Live LLM/VLM and the Docker production adapters remain unverified** in this environment
+   (`capabilities.llm_generation: false`; generation mode is extractive, so every answer
+   reproduced above was composed from cited passages rather than written by a model).
+
+## Side effects of this verification pass
+
+1. The Ask verification created real conversations in the workspace's question history
+   ("What is the current unit price for the Industrial Laptop X200?", "What was Supplier C's
+   price in 2030?", "What is the orbital launch price for a lunar rover engine?"). They are
+   stored by the API, as the application is designed to do.
+2. No synthetic procurement records were created. No supplier, contract, price, certificate
+   or document was written by this pass.
+3. The quality ladder was exercised by throttling the *browser*, not by changing a persisted
+   setting; the stored settings were left at their defaults (`reduceEffects: false`,
+   `hideBuddy: false`).

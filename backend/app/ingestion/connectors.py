@@ -18,7 +18,7 @@ import csv
 import io
 from collections.abc import AsyncIterator, Sequence
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from typing import Any, Protocol, runtime_checkable
 
 from sqlalchemy import select
@@ -249,7 +249,7 @@ class ProcurementDataImporter:
             source_url=result.source_url,
             license=result.license,
             original_id=record.original_id,
-            retrieved_at=datetime.now(timezone.utc),
+            retrieved_at=datetime.now(UTC),
         )
         self.session.add(row)
         result.records_imported += 1

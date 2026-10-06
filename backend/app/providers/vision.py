@@ -120,7 +120,9 @@ class OpenAICompatibleVisionProvider:
                 model=self.model,
             )
         except Exception as exc:  # noqa: BLE001
-            return ProviderStatus.of("vision", self.name, False, detail=f"unreachable: {type(exc).__name__}", model=self.model)
+            return ProviderStatus.of(
+                "vision", self.name, False, detail=f"unreachable: {type(exc).__name__}", model=self.model
+            )
 
     async def aclose(self) -> None:
         if self._client is not None:

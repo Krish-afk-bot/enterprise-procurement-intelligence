@@ -147,6 +147,8 @@ class S3Storage:
     async def status(self) -> ProviderStatus:
         try:
             await asyncio.to_thread(self._ensure_bucket)
-            return ProviderStatus.of("storage", self.name, True, detail=f"bucket '{self.bucket}' at {self.endpoint}")
+            return ProviderStatus.of(
+                "storage", self.name, True, detail=f"bucket '{self.bucket}' at {self.endpoint}"
+            )
         except Exception as exc:  # noqa: BLE001
             return ProviderStatus.of("storage", self.name, False, detail=f"unreachable: {type(exc).__name__}")

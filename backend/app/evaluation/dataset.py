@@ -61,7 +61,9 @@ class GoldenDataset:
     def categories(self) -> list[str]:
         return sorted({question.category for question in self.questions})
 
-    def filtered(self, *, categories: list[str] | None = None, limit: int | None = None) -> list[GoldenQuestion]:
+    def filtered(
+        self, *, categories: list[str] | None = None, limit: int | None = None
+    ) -> list[GoldenQuestion]:
         questions = self.questions
         if categories:
             wanted = {category.lower() for category in categories}

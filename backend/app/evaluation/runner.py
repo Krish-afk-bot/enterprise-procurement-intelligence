@@ -19,10 +19,8 @@ allowed*, so the comparison is an ablation of the pipeline itself:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
-
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.pipeline import AnswerPipeline
 from app.config.container import Container
@@ -34,6 +32,7 @@ from app.evaluation.dataset import GoldenQuestion, load_golden_dataset
 from app.evaluation.metrics import (
     aggregate,
     answer_keywords,
+    answered_expected,
     citation_validity,
     ndcg_at_k,
     page_coverage,
@@ -42,7 +41,6 @@ from app.evaluation.metrics import (
     reciprocal_rank,
     refusal_correct,
     word_overlap,
-    answered_expected,
 )
 from app.observability.logging import get_logger
 from app.security.rbac import Principal
@@ -200,7 +198,7 @@ class EvaluationRunner:
         name: str | None = None,
     ) -> dict[str, Any]:
         runnable, reason = experiment.availability(self.settings)
-        started = datetime.now(timezone.utc)
+        started = datetime.now(UTC)
         async with session_scope() as session:
             run = EvaluationRun(
                 tenant_id=principal.tenant_id,
@@ -249,7 +247,7 @@ class EvaluationRunner:
             if run is not None:
                 run.status = "completed"
                 run.summary = summary
-                run.finished_at = datetime.now(timezone.utc)
+                run.finished_at = datetime.now(UTC)
         return await self._payload(run_id, principal)
 
     # ----------------------------------------------------------------- internals

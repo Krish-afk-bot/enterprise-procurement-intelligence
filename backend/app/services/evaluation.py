@@ -15,7 +15,9 @@ from app.security.rbac import Principal
 def _run_payload(run: EvaluationRun, *, metric_keys: list[str] | None = None) -> dict[str, Any]:
     summary = run.summary or {}
     metrics: list[dict[str, Any]] = []
-    for key in metric_keys or sorted(key for key, value in summary.items() if isinstance(value, (int, float))):
+    for key in metric_keys or sorted(
+        key for key, value in summary.items() if isinstance(value, (int, float))
+    ):
         value = summary.get(key)
         if value is None or key.endswith("_n"):
             continue
@@ -133,9 +135,7 @@ async def delete_run(session: AsyncSession, principal: Principal, run_id: str) -
     await session.delete(run)
 
 
-async def compare_runs(
-    session: AsyncSession, principal: Principal, run_ids: list[str]
-) -> dict[str, Any]:
+async def compare_runs(session: AsyncSession, principal: Principal, run_ids: list[str]) -> dict[str, Any]:
     """Metric-by-metric comparison across stored runs (no recomputation)."""
     runs = []
     for run_id in run_ids:

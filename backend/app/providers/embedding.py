@@ -44,7 +44,9 @@ class SentenceTransformerEmbeddingProvider:
 
     name = "sentence_transformers"
 
-    def __init__(self, model_name: str, *, device: str = "auto", batch_size: int = 16, allow_download: bool = True) -> None:
+    def __init__(
+        self, model_name: str, *, device: str = "auto", batch_size: int = 16, allow_download: bool = True
+    ) -> None:
         self.model_name = model_name
         self.device = _device(device)
         self.batch_size = batch_size
@@ -68,12 +70,16 @@ class SentenceTransformerEmbeddingProvider:
                 self._model = await asyncio.to_thread(self._load_model)
                 dim_fn = getattr(self._model, "get_sentence_embedding_dimension", None)
                 self._dimension = int(dim_fn()) if dim_fn else len(self._model.encode(["x"])[0])
-                logger.info("embedding_model_loaded", model=self.model_name, device=self.device, dim=self._dimension)
+                logger.info(
+                    "embedding_model_loaded", model=self.model_name, device=self.device, dim=self._dimension
+                )
             except Exception as exc:  # noqa: BLE001
                 self._load_error = f"{type(exc).__name__}: {exc}"
                 self._model = None
                 raise UnavailableProviderError(
-                    "embedding", self.name, f"model '{self.model_name}' could not be loaded: {self._load_error}"
+                    "embedding",
+                    self.name,
+                    f"model '{self.model_name}' could not be loaded: {self._load_error}",
                 ) from exc
         return self._dimension
 
@@ -181,7 +187,9 @@ class HashingEmbeddingProvider:
 class CachedEmbeddingProvider:
     """Wraps an embedding provider with an in-process LRU-free memo cache."""
 
-    def __init__(self, inner: SentenceTransformerEmbeddingProvider | HashingEmbeddingProvider, max_entries: int = 4096) -> None:
+    def __init__(
+        self, inner: SentenceTransformerEmbeddingProvider | HashingEmbeddingProvider, max_entries: int = 4096
+    ) -> None:
         self._inner = inner
         self._cache: dict[str, list[float]] = {}
         self._max = max_entries

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from app.config.container import Container, get_container
 from app.config.settings import Settings, get_settings
@@ -39,7 +39,10 @@ class IngestionWorker:
         if self._tasks:
             return
         self._stopping.clear()
-        self._tasks = [asyncio.create_task(self._loop(index), name=f"ingestion-worker-{index}") for index in range(self.concurrency)]
+        self._tasks = [
+            asyncio.create_task(self._loop(index), name=f"ingestion-worker-{index}")
+            for index in range(self.concurrency)
+        ]
         logger.info("ingestion_worker_started", concurrency=self.concurrency)
 
     async def stop(self) -> None:
@@ -94,7 +97,7 @@ class IngestionWorker:
             if job is None:
                 return
             document_id = job.document_id
-            tenant_id = job.tenant_id
+            _tenant_id = job.tenant_id  # noqa: F841 — retained for future structured logging
         logger.info("ingestion_job_started", job_id=job_id, document_id=document_id)
 
         async def progress(stage: str, fraction: float) -> None:
@@ -108,9 +111,7 @@ class IngestionWorker:
                     document.stage = stage
                     document.progress = fraction
 
-        outcome = await self._pipeline.process_document(
-            document_id, progress=progress, rebuild_graph=True
-        )
+        outcome = await self._pipeline.process_document(document_id, progress=progress, rebuild_graph=True)
         async with session_scope() as session:
             job = await session.get(IngestionJob, job_id)
             if job is not None:
@@ -126,7 +127,9 @@ class IngestionWorker:
                 )
         if outcome.status in {"indexed", "needs_review"}:
             self.processed += 1
-            logger.info("ingestion_job_succeeded", job_id=job_id, document_id=document_id, status=outcome.status)
+            logger.info(
+                "ingestion_job_succeeded", job_id=job_id, document_id=document_id, status=outcome.status
+            )
         else:
             self.failed += 1
             logger.error("ingestion_job_failed", job_id=job_id, document_id=document_id, error=outcome.error)
@@ -153,7 +156,7 @@ class IngestionWorker:
             "processed": self.processed,
             "failed": self.failed,
             "queued_by_status": counts,
-            "checked_at": datetime.now(timezone.utc).isoformat(),
+            "checked_at": datetime.now(UTC).isoformat(),
         }
 
 

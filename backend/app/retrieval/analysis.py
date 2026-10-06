@@ -115,7 +115,9 @@ async def fetch_price_facts(
     limit: int = 500,
 ) -> list[PriceFact]:
     statement = (
-        select(Price, Supplier.name, Contract.contract_number, Product.name, Document.title, Document.filename)
+        select(
+            Price, Supplier.name, Contract.contract_number, Product.name, Document.title, Document.filename
+        )
         .outerjoin(Supplier, Price.supplier_id == Supplier.id)
         .outerjoin(Contract, Price.contract_id == Contract.id)
         .outerjoin(Product, Price.product_id == Product.id)
@@ -211,7 +213,7 @@ def detect_price_conflicts(facts: list[PriceFact], *, as_of: date | None = None)
         grouped.setdefault((fact.supplier_id, fact.product_id), []).append(fact)
 
     conflicts: list[Conflict] = []
-    for (supplier_id, product_id), group in grouped.items():
+    for (_supplier_id, _product_id), group in grouped.items():
         distinct_prices = {round(fact.unit_price, 4) for fact in group}
         if len(distinct_prices) < 2:
             continue

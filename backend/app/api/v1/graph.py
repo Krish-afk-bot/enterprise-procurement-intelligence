@@ -8,10 +8,9 @@ rather than returning an empty picture.
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Query
 
 from app.api.deps import ContainerDep, PrincipalDep
-from app.schemas.common import Page
 from app.security.rbac import PERM_GRAPH_READ, Principal
 
 router = APIRouter(tags=["graph"], prefix="/graph")
@@ -67,9 +66,7 @@ async def find_nodes(
     )
     return {
         "label": label,
-        "items": [
-            {"label": node.label, "key": node.key, "properties": node.properties} for node in nodes
-        ],
+        "items": [{"label": node.label, "key": node.key, "properties": node.properties} for node in nodes],
         "total": len(nodes),
     }
 
@@ -117,7 +114,10 @@ async def paths(
     edges = await container.graph.traverse(
         label, key, max_hops=min(max(max_hops, 1), 4), tenant_id=principal.tenant_id
     )
-    nodes = sorted({(edge.start_label, edge.start_key) for edge in edges} | {(edge.end_label, edge.end_key) for edge in edges})
+    nodes = sorted(
+        {(edge.start_label, edge.start_key) for edge in edges}
+        | {(edge.end_label, edge.end_key) for edge in edges}
+    )
     return {
         "root": {"label": label, "key": key},
         "hops": min(max(max_hops, 1), 4),

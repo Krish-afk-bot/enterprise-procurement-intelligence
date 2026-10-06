@@ -5,8 +5,6 @@ These tests have no I/O, no database, and no model dependencies.
 
 from __future__ import annotations
 
-import pytest
-
 from app.ingestion.tokens import count_tokens, split_sentences, truncate_to_tokens
 
 

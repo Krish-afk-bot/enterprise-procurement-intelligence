@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -25,7 +25,7 @@ async def create_job(
         document_id=document_id,
         status="queued",
         stage="queued",
-        queued_at=datetime.now(timezone.utc),
+        queued_at=datetime.now(UTC),
         max_attempts=max_attempts,
     )
     session.add(job)
@@ -46,7 +46,7 @@ async def claim_next_job(session: AsyncSession) -> IngestionJob | None:
     if job is None:
         return None
     job.status = "running"
-    job.started_at = datetime.now(timezone.utc)
+    job.started_at = datetime.now(UTC)
     job.attempts += 1
     job.stage = "starting"
     await session.flush()
@@ -74,7 +74,7 @@ async def mark_job(
     if metrics:
         job.metrics = {**(job.metrics or {}), **metrics}
     if status in {"succeeded", "failed", "cancelled"}:
-        job.finished_at = datetime.now(timezone.utc)
+        job.finished_at = datetime.now(UTC)
     await session.flush()
 
 
@@ -92,7 +92,7 @@ async def requeue_stuck_jobs(session: AsyncSession, *, older_than_seconds: int =
     """Return jobs orphaned by a crash to the queue (bounded by max_attempts)."""
     from datetime import timedelta
 
-    cutoff = datetime.now(timezone.utc) - timedelta(seconds=older_than_seconds)
+    cutoff = datetime.now(UTC) - timedelta(seconds=older_than_seconds)
     jobs = list(
         (
             await session.execute(
@@ -106,7 +106,7 @@ async def requeue_stuck_jobs(session: AsyncSession, *, older_than_seconds: int =
             job.status = "failed"
             job.stage = "abandoned"
             job.error_message = "Job exceeded its attempt limit after a worker restart."
-            job.finished_at = datetime.now(timezone.utc)
+            job.finished_at = datetime.now(UTC)
             document = await session.get(Document, job.document_id)
             if document is not None:
                 document.status = "failed"

@@ -7,7 +7,7 @@ PostgreSQL metadata and the ingestion job that turns a file into evidence.
 from __future__ import annotations
 
 from collections.abc import Sequence
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from typing import Any
 
 from sqlalchemy import func, select
@@ -41,7 +41,7 @@ from app.schemas.documents import (
     TableOut,
     UploadSettings,
 )
-from app.security.rbac import Principal, PERM_DOCUMENTS_DELETE, PERM_DOCUMENTS_WRITE
+from app.security.rbac import PERM_DOCUMENTS_DELETE, PERM_DOCUMENTS_WRITE, Principal
 
 logger = get_logger(__name__)
 
@@ -116,7 +116,7 @@ async def store_upload(
         source_url=payload.source_url,
         license=payload.license,
         original_id=payload.original_id,
-        retrieved_at=datetime.now(timezone.utc) if payload.source_url else None,
+        retrieved_at=datetime.now(UTC) if payload.source_url else None,
     )
     session.add(document)
     await session.flush()
@@ -176,11 +176,11 @@ async def list_documents(
         conditions.append(Document.is_synthetic.is_(False))
     if search:
         needle = f"%{search.lower()}%"
-        conditions.append(func.lower(Document.title).like(needle) | func.lower(Document.filename).like(needle))
+        conditions.append(
+            func.lower(Document.title).like(needle) | func.lower(Document.filename).like(needle)
+        )
 
-    total = (
-        await session.execute(select(func.count(Document.id)).where(*conditions))
-    ).scalar_one()
+    total = (await session.execute(select(func.count(Document.id)).where(*conditions))).scalar_one()
     rows = (
         await session.execute(
             select(Document)
@@ -316,7 +316,11 @@ async def document_chunks(
     total = (await session.execute(select(func.count(Chunk.id)).where(*conditions))).scalar_one()
     rows = (
         await session.execute(
-            select(Chunk).where(*conditions).order_by(Chunk.chunk_index, Chunk.page_number).limit(limit).offset(offset)
+            select(Chunk)
+            .where(*conditions)
+            .order_by(Chunk.chunk_index, Chunk.page_number)
+            .limit(limit)
+            .offset(offset)
         )
     ).scalars()
     return [ChunkOut.model_validate(row) for row in rows], int(total or 0)
@@ -407,9 +411,7 @@ async def delete_document(
     await session.delete(document)
 
 
-async def requeue_document(
-    session: AsyncSession, principal: Principal, document_id: str
-) -> IngestionJob:
+async def requeue_document(session: AsyncSession, principal: Principal, document_id: str) -> IngestionJob:
     document = await get_document(session, principal, document_id)
     principal.require(PERM_DOCUMENTS_WRITE)
     document.status = "queued"
@@ -565,7 +567,7 @@ async def update_document(
     history = list(document.extraction_metadata.get("metadata_edits") or [])
     history.append(
         {
-            "at": datetime.now(timezone.utc).isoformat(),
+            "at": datetime.now(UTC).isoformat(),
             "by": principal.user_id,
             "fields": sorted(changed),
         }
@@ -619,9 +621,7 @@ async def document_versions(
         successor = await session.get(Document, latest.superseded_by_id)
         if successor is None:
             break
-        if successor.tenant_id != principal.tenant_id or not principal.can_read_level(
-            successor.access_level
-        ):
+        if successor.tenant_id != principal.tenant_id or not principal.can_read_level(successor.access_level):
             break
         seen.add(successor.id)
         chain.append(successor)

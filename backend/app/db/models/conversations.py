@@ -75,9 +75,7 @@ class AnswerRecord(Base, TenantScopedMixin, TimestampMixin):
     verification: Mapped[dict[str, Any]] = mapped_column(default=dict, nullable=False)
     retrieval_plan: Mapped[dict[str, Any]] = mapped_column(default=dict, nullable=False)
 
-    citations: Mapped[list[Citation]] = relationship(
-        back_populates="answer", cascade="all, delete-orphan"
-    )
+    citations: Mapped[list[Citation]] = relationship(back_populates="answer", cascade="all, delete-orphan")
 
 
 class Citation(Base, TenantScopedMixin, TimestampMixin):

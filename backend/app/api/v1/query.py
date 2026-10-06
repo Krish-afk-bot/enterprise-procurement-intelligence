@@ -23,16 +23,16 @@ from app.db.models import Conversation, Message
 from app.db.session import get_db
 from app.retrieval.query_understanding import document_type_inventory
 from app.retrieval.retriever import HybridRetriever
+from app.schemas.common import Page
 from app.schemas.query import (
     AnswerOut,
     ConversationOut,
     QueryRequest,
+    SearchHitOut,
     SearchRequest,
     SearchResponse,
-    SearchHitOut,
     retrieval_filter_payload,
 )
-from app.schemas.common import Page
 from app.security import audit
 from app.security.rbac import PERM_QUERY, Principal
 
@@ -109,7 +109,9 @@ async def ask_stream(
     )
 
 
-@router.post("/search", response_model=SearchResponse, summary="Retrieve evidence without generating an answer")
+@router.post(
+    "/search", response_model=SearchResponse, summary="Retrieve evidence without generating an answer"
+)
 async def search(
     payload: SearchRequest,
     session: AsyncSession = Depends(get_db),
@@ -120,7 +122,9 @@ async def search(
     principal.require(PERM_QUERY)
     from app.retrieval.query_understanding import understand_query
 
-    plan = await understand_query(payload.query, session=session, tenant_id=principal.tenant_id, router=None, use_llm=False)
+    plan = await understand_query(
+        payload.query, session=session, tenant_id=principal.tenant_id, router=None, use_llm=False
+    )
     retriever = HybridRetriever(container, settings)
     result = await retriever.retrieve(
         session,
@@ -184,7 +188,9 @@ async def filter_options(
     vocabulary = await load_vocabulary(session, principal.tenant_id)
     return {
         "suppliers": [{"id": supplier_id, "name": name} for supplier_id, name in vocabulary.suppliers],
-        "products": [{"id": product_id, "name": name, "sku": sku} for product_id, name, sku in vocabulary.products],
+        "products": [
+            {"id": product_id, "name": name, "sku": sku} for product_id, name, sku in vocabulary.products
+        ],
         "contracts": [{"id": contract_id, "number": number} for contract_id, number in vocabulary.contracts],
         "regions": vocabulary.regions,
         "categories": vocabulary.categories,
@@ -211,14 +217,10 @@ async def list_conversations(
     )
     total = await session.scalar(select(func.count()).select_from(statement.subquery())) or 0
     rows = (
-        await session.execute(
-            statement.order_by(Conversation.updated_at.desc()).offset(offset).limit(limit)
-        )
+        await session.execute(statement.order_by(Conversation.updated_at.desc()).offset(offset).limit(limit))
     ).scalars()
     items = [
-        ConversationOut(
-            id=row.id, title=row.title, summary=row.summary, message_count=row.message_count or 0
-        )
+        ConversationOut(id=row.id, title=row.title, summary=row.summary, message_count=row.message_count or 0)
         for row in rows
     ]
     return Page[ConversationOut](
@@ -240,9 +242,7 @@ async def create_conversation(
     )
     session.add(conversation)
     await session.flush()
-    return ConversationOut(
-        id=conversation.id, title=conversation.title, summary=None, message_count=0
-    )
+    return ConversationOut(id=conversation.id, title=conversation.title, summary=None, message_count=0)
 
 
 @router.get(
@@ -263,7 +263,9 @@ async def conversation_messages(
         raise NotFoundError("Conversation not found.", details={"conversation_id": conversation_id})
     statement = select(Message).where(Message.conversation_id == conversation_id)
     total = await session.scalar(select(func.count()).select_from(statement.subquery())) or 0
-    rows = (await session.execute(statement.order_by(Message.created_at).offset(offset).limit(limit))).scalars()
+    rows = (
+        await session.execute(statement.order_by(Message.created_at).offset(offset).limit(limit))
+    ).scalars()
     items = [
         {
             "id": row.id,

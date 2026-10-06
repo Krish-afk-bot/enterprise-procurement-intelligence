@@ -54,7 +54,9 @@ def parse_docx(content: bytes, *, filename: str = "") -> ParsedDocument:
             current = []
         if text:
             current.append(
-                TextBlock(text=text, order=order, kind="heading" if is_heading else "paragraph", bold=is_heading)
+                TextBlock(
+                    text=text, order=order, kind="heading" if is_heading else "paragraph", bold=is_heading
+                )
             )
             order += 1
     if current or not pages:
@@ -85,8 +87,12 @@ def parse_docx(content: bytes, *, filename: str = "") -> ParsedDocument:
             "parser": "python-docx",
             "core_properties": {
                 "author": document.core_properties.author,
-                "created": str(document.core_properties.created) if document.core_properties.created else None,
-                "modified": str(document.core_properties.modified) if document.core_properties.modified else None,
+                "created": str(document.core_properties.created)
+                if document.core_properties.created
+                else None,
+                "modified": str(document.core_properties.modified)
+                if document.core_properties.modified
+                else None,
                 "title": document.core_properties.title,
             },
         },
@@ -133,9 +139,7 @@ def parse_xlsx(content: bytes, *, filename: str = "") -> ParsedDocument:
             for row_index, row in enumerate(rows):
                 # Row text is captured by the sheet's table object; marking the
                 # blocks as table cells prevents duplicate paragraph chunks.
-                blocks.append(
-                    TextBlock(text=" | ".join(row), order=row_index + 1, kind="table_cell")
-                )
+                blocks.append(TextBlock(text=" | ".join(row), order=row_index + 1, kind="table_cell"))
             pages.append(
                 ParsedPage(
                     page_number=index + 1,

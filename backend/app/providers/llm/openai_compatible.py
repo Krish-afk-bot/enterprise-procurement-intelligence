@@ -140,7 +140,9 @@ class OpenAICompatibleProvider:
             response_format=response_format,
         )
         client = self._get_client()
-        response = await client.post(self._endpoint("chat/completions"), json=payload, headers=self._headers())
+        response = await client.post(
+            self._endpoint("chat/completions"), json=payload, headers=self._headers()
+        )
         response.raise_for_status()
         body = response.json()
         choice = (body.get("choices") or [{}])[0]

@@ -37,7 +37,9 @@ def tokenize(text: str) -> list[str]:
 class _TenantIndex:
     __slots__ = ("bm25", "chunk_ids", "payloads", "signature", "built_at")
 
-    def __init__(self, bm25: Any, chunk_ids: list[str], payloads: list[dict[str, Any]], signature: tuple) -> None:
+    def __init__(
+        self, bm25: Any, chunk_ids: list[str], payloads: list[dict[str, Any]], signature: tuple
+    ) -> None:
         self.bm25 = bm25
         self.chunk_ids = chunk_ids
         self.payloads = payloads
@@ -134,7 +136,10 @@ class LocalBM25Index:
         if cached and time.time() - cached.built_at < self.cache_ttl_seconds:
             return cached
         async with self._lock:
-            if tenant_id in self._indices and time.time() - self._indices[tenant_id].built_at < self.cache_ttl_seconds:
+            if (
+                tenant_id in self._indices
+                and time.time() - self._indices[tenant_id].built_at < self.cache_ttl_seconds
+            ):
                 return self._indices[tenant_id]
             index = await self._build(tenant_id)
             self._indices[tenant_id] = index

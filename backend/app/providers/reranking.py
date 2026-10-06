@@ -71,7 +71,9 @@ class CrossEncoderReranker:
                     self._load_error = f"{type(exc).__name__}: {exc}"
                     raise
 
-    async def rank(self, query: str, documents: Sequence[str], *, top_n: int | None = None) -> list[RerankScore]:
+    async def rank(
+        self, query: str, documents: Sequence[str], *, top_n: int | None = None
+    ) -> list[RerankScore]:
         if not documents:
             return []
         await self.ensure_loaded()
@@ -84,7 +86,11 @@ class CrossEncoderReranker:
 
         started = time.perf_counter()
         scores = await asyncio.to_thread(_run)
-        logger.info("rerank_complete", candidates=len(documents), latency_ms=int((time.perf_counter() - started) * 1000))
+        logger.info(
+            "rerank_complete",
+            candidates=len(documents),
+            latency_ms=int((time.perf_counter() - started) * 1000),
+        )
         ranked = sorted(
             (RerankScore(index=i, score=s) for i, s in enumerate(scores)), key=lambda r: r.score, reverse=True
         )
@@ -92,7 +98,9 @@ class CrossEncoderReranker:
 
     async def status(self) -> ProviderStatus:
         if not self.enabled:
-            return ProviderStatus.of("reranker", self.name, False, detail="disabled by configuration", model=self.model_name)
+            return ProviderStatus.of(
+                "reranker", self.name, False, detail="disabled by configuration", model=self.model_name
+            )
         loaded = self._model is not None
         return ProviderStatus.of(
             "reranker",
@@ -114,7 +122,9 @@ class LexicalReranker:
         self.k1 = k1
         self.b = b
 
-    async def rank(self, query: str, documents: Sequence[str], *, top_n: int | None = None) -> list[RerankScore]:
+    async def rank(
+        self, query: str, documents: Sequence[str], *, top_n: int | None = None
+    ) -> list[RerankScore]:
         if not documents:
             return []
         doc_tokens = [_TOKEN_RE.findall(d.lower()) for d in documents]
@@ -160,7 +170,9 @@ class DisabledReranker:
 
     name = "disabled"
 
-    async def rank(self, query: str, documents: Sequence[str], *, top_n: int | None = None) -> list[RerankScore]:
+    async def rank(
+        self, query: str, documents: Sequence[str], *, top_n: int | None = None
+    ) -> list[RerankScore]:
         ranked = [RerankScore(index=i, score=0.0) for i in range(len(documents))]
         return ranked[:top_n] if top_n else ranked
 

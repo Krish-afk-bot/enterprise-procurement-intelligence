@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -13,7 +13,13 @@ from app.core.ids import normalize_name
 from app.db.models import Tenant, User
 from app.observability.logging import get_logger
 from app.security.rbac import Principal, role_exists
-from app.security.tokens import ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE, create_token, hash_password, verify_password
+from app.security.tokens import (
+    ACCESS_TOKEN_TYPE,
+    REFRESH_TOKEN_TYPE,
+    create_token,
+    hash_password,
+    verify_password,
+)
 
 logger = get_logger(__name__)
 
@@ -73,7 +79,7 @@ async def authenticate(session: AsyncSession, *, tenant_id: str, email: str, pas
         raise AuthenticationError("Invalid email or password.")
     if not user.is_active:
         raise AuthenticationError("This account is disabled.")
-    user.last_login_at = datetime.now(timezone.utc)
+    user.last_login_at = datetime.now(UTC)
     return user
 
 

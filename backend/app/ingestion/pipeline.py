@@ -157,7 +157,9 @@ class IngestionPipeline:
                 meta = extract_metadata(
                     parsed,
                     filename=document.filename,
-                    declared_type=None if document.document_type in {None, "", "other"} else document.document_type,
+                    declared_type=None
+                    if document.document_type in {None, "", "other"}
+                    else document.document_type,
                 )
                 structure = detect_structure(parsed)
                 extraction = extract_structured(parsed, meta)
@@ -239,7 +241,9 @@ class IngestionPipeline:
             await report("persist_chunks", 0.84)
 
             # ------------------------------------------------------- 8. indexing
-            indexed_points = await self._index_chunks(drafts, tenant_id=tenant_id, document_id=document_id, outcome=outcome)
+            indexed_points = await self._index_chunks(
+                drafts, tenant_id=tenant_id, document_id=document_id, outcome=outcome
+            )
             outcome.metrics["vector_points"] = indexed_points
             await self.container.sparse.invalidate(tenant_id) if self.container.sparse else None
             await report("vector_index", 0.9)
@@ -261,7 +265,9 @@ class IngestionPipeline:
             # master agreement, a sheet that names only the contract, ...).
             async with session_scope() as session:
                 reconciled = await reconcile_attribution(session, tenant_id, graph=self.container.graph)
-            outcome.metrics["attribution"] = {key: value for key, value in (reconciled or {}).items() if value}
+            outcome.metrics["attribution"] = {
+                key: value for key, value in (reconciled or {}).items() if value
+            }
             if counts.get("prices_unattributed"):
                 outcome.warnings.append(
                     f"{counts['prices_unattributed']} price row(s) have no supplier yet: the document names the "
@@ -355,7 +361,9 @@ class IngestionPipeline:
         if outcome.metrics.get("ocr") != "unavailable":
             outcome.metrics["ocr"] = "applied" if processed else "not_needed"
 
-    async def _apply_vision(self, parsed: ParsedDocument, *, enabled: bool, outcome: IngestionOutcome) -> None:
+    async def _apply_vision(
+        self, parsed: ParsedDocument, *, enabled: bool, outcome: IngestionOutcome
+    ) -> None:
         if not enabled:
             outcome.metrics["vision"] = "disabled"
             return
@@ -413,7 +421,9 @@ class IngestionPipeline:
             if page.image_bytes:
                 image_key = f"{tenant_id}/{document.id}/pages/page_{page.page_number:04d}.png"
                 try:
-                    await self.container.storage.put(image_key, page.image_bytes, content_type=page.image_mime)
+                    await self.container.storage.put(
+                        image_key, page.image_bytes, content_type=page.image_mime
+                    )
                 except Exception as exc:  # noqa: BLE001
                     logger.warning("page_image_store_failed", page=page.page_number, error=str(exc))
                     image_key = None
@@ -432,7 +442,12 @@ class IngestionPipeline:
                 image_key=image_key,
                 layout={
                     "blocks": [
-                        {"text": block.text[:2000], "kind": block.kind, "order": block.order, "font_size": block.font_size}
+                        {
+                            "text": block.text[:2000],
+                            "kind": block.kind,
+                            "order": block.order,
+                            "font_size": block.font_size,
+                        }
                         for block in page.blocks[:400]
                     ],
                     "table_count": len(page.tables),
@@ -725,9 +740,7 @@ class IngestionPipeline:
         supplier.attributes = attributes
         await session.flush()
 
-    async def _resolve_contract(
-        self, tenant_id: str, meta: ExtractedMetadata
-    ) -> Contract | None:
+    async def _resolve_contract(self, tenant_id: str, meta: ExtractedMetadata) -> Contract | None:
         if not meta.contract_number:
             return None
         async with session_scope() as session:
@@ -749,14 +762,18 @@ class IngestionPipeline:
                     total_value=meta.total_value,
                     effective_date=meta.effective_date,
                     expiry_date=meta.expiry_date,
-                    status="active" if (meta.expiry_date is None or meta.expiry_date >= date.today()) else "expired",
+                    status="active"
+                    if (meta.expiry_date is None or meta.expiry_date >= date.today())
+                    else "expired",
                     version=(meta.amendment_number + 1) if meta.amendment_number else (meta.version or 1),
                     is_synthetic=meta.is_synthetic,
                     source="document_extraction",
                 )
                 session.add(contract)
                 await session.flush()
-                logger.info("contract_created_from_document", contract_id=contract.id, number=contract.contract_number)
+                logger.info(
+                    "contract_created_from_document", contract_id=contract.id, number=contract.contract_number
+                )
             else:
                 # The contract record may have been created earlier by a document
                 # that carried fewer fields (a price sheet citing the contract
@@ -862,7 +879,9 @@ class IngestionPipeline:
         normalized = normalize_name(cleaned)
         product = (
             await session.execute(
-                select(Product).where(Product.tenant_id == tenant_id, func.lower(Product.name) == cleaned.lower())
+                select(Product).where(
+                    Product.tenant_id == tenant_id, func.lower(Product.name) == cleaned.lower()
+                )
             )
         ).scalar_one_or_none()
         if product is None:

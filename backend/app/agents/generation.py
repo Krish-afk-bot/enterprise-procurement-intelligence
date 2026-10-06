@@ -174,7 +174,11 @@ class AnswerGenerator:
             graph_section = "\nGRAPH RELATIONSHIPS\n" + "\n".join(lines) + "\n"
         history = ""
         if conversation_context:
-            history = "\nCONVERSATION CONTEXT\n" + "\n".join(f"- {turn}" for turn in conversation_context[-4:]) + "\n"
+            history = (
+                "\nCONVERSATION CONTEXT\n"
+                + "\n".join(f"- {turn}" for turn in conversation_context[-4:])
+                + "\n"
+            )
 
         user = (
             f"QUESTION: {question}\n"
@@ -225,7 +229,9 @@ class AnswerGenerator:
                     lines.append(conflict.resolution)
                 lines.append("")
         elif not lead:
-            lines.append("The evidence below is what the system found for this question; no summarising model is configured.")
+            lines.append(
+                "The evidence below is what the system found for this question; no summarising model is configured."
+            )
 
         # 3. Structured figures (exact, from the workspace database).
         if structured is not None and (structured.facts or structured.aggregations):
@@ -257,7 +263,9 @@ class AnswerGenerator:
                 snippet = block.citation.snippet.strip().replace("\n", " ")
                 if len(snippet) > 320:
                     snippet = snippet[:317] + "..."
-                lines.append(f"  • {block.citation.document_name} — p.{block.citation.page} {marker}: {snippet}")
+                lines.append(
+                    f"  • {block.citation.document_name} — p.{block.citation.page} {marker}: {snippet}"
+                )
 
         if not bundle.blocks and not (structured and (structured.facts or structured.aggregations)):
             lines.append("")
@@ -331,7 +339,7 @@ def _preferred_of(facts: list[Any]) -> Any:
 
 
 def _price_phrase(fact: Any) -> str:
-    """"USD 874.00 per unit, effective 2026-01-01, Amendment 2" — no invented parts."""
+    """ "USD 874.00 per unit, effective 2026-01-01, Amendment 2" — no invented parts."""
     parts = [f"{fact.currency} {fact.unit_price:,.2f}"]
     if fact.minimum_quantity:
         parts.append(f"MOQ {fact.minimum_quantity}")
@@ -358,14 +366,14 @@ def _direct_answer(
     return _lowest_price_lead(structured, bundle, plan)
 
 
-def _comparison_lead(
-    structured: StructuredResult, bundle: ContextBundle, plan: QueryPlan
-) -> list[str]:
+def _comparison_lead(structured: StructuredResult, bundle: ContextBundle, plan: QueryPlan) -> list[str]:
     """Name every supplier the question asked about, with the value each records."""
     if not (plan.requires_comparison or len(plan.supplier_ids) >= 2):
         return []
     wanted = set(plan.supplier_ids or [])
-    facts = [fact for fact in structured.facts if fact.supplier_id and (not wanted or fact.supplier_id in wanted)]
+    facts = [
+        fact for fact in structured.facts if fact.supplier_id and (not wanted or fact.supplier_id in wanted)
+    ]
     grouped: dict[str, list[Any]] = {}
     for fact in facts:
         grouped.setdefault(fact.supplier_id, []).append(fact)
@@ -388,9 +396,7 @@ def _comparison_lead(
     return lines
 
 
-def _lowest_price_lead(
-    structured: StructuredResult, bundle: ContextBundle, plan: QueryPlan
-) -> list[str]:
+def _lowest_price_lead(structured: StructuredResult, bundle: ContextBundle, plan: QueryPlan) -> list[str]:
     """State the cheapest recorded value with its supplier, source page and date."""
     lowest = next(
         (
@@ -453,7 +459,9 @@ def _structured_section(structured: StructuredResult | None) -> str:
     lines = [f"\nSTRUCTURED DATA (exact results from {STRUCTURED_SOURCE}; treat as authoritative figures)"]
     for aggregation in structured.aggregations:
         group = f" {aggregation.group}" if aggregation.group else ""
-        lines.append(f"- {aggregation.name}{group} = {aggregation.value} ({aggregation.method}; {aggregation.detail})")
+        lines.append(
+            f"- {aggregation.name}{group} = {aggregation.value} ({aggregation.method}; {aggregation.detail})"
+        )
     for fact in structured.facts[:20]:
         lines.append(
             f"- price row {fact.price_id}: supplier={fact.supplier_name} product={fact.product_name} "

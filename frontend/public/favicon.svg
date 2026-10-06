@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Procurement Intelligence">
+  <rect width="32" height="32" rx="7" fill="#12386b" />
+  <g stroke="#eef2f8" stroke-width="1.7" stroke-linecap="round" fill="none">
+    <rect x="6" y="7.5" width="20" height="17" rx="2.4" />
+    <path d="M6 12.6h20" />
+    <path d="M12.6 12.6V24.5" />
+  </g>
+</svg>

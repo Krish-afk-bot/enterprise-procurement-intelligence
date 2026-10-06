@@ -62,14 +62,14 @@ The table below reflects the actual state of the repository as verified by the a
 | LangGraph orchestration (corrective RAG loop) | **Implemented** |
 | Evidence evaluation and sufficiency check | **Implemented** |
 | Query rewrite on insufficient evidence | **Implemented** |
-| Grounding / verification pass | **Implemented** |
+| Grounding / verification pass | **Implemented** (lexical + optional LLM judge) |
 | Citation validation against database | **Implemented** |
 | Conflict detection | **Implemented** |
 | Refusal when evidence is absent | **Implemented** |
-| LLM narrative generation (Qwen3-30B-A3B-Instruct-2507) | **Not configured** — no LLM endpoint set |
-| VLM visual reasoning (Qwen3-VL) | **Not configured** — no VLM endpoint set |
+| LLM narrative generation (Qwen3-30B-A3B-Instruct-2507) | **Implemented** — configure `LLM_BASE_URL` + `LLM_API_KEY` |
+| VLM visual reasoning (Qwen3-VL) | **Implemented** — configure `VLM_BASE_URL` + `VLM_API_KEY` |
 
-> With no LLM endpoint configured, the system runs in **extractive mode**: answers are composed from retrieved evidence and clearly labelled `degraded=True`. The pipeline is architecturally complete; generation quality improves immediately once an LLM endpoint is pointed at it.
+> With no LLM endpoint configured, the system runs in **extractive mode**: answers are composed from retrieved evidence and clearly labelled `degraded=True`. Configure `LLM_BASE_URL`, `LLM_API_KEY`, and `LLM_MODEL` to activate narrative generation. The pipeline is architecturally complete and generative — generation quality improves immediately once an LLM endpoint is pointed at it.
 
 ### Answer Quality
 
@@ -113,7 +113,7 @@ The table below reflects the actual state of the repository as verified by the a
 
 | Area | Status |
 |---|---|
-| Backend unit tests | **122 tests passing** (unit, integration, retrieval, security) |
+| Backend unit tests | **222 tests passing** (unit, integration, retrieval, security — 6 live LLM tests skipped) |
 | Frontend tests | Absent |
 | Manual verification scripts (`scripts/`) | Present and passing |
 | 29/29 document API verification harness | Passing |

@@ -111,11 +111,62 @@ npm run typecheck
 
 ---
 
+## Dependency Lockfile
+
+Backend dependencies are pinned to exact versions in `backend/requirements.txt`.
+
+To install from the lockfile:
+
+```bash
+pip install -r backend/requirements.txt
+pip install -e "backend/.[ocr,vision,eval,observability]"
+```
+
+To regenerate the lockfile after changing `pyproject.toml` dependencies (requires `pip-tools`):
+
+```bash
+pip install pip-tools
+pip-compile backend/pyproject.toml --output-file backend/requirements.txt
+```
+
+Or with `uv` (faster):
+
+```bash
+uv pip compile backend/pyproject.toml -o backend/requirements.txt
+```
+
+Always commit the updated `requirements.txt` alongside any `pyproject.toml` dependency change.
+
+---
+
 ## Testing
 
-The automated test suite is currently **planned but not yet implemented**.
+Unit tests live in `backend/tests/` and are organised by layer:
 
-Until it exists, use the manual verification scripts in `scripts/`:
+```
+backend/tests/
+  unit/          # pure logic, no I/O
+  integration/   # FastAPI TestClient + in-memory SQLite
+  retrieval/     # retrieval pipeline
+  ingestion/     # ingestion pipeline
+  security/      # auth and permission edge cases
+```
+
+Run the full test suite:
+
+```bash
+cd backend
+pytest
+```
+
+Run only unit tests:
+
+```bash
+cd backend
+pytest tests/unit/
+```
+
+Until the integration suite exists, use the manual verification scripts in `scripts/`:
 
 ```bash
 # Backend API smoke test (requires running backend)

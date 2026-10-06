@@ -1,0 +1,25 @@
+award_id,buyer,supplier,product,category,quantity,unit_price,value,currency,award_date,region
+AWD-2025-A01,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,200,920.0,184000.0,USD,2025-01-15,North America
+AWD-2025-B01,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,150,895.0,134250.0,USD,2025-01-15,North America
+AWD-2025-A02,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,250,920.0,230000.0,USD,2025-02-15,North America
+AWD-2025-B02,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,100,895.0,89500.0,USD,2025-02-15,North America
+AWD-2025-A03,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,100,920.0,92000.0,USD,2025-03-15,North America
+AWD-2025-B03,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,300,895.0,268500.0,USD,2025-03-15,North America
+AWD-2025-A04,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,100,920.0,92000.0,USD,2025-04-15,North America
+AWD-2025-B04,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,200,895.0,179000.0,USD,2025-04-15,North America
+AWD-2025-A05,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,300,920.0,276000.0,USD,2025-05-15,North America
+AWD-2025-B05,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,100,895.0,89500.0,USD,2025-05-15,North America
+AWD-2025-A06,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,300,920.0,276000.0,USD,2025-06-15,North America
+AWD-2025-B06,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,150,895.0,134250.0,USD,2025-06-15,North America
+AWD-2025-A07,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,100,920.0,92000.0,USD,2025-07-15,North America
+AWD-2025-B07,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,100,895.0,89500.0,USD,2025-07-15,North America
+AWD-2025-A08,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,250,920.0,230000.0,USD,2025-08-15,North America
+AWD-2025-B08,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,250,895.0,223750.0,USD,2025-08-15,North America
+AWD-2025-A09,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,100,920.0,92000.0,USD,2025-09-15,North America
+AWD-2025-B09,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,150,895.0,134250.0,USD,2025-09-15,North America
+AWD-2025-A10,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,100,920.0,92000.0,USD,2025-10-15,North America
+AWD-2025-B10,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,300,895.0,268500.0,USD,2025-10-15,North America
+AWD-2025-A11,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,250,920.0,230000.0,USD,2025-11-15,North America
+AWD-2025-B11,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,100,895.0,89500.0,USD,2025-11-15,North America
+AWD-2025-A12,Acme Procurement Group,Northwind Industrial Supplies Ltd,Industrial Laptop X200,IT Hardware,300,920.0,276000.0,USD,2025-12-15,North America
+AWD-2025-B12,Acme Procurement Group,Helios Technology Partners Inc,Industrial Laptop X200,IT Hardware,100,895.0,89500.0,USD,2025-12-15,North America

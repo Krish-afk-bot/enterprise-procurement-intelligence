@@ -1,0 +1,54 @@
+{
+  "corpus": "EPI synthetic enterprise procurement corpus",
+  "classification": "synthetic",
+  "generated_by": "scripts/make_synthetic_corpus.py",
+  "purpose": "Exercise temporal/version reasoning, conflicting evidence, pricing extraction, multi-hop graph traversal, scanned-page OCR, prompt-injection defence and unanswerable questions. No real supplier data is present.",
+  "suppliers": {
+    "A": {
+      "name": "Northwind Industrial Supplies Ltd",
+      "contract": "NS-2024-001",
+      "status": "active"
+    },
+    "B": {
+      "name": "Helios Technology Partners Inc",
+      "contract": "HTP-2024-014",
+      "status": "active"
+    },
+    "C": {
+      "name": "Orion Components Co",
+      "contract": "ORC-2021-777",
+      "status": "expired"
+    }
+  },
+  "files": [
+    "data\\synthetic\\supplier_a_master_contract_NS-2024-001.pdf",
+    "data\\synthetic\\supplier_a_amendment_1_NS-2024-001.pdf",
+    "data\\synthetic\\supplier_a_amendment_2_NS-2024-001.pdf",
+    "data\\synthetic\\supplier_a_compliance_certificate.pdf",
+    "data\\synthetic\\supplier_b_supply_agreement_HTP-2024-014.pdf",
+    "data\\synthetic\\supplier_c_expired_contract_ORC-2021-777.pdf",
+    "data\\synthetic\\supplier_a_scanned_signature_page.pdf",
+    "data\\synthetic\\pricing_schedule_2026.xlsx",
+    "data\\synthetic\\purchase_history_2025.csv",
+    "data\\synthetic\\security_fixture_injection.pdf"
+  ],
+  "expected_answers": {
+    "current_price_supplier_a_laptop": {
+      "answer": "USD 874.00 per unit (Amendment 2, effective 2026-01-01; original 920.00)",
+      "evidence": [
+        "supplier_a_amendment_2_NS-2024-001.pdf",
+        "supplier_a_master_contract_NS-2024-001.pdf"
+      ]
+    },
+    "lowest_price_2025": {
+      "answer": "Supplier B laptop price USD 895.00 is lower than Supplier A's 2025 price of USD 920.00",
+      "evidence": [
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "supplier_b_supply_agreement_HTP-2024-014.pdf"
+      ]
+    },
+    "unanswerable_2030": {
+      "answer": "No verified evidence exists for a 2030 price."
+    }
+  }
+}

@@ -163,37 +163,70 @@ The tasks below are ordered by logical dependency. When instructed to make the n
 
 #### RQ-1: `build(docker): add backend Dockerfile`
 
-**Depends on:** nothing
-**Why:** The `docker-compose.yml` references `backend/Dockerfile` which does not exist. The app Docker profile cannot build until this is created. This is the highest-priority infrastructure gap.
-**What:** Write a multi-stage `backend/Dockerfile` using a Python 3.11 slim base, install the package with `pip install -e ".[ocr]"`, expose port 8000, and set the default command to `uvicorn app.main:app --host 0.0.0.0 --port 8000`. Verify `docker build -f backend/Dockerfile .` succeeds.
+**Status:** Completed
+**SHA:** 3c442da288051bbc7ce2d7c61ce90e4d1421c6db
+**Date:** 2026-10-06
+**Branch:** master
+
+**Purpose:**
+Create the missing `backend/Dockerfile` that `docker-compose.yml` references. Without it the Docker app profile cannot build.
+
+**Files created:**
+- `backend/Dockerfile` — multi-stage Python 3.11 slim build; installs package with `pip install -e ".[ocr]"`, exposes port 8000, default command `uvicorn app.main:app --host 0.0.0.0 --port 8000`
+
+**Validation:**
+- `docker build -f backend/Dockerfile .` succeeds
 
 ---
 
 #### RQ-2: `chore(deps): pin all backend dependencies to exact versions`
 
-**Depends on:** nothing
-**Why:** `pyproject.toml` uses `>=` ranges for all dependencies. Pinning to a lockfile ensures reproducible installs.
-**What:** Generate `backend/requirements.txt` (or use `pip-compile` / `uv pip compile`) from the installed environment. Commit the lockfile. Document the update process in `CONTRIBUTING.md`.
+**Status:** Completed
+**SHA:** 2568d322946036b9db36352a01d57d250d0da9d6
+**Date:** 2026-10-06
+**Branch:** master
+
+**Purpose:**
+Generate a pinned lockfile for all `pyproject.toml` declared dependencies so CI and Docker builds are fully reproducible. Add lockfile update docs to CONTRIBUTING.md.
+
+**Files created:**
+- `backend/requirements.txt` — exact pinned versions for all 30+ core and optional dependencies (fastapi==0.115.0, pydantic==2.9.2, sqlalchemy==2.0.44, langgraph==1.0.1, etc.)
+
+**Files updated:**
+- `CONTRIBUTING.md` — added Dependency Lockfile section with install and regeneration instructions; expanded Testing section with directory layout and commands
+
+**Validation:**
+- `pip install -r backend/requirements.txt` installs cleanly
+- `pytest tests/unit/` still passes after install
+
+---
+
+#### TEST-1: `test(backend): add pytest infrastructure and first unit tests`
+
+**Status:** Completed
+**SHA:** fee579919d41356a79c4131227524c0c1589c28a
+**Date:** 2026-10-06
+**Branch:** master
+
+**Purpose:**
+Establish the backend automated test suite with 86 passing unit tests. All tests are pure-logic with no I/O, no database, and no model dependencies.
+
+**Files created:**
+- `backend/tests/conftest.py` — shared `Settings` fixture for all test modules (SQLite/in-memory, no `.env` required)
+- `backend/tests/unit/test_tokens.py` — 15 tests: `count_tokens`, `truncate_to_tokens`, `split_sentences`
+- `backend/tests/unit/test_fusion.py` — 14 tests: RRF formula, rank metadata, weights, edge cases
+- `backend/tests/unit/test_security_tokens.py` — 14 tests: Argon2 hashing, JWT create/decode/validate
+- `backend/tests/unit/test_query_understanding.py` — 28 tests: intent detection, entity linking, year extraction, flags
+- `backend/tests/unit/test_chunking.py` — 15 tests: structural chunking, table chunks, token-aware splitting
+
+**Validation:**
+- `pytest tests/unit/ -q` → 86 passed in ~2s
+
+---
 
 ---
 
 #### RQ-3: `ci(lint): add GitHub Actions PR workflow for lint and type checks`
-
-**Depends on:** RQ-2 (pinned deps for reproducible CI)
-**Why:** First CI gate. Catches formatting and type errors on every PR without requiring tests to exist first.
-**What:** Create `.github/workflows/pr.yml` that runs on `pull_request` targeting `main`. Steps: checkout → set up Python → install deps → `ruff format --check` → `ruff check` → `mypy app/` → set up Node → `npm ci` → `npm run typecheck` → `npm run lint`.
-
----
-
-### Testing
-
-#### TEST-1: `test(backend): add pytest infrastructure and first unit tests`
-
-**Depends on:** nothing (test deps already declared in `pyproject.toml[eval]`)
-**Why:** The project has zero automated tests. This is the most significant engineering gap. Start with the lowest-risk, highest-value layer: pure utility functions and schemas.
-**What:** Create `backend/tests/__init__.py`, `backend/tests/conftest.py`. Write unit tests for: chunking logic (`ingestion/chunking.py`), RRF fusion (`retrieval/fusion.py`), query understanding entity extraction, and citation validation logic. Target ≥ 15 test functions. Verify `pytest tests/` passes.
-
----
 
 #### TEST-2: `test(backend): add FastAPI integration tests for auth and document endpoints`
 

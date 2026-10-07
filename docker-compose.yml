@@ -31,7 +31,11 @@ services:
       retries: 20
 
   qdrant:
-    image: qdrant/qdrant:v1.9.7
+    # Pinned to v1.16.1 to match the qdrant-client==1.17.0 Python library.
+    # Qdrant's compatibility policy: client N is compatible with server N-1
+    # but not N-2. Upgrading server from 1.9.7 to 1.16.1 requires sequential
+    # minor upgrades — acceptable for a fresh (empty) dev volume.
+    image: qdrant/qdrant:v1.16.1
     ports:
       - "6333:6333"
       - "6334:6334"
@@ -46,7 +50,9 @@ services:
   neo4j:
     image: neo4j:5.22-community
     environment:
-      NEO4J_AUTH: neo4j/neo4j
+      # neo4j 5.x rejects "neo4j" as the password (the old default).
+      # Using "neo4jdev" for the development stack.
+      NEO4J_AUTH: neo4j/neo4jdev
       NEO4J_server_memory_heap_initial__size: 512m
       NEO4J_server_memory_heap_max__size: 1G
     ports:
@@ -124,6 +130,8 @@ services:
       QDRANT_URL: http://qdrant:6333
       GRAPH_PROVIDER: neo4j
       NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: neo4jdev
       CACHE_PROVIDER: redis
       REDIS_URL: redis://redis:6379/0
       STORAGE_PROVIDER: s3

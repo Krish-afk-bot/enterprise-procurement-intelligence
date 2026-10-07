@@ -11,6 +11,75 @@ and the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.
 
 ---
 
+## [0.3.0] — Phase 3 — Live Integration & End-to-End RAG — 2026-10-07
+
+### Infrastructure (all live-verified)
+
+- **Docker Compose**: 5 persistent services running healthy.
+  - `postgres:16-alpine` — healthy
+  - `qdrant/qdrant:v1.16.1` — healthy (upgraded from 1.9.7 to match client 1.17.0)
+  - `neo4j:5.22-community` — healthy (fixed `NEO4J_AUTH: neo4j/neo4jdev`; 5.x rejects default password)
+  - `redis:7-alpine` — healthy
+  - `ifirestone/minio:RELEASE.2026-09-22T19-25-18Z` — healthy, bucket `epi-documents` created
+
+- **PostgreSQL**: Alembic migration `6644823c3215` applied. 24 tables present. Read/write verified.
+- **Qdrant v1.16.1**: upsert, search, metadata filter, delete — all verified at 384d and 1024d.
+- **Neo4j**: nodes (Supplier/Contract/Product/Price), edges (HAS_CONTRACT/SUPPLIES/APPLIES_TO), neighbors, traversal, multi-hop Cypher query — all verified.
+- **Redis**: set/get/delete/TTL/incr/clear_prefix/dict serialisation — all verified.
+- **MinIO**: put/get/exists/delete/url_for via S3Storage abstraction — all verified.
+
+### Corpus Ingestion
+
+- 9 synthetic documents ingested through real pipeline (parse→chunk→embed→upsert):
+  - 15 pages stored in PostgreSQL
+  - 37 chunks in PostgreSQL and Qdrant
+  - 39 price records
+  - 3 suppliers (Northwind, Helios, Orion)
+  - 3 contracts (NS-2024-001, HTP-2024-014, ORC-2021-777)
+  - Files stored in MinIO `epi-documents` bucket
+
+### Embeddings
+
+- **BGE-small (384d) baseline**: Recall@5=0.676, MRR=0.706, Hit Rate=0.818, p50=45ms
+- **BGE-M3 (1024d)**: Recall@5=0.676, MRR=0.678, Hit Rate=0.818, p50=35ms
+- BGE-M3 loaded from local cache on CUDA. Reindexed 37 vectors into `procurement_chunks_1024d`.
+- Both models get identical Recall@5 and Hit Rate. BGE-M3 MRR slightly lower (0.678 vs 0.706).
+  4 MISS results on both (scanned page and Orion expired contract — OCR disabled, expected).
+
+### Security
+
+- **Prompt injection fixture**: `security_fixture_injection.pdf` ingested as data.
+  `detect_injection()` scores 1.0, detects all 5 pattern types. Evidence wrapped in
+  `<<<EVIDENCE>>>` delimiters. System prompt marks document content as untrusted.
+
+### Compose fixes
+
+- `docker-compose.yml`: fixed `NEO4J_AUTH` default password rejection (neo4j→neo4jdev),
+  upgraded Qdrant to v1.16.1, added `NEO4J_USERNAME/NEO4J_PASSWORD` to api service env.
+- `.env.example`: updated `NEO4J_PASSWORD` with explanation.
+
+### Phase 3 scripts added
+
+- `backend/scripts_phase3/check_pg.py` — PostgreSQL table verification
+- `backend/scripts_phase3/check_qdrant.py` — Qdrant CRUD + filter verification
+- `backend/scripts_phase3/check_neo4j.py` — Neo4j node/edge/traversal verification
+- `backend/scripts_phase3/check_redis.py` — Redis cache verification
+- `backend/scripts_phase3/check_minio.py` — MinIO S3 object storage verification
+- `backend/scripts_phase3/ingest_corpus.py` — Full corpus ingestion (all 9 documents)
+- `backend/scripts_phase3/eval_retrieval.py` — Retrieval evaluation (BGE-small and BGE-M3)
+- `backend/scripts_phase3/reindex_bge_m3.py` — Re-index corpus at 1024d for BGE-M3
+- `backend/scripts_phase3/check_injection.py` — Prompt injection fixture verification
+
+### Known limitations
+
+- LLM endpoint not configured; `generation_mode=extractive` in this environment.
+  The live test file `tests/integration/test_llm_live.py` is ready for `RUN_LLM_INTEGRATION=1`.
+- Frontend not connected to live backend in this verification (no running uvicorn server).
+- Neo4j graph rebuild during ingestion creates nodes; supplier aliases deferred to attribution pass.
+- BGE-M3 download required `pytorch_model.bin` (2.1 GB); already cached on this host.
+
+---
+
 ## [0.2.0] — Phase 2 — Real LLM RAG + Provider Test Coverage — 2026-10-06
 
 ### Verified

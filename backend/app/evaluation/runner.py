@@ -243,11 +243,11 @@ class EvaluationRunner:
             "from the aggregate instead of counting as zero.",
         ]
         async with session_scope() as session:
-            run = await session.get(EvaluationRun, run_id)
-            if run is not None:
-                run.status = "completed"
-                run.summary = summary
-                run.finished_at = datetime.now(UTC)
+            run_obj: EvaluationRun | None = await session.get(EvaluationRun, run_id)
+            if run_obj is not None:
+                run_obj.status = "completed"
+                run_obj.summary = summary
+                run_obj.finished_at = datetime.now(UTC)
         return await self._payload(run_id, principal)
 
     # ----------------------------------------------------------------- internals

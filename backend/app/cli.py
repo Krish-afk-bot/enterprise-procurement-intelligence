@@ -220,7 +220,7 @@ async def cmd_stats(args: argparse.Namespace) -> int:
     print(f"vector: {await container.vector.status()}")
     print(f"graph : {await container.graph.status()}")
     print(f"sparse: {await container.sparse.status()}" if container.sparse else "sparse: none")
-    print(f"cache : {await container.cache.status()}")
+    print(f"cache : {await container.cache.status()}" if container.cache else "cache: none")
     print("providers:")
     for name, status in (await container.provider_statuses()).items():
         print(f"  {name:<10} available={status.available} model={status.model} detail={status.detail}")

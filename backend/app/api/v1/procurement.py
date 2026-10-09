@@ -17,6 +17,7 @@ from app.api.deps import ContainerDep, PrincipalDep, get_client_ip
 from app.db.session import get_db
 from app.schemas.common import Page
 from app.schemas.procurement import (
+    ComparisonColumnOut,
     ComparisonOut,
     ComparisonRequest,
     ComplianceOut,
@@ -225,7 +226,13 @@ async def compare_suppliers(
     columns = []
     for column in matrix.get("columns") or []:
         cells = {key: value for key, value in (column.get("cells") or {}).items() if key in dimensions}
-        columns.append({**column, "cells": cells})
+        columns.append(
+            ComparisonColumnOut(
+                supplier_id=column.get("supplier_id"),
+                supplier_name=column.get("supplier_name", ""),
+                cells=cells,
+            )
+        )
     return ComparisonOut(
         dimensions=dimensions,
         columns=columns,

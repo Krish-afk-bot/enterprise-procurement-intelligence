@@ -11,6 +11,45 @@ and the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.
 
 ---
 
+## [0.4.0] — Phase 4 — Live LLM RAG E2E Verification — 2026-10-09
+
+### Verified (live, on real infrastructure)
+
+- **LLM generation**: `generation_mode=llm` confirmed live via Ollama `llama3.1:8b` on RTX 4060 Laptop GPU
+- **All 22 golden questions**: ran through full LangGraph pipeline (understand→structured→graph→retrieve→rerank→generate→verify→finalize); 11/22 passed strict keyword scoring
+- **Backend startup**: all providers active — Qdrant, Neo4j, Redis, MinIO, BGE-small (384d), BGE-reranker-v2-m3, llama3.1:8b; `degraded=false`, `fallbacks=[]`
+- **Frontend proxy**: Vite dev server on :5173 proxies to backend on :8000; login, documents, search, ask all verified
+- **Security smoke tests**: 7/7 PASS — invalid JWT rejected, wrong-secret JWT rejected, no-token rejected, cross-tenant isolation (403), prompt injection not executed, admin endpoint protected (403), no secrets in health response
+
+### Fixed
+
+- **gq-012 retrieval fix**: single-supplier queries now scope Qdrant vector search to that supplier's chunks, preventing single-document suppliers from being crowded out by corpus-wide RRF scores. Regression test added.
+- **mypy errors fixed**: `expand_parents` return annotation corrected (`dict[str, str]` → `dict[str, tuple[str, str | None]]`), float-coercion guards in `generation.py`, int-cast guards in `nodes.py`, `CountItem` construction in `admin.py`, `ComparisonColumnOut` construction in `procurement.py`, None-guard on `cache.status()` in `cli.py`, `EvaluationRun | None` annotation in `runner.py`
+- **Ollama /v1 URL**: documented that `LLM_BASE_URL` must include `/v1` suffix for Ollama; updated `.env.example`
+
+### Added
+
+- **Vitest frontend tests** (`src/lib/__tests__/answer-utils.test.ts`): 22 tests covering `generation_mode`, `AnswerStatus`, citation validity, citation deep-link URL construction, error/empty states
+- **Phase 4 scripts**: `scripts_phase3/golden_eval_llm.py`, `eval_retrieval_rerank.py`, `verify_e2e.py`, `security_smoke.py`, `failure_mode_test.py`, `diagnose_misses*.py`, `test_orion_retrieval.py`, `check_qdrant_payload.py`
+- **Retrieval regression test** (`tests/retrieval/test_supplier_scoped_retrieval.py`): 4 tests verifying single-supplier scoping doesn't break comparison queries
+- **Evaluation results**: `data/evaluation/golden_eval_llm.json`, `retrieval_with_reranker.json`
+
+### Measured results
+
+**Golden evaluation (llama3.1:8b, 22 questions):**
+- 11/22 passed strict keyword scoring
+- 22/22 ran in `generation_mode=llm` (0 extractive)
+- 22/22 had valid citations (document_id + chunk_id)
+- 15/22 grounded (score ≥ 0.5)
+- Latency p50=16s, p95=50s (8B local model on 4GB VRAM)
+
+**Retrieval without reranker (BGE-small):** Recall@5=0.676, MRR=0.706, HitRate=0.818, p50=45ms
+**Retrieval with reranker (BGE-reranker-v2-m3):** Recall@5=0.735, MRR=0.554, HitRate=0.864, p50=4381ms
+
+**mypy (local):** 55 errors found across 17 files (pre-fix errors in vendor-interaction code, structlog processors, ingestion pipeline). 7 highest-severity errors fixed. Full mypy run still times out locally (>10 min); CI on Ubuntu required.
+
+---
+
 ## [0.3.0] — Phase 3 — Live Integration & End-to-End RAG — 2026-10-07
 
 ### Infrastructure (all live-verified)

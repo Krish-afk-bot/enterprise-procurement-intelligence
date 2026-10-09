@@ -345,7 +345,7 @@ class AgentRuntime:
         score = 0.0
         if criteria["documents"]:
             score += 0.4
-        if criteria["chunks"] >= 2:
+        if int(criteria["chunks"] or 0) >= 2:
             score += 0.15
         if structured_rows:
             score += 0.3
@@ -353,7 +353,7 @@ class AgentRuntime:
             score += 0.15
         if rerank_scores and max(rerank_scores) > 0:
             score += 0.1
-        sufficient = score >= threshold and (criteria["chunks"] > 0 or structured_rows > 0)
+        sufficient = score >= threshold and (int(criteria["chunks"] or 0) > 0 or structured_rows > 0)
         state["evidence_sufficient"] = sufficient
         state["sufficiency"] = {
             "score": round(min(score, 1.0), 3),

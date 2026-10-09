@@ -40,7 +40,7 @@ from app.schemas.admin import (
     SystemHealthOut,
     TraceOut,
 )
-from app.schemas.common import DashboardStats, Page
+from app.schemas.common import CountItem, DashboardStats, Page
 from app.security import audit
 from app.security.rbac import (
     ALL_PERMISSIONS,
@@ -119,19 +119,19 @@ async def stats(
         graph_edges=int(graph_stats.get("edges") or 0),
         synthetic_documents=synthetic_documents,
         breakdown=[
-            {
-                "label": "Documents",
-                "value": counts["documents"],
-                "detail": f"{counts['pages']} page record(s)",
-            },
-            {"label": "Chunks", "value": counts["chunks"], "detail": f"{counts['chunks_embedded']} embedded"},
-            {"label": "Tables", "value": counts["tables"], "detail": "extracted table records"},
-            {"label": "Prices", "value": counts["prices"], "detail": "negotiated price rows"},
-            {
-                "label": "Procurement records",
-                "value": counts["procurement_records"],
-                "detail": "structured award/PO rows",
-            },
+            CountItem(
+                label="Documents",
+                value=counts["documents"],
+                detail=f"{counts['pages']} page record(s)",
+            ),
+            CountItem(label="Chunks", value=counts["chunks"], detail=f"{counts['chunks_embedded']} embedded"),
+            CountItem(label="Tables", value=counts["tables"], detail="extracted table records"),
+            CountItem(label="Prices", value=counts["prices"], detail="negotiated price rows"),
+            CountItem(
+                label="Procurement records",
+                value=counts["procurement_records"],
+                detail="structured award/PO rows",
+            ),
         ],
         notes=[
             "Counts are read from the database for this tenant only.",

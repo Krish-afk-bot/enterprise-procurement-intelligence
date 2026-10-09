@@ -414,7 +414,7 @@ def _lowest_price_lead(structured: StructuredResult, bundle: ContextBundle, plan
             item
             for item in structured.facts
             if item.supplier_id == group.get("supplier_id")
-            and abs(item.unit_price - float(lowest.value)) < 1e-6
+            and abs(item.unit_price - float(lowest.value or 0)) < 1e-6
         ),
         None,
     )
@@ -433,7 +433,7 @@ def _lowest_price_lead(structured: StructuredResult, bundle: ContextBundle, plan
         where = f" ({fact.document_name}, p.{fact.page})" if fact.page else f" ({fact.document_name})"
     line = (
         f"The lowest recorded unit price for {product or 'this item'} {scope} is "
-        f"{lowest.unit or ''} {float(lowest.value):,.2f}".replace("  ", " ")
+        f"{lowest.unit or ''} {float(lowest.value or 0):,.2f}".replace("  ", " ")
         + (f", recorded for {group.get('supplier')}" if group.get("supplier") else "")
         + (f", effective {fact.effective_date.isoformat()}" if fact and fact.effective_date else "")
         + where

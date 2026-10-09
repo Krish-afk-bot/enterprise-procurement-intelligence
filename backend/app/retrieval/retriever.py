@@ -435,7 +435,7 @@ class HybridRetriever:
 
 async def expand_parents(
     session: AsyncSession, principal: Principal, chunks: list[RetrievedChunk], *, limit: int = 3
-) -> dict[str, str]:
+) -> dict[str, tuple[str, str | None]]:
     """Fetch parent section text for parent-child retrieval (PRD s.25 level 4)."""
     parent_ids = [chunk.parent_chunk_id for chunk in chunks if chunk.parent_chunk_id][:limit]
     if not parent_ids:

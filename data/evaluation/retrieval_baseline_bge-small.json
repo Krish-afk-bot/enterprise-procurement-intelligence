@@ -6,8 +6,8 @@
   "precision_at_k": 0.188,
   "mrr": 0.706,
   "hit_rate": 0.818,
-  "latency_p50_ms": 45,
-  "latency_p95_ms": 84,
+  "latency_p50_ms": 24,
+  "latency_p95_ms": 47,
   "question_results": [
     {
       "id": "gq-001",
@@ -26,7 +26,7 @@
         "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 25464
+      "latency_ms": 29414
     },
     {
       "id": "gq-002",
@@ -45,7 +45,7 @@
         "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 48
+      "latency_ms": 39
     },
     {
       "id": "gq-003",
@@ -59,14 +59,14 @@
       "retrieved": 5,
       "hit_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
-        "supplier_a_amendment_1_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "supplier_a_amendment_1_NS-2024-001.pdf"
       ],
       "expected_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 45
+      "latency_ms": 30
     },
     {
       "id": "gq-004",
@@ -79,16 +79,16 @@
       "hit": true,
       "retrieved": 5,
       "hit_docs": [
+        "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_amendment_1_NS-2024-001.pdf",
-        "pricing_schedule_2026.xlsx",
         "supplier_a_master_contract_NS-2024-001.pdf",
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
-        "supplier_a_amendment_2_NS-2024-001.pdf"
+        "pricing_schedule_2026.xlsx"
       ],
       "expected_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf"
       ],
-      "latency_ms": 38
+      "latency_ms": 47
     },
     {
       "id": "gq-005",
@@ -106,7 +106,7 @@
       "expected_docs": [
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 43
+      "latency_ms": 28
     },
     {
       "id": "gq-006",
@@ -121,11 +121,11 @@
       "hit_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "supplier_a_amendment_2_NS-2024-001.pdf",
-        "supplier_a_amendment_1_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "supplier_a_amendment_1_NS-2024-001.pdf"
       ],
       "expected_docs": [],
-      "latency_ms": 46
+      "latency_ms": 28
     },
     {
       "id": "gq-007",
@@ -145,7 +145,7 @@
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 37
+      "latency_ms": 23
     },
     {
       "id": "gq-008",
@@ -160,11 +160,11 @@
       "hit_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "supplier_a_amendment_2_NS-2024-001.pdf",
-        "supplier_a_amendment_1_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "supplier_a_amendment_1_NS-2024-001.pdf"
       ],
       "expected_docs": [],
-      "latency_ms": 56
+      "latency_ms": 27
     },
     {
       "id": "gq-009",
@@ -177,16 +177,16 @@
       "hit": true,
       "retrieved": 5,
       "hit_docs": [
+        "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_amendment_1_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf",
-        "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "purchase_history_2025.csv",
-        "supplier_a_amendment_2_NS-2024-001.pdf"
+        "supplier_b_supply_agreement_HTP-2024-014.pdf"
       ],
       "expected_docs": [
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 45
+      "latency_ms": 27
     },
     {
       "id": "gq-010",
@@ -205,7 +205,7 @@
       "expected_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf"
       ],
-      "latency_ms": 42
+      "latency_ms": 27
     },
     {
       "id": "gq-011",
@@ -224,7 +224,7 @@
         "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 48
+      "latency_ms": 25
     },
     {
       "id": "gq-012",
@@ -237,14 +237,14 @@
       "hit": false,
       "retrieved": 5,
       "hit_docs": [
-        "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "security_fixture_injection.pdf",
+        "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
       "expected_docs": [
         "supplier_c_expired_contract_ORC-2021-777.pdf"
       ],
-      "latency_ms": 43
+      "latency_ms": 22
     },
     {
       "id": "gq-013",
@@ -258,14 +258,14 @@
       "retrieved": 5,
       "hit_docs": [
         "supplier_a_amendment_2_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf",
+        "purchase_history_2025.csv",
         "pricing_schedule_2026.xlsx",
-        "purchase_history_2025.csv"
+        "supplier_a_master_contract_NS-2024-001.pdf"
       ],
       "expected_docs": [
         "purchase_history_2025.csv"
       ],
-      "latency_ms": 46
+      "latency_ms": 23
     },
     {
       "id": "gq-014",
@@ -278,14 +278,14 @@
       "hit": true,
       "retrieved": 5,
       "hit_docs": [
+        "purchase_history_2025.csv",
         "supplier_a_amendment_2_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf",
-        "purchase_history_2025.csv"
+        "supplier_a_master_contract_NS-2024-001.pdf"
       ],
       "expected_docs": [
         "supplier_a_amendment_2_NS-2024-001.pdf"
       ],
-      "latency_ms": 69
+      "latency_ms": 24
     },
     {
       "id": "gq-015",
@@ -298,15 +298,15 @@
       "hit": false,
       "retrieved": 5,
       "hit_docs": [
-        "security_fixture_injection.pdf",
-        "supplier_a_amendment_1_NS-2024-001.pdf",
+        "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf",
-        "supplier_a_amendment_2_NS-2024-001.pdf"
+        "security_fixture_injection.pdf",
+        "supplier_a_amendment_1_NS-2024-001.pdf"
       ],
       "expected_docs": [
         "supplier_a_scanned_signature_page.pdf"
       ],
-      "latency_ms": 38
+      "latency_ms": 23
     },
     {
       "id": "gq-016",
@@ -320,11 +320,11 @@
       "retrieved": 5,
       "hit_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
-        "supplier_a_amendment_1_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "supplier_a_amendment_1_NS-2024-001.pdf"
       ],
       "expected_docs": [],
-      "latency_ms": 32
+      "latency_ms": 21
     },
     {
       "id": "gq-017",
@@ -344,7 +344,7 @@
       "expected_docs": [
         "supplier_a_scanned_signature_page.pdf"
       ],
-      "latency_ms": 84
+      "latency_ms": 21
     },
     {
       "id": "gq-018",
@@ -357,16 +357,16 @@
       "hit": true,
       "retrieved": 5,
       "hit_docs": [
+        "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_amendment_1_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf",
-        "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "purchase_history_2025.csv",
-        "supplier_a_amendment_2_NS-2024-001.pdf"
+        "supplier_b_supply_agreement_HTP-2024-014.pdf"
       ],
       "expected_docs": [
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 37
+      "latency_ms": 21
     },
     {
       "id": "gq-019",
@@ -380,14 +380,14 @@
       "retrieved": 5,
       "hit_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
-        "pricing_schedule_2026.xlsx",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "pricing_schedule_2026.xlsx"
       ],
       "expected_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf"
       ],
-      "latency_ms": 35
+      "latency_ms": 22
     },
     {
       "id": "gq-020",
@@ -400,13 +400,13 @@
       "hit": false,
       "retrieved": 5,
       "hit_docs": [
-        "supplier_a_amendment_1_NS-2024-001.pdf",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "supplier_a_amendment_1_NS-2024-001.pdf"
       ],
       "expected_docs": [
         "pricing_schedule_2026.xlsx"
       ],
-      "latency_ms": 37
+      "latency_ms": 22
     },
     {
       "id": "gq-021",
@@ -420,11 +420,11 @@
       "retrieved": 5,
       "hit_docs": [
         "supplier_b_supply_agreement_HTP-2024-014.pdf",
-        "pricing_schedule_2026.xlsx",
-        "supplier_a_master_contract_NS-2024-001.pdf"
+        "supplier_a_master_contract_NS-2024-001.pdf",
+        "pricing_schedule_2026.xlsx"
       ],
       "expected_docs": [],
-      "latency_ms": 47
+      "latency_ms": 23
     },
     {
       "id": "gq-022",
@@ -437,14 +437,14 @@
       "hit": true,
       "retrieved": 5,
       "hit_docs": [
-        "security_fixture_injection.pdf",
+        "supplier_a_amendment_2_NS-2024-001.pdf",
         "supplier_a_amendment_1_NS-2024-001.pdf",
         "supplier_a_master_contract_NS-2024-001.pdf",
-        "supplier_b_supply_agreement_HTP-2024-014.pdf",
-        "supplier_a_amendment_2_NS-2024-001.pdf"
+        "security_fixture_injection.pdf",
+        "supplier_b_supply_agreement_HTP-2024-014.pdf"
       ],
       "expected_docs": [],
-      "latency_ms": 36
+      "latency_ms": 21
     }
   ]
 }

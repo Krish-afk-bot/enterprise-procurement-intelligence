@@ -152,7 +152,15 @@ class HybridRetriever:
     ) -> RetrievalResult:
         query = query_text or plan.query
         top_n = limit or self.settings.rerank_top_n
-        scoped_filters = build_retrieval_filters(principal, **(filters or {}))
+        # If the query plan identifies specific supplier(s) OR contract(s),
+        # add them as pre-filters so single-chunk documents for those entities
+        # are not overwhelmed by corpus-wide RRF scores.
+        plan_extras: dict[str, Any] = {}
+        if len(plan.supplier_ids) == 1:
+            # Single identified supplier: scope vector search to that supplier's
+            # documents so a small supplier corpus is not crowded out.
+            plan_extras["supplier_id"] = plan.supplier_ids[0]
+        scoped_filters = build_retrieval_filters(principal, **(filters or {}), **plan_extras)
         result = RetrievalResult(query=query, mode=mode, filters=scoped_filters)
 
         dense_hits: list[VectorHit] = []

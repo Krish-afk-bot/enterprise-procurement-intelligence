@@ -11,6 +11,52 @@ and the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.
 
 ---
 
+## [0.5.0] — Phase 5 — Reliability, OCR, Browser E2E — 2026-10-11
+
+### Fixed
+
+- **Grounding refusal enforcement (Stage 1):** `decide_status()` in `verification.py` now refuses (`insufficient_evidence`) when the LLM produces 0 verified claims even when evidence blocks are present. Prevents gq-016 ("EU suppliers") and gq-022 (prompt injection) from returning fluent but unverified LLM answers. Extractive mode still returns `partial` (not refusal) since the text was assembled directly from retrieved evidence. 19 regression tests added in `tests/unit/test_refusal_correctness.py`.
+
+- **OCR scanned-document ingestion (Stage 2):** Scanned signature page (`supplier_a_scanned_signature_page.pdf`) re-ingested with `OCR_ENABLED=true`. PaddleOCR extracted "Alvarez", "2024-01-08", "APPROVED" from the image. 1 new chunk and Qdrant vector added (corpus: 37 → 44 vectors). gq-015 and gq-017 now PASS.
+
+### Added
+
+- **Playwright E2E tests (Stage 3):** 16 tests in `frontend/e2e/procurement.spec.ts` covering health, auth (valid + invalid), no-token rejection, documents, ask (price + comparison), unanswerable, prompt injection, citation integrity, search, supplier list, cross-tenant isolation, admin protection, landing page render, and app shell load. All 16 pass. `playwright.config.ts` and `vitest.config.ts` added.
+
+- **Phase 5 operational scripts:** `scripts_phase3/check_ocr.py`, `reingest_scanned.py`, `verify_ocr_chunk.py`.
+
+### Changed
+
+- **CI/CD (`ci.yml`, `pr.yml`):** Both workflows updated to include: Vitest unit tests, mypy job (Ubuntu, `timeout 300`, warning-only gate), and correct Python 3.12 consistently. Frontend job now runs Vitest before build.
+
+- **`.gitignore`:** Added `frontend/test-results/`, `frontend/playwright-report/`, `frontend/e2e/results/`, `frontend/e2e/fixtures/auth-state.json`.
+
+- **`security_smoke.py`:** Fixed injection test to check for *system internals leakage* (JWT secret, DB credentials, system prompt) rather than injection keywords that appear in the quoted document content.
+
+### Evaluation results (Phase 5 baseline — 44 vectors, OCR corpus)
+
+| Metric | No reranker | With reranker |
+|--------|------------|---------------|
+| Recall@5 | 0.794 | **0.853** |
+| Precision@5 | 0.188 | 0.224 |
+| MRR | **0.779** | 0.654 |
+| Hit Rate | 0.909 | **0.955** |
+| Latency p50 | 35 ms | 4,533 ms |
+
+Previous Phase 4 baseline (37 vectors, no OCR): Recall@5=0.676, MRR=0.706, HitRate=0.818.
+OCR addition alone: Recall@5 0.676 → 0.794 (+17.5%), MRR 0.706 → 0.779 (+10.3%).
+
+### Total test count after Phase 5
+
+| Test suite | Count |
+|---|---|
+| Backend unit (pytest) | 245 passed, 6 skipped |
+| Frontend unit (Vitest) | 22 passed |
+| Playwright E2E | 16 passed |
+| Live LLM integration | 6 passed (opt-in) |
+
+---
+
 ## [0.4.0] — Phase 4 — Live LLM RAG E2E Verification — 2026-10-09
 
 ### Verified (live, on real infrastructure)

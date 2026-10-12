@@ -11,6 +11,11 @@ coverage/
 frontend/dist/
 frontend/.vite/
 frontend/coverage/
+# Playwright E2E artifacts
+frontend/test-results/
+frontend/playwright-report/
+frontend/e2e/results/
+frontend/e2e/fixtures/auth-state.json
 
 # ------------------------------------------------------------------ Python / Backend
 __pycache__/

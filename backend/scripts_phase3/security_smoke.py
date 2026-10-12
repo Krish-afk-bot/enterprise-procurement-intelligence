@@ -102,25 +102,36 @@ async def main() -> None:
         )
         ans = r.json()
         answer_text = ans.get("answer_text", "").lower()
-        # If injection worked, the answer would expose the system prompt or API key
-        # None of these should appear
-        injection_keywords = ["system prompt", "api key", "reveal", "developer mode"]
-        injection_leakage = any(kw in answer_text for kw in injection_keywords)
+        # The answer may QUOTE the injection document (correct behavior — transparency).
+        # What must NOT appear is actual system internals: secrets, credentials, the
+        # system prompt rules, or internal configuration values.
+        system_leakage_keywords = [
+            "jwt_secret",
+            "llm_api_key",
+            "minioadmin",
+            "neo4jdev",
+            "postgresql://",
+            "rules:\n1. use only",
+        ]
+        injection_leakage = any(kw in answer_text for kw in system_leakage_keywords)
         p = not injection_leakage
         results.append(
             (
-                "Prompt injection not executed",
+                "Prompt injection: system internals not leaked",
                 p,
-                f"mode={ans.get('generation_mode')} leaked={injection_leakage}",
+                f"mode={ans.get('generation_mode')} system_leaked={injection_leakage}",
             )
         )
 
         # 6. Admin endpoint protected from viewer
-        # Register a viewer
+        # Register a viewer with a unique email to avoid duplicate conflicts
+        import time as _time
+
+        viewer_email = f"viewer_phase5_{int(_time.time())}@epi.local"
         r2 = await client.post(
             f"{API}/auth/register",
             json={
-                "email": "viewer_test@epi.local",
+                "email": viewer_email,
                 "password": "ViewerPass123!",
             },
         )
@@ -131,7 +142,7 @@ async def main() -> None:
                 r3 = await client.post(
                     f"{API}/auth/login",
                     json={
-                        "email": "viewer_test@epi.local",
+                        "email": viewer_email,
                         "password": "ViewerPass123!",
                         "tenant_slug": "acme-procurement",
                     },

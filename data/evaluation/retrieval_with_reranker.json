@@ -2,12 +2,12 @@
   "model": "BAAI/bge-small-en-v1.5",
   "reranker": "cross_encoder",
   "k": 5,
-  "recall_at_k": 0.735,
-  "precision_at_k": 0.2,
-  "mrr": 0.554,
-  "hit_rate": 0.864,
-  "latency_p50_ms": 4381,
-  "latency_p95_ms": 4978,
+  "recall_at_k": 0.853,
+  "precision_at_k": 0.224,
+  "mrr": 0.654,
+  "hit_rate": 0.955,
+  "latency_p50_ms": 4533,
+  "latency_p95_ms": 5605,
   "question_results": [
     {
       "id": "gq-001",
@@ -16,7 +16,7 @@
       "mrr": 1.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 37788,
+      "latency_ms": 36344,
       "best_rerank_score": 0.9761
     },
     {
@@ -26,7 +26,7 @@
       "mrr": 1.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 2176,
+      "latency_ms": 2657,
       "best_rerank_score": 0.0315
     },
     {
@@ -36,17 +36,17 @@
       "mrr": 0.5,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4381,
+      "latency_ms": 4225,
       "best_rerank_score": 0.96
     },
     {
       "id": "gq-004",
       "recall_at_k": 1.0,
       "precision_at_k": 0.2,
-      "mrr": 0.25,
+      "mrr": 0.2,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4404,
+      "latency_ms": 4268,
       "best_rerank_score": 0.991
     },
     {
@@ -56,7 +56,7 @@
       "mrr": 0.5,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4425,
+      "latency_ms": 4431,
       "best_rerank_score": 0.0617
     },
     {
@@ -66,7 +66,7 @@
       "mrr": 0.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4228,
+      "latency_ms": 4235,
       "best_rerank_score": 0.0107
     },
     {
@@ -76,7 +76,7 @@
       "mrr": 1.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 2284,
+      "latency_ms": 2934,
       "best_rerank_score": 0.4428
     },
     {
@@ -86,7 +86,7 @@
       "mrr": 0.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4232,
+      "latency_ms": 4377,
       "best_rerank_score": 0.0918
     },
     {
@@ -96,17 +96,17 @@
       "mrr": 0.5,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4532,
+      "latency_ms": 4675,
       "best_rerank_score": 0.9976
     },
     {
       "id": "gq-010",
       "recall_at_k": 1.0,
       "precision_at_k": 0.2,
-      "mrr": 0.333,
+      "mrr": 0.25,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4330,
+      "latency_ms": 4307,
       "best_rerank_score": 0.0568
     },
     {
@@ -116,7 +116,7 @@
       "mrr": 1.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4381,
+      "latency_ms": 4462,
       "best_rerank_score": 0.0008
     },
     {
@@ -126,7 +126,7 @@
       "mrr": 0.0,
       "hit": false,
       "retrieved": 5,
-      "latency_ms": 4507,
+      "latency_ms": 4656,
       "best_rerank_score": 0.0086
     },
     {
@@ -136,7 +136,7 @@
       "mrr": 1.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4349,
+      "latency_ms": 4690,
       "best_rerank_score": 0.2936
     },
     {
@@ -146,18 +146,18 @@
       "mrr": 0.5,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4978,
+      "latency_ms": 5605,
       "best_rerank_score": 0.9972
     },
     {
       "id": "gq-015",
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "mrr": 0.0,
-      "hit": false,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "hit": true,
       "retrieved": 5,
-      "latency_ms": 4380,
-      "best_rerank_score": 0.3644
+      "latency_ms": 4533,
+      "best_rerank_score": 0.5183
     },
     {
       "id": "gq-016",
@@ -166,18 +166,18 @@
       "mrr": 0.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4340,
+      "latency_ms": 4499,
       "best_rerank_score": 0.0059
     },
     {
       "id": "gq-017",
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "mrr": 0.0,
-      "hit": false,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "hit": true,
       "retrieved": 5,
-      "latency_ms": 4392,
-      "best_rerank_score": 0.0004
+      "latency_ms": 4656,
+      "best_rerank_score": 0.7189
     },
     {
       "id": "gq-018",
@@ -186,17 +186,17 @@
       "mrr": 0.333,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4755,
+      "latency_ms": 5216,
       "best_rerank_score": 0.9787
     },
     {
       "id": "gq-019",
       "recall_at_k": 1.0,
       "precision_at_k": 0.4,
-      "mrr": 0.5,
+      "mrr": 0.333,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4329,
+      "latency_ms": 4669,
       "best_rerank_score": 0.4021
     },
     {
@@ -206,7 +206,7 @@
       "mrr": 1.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4393,
+      "latency_ms": 4670,
       "best_rerank_score": 0.9907
     },
     {
@@ -216,7 +216,7 @@
       "mrr": 0.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 2300,
+      "latency_ms": 3128,
       "best_rerank_score": 0.5004
     },
     {
@@ -226,7 +226,7 @@
       "mrr": 0.0,
       "hit": true,
       "retrieved": 5,
-      "latency_ms": 4393,
+      "latency_ms": 4747,
       "best_rerank_score": 0.9884
     }
   ]

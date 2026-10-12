@@ -596,25 +596,54 @@ def decide_status(
     In extractive mode the text is assembled *from* the evidence, so an
     individual failed claim check downgrades the status to ``partial`` and is
     listed in the verification block — the answer is not discarded.
+
+    Refusal enforcement rules (applied in order, before LLM scores are trusted):
+    1. No evidence at all → insufficient_evidence.
+    2. Coverage constraints explicitly unsatisfied (entity/period not in corpus)
+       → insufficient_evidence (unless the question is about conflicts).
+    3. LLM mode with 0 supported claims AND no structured facts AND no
+       satisfied coverage constraints → insufficient_evidence.
+       This prevents a fluent LLM answer from overriding an evidence verdict.
+    4. LLM mode with 0 supported claims (even with some evidence) → insufficient_evidence
+       (not merely "partial" — an answer with no verifiable claims is a refusal, not a partial).
     """
     has_evidence = bool(bundle.blocks) or bool(structured and (structured.facts or structured.aggregations))
     if not has_evidence:
         return "insufficient_evidence"
+
     # The evidence must cover the question's own constraints before it can be
     # reported as an answer. Uncovered constraints mean the question is
     # unanswerable from this corpus, whatever else was retrieved.
     if coverage is not None and not coverage.satisfied and not conflicts:
         return "insufficient_evidence"
+
     if conflicts:
         return "conflicting"
+
     if coverage is not None and not coverage.satisfied:
         return "partial"
+
+    # LLM-mode refusal enforcement: if the grounding judge found 0 supported
+    # claims, the LLM produced an answer that is not verifiable from the
+    # retrieved evidence. Returning "partial" here would surface an unverified
+    # answer to the user. Force a refusal instead.
+    #
+    # This is the critical guard that prevents gq-016 ("EU suppliers") and
+    # gq-022 (prompt-injection) from returning fluent but fabricated answers:
+    # the LLM wrote plausible text, the lexical judge found token overlap (so
+    # score > 0 but claims == 0 is possible), but there is no structured or
+    # entity-linked evidence behind the answer.
+    if generation_mode == "llm" and grounding is not None and grounding.total > 0:
+        if grounding.supported == 0:
+            return "insufficient_evidence"
+
     if grounding is None or grounding.total == 0:
         return "partial"
     if grounding.all_supported:
         return "supported"
     if grounding.supported == 0:
-        return "partial" if generation_mode == "extractive" else "insufficient_evidence"
+        # extractive mode: we assembled text from evidence; downgrade to partial
+        return "partial"
     return "partial"
 
 

@@ -11,6 +11,50 @@ and the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.
 
 ---
 
+## [0.6.0] — Phase 6 — Release Hardening — 2026-10-13
+
+### Fixed
+
+- **Temporal filtering correctness (Stage 3):** `structured_lookup()` no longer calls the SQL `_aggregate` query when period filtering (date_from/date_to) removes all matching price rows. Previously, the aggregate's `effective_date IS NULL` clause surfaced out-of-period rows as valid answers for future/past year queries (e.g. "2035" returned 2026 prices). Now: when `result.facts` is empty after period filtering, a note is added and aggregation is skipped, enabling a correct `insufficient_evidence` refusal. 15 regression tests added in `tests/retrieval/test_temporal_filtering.py`.
+
+- **mypy errors fixed (Stage 2):**
+  - `verification.py`: renamed local `supported` (int) to `supported_count` to avoid collision with `ClaimCheck.supported: bool`; added explicit `dict[str, Any]` annotation to `criteria` dict to allow string values.
+  - `generation.py`: `fact.supplier_id or "unknown"` guard in `_comparison_lead` to prevent `str | None` key.
+  - `services/auth.py`: introduced `TokenPayload` TypedDict; `issue_tokens()` now returns `TokenPayload` instead of `dict[str, object]`.
+  - `services/procurement.py`: explicit `dict[str | None, int]` annotation on `price_counts`; fixed `isoformat()` on possibly-None date.
+  - `pyproject.toml`: added `exclude = ["transformers/"]` to `[tool.mypy]` to prevent crash on Python 3.13 (mypy bug #18223 with transformers library).
+
+### Added
+
+- **Playwright E2E Stage 4** (`frontend/e2e/stage4-extended.spec.ts`): 8 new tests covering document upload, upload validation (rejects .exe), citation deep-link resolution, citation browser navigation, supplier compare (documenting 500 blocker), graph relationships (250 nodes / 418 edges confirmed), logout + post-logout 401, and unauthenticated route protection. Total E2E: 24 passed.
+- **Temporal filtering regression tests** (`backend/tests/retrieval/test_temporal_filtering.py`): 15 tests.
+
+### Security
+
+- **PyJWT upgraded: 2.10.1 → 2.15.1** (fixes CVE-2026-32597, CVE-2026-48526 and related algorithm-confusion CVEs).
+- **Vite upgraded: 6.0.7 → 6.4.4** (fixes CVE-2026-39363 dev-server path traversal; only affects dev mode).
+- **Dependabot**: Added ignore rules for TypeScript major bumps (TS 7 breaks typescript-eslint peer deps) and Three.js major bumps.
+- **TypeScript pinned**: `^5.7.2` → `~5.7.2` (patch-only, prevents accidental TS7 resolution).
+- **Vitest exclude**: Added `e2e/**` exclusion to `vitest.config.ts` to prevent Playwright specs from being picked up by Vitest.
+- **Known CVEs documented** (not fixed — require larger upgrades):
+  - Starlette CVE-2026-48710 (BadHost): Fixed in Starlette 1.0 / FastAPI 0.141+. Not exploitable behind a properly configured reverse proxy. Requires FastAPI major upgrade.
+  - react-router-dom: Two moderate CVEs (open redirect, SSR deserialization). SSR CVE does not apply (no SSR). Requires upgrading to react-router v7 (breaking change).
+
+### Dependency
+
+- `requirements.txt`: PyJWT 2.10.1 → 2.15.1; added `types-python-dateutil==2.9.0.20260807`.
+- `package.json`: vite `^6.0.7` → `^6.4.4`; typescript `^5.7.2` → `~5.7.2`.
+
+### Test counts after Phase 6
+
+| Suite | Count |
+|---|---|
+| Backend pytest | 260 passed, 6 skipped (+15 temporal regression) |
+| Frontend Vitest | 22 passed (unchanged) |
+| Playwright E2E | 24 passed (+8 Stage 4) |
+
+---
+
 ## [0.5.0] — Phase 5 — Reliability, OCR, Browser E2E — 2026-10-11
 
 ### Fixed

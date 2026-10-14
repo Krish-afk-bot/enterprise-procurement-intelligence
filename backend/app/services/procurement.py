@@ -217,7 +217,7 @@ async def supplier_detail(session: AsyncSession, principal: Principal, supplier_
         (
             {
                 "date": (fact.effective_date or fact.expiry_date).isoformat()
-                if (fact.effective_date or fact.expiry_date)
+                if (fact.effective_date or fact.expiry_date) is not None
                 else None,
                 "kind": "price",
                 "label": (
@@ -567,7 +567,7 @@ async def list_products(
     products = list(
         (await session.execute(statement.order_by(Product.name).offset(offset).limit(limit))).scalars()
     )
-    price_counts = dict(
+    price_counts: dict[str | None, int] = dict(
         (
             await session.execute(
                 select(Price.product_id, func.count(Price.id))

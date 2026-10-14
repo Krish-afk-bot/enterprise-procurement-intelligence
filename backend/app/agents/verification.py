@@ -420,13 +420,13 @@ def judge_grounding_lexical(claims: list[str], evidence_texts: list[str]) -> Gro
                 reason=reason,
             )
         )
-    supported = sum(1 for check in checks if check.supported)
-    score = (supported / len(checks)) if checks else None
+    supported_count = sum(1 for check in checks if check.supported)
+    score = (supported_count / len(checks)) if checks else None
     return GroundingResult(
         method="lexical_overlap",
         claims=checks,
         score=score,
-        supported=supported,
+        supported=supported_count,
         total=len(checks),
         unsupported=[check.claim for check in checks if not check.supported],
         details={
@@ -544,7 +544,7 @@ def assess_evidence_strength(
         for citation in bundle.citations
     )
 
-    criteria = {
+    criteria: dict[str, Any] = {
         "independent_documents": len(documents),
         "evidence_blocks": len(bundle.blocks),
         "structured_rows": structured_rows,

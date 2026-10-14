@@ -200,14 +200,30 @@ async def structured_lookup(
         )
 
     if wants_price_rows and (wants_structured or plan.year):
-        wants_totals = (
-            plan.intent in {Intent.AGGREGATION, Intent.COMPARISON}
-            or bool(plan.year)
-            or plan.requires_comparison
-        )
-        result.aggregations.extend(
-            await _aggregate(session, principal, plan, result.facts, include_totals=wants_totals)
-        )
+        # Only run aggregations if we have period-valid facts, OR if no period
+        # was specified. When a period was specified but yielded 0 facts, running
+        # the SQL aggregate would return out-of-period rows (e.g. rows with
+        # effective_date=None that match the NULL-is-always-valid clause).
+        # That would produce an answer like "874.00 for 2035" which is wrong.
+        has_period = plan.date_from is not None or plan.date_to is not None
+        if result.facts or not has_period:
+            wants_totals = (
+                plan.intent in {Intent.AGGREGATION, Intent.COMPARISON}
+                or bool(plan.year)
+                or plan.requires_comparison
+            )
+            result.aggregations.extend(
+                await _aggregate(session, principal, plan, result.facts, include_totals=wants_totals)
+            )
+        elif has_period:
+            # Period was specified but no price rows are valid in that window.
+            # Record this explicitly so the answer can refuse rather than surface
+            # a value from outside the asked period.
+            period_label = _period_label(plan)
+            result.notes.append(
+                f"No price rows are valid in the requested period ({period_label}). "
+                "The question cannot be answered from structured data for this period."
+            )
     if result.facts and (
         plan.intent in {Intent.COMPARISON, Intent.AGGREGATION}
         or plan.requires_comparison

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from typing import TypedDict
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,6 +23,14 @@ from app.security.tokens import (
 )
 
 logger = get_logger(__name__)
+
+
+class TokenPayload(TypedDict):
+    access_token: str
+    refresh_token: str
+    token_type: str
+    expires_at: datetime
+    refresh_expires_at: datetime
 
 
 async def get_or_create_default_tenant(session: AsyncSession, settings: Settings) -> Tenant:
@@ -93,7 +102,7 @@ def principal_from_user(user: User) -> Principal:
     )
 
 
-def issue_tokens(settings: Settings, user: User) -> dict[str, object]:
+def issue_tokens(settings: Settings, user: User) -> TokenPayload:
     access_token, access_expires = create_token(
         settings,
         subject=user.id,

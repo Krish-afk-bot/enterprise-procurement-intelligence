@@ -376,7 +376,8 @@ def _comparison_lead(structured: StructuredResult, bundle: ContextBundle, plan: 
     ]
     grouped: dict[str, list[Any]] = {}
     for fact in facts:
-        grouped.setdefault(fact.supplier_id, []).append(fact)
+        key = fact.supplier_id or "unknown"
+        grouped.setdefault(key, []).append(fact)
     if len(grouped) < 2:
         return []
     chosen = [_preferred_of(group) for group in grouped.values()]

@@ -37,7 +37,7 @@ dependencies = [
     "sentence-transformers>=3.0",
     # observability / security
     "structlog>=24.1",
-    "PyJWT>=2.8",
+    "PyJWT>=2.15",
     "argon2-cffi>=23.1",
     # email validation — required by app/schemas/email.py (EmailAddress type)
     "email-validator>=2.1",
@@ -80,3 +80,6 @@ python_version = "3.12"
 warn_unused_ignores = false
 ignore_missing_imports = true
 check_untyped_defs = true
+# transformers causes a mypy crash on Python 3.13 (mypy bug #18223).
+# Exclude it from analysis; our code only calls it behind an import guard.
+exclude = ["transformers/"]

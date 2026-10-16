@@ -218,14 +218,6 @@ test("supplier compare endpoint returns structured comparison", async ({ page })
   });
 
   console.log(`  Compare status: ${r.status()}`);
-
-  if (r.status() === 500) {
-    // The compare endpoint has a known issue when ComplianceCertificate
-    // table is empty. Document as a known blocker and skip assertion.
-    console.log("  Compare returned 500 (known issue: missing compliance data). Documenting as blocker.");
-    return;
-  }
-
   expect(r.ok()).toBeTruthy();
   const result = await r.json();
 

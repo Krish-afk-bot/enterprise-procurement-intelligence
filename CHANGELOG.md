@@ -11,6 +11,56 @@ and the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.
 
 ---
 
+## [0.6.1] — Phase 6.1 — Compare Fix & Security Remediation — 2026-10-14
+
+### Fixed
+
+**Compare endpoint HTTP 500 (root cause: audit log overflow)**
+
+The `/compare` endpoint crashed with HTTP 500 for all supplier pairs. Root cause traced via server traceback:
+
+1. `comparison_matrix()` ran successfully and returned the comparison result.
+2. `audit.record_principal_action()` attempted to write an audit log row.
+3. The `resource_id` field (`VARCHAR(64)`) received two joined supplier UUIDs: `sup_<32chars>,sup_<32chars>` = 65 chars — one over the limit.
+4. PostgreSQL raised `StringDataRightTruncationError` during `session.flush()`.
+5. SQLAlchemy placed the async session into `PendingRollbackError` state.
+6. The outer `session.commit()` in the FastAPI `get_db` dependency raised `PendingRollbackError`.
+7. FastAPI returned HTTP 500.
+
+Two-part fix:
+- `security/audit.py`: `record_audit()` now truncates `resource_id` to 63 chars + ellipsis before any flush. Also adds `await session.rollback()` after a flush failure so the session is never left in a poisoned state.
+- `api/v1/procurement.py`: compare endpoint now passes `resource_id[:64]` (belt-and-suspenders).
+
+**Starlette CVE-2026-48710 (BadHost) — FastAPI upgraded**
+
+- FastAPI `0.115.0` → `0.141.1`
+- Starlette `0.38.6` → `1.8.0` (full fix; `>=1.0.1` required)
+- All 275 backend tests pass on FastAPI 0.141.1.
+- Backend starts, health endpoint returns ok, compare returns 200.
+
+**react-router-dom CVE-2025-68470 / CVE-2026-53669 (open redirect bypass)**
+
+- `react-router-dom ^6.28.1` → `^6.30.6` (latest patched 6.x)
+- The complete fix requires v7.18.4 (breaking major change).
+- `GHSA-337j-9hxr-rhxg` (SSR deserialization) does not apply: this app has no SSR hydration.
+- Remaining exposure documented as accepted risk for developer-preview release.
+- All frontend tests and build pass on 6.30.6.
+
+### Added
+
+- `backend/tests/retrieval/test_compare_endpoint.py` — 9 tests: comparison without compliance records, with one-sided compliance, empty supplier IDs, unknown supplier ID, no price rows, no contract rows, tenant isolation, result structure, as_of parameter.
+- `backend/tests/security/test_audit_truncation.py` — 6 tests: resource_id over 64 chars truncated, exactly 64 unchanged, short unchanged, None accepted, principal action with long ID, session stays usable after truncation.
+
+### Test counts after Phase 6.1
+
+| Suite | Count |
+|---|---|
+| Backend pytest | 275 passed, 6 skipped (+15 compare + audit) |
+| Frontend Vitest | 22 passed |
+| Playwright E2E | 24 passed (compare now returns 200, not 500) |
+
+---
+
 ## [0.6.0] — Phase 6 — Release Hardening — 2026-10-13
 
 ### Fixed

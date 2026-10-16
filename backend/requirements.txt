@@ -22,7 +22,9 @@
 # Docker uses this file: COPY requirements.txt . && pip install -r requirements.txt
 
 # --- web ---
-fastapi==0.115.0
+fastapi==0.141.1
+# starlette is a transitive FastAPI dependency; pinned explicitly for CVE-2026-48710
+starlette==1.8.0
 uvicorn==0.32.0
 python-multipart==0.0.12
 sse-starlette==3.0.3

@@ -5,7 +5,7 @@ description = "Enterprise Procurement Intelligence - multimodal, agentic, graph-
 requires-python = ">=3.12"
 dependencies = [
     # web
-    "fastapi>=0.115",
+    "fastapi>=0.141",
     "uvicorn[standard]>=0.30",
     "python-multipart>=0.0.9",
     "sse-starlette>=2.1",

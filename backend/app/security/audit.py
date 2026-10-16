@@ -50,6 +50,11 @@ async def record_audit(
     detail: dict[str, Any] | None = None,
 ) -> AuditLog:
     """Persist an audit row. Never raises: auditing must not break a request."""
+    # Enforce column width limits before flushing to avoid a StringDataRightTruncationError
+    # that would put the session into PendingRollbackError state and crash the response.
+    _MAX_RESOURCE_ID = 64
+    if resource_id and len(resource_id) > _MAX_RESOURCE_ID:
+        resource_id = resource_id[: _MAX_RESOURCE_ID - 1] + "…"
     entry = AuditLog(
         tenant_id=tenant_id,
         user_id=user_id,
@@ -66,6 +71,13 @@ async def record_audit(
         await session.flush()
     except Exception as exc:  # noqa: BLE001
         logger.warning("audit_write_failed", action=action, error=str(exc))
+        # Roll back so the session is not left in PendingRollbackError state.
+        # The caller's data has already been committed; this only affects the
+        # audit row, which is never load-bearing for the business response.
+        try:
+            await session.rollback()
+        except Exception:  # noqa: BLE001
+            pass
     return entry
 
 

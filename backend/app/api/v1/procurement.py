@@ -218,7 +218,7 @@ async def compare_suppliers(
         principal,
         action=audit.ACTION_COMPARE,
         resource_type="comparison",
-        resource_id=",".join(payload.supplier_ids + payload.supplier_names)[:200],
+        resource_id=",".join(payload.supplier_ids + payload.supplier_names)[:64],
         ip_address=get_client_ip(request),
         detail={"columns": len(matrix.get("columns") or []), "unresolved": matrix.get("unresolved")},
     )

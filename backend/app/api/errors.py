@@ -24,11 +24,38 @@ def error_body(
 
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppError)
-    async def _app_error(_request: Request, exc: AppError) -> JSONResponse:
+    async def _app_error(request: Request, exc: AppError) -> JSONResponse:
+        from app.api.deps import get_client_ip
+        from app.core.errors import AuthorizationError
+        from app.db.session import session_scope
+        from app.security import audit
+        from app.security.rbac import get_principal_or_none
+
         headers = {}
         if isinstance(exc, RateLimitError) and exc.details.get("retry_after"):
             headers["Retry-After"] = str(exc.details["retry_after"])
         logger.info("app_error", code=exc.code, message=exc.message, details=exc.details)
+
+        # GAP-1: Audit authorization failures to database for compliance review
+        if isinstance(exc, AuthorizationError):
+            principal = get_principal_or_none(request)
+            if principal is not None:
+                try:
+                    async with session_scope() as session:
+                        await audit.record_principal_action(
+                            session,
+                            principal,
+                            action=audit.ACTION_ACCESS_DENIED,
+                            resource_type=exc.details.get("resource_type"),
+                            resource_id=exc.details.get("resource_id"),
+                            outcome="denied",
+                            ip_address=get_client_ip(request),
+                            detail={"reason": exc.message, "code": exc.code},
+                        )
+                        await session.commit()
+                except Exception as audit_exc:  # noqa: BLE001
+                    logger.warning("authorization_audit_failed", error=str(audit_exc))
+
         return JSONResponse(
             status_code=exc.status_code,
             content=error_body(exc.code, exc.message, request_id=request_id_var.get(), details=exc.details),

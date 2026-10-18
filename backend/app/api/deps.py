@@ -68,6 +68,29 @@ async def get_principal(
 PrincipalDep = Depends(get_principal)
 
 
+def get_principal_or_none(request: Request) -> Principal | None:
+    """Extract Principal from request without raising, for audit logging in error handlers."""
+    try:
+        from app.config.settings import get_settings
+        from app.security.tokens import decode_token
+
+        settings = get_settings()
+        header = request.headers.get("authorization") or ""
+        scheme, _, token = header.partition(" ")
+        if not token or scheme.lower() != "bearer":
+            return None
+        payload = decode_token(settings, token)
+        return Principal(
+            user_id=payload["sub"],
+            tenant_id=payload.get("tid", ""),
+            email=payload.get("email", ""),
+            role=payload.get("role", "user"),
+            full_name=payload.get("full_name"),
+        )
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def require_permission(permission: str) -> Callable[[Principal], Awaitable[Principal]]:
     """Dependency factory enforcing a permission server-side."""
 

@@ -261,7 +261,9 @@ async def conversation_messages(
     conversation = await session.get(Conversation, conversation_id)
     if conversation is None or conversation.tenant_id != principal.tenant_id:
         raise NotFoundError("Conversation not found.", details={"conversation_id": conversation_id})
-    statement = select(Message).where(Message.conversation_id == conversation_id)
+    statement = select(Message).where(
+        Message.conversation_id == conversation_id, Message.tenant_id == principal.tenant_id
+    )
     total = await session.scalar(select(func.count()).select_from(statement.subquery())) or 0
     rows = (
         await session.execute(statement.order_by(Message.created_at).offset(offset).limit(limit))

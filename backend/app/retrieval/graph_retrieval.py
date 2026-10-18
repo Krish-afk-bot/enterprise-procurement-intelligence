@@ -106,9 +106,15 @@ async def graph_lookup(
 
     price_pages = await _price_sources(session, principal, supplier_ids)
     for supplier_id in supplier_ids[:4]:
-        edges = await container.graph.traverse(LABEL_SUPPLIER, supplier_id, max_hops=max_hops)
+        edges = await container.graph.traverse(
+            LABEL_SUPPLIER, supplier_id, max_hops=max_hops, tenant_id=principal.tenant_id
+        )
+        # Post-query filter removed: tenant filtering now happens in the database.
+        # Only filter for None tenant_id (system-level data) if needed.
         tenant_edges = [
-            edge for edge in edges if edge.properties.get("tenant_id") in {None, principal.tenant_id}
+            edge
+            for edge in edges
+            if edge.properties.get("tenant_id") in {None, principal.tenant_id}
         ]
         chain = _summarise_chain(tenant_edges)
         if not chain:

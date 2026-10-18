@@ -147,13 +147,20 @@ class Neo4jGraphStore:
         label = _ident(start_label, "label")
         hops = max(1, min(int(max_hops), 5))
         type_filter = " AND all(r IN relationships(p) WHERE type(r) IN $types)" if edge_types else ""
+        # Tenant isolation: only traverse nodes and edges belonging to the specified tenant.
+        # If tenant_id is None, this is a system-level query and all data is visible.
+        tenant_filter = ""
+        params: dict[str, Any] = {"key": start_key, "types": list(edge_types or [])}
+        if tenant_id is not None:
+            tenant_filter = " AND all(n IN nodes(p) WHERE n.tenant_id = $tenant_id)"
+            params["tenant_id"] = tenant_id
         rows = await self._run(
             f"MATCH p = (a:{label} {{key: $key}})-[*1..{hops}]-(b) "
-            f"WHERE size(relationships(p)) <= {hops} {type_filter} "
+            f"WHERE size(relationships(p)) <= {hops} {type_filter} {tenant_filter} "
             "UNWIND relationships(p) AS r "
             "RETURN DISTINCT type(r) AS type, labels(startNode(r))[0] AS start_label, startNode(r).key AS start_key, "
             "labels(endNode(r))[0] AS end_label, endNode(r).key AS end_key, r.props_json AS props_json LIMIT 500",
-            {"key": start_key, "types": list(edge_types or [])},
+            params,
         )
         return [_row_to_edge(row) for row in rows]
 

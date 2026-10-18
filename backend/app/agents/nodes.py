@@ -32,6 +32,7 @@ from app.agents.verification import (
 )
 from app.config.container import Container
 from app.config.settings import Settings
+from app.core.errors import AuthorizationError, NotFoundError
 from app.db.models import Chunk, Document, DocumentPage
 from app.observability.logging import get_logger
 from app.retrieval.analysis import Conflict, detect_price_conflicts, fetch_price_facts
@@ -685,6 +686,13 @@ async def _conflict_evidence_blocks(
         statement = statement.order_by(Chunk.embedding_indexed.desc(), Chunk.chunk_index).limit(2)
         rows = list((await session.execute(statement)).scalars())
         document = await session.get(Document, document_id)
+        if document is None or document.tenant_id != principal.tenant_id:
+            raise NotFoundError("Document not found.", details={"document_id": document_id})
+        if not principal.can_read_level(document.access_level):
+            raise AuthorizationError(
+                f"Access denied to document with access level '{document.access_level}'.",
+                details={"document_id": document_id, "access_level": document.access_level},
+            )
         for chunk in rows:
             citation = CitationDraft(
                 chunk_id=chunk.id,

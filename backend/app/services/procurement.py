@@ -198,7 +198,13 @@ async def supplier_detail(session: AsyncSession, principal: Principal, supplier_
     product_ids = {price.product_id for price in prices if price.product_id}
     products: list[dict[str, Any]] = []
     if product_ids:
-        for product in (await session.execute(select(Product).where(Product.id.in_(product_ids)))).scalars():
+        for product in (
+            await session.execute(
+                select(Product).where(
+                    Product.id.in_(product_ids), Product.tenant_id == principal.tenant_id
+                )
+            )
+        ).scalars():
             products.append(
                 {
                     "id": product.id,

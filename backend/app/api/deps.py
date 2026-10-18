@@ -79,19 +79,33 @@ def require_permission(permission: str) -> Callable[[Principal], Awaitable[Princ
 
 
 def rate_limit(bucket: str, limit_attr: str) -> Callable[..., Awaitable[None]]:
-    """Dependency factory applying a configurable fixed-window rate limit."""
+    """Dependency factory applying a configurable fixed-window rate limit.
+
+    For authenticated endpoints, scope the rate limit to the user's tenant and user ID.
+    For unauthenticated endpoints, scope to client IP (with X-Forwarded-For support).
+    X-Forwarded-For should only be trusted when set by a reverse proxy; otherwise
+    clients can spoof this header.
+    """
 
     async def _dependency(
         request: Request,
         container: Container = Depends(container_dep),
         settings: Settings = Depends(get_settings),
+        principal: Principal | None = None,  # Optional: provided if endpoint is authenticated
     ) -> None:
         if container.rate_limiter is None:
             return
         limit = int(getattr(settings, limit_attr, 0))
-        scope = request.headers.get("x-forwarded-for", "") or (
-            request.client.host if request.client else "anonymous"
-        )
+        # Scope authenticated requests to tenant:user for proper isolation
+        if principal is not None:
+            scope = f"{principal.tenant_id}:{principal.user_id}"
+        else:
+            # Unauthenticated: use client IP (first address in X-Forwarded-For if present)
+            scope = request.headers.get("x-forwarded-for", "") or (
+                request.client.host if request.client else "anonymous"
+            )
+            if "," in scope:
+                scope = scope.split(",")[0].strip()
         allowed, _remaining, retry_after = await container.rate_limiter.check(bucket, scope, limit)
         if not allowed:
             raise RateLimitError(

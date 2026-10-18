@@ -89,10 +89,15 @@ async def latest_job_for_document(session: AsyncSession, document_id: str) -> In
 
 
 async def requeue_stuck_jobs(session: AsyncSession, *, older_than_seconds: int = 1800) -> int:
-    """Return jobs orphaned by a crash to the queue (bounded by max_attempts)."""
+    """Return jobs orphaned by a crash to the queue (bounded by max_attempts).
+
+    This is a system-level operation that spans all tenants. The background worker
+    has system privileges to reset jobs across the entire database.
+    """
     from datetime import timedelta
 
     cutoff = datetime.now(UTC) - timedelta(seconds=older_than_seconds)
+    # System-level query: no tenant filter. The worker operates with elevated privileges.
     jobs = list(
         (
             await session.execute(

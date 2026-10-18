@@ -920,7 +920,11 @@ class IngestionPipeline:
                     await self.graph_builder.upsert_contract(contract, supplier)
                 prices = list(
                     (
-                        await session.execute(select(Price).where(Price.source_document_id == document_id))
+                        await session.execute(
+                            select(Price).where(
+                                Price.source_document_id == document_id, Price.tenant_id == tenant_id
+                            )
+                        )
                     ).scalars()
                 )
                 for price in prices:

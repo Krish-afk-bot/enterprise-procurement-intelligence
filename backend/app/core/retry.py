@@ -97,7 +97,7 @@ async def retry_transient(
                             )
                             await asyncio.sleep(delay)
                             continue
-                    
+
                     # Standard exponential backoff with jitter
                     delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
                     jitter = random.uniform(0, delay * 0.1)  # 10% jitter
@@ -160,7 +160,7 @@ def _parse_retry_after(header_value: str | None) -> float | None:
     """
     if not header_value:
         return None
-    
+
     try:
         # Try parsing as integer seconds
         return float(header_value)

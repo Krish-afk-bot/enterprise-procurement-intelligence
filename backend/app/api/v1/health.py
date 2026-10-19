@@ -72,12 +72,12 @@ async def health(
                     logger.warning("health_check_provider_error", provider=k, error=type(exc).__name__)
                     from app.providers.types import ProviderStatus
                     return k, ProviderStatus.of(k, getattr(p, "name", "unknown"), False, detail=str(exc))
-            
+
             provider_tasks[kind] = asyncio.create_task(check_provider())
-        
+
         # Wait for all with overall timeout
         done, pending = await asyncio.wait(provider_tasks.values(), timeout=5.0)
-        
+
         # Collect results from completed tasks
         for task in done:
             try:
@@ -85,7 +85,7 @@ async def health(
                 statuses[kind] = status
             except Exception as exc:  # noqa: BLE001
                 logger.warning("health_check_provider_task_failed", error=str(exc))
-        
+
         # Cancel any still-pending tasks
         for task in pending:
             task.cancel()
@@ -96,7 +96,7 @@ async def health(
                 pass
             except Exception:  # noqa: BLE001
                 pass
-                
+
     except Exception as exc:  # noqa: BLE001
         logger.error("health_check_provider_check_failed", error=str(exc))
         provider_timeout = True
@@ -196,7 +196,7 @@ async def ready(
             if provider is None:
                 blocking.append(kind)
                 continue
-                
+
             async def check_critical(p=provider, k=kind):
                 try:
                     status = await asyncio.wait_for(p.status(), timeout=2.0)
@@ -209,12 +209,12 @@ async def ready(
                     logger.warning("readiness_check_provider_error", provider=k, error=type(exc).__name__)
                     from app.providers.types import ProviderStatus
                     return k, ProviderStatus.of(k, getattr(p, "name", "unknown"), False, detail=str(exc))
-            
+
             provider_tasks[kind] = asyncio.create_task(check_critical())
-        
+
         # Wait with overall timeout
         done, pending = await asyncio.wait(provider_tasks.values(), timeout=3.0)
-        
+
         # Cancel pending tasks
         for task in pending:
             task.cancel()
@@ -224,7 +224,7 @@ async def ready(
                 pass
             except Exception:  # noqa: BLE001
                 pass
-        
+
         # Check results
         for task in done:
             try:
@@ -233,11 +233,11 @@ async def ready(
                     blocking.append(kind)
             except Exception:  # noqa: BLE001
                 blocking.append("unknown")
-                
+
         # Add timeout indicator if any tasks were cancelled
         if pending:
             blocking.append("timeout")
-            
+
     except Exception as exc:  # noqa: BLE001
         logger.error("readiness_check_failed", error=str(exc))
         blocking.extend(["vector", "embedding", "error"])

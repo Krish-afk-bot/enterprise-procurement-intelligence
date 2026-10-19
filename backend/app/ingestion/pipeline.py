@@ -421,7 +421,7 @@ class IngestionPipeline:
         await session.execute(delete(Chunk).where(Chunk.document_id == document.id))
         await session.execute(delete(DocumentPage).where(DocumentPage.document_id == document.id))
         await session.execute(delete(TableRecord).where(TableRecord.document_id == document.id))
-        
+
         # Delete vectors (happens BEFORE upload of new vectors)
         collection = CHUNK_COLLECTION
         try:
@@ -685,10 +685,10 @@ class IngestionPipeline:
             return 0
         dimension = len(points[0].vector)
         await self.container.vector.ensure_collection(CHUNK_COLLECTION, dimension)
-        
+
         # Phase 7.3B: Upload new vectors (old vectors already deleted in _delete_existing_artifacts)
         indexed = await self.container.vector.upsert(CHUNK_COLLECTION, points)
-        
+
         if indexed_ids:
             async with session_scope() as session:
                 await session.execute(

@@ -273,7 +273,7 @@ class TestAuthorizationAuditLogging:
         """Test that audit logging truncates long resource IDs to avoid database errors."""
         # Create a very long resource ID (>64 characters)
         long_id = "x" * 100
-        
+
         # This should not raise an exception
         await audit.record_principal_action(
             session,

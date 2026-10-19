@@ -143,7 +143,7 @@ class TestLLMResilience:
 
     async def test_llm_completion_retries_on_503(self):
         """Test that LLM completion retries on 503 errors - REAL INTEGRATION TEST."""
-        
+
         provider = OpenAICompatibleProvider(
             base_url="http://localhost:8000",
             api_key="test-key",
@@ -159,10 +159,10 @@ class TestLLMResilience:
                 self.status_code = status_code
                 self._json_data = json_data or {}
                 self.headers = {}
-            
+
             def json(self):
                 return self._json_data
-            
+
             def raise_for_status(self):
                 if self.status_code >= 400:
                     raise httpx.HTTPStatusError("error", request=MagicMock(), response=self)
@@ -193,7 +193,7 @@ class TestLLMResilience:
 
     async def test_llm_completion_fails_on_400(self):
         """Test that LLM completion does NOT retry on 400 errors - REAL INTEGRATION TEST."""
-        
+
         provider = OpenAICompatibleProvider(
             base_url="http://localhost:8000",
             api_key="test-key",
@@ -207,10 +207,10 @@ class TestLLMResilience:
             def __init__(self, status_code):
                 self.status_code = status_code
                 self.headers = {}
-            
+
             def json(self):
                 return {}
-            
+
             def raise_for_status(self):
                 if self.status_code >= 400:
                     raise httpx.HTTPStatusError("bad request", request=MagicMock(), response=self)
@@ -229,11 +229,11 @@ class TestLLMResilience:
                 await provider.complete(messages)
 
             assert len(attempts) == 1, "Should NOT retry 400 errors"
-    
+
     async def test_retry_respects_retry_after_header(self):
         """Test that retry logic respects Retry-After header for 429."""
         import time
-        
+
         attempts = []
         retry_times = []
 
@@ -241,7 +241,7 @@ class TestLLMResilience:
             if attempts:
                 retry_times.append(time.perf_counter() - attempts[-1])
             attempts.append(time.perf_counter())
-            
+
             if len(attempts) < 2:
                 response = MagicMock()
                 response.status_code = 429
@@ -255,7 +255,7 @@ class TestLLMResilience:
         assert len(attempts) == 2
         # Should respect 0.2s from header, not use 1.0s base_delay
         assert 0.18 < retry_times[0] < 0.25, f"Should delay ~0.2s based on header, got {retry_times[0]}"
-    
+
     async def test_retry_bounds_total_time(self):
         """Test that retry stops if total time budget exceeded."""
         attempts = []
@@ -293,19 +293,19 @@ class TestHealthCheckTimeouts:
 
         from app.api.v1.health import health
         from app.config.settings import Settings
-        
+
         # Mock slow database session
         mock_session = AsyncMock()
         async def slow_execute(*args, **kwargs):
             await asyncio.sleep(10)  # Exceeds 5s timeout
         mock_session.execute = slow_execute
         mock_session.rollback = AsyncMock()
-        
+
         # Mock container with working providers
         mock_container = MagicMock()
         mock_container._providers = {}
         mock_container.fallbacks = []  # FIX: Must be a list, not dict
-        
+
         # Mock settings
         mock_settings = MagicMock(spec=Settings)
         mock_settings.app_env = "test"
@@ -313,14 +313,14 @@ class TestHealthCheckTimeouts:
         mock_settings.llm_configured = False
         mock_settings.vlm_configured = False
         mock_settings.ocr_enabled = False
-        
+
         # Call health endpoint directly
         result = await health(
             container=mock_container,
             settings=mock_settings,
             session=mock_session
         )
-        
+
         # Verify degraded status due to database timeout
         assert result.status == "degraded"
         assert not result.capabilities["database"]
@@ -334,23 +334,23 @@ class TestHealthCheckTimeouts:
 
         from app.api.v1.health import health
         from app.config.settings import Settings
-        
+
         # Mock fast database
         mock_session = AsyncMock()
         mock_session.execute = AsyncMock(return_value=None)
-        
+
         # Mock slow provider
         slow_provider = AsyncMock()
         async def slow_status(*args, **kwargs):
             await asyncio.sleep(10)  # Exceeds 3s per-provider timeout
         slow_provider.status = slow_status
         slow_provider.name = "slow-vector"
-        
+
         # Mock container with slow provider
         mock_container = MagicMock()
         mock_container._providers = {"vector": slow_provider}
         mock_container.fallbacks = []  # FIX: Must be a list
-        
+
         # Mock settings
         mock_settings = MagicMock(spec=Settings)
         mock_settings.app_env = "test"
@@ -358,14 +358,14 @@ class TestHealthCheckTimeouts:
         mock_settings.llm_configured = False
         mock_settings.vlm_configured = False
         mock_settings.ocr_enabled = False
-        
+
         # Call health endpoint directly
         result = await health(
             container=mock_container,
             settings=mock_settings,
             session=mock_session
         )
-        
+
         # Verify provider marked as unavailable due to timeout
         assert "vector" in result.providers
         assert not result.providers["vector"].available
@@ -376,35 +376,35 @@ class TestHealthCheckTimeouts:
         from unittest.mock import AsyncMock
 
         from app.api.v1.health import ready
-        
+
         # Mock fast database
         mock_session = AsyncMock()
         mock_session.execute = AsyncMock(return_value=None)
-        
+
         # Mock slow critical provider
         slow_provider = AsyncMock()
         async def slow_status(*args, **kwargs):
             await asyncio.sleep(10)  # Exceeds 2s per-provider timeout
         slow_provider.status = slow_status
         slow_provider.name = "slow-vector"
-        
+
         # Mock container with slow critical provider
         mock_container = MagicMock()
         mock_container._providers = {"vector": slow_provider, "embedding": slow_provider}
-        
+
         # Call ready endpoint directly
         result = await ready(
             container=mock_container,
             session=mock_session
         )
-        
+
         # ISSUE FOUND: Per-provider timeouts don't add providers to blocking[] - they return
         # ProviderStatus(available=False), which then gets added. The overall wait timeout
         # adds "timeout" to blocking. Since per-provider timeout=2s < overall timeout=3s,
         # the tasks complete with timeout status, NOT pending.
         assert not result.ready
         assert "vector" in result.blocking or "embedding" in result.blocking
-        
+
     async def test_health_check_succeeds_normally(self):
         """Test that health check succeeds when all dependencies are healthy."""
         from unittest.mock import AsyncMock
@@ -412,11 +412,11 @@ class TestHealthCheckTimeouts:
         from app.api.v1.health import health
         from app.config.settings import Settings
         from app.providers.types import ProviderStatus
-        
+
         # Mock healthy database
         mock_session = AsyncMock()
         mock_session.execute = AsyncMock(return_value=None)
-        
+
         # Mock healthy provider
         healthy_provider = AsyncMock()
         healthy_status = ProviderStatus(
@@ -426,12 +426,12 @@ class TestHealthCheckTimeouts:
             detail="healthy"
         )
         healthy_provider.status = AsyncMock(return_value=healthy_status)
-        
+
         # Mock container
         mock_container = MagicMock()
         mock_container._providers = {"vector": healthy_provider}
         mock_container.fallbacks = []  # FIX: Must be a list
-        
+
         # Mock settings
         mock_settings = MagicMock(spec=Settings)
         mock_settings.app_env = "test"
@@ -439,14 +439,14 @@ class TestHealthCheckTimeouts:
         mock_settings.llm_configured = True
         mock_settings.vlm_configured = False
         mock_settings.ocr_enabled = False
-        
+
         # Call health endpoint
         result = await health(
             container=mock_container,
             settings=mock_settings,
             session=mock_session
         )
-        
+
         # Verify healthy status
         assert result.status == "ok"
         assert not result.degraded
@@ -459,25 +459,25 @@ class TestHealthCheckTimeouts:
 
         from app.api.v1.health import health
         from app.config.settings import Settings
-        
+
         # Mock database that raises an error (not timeout)
         mock_session = AsyncMock()
         async def failing_execute(*args, **kwargs):
             raise RuntimeError("connection refused")
         mock_session.execute = failing_execute
-        
+
         # Mock provider that times out
         timeout_provider = AsyncMock()
         async def slow_status(*args, **kwargs):
             await asyncio.sleep(10)
         timeout_provider.status = slow_status
         timeout_provider.name = "timeout-vector"
-        
+
         # Mock container
         mock_container = MagicMock()
         mock_container._providers = {"vector": timeout_provider}
         mock_container.fallbacks = []  # FIX: Must be a list
-        
+
         # Mock settings
         mock_settings = MagicMock(spec=Settings)
         mock_settings.app_env = "test"
@@ -485,34 +485,34 @@ class TestHealthCheckTimeouts:
         mock_settings.llm_configured = False
         mock_settings.vlm_configured = False
         mock_settings.ocr_enabled = False
-        
+
         # Call health endpoint
         result = await health(
             container=mock_container,
             settings=mock_settings,
             session=mock_session
         )
-        
+
         # Verify both are degraded but with different details
         assert result.degraded
         # Database error should be captured in details
         assert result.details.get("database_error") == "RuntimeError"
         # Provider timeout should be in provider detail
         assert result.providers["vector"].detail == "timeout"
-        
+
     async def test_ready_check_cancels_pending_tasks(self):
         """Test that readiness check properly cancels timed-out provider checks."""
         from unittest.mock import AsyncMock
 
         from app.api.v1.health import ready
-        
+
         # Mock fast database
         mock_session = AsyncMock()
         mock_session.execute = AsyncMock(return_value=None)
-        
+
         # Track if task was cancelled
         cancellation_detected = []
-        
+
         # Mock provider that would hang but should be cancelled
         hanging_provider = AsyncMock()
         async def hanging_status(*args, **kwargs):
@@ -523,21 +523,21 @@ class TestHealthCheckTimeouts:
                 raise
         hanging_provider.status = hanging_status
         hanging_provider.name = "hanging-vector"
-        
+
         # Mock container
         mock_container = MagicMock()
         mock_container._providers = {"vector": hanging_provider, "embedding": hanging_provider}
-        
+
         # Call ready endpoint
         result = await ready(
             container=mock_container,
             session=mock_session
         )
-        
+
         # ISSUE FOUND: Per-provider timeout (2s) completes before overall timeout (3s),
         # so tasks aren't actually pending when asyncio.wait() returns. They complete
         # with a timeout ProviderStatus result.
-        # 
+        #
         # To test actual cancellation, we need the per-provider check to exceed the
         # overall timeout. But the current implementation has per-provider=2s, overall=3s.
         # This is correct design - individual checks should timeout before overall.

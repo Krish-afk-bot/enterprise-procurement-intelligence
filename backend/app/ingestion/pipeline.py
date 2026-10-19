@@ -402,26 +402,35 @@ class IngestionPipeline:
     async def _delete_existing_artifacts(self, session: AsyncSession, document: Document) -> None:
         """Re-indexing replaces derived data; the stored original is never touched.
         
-        GAP-7: Vector deletion happens first. If subsequent steps fail, document has no vectors
-        until next retry. This is acceptable because:
-        1. Document status reflects failure
-        2. Stuck job recovery will retry
-        3. Alternative (delete after upload) risks duplicate vectors on failure
+        Phase 7.3B: Delete-first strategy for re-indexing.
+        
+        CONSISTENCY RISK: Vectors are deleted BEFORE new ones are uploaded. If upload fails:
+        - Document will have no vectors until retry succeeds
+        - Document status will show "failed"
+        - Stuck job recovery will automatically retry
+        
+        This approach prevents duplicate vectors but accepts temporary unsearchability.
+        Alternative (upload-before-delete) would risk duplicates when chunk IDs change.
+        
+        Cross-store consistency: PostgreSQL, Qdrant, and Neo4j operate independently.
+        No atomic transaction spans all three. Partial failures are possible.
         """
         from sqlalchemy import delete
 
+        # Delete PostgreSQL records first
         await session.execute(delete(Chunk).where(Chunk.document_id == document.id))
         await session.execute(delete(DocumentPage).where(DocumentPage.document_id == document.id))
         await session.execute(delete(TableRecord).where(TableRecord.document_id == document.id))
         
-        # Delete old vectors to prevent duplicates (deterministic IDs mitigate but don't eliminate risk)
+        # Delete vectors (happens BEFORE upload of new vectors)
         collection = CHUNK_COLLECTION
         try:
             await self.container.vector.delete_by_document(collection, document.id)
             logger.info("vector_delete_completed", document_id=document.id)
         except Exception as exc:  # noqa: BLE001
             logger.warning("vector_delete_failed", document_id=document.id, error=str(exc))
-            # Continue - worst case is duplicate vectors, better than failing entire re-index
+            # Continue despite vector deletion failure - upload will still work
+            # but may result in duplicate vectors
 
     async def _persist_pages(
         self, session: AsyncSession, document: Document, parsed: ParsedDocument, tenant_id: str
@@ -677,8 +686,7 @@ class IngestionPipeline:
         dimension = len(points[0].vector)
         await self.container.vector.ensure_collection(CHUNK_COLLECTION, dimension)
         
-        # GAP-7: For re-indexing, upload new vectors first, THEN delete old ones for idempotency
-        # This prevents leaving document with no vectors if upload fails
+        # Phase 7.3B: Upload new vectors (old vectors already deleted in _delete_existing_artifacts)
         indexed = await self.container.vector.upsert(CHUNK_COLLECTION, points)
         
         if indexed_ids:

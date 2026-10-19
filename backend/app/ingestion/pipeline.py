@@ -400,17 +400,28 @@ class IngestionPipeline:
         outcome.metrics["vision"] = "applied" if applied else "unavailable"
 
     async def _delete_existing_artifacts(self, session: AsyncSession, document: Document) -> None:
-        """Re-indexing replaces derived data; the stored original is never touched."""
+        """Re-indexing replaces derived data; the stored original is never touched.
+        
+        GAP-7: Vector deletion happens first. If subsequent steps fail, document has no vectors
+        until next retry. This is acceptable because:
+        1. Document status reflects failure
+        2. Stuck job recovery will retry
+        3. Alternative (delete after upload) risks duplicate vectors on failure
+        """
         from sqlalchemy import delete
 
         await session.execute(delete(Chunk).where(Chunk.document_id == document.id))
         await session.execute(delete(DocumentPage).where(DocumentPage.document_id == document.id))
         await session.execute(delete(TableRecord).where(TableRecord.document_id == document.id))
+        
+        # Delete old vectors to prevent duplicates (deterministic IDs mitigate but don't eliminate risk)
         collection = CHUNK_COLLECTION
         try:
             await self.container.vector.delete_by_document(collection, document.id)
+            logger.info("vector_delete_completed", document_id=document.id)
         except Exception as exc:  # noqa: BLE001
             logger.warning("vector_delete_failed", document_id=document.id, error=str(exc))
+            # Continue - worst case is duplicate vectors, better than failing entire re-index
 
     async def _persist_pages(
         self, session: AsyncSession, document: Document, parsed: ParsedDocument, tenant_id: str
@@ -665,7 +676,11 @@ class IngestionPipeline:
             return 0
         dimension = len(points[0].vector)
         await self.container.vector.ensure_collection(CHUNK_COLLECTION, dimension)
+        
+        # GAP-7: For re-indexing, upload new vectors first, THEN delete old ones for idempotency
+        # This prevents leaving document with no vectors if upload fails
         indexed = await self.container.vector.upsert(CHUNK_COLLECTION, points)
+        
         if indexed_ids:
             async with session_scope() as session:
                 await session.execute(

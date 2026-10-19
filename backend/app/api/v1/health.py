@@ -28,12 +28,41 @@ async def health(
     settings: Settings = Depends(get_settings),
     session: AsyncSession = Depends(get_db),
 ) -> HealthResponse:
-    statuses = await container.provider_statuses()
+    # GAP-1: Bound health checks to prevent hangs on slow providers
+    import asyncio
+
     database_ok = True
     try:
-        await session.execute(text("SELECT 1"))
-    except Exception:  # noqa: BLE001
+        await asyncio.wait_for(session.execute(text("SELECT 1")), timeout=5.0)
+    except (TimeoutError, Exception):  # noqa: BLE001
         database_ok = False
+
+    try:
+        statuses = await asyncio.wait_for(container.provider_statuses(), timeout=5.0)
+    except TimeoutError:
+        # If provider checks timeout, return minimal degraded response
+        return HealthResponse(
+            status="degraded",
+            app_env=settings.app_env,
+            version=__version__,
+            degraded=True,
+            providers={},
+            fallbacks={},
+            capabilities={
+                "database": database_ok,
+                "vector_search": False,
+                "keyword_search": False,
+                "graph_traversal": False,
+                "embeddings": False,
+                "reranking": False,
+                "llm_generation": False,
+                "vision_generation": False,
+                "ocr": False,
+                "structured_sql": database_ok,
+                "evaluation": False,
+            },
+            details={"error": "provider status checks timed out after 5 seconds"},
+        )
 
     degraded = (not database_ok) or any(
         not status.available for name, status in statuses.items() if name in REQUIRED_KINDS
@@ -71,15 +100,23 @@ async def ready(
     container: Container = Depends(container_dep),
     session: AsyncSession = Depends(get_db),
 ) -> ReadyResponse:
+    # GAP-1: Bound readiness checks with stricter timeout (3s)
+    import asyncio
+
     blocking: list[str] = []
     try:
-        await session.execute(text("SELECT 1"))
+        await asyncio.wait_for(session.execute(text("SELECT 1")), timeout=3.0)
         database = True
-    except Exception:  # noqa: BLE001
+    except (TimeoutError, Exception):  # noqa: BLE001
         database = False
         blocking.append("database")
 
-    statuses = await container.provider_statuses()
+    try:
+        statuses = await asyncio.wait_for(container.provider_statuses(), timeout=3.0)
+    except TimeoutError:
+        # If provider checks timeout, assume all critical providers down
+        return ReadyResponse(ready=False, database=database, blocking=["vector", "embedding", "timeout"])
+
     for kind in ("vector", "embedding"):
         status = statuses.get(kind)
         if status is None or not status.available:

@@ -131,42 +131,48 @@ class OpenAICompatibleProvider:
         response_format: dict[str, Any] | None = None,
     ) -> LLMResponse:
         self._require()
-        started = time.perf_counter()
-        payload = self._payload(
-            messages,
-            model=model,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            response_format=response_format,
-        )
-        client = self._get_client()
-        response = await client.post(
-            self._endpoint("chat/completions"), json=payload, headers=self._headers()
-        )
-        response.raise_for_status()
-        body = response.json()
-        choice = (body.get("choices") or [{}])[0]
-        text = (choice.get("message") or {}).get("content") or ""
-        usage = body.get("usage") or {}
-        latency_ms = int((time.perf_counter() - started) * 1000)
-        logger.info(
-            "llm_completion",
-            model=body.get("model", payload["model"]),
-            latency_ms=latency_ms,
-            prompt_tokens=usage.get("prompt_tokens"),
-            completion_tokens=usage.get("completion_tokens"),
-            finish_reason=choice.get("finish_reason"),
-        )
-        return LLMResponse(
-            text=text.strip(),
-            model=body.get("model", payload["model"]),
-            provider=self.name,
-            mode="llm",
-            prompt_tokens=usage.get("prompt_tokens"),
-            completion_tokens=usage.get("completion_tokens"),
-            latency_ms=latency_ms,
-            finish_reason=choice.get("finish_reason"),
-        )
+        from app.core.retry import retry_transient
+
+        async def _call():
+            started = time.perf_counter()
+            payload = self._payload(
+                messages,
+                model=model,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                response_format=response_format,
+            )
+            client = self._get_client()
+            response = await client.post(
+                self._endpoint("chat/completions"), json=payload, headers=self._headers()
+            )
+            response.raise_for_status()
+            body = response.json()
+            choice = (body.get("choices") or [{}])[0]
+            text = (choice.get("message") or {}).get("content") or ""
+            usage = body.get("usage") or {}
+            latency_ms = int((time.perf_counter() - started) * 1000)
+            logger.info(
+                "llm_completion",
+                model=body.get("model", payload["model"]),
+                latency_ms=latency_ms,
+                prompt_tokens=usage.get("prompt_tokens"),
+                completion_tokens=usage.get("completion_tokens"),
+                finish_reason=choice.get("finish_reason"),
+            )
+            return LLMResponse(
+                text=text.strip(),
+                model=body.get("model", payload["model"]),
+                provider=self.name,
+                mode="llm",
+                prompt_tokens=usage.get("prompt_tokens"),
+                completion_tokens=usage.get("completion_tokens"),
+                latency_ms=latency_ms,
+                finish_reason=choice.get("finish_reason"),
+            )
+
+        # GAP-6: Retry on transient failures (429, 502, 503, 504, connection errors)
+        return await retry_transient(_call, max_attempts=3, operation="llm_completion")
 
     async def stream(
         self,

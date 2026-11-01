@@ -46,6 +46,11 @@ from app.retrieval.query_understanding import (
 )
 from app.retrieval.retriever import HybridRetriever, RetrievalResult, expand_parents
 from app.retrieval.structured import StructuredResult, structured_lookup
+from app.security.injection import (
+    INJECTION_REFUSAL_REASON,
+    INJECTION_REFUSAL_TEXT,
+    detect_injection,
+)
 from app.security.rbac import Principal  # noqa: F401  (typing import)
 
 logger = get_logger(__name__)
@@ -119,6 +124,20 @@ class AgentRuntime:
         state["events"] = events
         state.setdefault("notes", [])
         state["notes"] = [*state.get("notes", []), *plan.notes]
+        # The question itself is untrusted input: an instruction aimed at the
+        # model ("ignore your instructions", "print your system prompt") is not a
+        # question about the corpus. It is refused before it reaches retrieval.
+        injection = detect_injection(question)
+        state["question_injection"] = injection.as_dict()
+        if injection.suspicious:
+            state["hard_refusal"] = True
+            state["events"] = add_event(
+                state,
+                "understand",
+                "Request refused as a prompt-injection attempt",
+                f"matched: {', '.join(injection.patterns)}",
+                patterns=injection.patterns,
+            )
         state["timings"] = {
             **(state.get("timings") or {}),
             "understand_ms": int((time.perf_counter() - started) * 1000),
@@ -395,6 +414,26 @@ class AgentRuntime:
         import time
 
         started = time.perf_counter()
+        if state.get("hard_refusal"):
+            # Nothing is generated for an injection attempt: the question must not
+            # reach the model at all, so a leaked system prompt is impossible.
+            state["answer_text"] = INJECTION_REFUSAL_TEXT
+            state["generation_mode"] = "refusal"
+            state["model"] = None
+            state["token_usage"] = {}
+            state["citations"] = []
+            state["context_blocks"] = []
+            state["events"] = add_event(
+                state,
+                "generate",
+                "Skipped generation",
+                "the request was refused before an answer was composed",
+            )
+            state["timings"] = {
+                **(state.get("timings") or {}),
+                "generation_ms": int((time.perf_counter() - started) * 1000),
+            }
+            return state
         principal = self.principal_from_state(state)
         plan = QueryPlan.model_validate(state["plan"])
 
@@ -574,7 +613,15 @@ class AgentRuntime:
         )
 
         refusal = False
-        if status == "insufficient_evidence" and not conflicts:
+        if state.get("hard_refusal"):
+            # Hard injection refusal: this overrides the evidence, coverage and
+            # grounding verdicts, because the question is not a question about the
+            # corpus. It is the last word on an injection attempt.
+            status = "insufficient_evidence"
+            answer_text = f"{INJECTION_REFUSAL_TEXT}\n\nWhy: {INJECTION_REFUSAL_REASON}"
+            refusal = True
+            citation_check = validate_citations(answer_text, bundle)
+        elif status == "insufficient_evidence" and not conflicts:
             # The refusal body carries the refusal and its readable reason only;
             # the sufficiency criteria are structured data that already travel in
             # ``state['sufficiency']`` and are rendered by the interface.

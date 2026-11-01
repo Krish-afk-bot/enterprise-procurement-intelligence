@@ -25,11 +25,10 @@ def error_body(
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppError)
     async def _app_error(request: Request, exc: AppError) -> JSONResponse:
-        from app.api.deps import get_client_ip
+        from app.api.deps import get_client_ip, get_principal_or_none
         from app.core.errors import AuthorizationError
         from app.db.session import session_scope
         from app.security import audit
-        from app.security.rbac import get_principal_or_none
 
         headers = {}
         if isinstance(exc, RateLimitError) and exc.details.get("retry_after"):

@@ -112,9 +112,9 @@ def rate_limit(bucket: str, limit_attr: str) -> Callable[..., Awaitable[None]]:
 
     async def _dependency(
         request: Request,
+        principal: Principal | None = Depends(get_principal_or_none),
         container: Container = Depends(container_dep),
         settings: Settings = Depends(get_settings),
-        principal: Principal | None = None,  # Optional: provided if endpoint is authenticated
     ) -> None:
         if container.rate_limiter is None:
             return

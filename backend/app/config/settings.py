@@ -188,6 +188,10 @@ class Settings(BaseSettings):
     context_max_tokens: int = 6000
     max_agent_iterations: int = 2
     evidence_sufficiency_threshold: float = 0.45
+    #: Deterministic per-claim binding is the default grounding judge. The
+    #: model judge is optional because it costs a generation round-trip and can
+    #: only withdraw support, never add it.
+    grounding_llm_judge_enabled: bool = False
     enable_query_rewrite: bool = False
     enable_multi_query: bool = False
     enable_hyde: bool = False

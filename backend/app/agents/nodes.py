@@ -16,10 +16,13 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.agents.claim_binding import bind_claims, passages_from_blocks
 from app.agents.generation import AnswerGenerator
 from app.agents.state import AgentState, add_event
 from app.agents.verification import (
     REFUSAL_TEXT,
+    ClaimCheck,
+    GroundingResult,
     assess_evidence_strength,
     assess_query_coverage,
     decide_status,
@@ -534,11 +537,69 @@ class AgentRuntime:
 
         answer_text = state.get("answer_text", "")
         claims = extract_claims(answer_text)
-        grounding = None
-        if self.settings.llm_configured and self.container.router is not None and claims:
-            grounding = await judge_grounding_llm(claims, evidence_texts, self.container.router)
-        if grounding is None:
-            grounding = judge_grounding_lexical(claims, evidence_texts)
+        # Cheap deterministic pre-filter: token overlap plus every number being
+        # present *somewhere* in the context.
+        lexical = judge_grounding_lexical(claims, evidence_texts)
+        plan_payload = state.get("plan") or {}
+        passages, known_entities = passages_from_blocks(
+            blocks,
+            structured_facts=structured.facts,
+            aggregations=structured.aggregations,
+            conflicts=state.get("conflicts") or [],
+            known_entities=[
+                *(plan_payload.get("suppliers") or []),
+                *(plan_payload.get("products") or []),
+            ],
+        )
+        binding = bind_claims(claims, passages, known_entities=known_entities)
+        grounding = GroundingResult(
+            method="claim_binding_v1",
+            claims=[
+                ClaimCheck(
+                    claim=check.claim,
+                    supported=check.supported,
+                    support_score=check.support_score,
+                    missing_numbers=check.missing_numbers,
+                    evidence_refs=check.evidence_refs,
+                    reason=check.reason,
+                )
+                for check in binding
+            ],
+            score=(sum(1 for check in binding if check.supported) / len(binding)) if binding else None,
+            supported=sum(1 for check in binding if check.supported),
+            total=len(binding),
+            unsupported=[check.claim for check in binding if not check.supported],
+            details={
+                "criteria": (
+                    "each clause's numbers must occur in one passage that also names the "
+                    "claim's supplier/product and carries its date/period"
+                ),
+                "passages": len(passages),
+                "lexical_prefilter": {
+                    "supported": lexical.supported,
+                    "total": lexical.total,
+                    "unsupported": lexical.unsupported,
+                },
+            },
+        )
+        if self.settings.grounding_llm_judge_enabled and self.settings.llm_configured and self.container.router is not None and claims:
+            model_judgement = await judge_grounding_llm(claims, evidence_texts, self.container.router)
+            if model_judgement is not None:
+                # The model may only withdraw support: a claim that failed the
+                # deterministic entity/date/number binding is not rescued by a
+                # second opinion.
+                model_supported = {check.claim: check.supported for check in model_judgement.claims}
+                for check in grounding.claims:
+                    if not model_supported.get(check.claim, check.supported):
+                        check.supported = False
+                        check.support_score = 0.0
+                        check.reason = f"model judge: {check.reason}"
+                grounding.supported = sum(1 for check in grounding.claims if check.supported)
+                grounding.score = (
+                    grounding.supported / len(grounding.claims) if grounding.claims else None
+                )
+                grounding.unsupported = [check.claim for check in grounding.claims if not check.supported]
+                grounding.details["llm_judge"] = model_judgement.as_dict()
 
         from app.retrieval.context import CitationDraft, ContextBlock, ContextBundle
 

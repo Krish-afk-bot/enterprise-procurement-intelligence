@@ -191,6 +191,11 @@ async def main() -> int:
     parser.add_argument("--top-k", type=int, default=10)
     parser.add_argument("--strategy", default=None)
     parser.add_argument("--write-taxonomy", action="store_true")
+    parser.add_argument(
+        "--label",
+        default="baseline",
+        help="artifact prefix, e.g. phase-2-after-grounding (default: baseline)",
+    )
     args = parser.parse_args()
 
     from app.config.container import get_container
@@ -237,7 +242,7 @@ async def main() -> int:
             on_row=_progress,
         )
         reports[mode] = report
-        out = EVAL_DIR / f"baseline_{mode}_{_slug(settings.llm_model)}.json"
+        out = EVAL_DIR / f"{args.label}_{mode}_{_slug(settings.llm_model)}.json"
         out.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
         print(f"  saved {out.relative_to(PROJECT_ROOT)}")
         _print_report(report, title=f"v2 evaluation — {mode}")

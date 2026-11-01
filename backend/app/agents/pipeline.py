@@ -174,6 +174,7 @@ class AnswerPipeline:
             debug=debug,
         )
         emitted = 0
+        evidence_emitted = False
         yield {
             "type": "status",
             "event": {"node": "start", "event": "Query received", "detail": question[:200]},
@@ -188,6 +189,15 @@ class AnswerPipeline:
                     for event in events[emitted:]:
                         yield {"type": "status", "event": event}
                     emitted = len(events)
+                    if not evidence_emitted:
+                        # Evidence is useful before the answer exists. Emit the
+                        # retrieved passages as soon as retrieval has run so the
+                        # interface can render them while generation/verification
+                        # is still in progress.
+                        preview = _evidence_preview(update)
+                        if preview:
+                            yield {"type": "evidence", "evidence": preview}
+                            evidence_emitted = True
             except Exception as exc:  # noqa: BLE001
                 logger.error("agent_stream_failed", error=str(exc), exc_info=True)
                 yield {
@@ -208,10 +218,26 @@ class AnswerPipeline:
         structured = state.get("structured") or {}
         retrieval = state.get("retrieval") or {}
 
+        # The conversation is created only when there is an answer to store.
+        # A failed query therefore leaves no empty conversation behind, and a
+        # first question asked without one still gets a persisted transcript.
+        conversation_id = state.get("conversation_id")
+        if not conversation_id and state.get("status") != "error":
+            conversation = Conversation(
+                tenant_id=principal.tenant_id,
+                user_id=principal.user_id,
+                title=(state.get("question") or "New conversation")[:120],
+                message_count=0,
+            )
+            session.add(conversation)
+            await session.flush()
+            conversation_id = conversation.id
+            state["conversation_id"] = conversation_id
+
         query_record = QueryRecord(
             tenant_id=principal.tenant_id,
             user_id=principal.user_id,
-            conversation_id=state.get("conversation_id"),
+            conversation_id=conversation_id,
             query_text=state.get("question", ""),
             intent=(plan.get("intent") if isinstance(plan, dict) else None),
             classification=plan if isinstance(plan, dict) else {},
@@ -306,8 +332,8 @@ class AnswerPipeline:
             )
         )
 
-        if state.get("conversation_id"):
-            conversation = await session.get(Conversation, state["conversation_id"])
+        if conversation_id:
+            conversation = await session.get(Conversation, conversation_id)
             if conversation is not None and conversation.tenant_id == principal.tenant_id:
                 session.add(
                     Message(
@@ -351,6 +377,7 @@ class AnswerPipeline:
             )
         return AnswerOut(
             query_id=query_id,
+            conversation_id=state.get("conversation_id"),
             answer_text=state.get("answer_text", ""),
             status=state.get("status", "partial"),
             generation_mode=state.get("generation_mode", "extractive"),
@@ -370,6 +397,36 @@ class AnswerPipeline:
             notes=notes,
             trace=[event for event in (state.get("events") or [])] if state.get("debug") else [],
         )
+
+
+def _evidence_preview(state: dict[str, Any]) -> list[dict[str, Any]]:
+    """The retrieved passages, shaped like citations for early rendering."""
+    hits = (state.get("retrieval") or {}).get("hits") or []
+    preview: list[dict[str, Any]] = []
+    for hit in hits[:8]:
+        document_name = hit.get("document_name") or "document"
+        page = hit.get("page")
+        label = f"{document_name} — p.{page}" if page else str(document_name)
+        preview.append(
+            {
+                "chunk_id": hit.get("chunk_id"),
+                "document_id": hit.get("document_id"),
+                "document_name": document_name,
+                "document_type": hit.get("document_type"),
+                "page": page,
+                "section": hit.get("section"),
+                "clause": hit.get("clause"),
+                "snippet": (hit.get("content") or "")[:400],
+                "source_uri": None,
+                "score": hit.get("rerank_score") if hit.get("rerank_score") is not None else hit.get("fused_score"),
+                "rank": hit.get("rank"),
+                "evidence_type": "document",
+                "is_synthetic": bool(hit.get("is_synthetic")),
+                "verified": True,
+                "label": label,
+            }
+        )
+    return preview
 
 
 def citation_out(model: CitationModel) -> CitationOut:

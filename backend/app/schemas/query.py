@@ -123,6 +123,9 @@ class RetrievalStepOut(APIModel):
 
 class AnswerOut(APIModel):
     query_id: str
+    #: Set when the answer was persisted. A first question creates the
+    #: conversation server-side once there is an answer to store.
+    conversation_id: str | None = None
     answer_text: str
     status: Literal["supported", "partial", "insufficient_evidence", "conflicting", "error"] = "supported"
     generation_mode: str = "extractive"

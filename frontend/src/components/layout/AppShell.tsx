@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/misc";
 import { api } from "@/lib/api";
+import { WORLD_ENABLED } from "@/lib/features";
 import { NAV_SECTIONS, routeMeta } from "@/lib/navigation";
 import { cn, titleCase } from "@/lib/utils";
 import { useAuth } from "@/store/auth";
@@ -265,14 +266,20 @@ export function AppShell() {
 
           <main id="workspace-main" className="min-h-0 flex-1 px-4 py-5 lg:px-6 lg:py-6">
             <div className="mx-auto w-full max-w-[1400px]">
-              {/* The band is the workspace's persistent 3D strip. It also owns the
-                  context every page scene reads, so a scene can tell whether it
-                  should draw into the shared canvas or write its own. */}
-              <WorldStage>
+              {/* The 3D band is off unless VITE_ENABLE_WORLD=true at build time.
+                  With the flag off the pages render in the ordinary DOM flow and
+                  no three.js module is reachable from this entrypoint. */}
+              {WORLD_ENABLED ? (
+                <WorldStage>
+                  <Suspense fallback={<LoadingState label="Loading this workspace view" />}>
+                    <Outlet />
+                  </Suspense>
+                </WorldStage>
+              ) : (
                 <Suspense fallback={<LoadingState label="Loading this workspace view" />}>
                   <Outlet />
                 </Suspense>
-              </WorldStage>
+              )}
             </div>
           </main>
         </div>

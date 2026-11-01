@@ -33,6 +33,7 @@ from app.db.models import (
     Contract,
     Document,
     DocumentPage,
+    IngestionJob,
     Price,
     Product,
     Supplier,
@@ -108,22 +109,66 @@ class IngestionPipeline:
         run_vision: bool | None = None,
         rebuild_graph: bool = True,
         progress: ProgressCallback | None = None,
+        job_id: str | None = None,
     ) -> IngestionOutcome:
+        """Process a document through the ingestion pipeline.
+
+        Args:
+            document_id: The document to process.
+            job_id: If provided, the associated IngestionJob id.  The job's
+                ``indexing_version`` is used as the candidate version for
+                candidate-chunk stamping.  When absent the document's own
+                ``active_indexing_version`` is used (first-ingestion path).
+        """
         started = time.perf_counter()
         outcome = IngestionOutcome(document_id=document_id, status="processing")
         ocr_enabled = self.settings.ocr_enabled if run_ocr is None else run_ocr
         vision_enabled = self.settings.vision_escalation_enabled if run_vision is None else run_vision
 
-        async def report(stage: str, fraction: float) -> None:
+        async def report(
+            stage: str,
+            fraction: float,
+            checkpoint: str | None = None,
+            checkpoint_metadata: dict | None = None,
+        ) -> None:
             outcome.stages.append(stage)
             if progress is not None:
-                await progress(stage, fraction)
+                try:
+                    await progress(
+                        stage,
+                        fraction,
+                        checkpoint=checkpoint,
+                        checkpoint_metadata=checkpoint_metadata,
+                    )
+                except TypeError:
+                    # Backward compatibility if progress callback only accepts (stage, fraction)
+                    await progress(stage, fraction)
 
         try:
             async with session_scope() as session:
                 document = await session.get(Document, document_id)
                 if document is None:
                     raise NotFoundError(f"Document {document_id} does not exist.")
+
+                # Determine which indexing version we are writing.
+                # If a job carries a specific indexing_version use that; otherwise
+                # fall back to the document's active version (first-ingestion).
+                active_version = document.active_indexing_version or 1
+                candidate_version: int | None = None
+                if job_id is not None:
+                    job_row = await session.get(IngestionJob, job_id)
+                    if job_row is not None and job_row.indexing_version is not None:
+                        candidate_version = job_row.indexing_version
+
+                # The version we write chunks under: candidate beats active.
+                write_version = candidate_version if candidate_version is not None else active_version
+                # A chunk is inactive only when it belongs to a version that is
+                # strictly newer than the current active (i.e. a candidate).
+                chunk_is_active = write_version == active_version
+
+                outcome.metrics["write_version"] = write_version
+                outcome.metrics["chunk_is_active"] = chunk_is_active
+
                 document.status = "processing"
                 document.stage = "load"
                 document.progress = 0.02
@@ -177,7 +222,9 @@ class IngestionPipeline:
             async with session_scope() as session:
                 document = await session.get(Document, document_id)
                 assert document is not None
-                await self._delete_existing_artifacts(session, document)
+                await self._delete_existing_artifacts(
+                    session, document, candidate_version=candidate_version
+                )
                 page_ids = await self._persist_pages(session, document, parsed, tenant_id)
                 document.title = document.title or meta.title or filename
                 document.document_type = meta.document_type
@@ -237,18 +284,44 @@ class IngestionPipeline:
                 supplier_id=supplier.id if supplier else None,
                 contract_id=contract.id if contract else None,
                 meta=meta,
+                indexing_version=write_version,
+                is_active=chunk_is_active,
             )
-            await report("persist_chunks", 0.84)
+            await report(
+                "persist_chunks",
+                0.84,
+                checkpoint="persist_chunks",
+                checkpoint_metadata={
+                    "version": write_version,
+                    "chunk_count": len(drafts),
+                    "is_active": chunk_is_active,
+                },
+            )
 
             # ------------------------------------------------------- 8. indexing
             indexed_points = await self._index_chunks(
-                drafts, tenant_id=tenant_id, document_id=document_id, outcome=outcome
+                drafts,
+                tenant_id=tenant_id,
+                document_id=document_id,
+                outcome=outcome,
+                indexing_version=write_version,
+                is_active=chunk_is_active,
             )
             outcome.metrics["vector_points"] = indexed_points
             await self.container.sparse.invalidate(tenant_id) if self.container.sparse else None
-            await report("vector_index", 0.9)
+            await report(
+                "vector_index",
+                0.9,
+                checkpoint="vector_upload",
+                checkpoint_metadata={
+                    "version": write_version,
+                    "points_indexed": indexed_points,
+                },
+            )
 
             # ------------------------------------------- 9. structured facts + graph
+            graph_ok = True
+            structured_is_active = candidate_version is None
             counts = await self._persist_structured(
                 tenant_id=tenant_id,
                 document_id=document_id,
@@ -257,31 +330,78 @@ class IngestionPipeline:
                 extraction=extraction,
                 meta=meta,
                 table_ids=table_ids,
+                indexing_version=write_version,
+                is_active=structured_is_active,
             )
             outcome.metrics.update(counts)
-            if rebuild_graph:
-                await self._update_graph(tenant_id, document_id, supplier, contract, counts)
-            # Link whatever became knowable now (an amendment indexed before its
-            # master agreement, a sheet that names only the contract, ...).
-            async with session_scope() as session:
-                reconciled = await reconcile_attribution(session, tenant_id, graph=self.container.graph)
-            outcome.metrics["attribution"] = {
-                key: value for key, value in (reconciled or {}).items() if value
-            }
-            if counts.get("prices_unattributed"):
-                outcome.warnings.append(
-                    f"{counts['prices_unattributed']} price row(s) have no supplier yet: the document names the "
-                    "contract but the supplier is not known. They will be attributed automatically once the "
-                    "contract's supplier is indexed."
+
+            if candidate_version is not None:
+                # In candidate preparation mode, candidate structured records are persisted
+                # with is_active=False. Active records remain unchanged until cutover.
+                # Graph update is deferred to activation to prevent destructive changes to active graph.
+                outcome.metrics["graph_status"] = "candidate_deferred"
+                await report(
+                    "structured_and_graph",
+                    0.96,
+                    checkpoint="graph_update",
+                    checkpoint_metadata={
+                        "version": write_version,
+                        "graph_status": "candidate_deferred",
+                        "prices_staged": counts["prices"],
+                        "compliance_staged": counts["compliance_certificates"],
+                    },
                 )
-            await report("structured_and_graph", 0.96)
+            else:
+                if rebuild_graph:
+                    graph_ok = await self._update_graph(
+                        tenant_id,
+                        document_id,
+                        supplier,
+                        contract,
+                        counts,
+                        is_candidate=False,
+                    )
+                    if not graph_ok:
+                        outcome.metrics["graph_status"] = "failed_non_blocking"
+                        outcome.warnings.append(
+                            "Graph enrichment encountered an error and was marked for retry; document indexing continues."
+                        )
+                # Link whatever became knowable now (an amendment indexed before its
+                # master agreement, a sheet that names only the contract, ...).
+                async with session_scope() as session:
+                    reconciled = await reconcile_attribution(session, tenant_id, graph=self.container.graph)
+                outcome.metrics["attribution"] = {
+                    key: value for key, value in (reconciled or {}).items() if value
+                }
+                if counts.get("prices_unattributed"):
+                    outcome.warnings.append(
+                        f"{counts['prices_unattributed']} price row(s) have no supplier yet: the document names the "
+                        "contract but the supplier is not known. They will be attributed automatically once the "
+                        "contract's supplier is indexed."
+                    )
+                await report(
+                    "structured_and_graph",
+                    0.96,
+                    checkpoint="graph_update",
+                    checkpoint_metadata={
+                        "version": write_version,
+                        "graph_success": graph_ok,
+                    },
+                )
 
             # ------------------------------------------------------- 10. finalise
             async with session_scope() as session:
                 document = await session.get(Document, document_id)
                 assert document is not None
-                document.status = "indexed" if embeddings_available else "needs_review"
-                document.stage = "indexed" if embeddings_available else "indexed_without_embeddings"
+                if candidate_version is not None:
+                    # In candidate preparation mode (Checkpoints 1 & 2), the candidate
+                    # is now fully prepared in PostgreSQL, vector store, and graph.
+                    # We DO NOT activate it yet (activation belongs to Checkpoint 3).
+                    # The active document status/stage remains in its active state.
+                    document.stage = "candidate_ready"
+                else:
+                    document.status = "indexed" if embeddings_available else "needs_review"
+                    document.stage = "indexed" if embeddings_available else "indexed_without_embeddings"
                 document.progress = 1.0
                 document.chunk_count = len(drafts)
                 document.table_count = sum(1 for draft in drafts if draft.content_type == "table")
@@ -307,9 +427,21 @@ class IngestionPipeline:
             async with session_scope() as session:
                 document = await session.get(Document, document_id)
                 if document is not None:
-                    document.status = "failed"
-                    document.stage = "failed"
-                    document.error_message = outcome.error[:2000]
+                    # In candidate re-indexing, failure of candidate preparation must NOT
+                    # fail or deactivate the active document!
+                    if candidate_version is not None:
+                        document.candidate_indexing_version = None
+                        logger.warning(
+                            "candidate_preparation_failed_active_preserved",
+                            document_id=document_id,
+                            candidate_version=candidate_version,
+                            active_version=document.active_indexing_version,
+                            error=outcome.error,
+                        )
+                    else:
+                        document.status = "failed"
+                        document.stage = "failed"
+                        document.error_message = outcome.error[:2000]
 
         outcome.metrics["duration_ms"] = int((time.perf_counter() - started) * 1000)
         return outcome
@@ -399,25 +531,82 @@ class IngestionPipeline:
         outcome.metrics["vision_pages"] = applied
         outcome.metrics["vision"] = "applied" if applied else "unavailable"
 
-    async def _delete_existing_artifacts(self, session: AsyncSession, document: Document) -> None:
-        """Re-indexing replaces derived data; the stored original is never touched.
-        
-        Phase 7.3B: Delete-first strategy for re-indexing.
-        
-        CONSISTENCY RISK: Vectors are deleted BEFORE new ones are uploaded. If upload fails:
-        - Document will have no vectors until retry succeeds
-        - Document status will show "failed"
-        - Stuck job recovery will automatically retry
-        
-        This approach prevents duplicate vectors but accepts temporary unsearchability.
-        Alternative (upload-before-delete) would risk duplicates when chunk IDs change.
-        
-        Cross-store consistency: PostgreSQL, Qdrant, and Neo4j operate independently.
-        No atomic transaction spans all three. Partial failures are possible.
+    async def _delete_existing_artifacts(
+        self,
+        session: AsyncSession,
+        document: Document,
+        *,
+        candidate_version: int | None = None,
+    ) -> None:
+        """Remove derived data in preparation for re-indexing.
+
+        Checkpoint 1 safety contract
+        ----------------------------
+        When *candidate_version* is not None we are preparing a candidate
+        version alongside the existing active version.  In this mode we MUST
+        NOT delete:
+          - Active chunks (is_active=True)
+          - Active pages (they serve ongoing retrieval)
+          - Active vectors
+
+        We may safely delete previously-written candidate chunks for the
+        *same* candidate_version (idempotent retry support).
+
+        When *candidate_version* is None this is a first-ingestion run: no
+        active data exists yet, so all current derived data can be cleared.
+        This matches the original Phase 7.3B delete-first strategy.
         """
         from sqlalchemy import delete
 
-        # Delete PostgreSQL records first
+        if candidate_version is not None:
+            # Candidate run: only remove previously-written candidate chunks
+            # for this same candidate version.  Never touch active data.
+            active_version = document.active_indexing_version or 1
+            if candidate_version == active_version:
+                # Safety: candidate must be strictly newer than active.
+                # If they are equal something is wrong — log and bail out.
+                logger.error(
+                    "candidate_version_equals_active_unsafe",
+                    document_id=document.id,
+                    active_version=active_version,
+                    candidate_version=candidate_version,
+                )
+                return
+            # Remove only previous candidate chunks (same candidate version,
+            # inactive) so that a retried job starts clean.
+            await session.execute(
+                delete(Chunk).where(
+                    Chunk.document_id == document.id,
+                    Chunk.indexing_version == candidate_version,
+                    Chunk.is_active == False,  # noqa: E712
+                )
+            )
+            # Remove previously-written candidate vectors for this same candidate
+            # version (idempotent replay / retry support). Active vectors are preserved.
+            if hasattr(self.container.vector, "delete_by_version"):
+                try:
+                    await self.container.vector.delete_by_version(
+                        CHUNK_COLLECTION,
+                        document.id,
+                        candidate_version,
+                        tenant_id=document.tenant_id,
+                    )
+                    logger.info(
+                        "candidate_vectors_cleared",
+                        document_id=document.id,
+                        candidate_version=candidate_version,
+                    )
+                except Exception as exc:  # noqa: BLE001
+                    logger.warning(
+                        "candidate_vectors_clear_failed",
+                        document_id=document.id,
+                        candidate_version=candidate_version,
+                        error=str(exc),
+                    )
+            # Active chunks, pages, tables and vectors are intentionally untouched.
+            return
+
+        # First-ingestion (no active version in flight): full delete-first.
         await session.execute(delete(Chunk).where(Chunk.document_id == document.id))
         await session.execute(delete(DocumentPage).where(DocumentPage.document_id == document.id))
         await session.execute(delete(TableRecord).where(TableRecord.document_id == document.id))
@@ -429,7 +618,7 @@ class IngestionPipeline:
             logger.info("vector_delete_completed", document_id=document.id)
         except Exception as exc:  # noqa: BLE001
             logger.warning("vector_delete_failed", document_id=document.id, error=str(exc))
-            # Continue despite vector deletion failure - upload will still work
+            # Continue despite vector deletion failure — upload will still work
             # but may result in duplicate vectors
 
     async def _persist_pages(
@@ -511,7 +700,15 @@ class IngestionPipeline:
         supplier_id: str | None,
         contract_id: str | None,
         meta: ExtractedMetadata,
+        indexing_version: int = 1,
+        is_active: bool = True,
     ) -> dict[int, str]:
+        """Persist chunk rows for the given indexing version.
+
+        ``indexing_version`` and ``is_active`` are stamped on every created
+        Chunk.  When writing a candidate version (is_active=False) the active
+        chunks already in the DB are left completely untouched.
+        """
         async with session_scope() as session:
             parent_map: dict[str, str] = {}
             table_ids: dict[int, str] = {}
@@ -542,6 +739,8 @@ class IngestionPipeline:
                             effective_date=meta.effective_date,
                             expiry_date=meta.expiry_date,
                             metadata_json={"role": "parent_section", "unit_key": draft.parent_ref},
+                            indexing_version=indexing_version,
+                            is_active=is_active,
                         )
                         session.add(parent)
                         await session.flush()
@@ -567,6 +766,8 @@ class IngestionPipeline:
                     effective_date=meta.effective_date,
                     expiry_date=meta.expiry_date,
                     is_synthetic=meta.is_synthetic,
+                    indexing_version=indexing_version,
+                    is_active=is_active,
                     metadata_json={
                         "context_header": draft.metadata.get("context_header"),
                         "contextual": draft.metadata.get("contextual"),
@@ -623,6 +824,8 @@ class IngestionPipeline:
                     effective_date=meta.effective_date,
                     expiry_date=meta.expiry_date,
                     metadata_json={"role": "parent_section", "unit_key": key},
+                    indexing_version=indexing_version,
+                    is_active=is_active,
                 )
                 session.add(chunk)
                 await session.flush()
@@ -631,16 +834,26 @@ class IngestionPipeline:
         return table_ids
 
     async def _index_chunks(
-        self, drafts: list[ChunkDraft], *, tenant_id: str, document_id: str, outcome: IngestionOutcome
+        self,
+        drafts: list[ChunkDraft],
+        *,
+        tenant_id: str,
+        document_id: str,
+        outcome: IngestionOutcome,
+        indexing_version: int = 1,
+        is_active: bool = True,
     ) -> int:
         points: list[VectorPoint] = []
         # Chunks are persisted before indexing so the payload can reference ids.
+        # When indexing a candidate version (is_active=False), we load chunks matching
+        # indexing_version == candidate_version. When indexing active, we load is_active=True.
         async with session_scope() as session:
-            rows = (
-                await session.execute(
-                    select(Chunk).where(Chunk.document_id == document_id, Chunk.tenant_id == tenant_id)
-                )
-            ).scalars()
+            stmt = select(Chunk).where(
+                Chunk.document_id == document_id,
+                Chunk.tenant_id == tenant_id,
+                Chunk.indexing_version == indexing_version,
+            )
+            rows = (await session.execute(stmt)).scalars()
             chunk_rows = list(rows)
         # Leaf chunks share their exact source text with their draft, so the
         # (page, content) pair identifies the embedding unambiguously.
@@ -678,6 +891,8 @@ class IngestionPipeline:
                         "access_level": chunk.access_level,
                         "is_synthetic": chunk.is_synthetic,
                         "table_id": chunk.table_id,
+                        "indexing_version": chunk.indexing_version,
+                        "is_active": chunk.is_active,
                     },
                 )
             )
@@ -686,7 +901,6 @@ class IngestionPipeline:
         dimension = len(points[0].vector)
         await self.container.vector.ensure_collection(CHUNK_COLLECTION, dimension)
 
-        # Phase 7.3B: Upload new vectors (old vectors already deleted in _delete_existing_artifacts)
         indexed = await self.container.vector.upsert(CHUNK_COLLECTION, points)
 
         if indexed_ids:
@@ -831,6 +1045,8 @@ class IngestionPipeline:
         extraction: ExtractionResult,
         meta: ExtractedMetadata,
         table_ids: dict[int, str],
+        indexing_version: int = 1,
+        is_active: bool = True,
     ) -> dict[str, int]:
         counts = {"prices": 0, "compliance_certificates": 0, "products_resolved": 0, "prices_unattributed": 0}
         resolved_products: set[str] = set()
@@ -859,6 +1075,8 @@ class IngestionPipeline:
                     source_page=extracted.source_page,
                     source_table_id=table_ids.get(extracted.source_table_index or -1),
                     is_synthetic=meta.is_synthetic,
+                    indexing_version=indexing_version,
+                    is_active=is_active,
                 )
                 session.add(price)
                 counts["prices"] += 1
@@ -881,6 +1099,8 @@ class IngestionPipeline:
                     source_document_id=document_id,
                     source_page=extracted_cert.source_page,
                     is_synthetic=meta.is_synthetic,
+                    indexing_version=indexing_version,
+                    is_active=is_active,
                 )
                 session.add(certificate)
                 counts["compliance_certificates"] += 1
@@ -932,10 +1152,18 @@ class IngestionPipeline:
         supplier: Supplier | None,
         contract: Contract | None,
         counts: dict[str, int],
-    ) -> None:
+        *,
+        is_candidate: bool = False,
+    ) -> bool:
+        """Update graph entities and relationships.
+
+        Checkpoint 2 safety:
+        When is_candidate=True, we MUST NOT delete active graph entities.
+        Graph updates for candidates link document and attribute entities safely.
+        Returns True if graph update succeeded, False otherwise (non-blocking).
+        """
         try:
             async with session_scope() as session:
-                await self.graph_builder.remove_document_entities(document_id)
                 document = await session.get(Document, document_id)
                 if supplier is not None:
                     await self.graph_builder.upsert_supplier(supplier)
@@ -945,7 +1173,9 @@ class IngestionPipeline:
                     (
                         await session.execute(
                             select(Price).where(
-                                Price.source_document_id == document_id, Price.tenant_id == tenant_id
+                                Price.source_document_id == document_id,
+                                Price.tenant_id == tenant_id,
+                                Price.is_active == True,  # noqa: E712
                             )
                         )
                     ).scalars()
@@ -959,7 +1189,9 @@ class IngestionPipeline:
                     (
                         await session.execute(
                             select(ComplianceCertificate).where(
-                                ComplianceCertificate.source_document_id == document_id
+                                ComplianceCertificate.source_document_id == document_id,
+                                ComplianceCertificate.tenant_id == tenant_id,
+                                ComplianceCertificate.is_active == True,  # noqa: E712
                             )
                         )
                     ).scalars()
@@ -977,8 +1209,10 @@ class IngestionPipeline:
                     supplier=supplier,
                     contract=contract,
                 )
+            return True
         except Exception as exc:  # noqa: BLE001
             logger.warning("graph_update_failed", document_id=document_id, error=str(exc))
+            return False
 
 
 __all__ = ["CHUNK_COLLECTION", "IngestionOutcome", "IngestionPipeline", "GraphNode"]

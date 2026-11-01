@@ -42,6 +42,17 @@ class ValidationError(AppError):
     message = "The request payload is invalid."
 
 
+class ConflictError(AppError):
+    status_code = 409
+    code = "CONFLICT"
+    message = "The request conflicts with the current state of the resource."
+
+
+class VersionConflictError(ConflictError):
+    code = "VERSION_CONFLICT"
+    message = "A concurrent indexing or candidate reservation is already in progress for this document."
+
+
 class AuthenticationError(AppError):
     status_code = 401
     code = "UNAUTHENTICATED"

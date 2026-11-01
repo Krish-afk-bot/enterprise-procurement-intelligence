@@ -309,6 +309,7 @@ async def _compliance_paths(
             .where(
                 ComplianceCertificate.tenant_id == principal.tenant_id,
                 ComplianceCertificate.supplier_id.in_(supplier_ids),
+                ComplianceCertificate.is_active == True,  # noqa: E712
             )
         )
     ).all()

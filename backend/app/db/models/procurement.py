@@ -111,6 +111,16 @@ class Price(Base, TenantScopedMixin, TimestampMixin, ProvenanceMixin):
     source_table_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
     is_synthetic: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
+    # Cross-store consistency: version tracking for staged re-indexing
+    indexing_version: Mapped[int] = mapped_column(
+        Integer, default=1, nullable=False, index=True,
+        comment="Document indexing version this price belongs to"
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, default=True, nullable=False, index=True,
+        comment="Whether this price is active for retrieval and reporting"
+    )
+
 
 class ComplianceCertificate(Base, TenantScopedMixin, TimestampMixin, ProvenanceMixin):
     __tablename__ = "compliance_certificates"
@@ -128,6 +138,16 @@ class ComplianceCertificate(Base, TenantScopedMixin, TimestampMixin, ProvenanceM
     source_document_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
     is_synthetic: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+
+    # Cross-store consistency: version tracking for staged re-indexing
+    indexing_version: Mapped[int] = mapped_column(
+        Integer, default=1, nullable=False, index=True,
+        comment="Document indexing version this certificate belongs to"
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, default=True, nullable=False, index=True,
+        comment="Whether this certificate is active for retrieval and reporting"
+    )
 
 
 class ProcurementRecord(Base, TenantScopedMixin, TimestampMixin, ProvenanceMixin):

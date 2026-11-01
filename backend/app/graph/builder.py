@@ -98,6 +98,7 @@ def price_node(price: Price) -> GraphNode:
             is_current=price.is_current,
             amendment_ref=price.amendment_ref,
             source_document_id=price.source_document_id,
+            document_id=price.source_document_id,
             source_page=price.source_page,
         ),
     )
@@ -114,6 +115,8 @@ def compliance_node(certificate: ComplianceCertificate) -> GraphNode:
             status=certificate.status,
             issued_date=certificate.issued_date.isoformat() if certificate.issued_date else None,
             expiry_date=certificate.expiry_date.isoformat() if certificate.expiry_date else None,
+            source_document_id=certificate.source_document_id,
+            document_id=certificate.source_document_id,
         ),
     )
 

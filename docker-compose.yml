@@ -1,4 +1,4 @@
-# Development stack for Enterprise Procurement Intelligence.
+ # Development stack for Enterprise Procurement Intelligence.
 #
 #   docker compose up -d postgres qdrant neo4j redis minio
 #   docker compose --profile app up -d            # also run api + web

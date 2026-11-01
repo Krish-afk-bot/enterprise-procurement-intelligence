@@ -372,6 +372,8 @@ class HybridRetriever:
                     Chunk.id.in_(ids),
                     Chunk.tenant_id == principal.tenant_id,
                     Document.tenant_id == principal.tenant_id,
+                    Chunk.is_active == True,  # noqa: E712 - PostgreSQL is authoritative
+                    Chunk.indexing_version == Document.active_indexing_version,
                     Chunk.access_level.in_(principal.readable_access_levels),
                     Document.access_level.in_(principal.readable_access_levels),
                 )
@@ -442,10 +444,14 @@ async def expand_parents(
         return {}
     rows = (
         await session.execute(
-            select(Chunk.id, Chunk.content, Chunk.section).where(
+            select(Chunk.id, Chunk.content, Chunk.section)
+            .join(Document, Chunk.document_id == Document.id)
+            .where(
                 Chunk.id.in_(parent_ids),
                 Chunk.tenant_id == principal.tenant_id,
                 Chunk.access_level.in_(principal.readable_access_levels),
+                Chunk.is_active == True,  # noqa: E712
+                Chunk.indexing_version == Document.active_indexing_version,
             )
         )
     ).all()

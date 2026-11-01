@@ -569,6 +569,26 @@ def _name_mentioned(text: str, name: str) -> bool:
     return hits >= max(1, len(distinctive) - 1)
 
 
+def _resolve_supplier(name: str, vocabulary: TenantVocabulary) -> tuple[str, str] | None:
+    """Resolve a free-text supplier mention to a recorded supplier, if any."""
+    label = (name or "").strip().lower()
+    if label and label in vocabulary.supplier_aliases:
+        return vocabulary.supplier_aliases[label]
+    for supplier_id, supplier_name in vocabulary.suppliers:
+        if _name_mentioned(name, supplier_name):
+            return supplier_id, supplier_name
+    return None
+
+
+def _resolve_product(name: str, vocabulary: TenantVocabulary) -> tuple[str, str] | None:
+    """Resolve a free-text product mention to a recorded product, if any."""
+    label = (name or "").strip().lower()
+    for product_id, product_name, sku in vocabulary.products:
+        if _name_mentioned(name, product_name) or (sku and sku.lower() in label):
+            return product_id, product_name
+    return None
+
+
 def _initials(name: str) -> str | None:
     """Initials of a supplier name, e.g. 'Northwind Industrial Supplies' → 'N'.
 
@@ -618,6 +638,7 @@ async def understand_query(
             vocabulary = await load_vocabulary(session, tenant_id)
         except Exception as exc:  # noqa: BLE001
             logger.warning("vocabulary_load_failed", error=str(exc))
+    vocabulary = vocabulary or TenantVocabulary()
     plan = understand_query_rule_based(query, vocabulary)
 
     if not use_llm or router is None:
@@ -651,11 +672,49 @@ async def understand_query(
     plan.requires_graph = plan.requires_graph or result.requires_graph
     plan.requires_vision = plan.requires_vision or result.requires_vision
     plan.complexity = result.complexity if result.complexity in {"low", "medium", "high"} else plan.complexity
+    # The LLM often repeats an entity it already linked, spelled differently
+    # ("Northwind" for "Northwind Industrial Supplies Ltd", or '27 inch' for
+    # 'Enterprise Monitor 27"'). Resolve each mention against what the corpus
+    # actually records and keep one constraint per entity: an unresolved
+    # duplicate would otherwise become an "unsatisfied" constraint and force a
+    # refusal for a question the evidence answers.
     for name in result.suppliers:
-        if name not in plan.suppliers:
+        resolved = _resolve_supplier(name, vocabulary)
+        if resolved is not None:
+            supplier_id, supplier_name = resolved
+            if supplier_id in plan.supplier_ids:
+                continue
+            plan.supplier_ids.append(supplier_id)
+            plan.suppliers.append(supplier_name)
+            plan.entities.append(
+                LinkedEntity(
+                    kind="supplier",
+                    value=name,
+                    matched_id=supplier_id,
+                    matched_name=supplier_name,
+                    method="llm",
+                )
+            )
+        elif name not in plan.suppliers:
             plan.suppliers.append(name)
     for name in result.products:
-        if name not in plan.products:
+        resolved_product = _resolve_product(name, vocabulary)
+        if resolved_product is not None:
+            product_id, product_name = resolved_product
+            if product_id in plan.product_ids:
+                continue
+            plan.product_ids.append(product_id)
+            plan.products.append(product_name)
+            plan.entities.append(
+                LinkedEntity(
+                    kind="product",
+                    value=name,
+                    matched_id=product_id,
+                    matched_name=product_name,
+                    method="llm",
+                )
+            )
+        elif name not in plan.products:
             plan.products.append(name)
     for number in result.contract_numbers:
         if number not in plan.contract_numbers:

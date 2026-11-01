@@ -161,10 +161,50 @@ class CoverageResult:
         }
 
 
-def _mentions(text: str, needle: str) -> bool:
-    if not needle:
+_SIZE_QUOTE_RE = re.compile(r"(\d)\s*(?:\"|''|\u201d|\u2033|\u2019\u2019)")
+_NON_ALNUM_RE = re.compile(r"[^a-z0-9]+")
+
+
+def normalise_entity_name(value: Any) -> str:
+    """Normalise a supplier or product name so spelling variants compare equal.
+
+    ``Enterprise Monitor 27"`` and ``Enterprise Monitor 27 inch`` are the same
+    product written two ways, and ``Northwind`` is a short form of ``Northwind
+    Industrial Supplies Ltd``. Punctuation, quotes and case carry no meaning in
+    an entity name, so both are folded away before comparison.
+    """
+    text = str(value or "").lower()
+    text = _SIZE_QUOTE_RE.sub(r"\1 inch ", text)
+    text = _NON_ALNUM_RE.sub(" ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _mentions(text: str, needle: Any) -> bool:
+    """Whether ``text`` mentions ``needle`` under entity-name normalisation."""
+    name = normalise_entity_name(needle)
+    if len(name) < 3:
         return False
-    return needle.lower() in text.lower()
+    return name in normalise_entity_name(text)
+
+
+def _name_matches(candidate: Any, name: Any) -> bool:
+    """Whether a stored name and a plan name refer to the same entity.
+
+    Equal after normalisation, or one contains the other (a short form such as
+    ``Northwind`` for ``Northwind Industrial Supplies Ltd``).
+    """
+    stored = normalise_entity_name(candidate)
+    wanted = normalise_entity_name(name)
+    if len(stored) < 3 or len(wanted) < 3:
+        return False
+    return stored == wanted or wanted in stored or stored in wanted
+
+
+def _group_mentions(group: dict[str, Any] | None, name: Any) -> bool:
+    """Whether any labelling value of an aggregation names this entity."""
+    if not group:
+        return False
+    return any(_mentions(str(value), name) for value in group.values())
 
 
 def assess_query_coverage(
@@ -189,17 +229,33 @@ def assess_query_coverage(
     # ---------------------------------------------------------- supplier constraint
     ids = list(plan.get("supplier_ids") or [])
     names = list(plan.get("suppliers") or [])
+    # ids only pair with names positionally while the two lists still describe
+    # the same mentions; an unresolved mention can make them drift, and a
+    # mis-attributed id would mark the wrong entity as covered.
+    supplier_ids_aligned = len(ids) == len(names)
     for index, name in enumerate(names):
-        supplier_id = ids[index] if index < len(ids) else None
-        fact_hits = [fact for fact in structured.facts if supplier_id and fact.supplier_id == supplier_id]
+        supplier_id = ids[index] if supplier_ids_aligned else None
+        fact_hits = [
+            fact
+            for fact in structured.facts
+            if (supplier_id and fact.supplier_id == supplier_id) or _name_matches(fact.supplier_name, name)
+        ]
         certificate_hits = [
-            item for item in structured.compliance if supplier_id and item.get("supplier_id") == supplier_id
+            item
+            for item in structured.compliance
+            if (supplier_id and item.get("supplier_id") == supplier_id)
+            or _name_matches(item.get("supplier_name"), name)
+        ]
+        aggregation_hits = [
+            aggregation for aggregation in structured.aggregations if _group_mentions(aggregation.group, name)
         ]
         text_hits = sum(1 for text in texts if _mentions(text, name))
         if fact_hits:
             satisfied, detail = True, f"{len(fact_hits)} structured price row(s) for {name}"
         elif certificate_hits:
             satisfied, detail = True, f"{len(certificate_hits)} compliance record(s) for {name}"
+        elif aggregation_hits:
+            satisfied, detail = True, f"{len(aggregation_hits)} aggregation(s) computed for {name}"
         elif text_hits:
             satisfied, detail = True, f"{text_hits} retrieved passage(s) name {name}"
         elif structured.suppliers and not price_intent:
@@ -212,12 +268,23 @@ def assess_query_coverage(
 
     # ----------------------------------------------------------- product constraint
     product_ids = list(plan.get("product_ids") or [])
-    for index, name in enumerate(plan.get("products") or []):
-        product_id = product_ids[index] if index < len(product_ids) else None
-        fact_hits = [fact for fact in structured.facts if product_id and fact.product_id == product_id]
+    products = list(plan.get("products") or [])
+    product_ids_aligned = len(product_ids) == len(products)
+    for index, name in enumerate(products):
+        product_id = product_ids[index] if product_ids_aligned else None
+        fact_hits = [
+            fact
+            for fact in structured.facts
+            if (product_id and fact.product_id == product_id) or _name_matches(fact.product_name, name)
+        ]
+        aggregation_hits = [
+            aggregation for aggregation in structured.aggregations if _group_mentions(aggregation.group, name)
+        ]
         text_hits = sum(1 for text in texts if _mentions(text, name))
         if fact_hits:
             satisfied, detail = True, f"{len(fact_hits)} structured price row(s) for {name}"
+        elif aggregation_hits:
+            satisfied, detail = True, f"{len(aggregation_hits)} aggregation(s) computed for {name}"
         elif text_hits:
             satisfied, detail = True, f"{text_hits} retrieved passage(s) mention {name}"
         else:

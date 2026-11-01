@@ -77,7 +77,9 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------- security
     jwt_secret: str = "dev-insecure-change-me"
     jwt_algorithm: str = "HS256"
-    access_token_ttl_minutes: int = 720
+    #: Short-lived by design: a stolen access token is useful for minutes, and
+    #: the client silently rotates it via the httpOnly refresh cookie.
+    access_token_ttl_minutes: int = 15
     refresh_token_ttl_minutes: int = 10080
     allow_self_registration: bool = True
     default_tenant_slug: str = "acme-procurement"

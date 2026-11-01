@@ -1,0 +1,88 @@
+name: Evaluation gate
+
+# Deterministic retrieval/refusal regression gate. Uses hashing embeddings, the
+# lexical reranker and extractive generation so no model download or API key is
+# required, then compares against the committed ci_baseline.json. A tracked
+# metric more than 3 points below baseline fails the build.
+
+on:
+  pull_request:
+    paths:
+      - "backend/app/**"
+      - "backend/scripts_phase3/**"
+      - "backend/tests/**"
+      - "data/evaluation/**"
+      - ".github/workflows/eval-gate.yml"
+  push:
+    branches: [master, main]
+    paths:
+      - "backend/app/**"
+      - "backend/scripts_phase3/**"
+      - "data/evaluation/**"
+
+concurrency:
+  group: eval-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eval-gate:
+    name: v2 retrieval & refusal gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+          pip install -e ./backend
+
+      - name: Ingest the synthetic corpus into an isolated CI database
+        working-directory: backend
+        env:
+          EVAL_VAR_DIR: ${{ github.workspace }}/backend/var/eval-ci
+          DATABASE_URL: sqlite+aiosqlite:///${{ github.workspace }}/backend/var/eval-ci/eval.db
+          VAR_DIR: ${{ github.workspace }}/backend/var/eval-ci/var
+          LOCAL_STORAGE_DIR: ${{ github.workspace }}/backend/var/eval-ci/storage
+          OCR_ENABLED: "false"
+          VLM_ENABLED: "false"
+          EMBEDDING_PROVIDER: hashing
+          RERANKER_PROVIDER: lexical
+          ALLOW_PROVIDER_FALLBACK: "false"
+          LLM_BASE_URL: ""
+          LLM_MODEL: ""
+        run: |
+          mkdir -p "$EVAL_VAR_DIR/var" "$EVAL_VAR_DIR/storage"
+          python -m app.cli ingest ../data/synthetic --no-ocr --no-vision
+
+      - name: Run the deterministic evaluation gate
+        working-directory: backend
+        env:
+          EVAL_VAR_DIR: ${{ github.workspace }}/backend/var/eval-ci
+          DATABASE_URL: sqlite+aiosqlite:///${{ github.workspace }}/backend/var/eval-ci/eval.db
+          VAR_DIR: ${{ github.workspace }}/backend/var/eval-ci/var
+          LOCAL_STORAGE_DIR: ${{ github.workspace }}/backend/var/eval-ci/storage
+          OCR_ENABLED: "false"
+          VLM_ENABLED: "false"
+          EMBEDDING_PROVIDER: hashing
+          RERANKER_PROVIDER: lexical
+          ALLOW_PROVIDER_FALLBACK: "false"
+          LLM_BASE_URL: ""
+          LLM_MODEL: ""
+        run: python scripts_phase3/eval_ci.py
+
+      - name: Upload evaluation result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-ci-result
+          path: data/evaluation/v2/ci_result.json
+          if-no-files-found: warn

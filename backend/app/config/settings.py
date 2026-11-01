@@ -243,6 +243,14 @@ class Settings(BaseSettings):
     langsmith_api_key: str | None = None
     langsmith_project: str = "epi-procurement"
     langsmith_tracing: bool = False
+
+    # ---------------------------------------------------------------- tracing
+    otel_enabled: bool = True
+    otel_service_name: str = "epi-api"
+    #: OTLP/HTTP collector, e.g. http://localhost:4318/v1/traces. Unset means
+    #: spans are created but not exported (a collector can be added later with
+    #: no code change).
+    otel_exporter_otlp_endpoint: str | None = None
     otel_exporter_otlp_endpoint: str | None = None
     trace_store_limit: int = 200
 

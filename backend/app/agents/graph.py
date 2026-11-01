@@ -10,6 +10,7 @@ question can never spin.
 
 from __future__ import annotations
 
+import time
 from typing import Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,6 +18,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.agents.nodes import AgentRuntime
 from app.agents.state import AgentState
 from app.observability.logging import get_logger
+from app.observability.tracing import annotate_node_span, node_span
 
 logger = get_logger(__name__)
 
@@ -52,32 +54,49 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
     except ImportError as exc:  # pragma: no cover
         raise RuntimeError("langgraph is required to run the agent") from exc
 
+    async def run_node(name: str, call: Any) -> AgentState:
+        started = time.perf_counter()
+        with node_span(name) as span:
+            try:
+                result = await call()
+            except Exception as exc:  # noqa: BLE001 - recorded, then re-raised
+                span.record_exception(exc)
+                try:
+                    from opentelemetry.trace import Status, StatusCode
+
+                    span.set_status(Status(StatusCode.ERROR, str(exc)))
+                except ImportError:  # pragma: no cover
+                    pass
+                raise
+            annotate_node_span(span, started, result)
+            return result
+
     async def understand(state: AgentState) -> AgentState:
-        return await runtime.understand(state, session)
+        return await run_node("agent.understand", lambda: runtime.understand(state, session))
 
     async def plan(state: AgentState) -> AgentState:
-        return await runtime.plan(state)
+        return await run_node("agent.plan", lambda: runtime.plan(state))
 
     async def parallel_evidence(state: AgentState) -> AgentState:
-        return await runtime.evidence_parallel(state)
+        return await run_node("agent.evidence_parallel", lambda: runtime.evidence_parallel(state))
 
     async def vision(state: AgentState) -> AgentState:
-        return await runtime.vision(state, session)
+        return await run_node("agent.vision", lambda: runtime.vision(state, session))
 
     async def evaluate(state: AgentState) -> AgentState:
-        return await runtime.evaluate_evidence(state)
+        return await run_node("agent.evaluate", lambda: runtime.evaluate_evidence(state))
 
     async def rewrite(state: AgentState) -> AgentState:
-        return await runtime.rewrite_query(state)
+        return await run_node("agent.rewrite", lambda: runtime.rewrite_query(state))
 
     async def generate(state: AgentState) -> AgentState:
-        return await runtime.generate(state, session)
+        return await run_node("agent.generate", lambda: runtime.generate(state, session))
 
     async def verify(state: AgentState) -> AgentState:
-        return await runtime.verify(state)
+        return await run_node("agent.verify", lambda: runtime.verify(state))
 
     async def finalize(state: AgentState) -> AgentState:
-        return await runtime.finalize(state)
+        return await run_node("agent.finalize", lambda: runtime.finalize(state))
 
     builder = StateGraph(AgentState)
     builder.add_node("understand", understand)

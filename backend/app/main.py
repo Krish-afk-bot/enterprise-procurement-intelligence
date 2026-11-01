@@ -17,6 +17,7 @@ from app.config.container import get_container
 from app.config.settings import Settings, get_settings
 from app.db.session import dispose_engine, init_db, session_scope
 from app.observability.logging import configure_logging, get_logger, request_id_var
+from app.observability.tracing import configure_tracing
 from app.services.auth import bootstrap_admin
 from app.workers.ingestion_worker import IngestionWorker
 
@@ -27,6 +28,7 @@ logger = get_logger(__name__)
 async def lifespan(app: FastAPI):
     settings: Settings = get_settings()
     configure_logging(settings.log_level, settings.log_json)
+    configure_tracing(settings)
     logger.info("startup", app_env=settings.app_env, version=__version__)
 
     # Fail fast if a non-development environment has an insecure JWT secret.

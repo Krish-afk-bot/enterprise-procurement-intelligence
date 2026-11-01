@@ -40,6 +40,12 @@ _KNOWN_WEAK_SECRETS = frozenset(
     }
 )
 
+# Environments where a weak JWT secret is tolerated (local only). Every other
+# environment — staging and production included — must supply a strong secret.
+_DEV_ENVS = frozenset({"development", "test"})
+
+_MIN_SECRET_LENGTH = 32
+
 
 def _default_sqlite_url() -> str:
     (DEFAULT_VAR_DIR).mkdir(parents=True, exist_ok=True)
@@ -58,7 +64,7 @@ class Settings(BaseSettings):
 
     # ------------------------------------------------------------------ app
     app_name: str = "Enterprise Procurement Intelligence"
-    app_env: Literal["development", "test", "production"] = "development"
+    app_env: Literal["development", "test", "staging", "production"] = "development"
     api_prefix: str = "/api/v1"
     debug: bool = False
     log_level: str = "INFO"
@@ -273,33 +279,43 @@ class Settings(BaseSettings):
             "max_agent_iterations": self.max_agent_iterations,
         }
 
+    @property
+    def is_development(self) -> bool:
+        """True for local environments where a weak secret is tolerated."""
+        return self.app_env in _DEV_ENVS
+
+    def is_jwt_secret_weak(self) -> bool:
+        """True when the secret is a known default or shorter than 32 characters."""
+        return self.jwt_secret in _KNOWN_WEAK_SECRETS or len(self.jwt_secret) < _MIN_SECRET_LENGTH
+
     def is_jwt_secret_safe(self) -> bool:
-        """Return True when the JWT secret is strong enough for the current env."""
-        if self.app_env == "production":
-            return self.jwt_secret not in _KNOWN_WEAK_SECRETS and len(self.jwt_secret) >= 32
-        # In development/test a weak secret is allowed but warned about.
-        return True
+        """Return True when the JWT secret is acceptable for the current env."""
+        if self.is_development:
+            return True
+        return not self.is_jwt_secret_weak()
 
     def validate_startup_security(self) -> None:
-        """Raise RuntimeError if running in production with an insecure secret.
+        """Raise RuntimeError if a non-development environment has a weak secret.
 
-        Called by the application lifespan so that a misconfigured production
-        deployment fails fast at boot rather than silently signing tokens with a
-        known-weak key.
+        Called by the application lifespan so that a misconfigured staging or
+        production deployment fails fast at boot rather than silently signing
+        tokens with a known-weak key. Development and test are exempt.
         """
-        if self.app_env == "production":
-            if self.jwt_secret in _KNOWN_WEAK_SECRETS:
-                raise RuntimeError(
-                    "Production startup refused: JWT_SECRET is set to a known "
-                    "insecure default value. Set JWT_SECRET to a securely-generated "
-                    "random string of at least 32 characters."
-                )
-            if len(self.jwt_secret) < 32:
-                raise RuntimeError(
-                    f"Production startup refused: JWT_SECRET is only "
-                    f"{len(self.jwt_secret)} characters long. "
-                    "Use a secret of at least 32 characters."
-                )
+        if self.is_development:
+            return
+        label = self.app_env.capitalize()
+        if self.jwt_secret in _KNOWN_WEAK_SECRETS:
+            raise RuntimeError(
+                f"{label} startup refused: JWT_SECRET is set to a known "
+                "insecure default value. Set JWT_SECRET to a securely-generated "
+                f"random string of at least {_MIN_SECRET_LENGTH} characters."
+            )
+        if len(self.jwt_secret) < _MIN_SECRET_LENGTH:
+            raise RuntimeError(
+                f"{label} startup refused: JWT_SECRET is only "
+                f"{len(self.jwt_secret)} characters long. "
+                f"Use a secret of at least {_MIN_SECRET_LENGTH} characters."
+            )
 
 
 @lru_cache

@@ -29,9 +29,9 @@ async def lifespan(app: FastAPI):
     configure_logging(settings.log_level, settings.log_json)
     logger.info("startup", app_env=settings.app_env, version=__version__)
 
-    # Fail fast if running in production with an insecure JWT secret.
+    # Fail fast if a non-development environment has an insecure JWT secret.
     settings.validate_startup_security()
-    if settings.app_env != "production" and not settings.is_jwt_secret_safe():
+    if settings.is_development and settings.is_jwt_secret_weak():
         logger.warning(
             "insecure_jwt_secret",
             message=(

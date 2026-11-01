@@ -35,6 +35,15 @@ def dev_settings(**overrides: object) -> Settings:
     )
 
 
+def staging_settings(**overrides: object) -> Settings:
+    return Settings(
+        app_env="staging",
+        jwt_algorithm="HS256",
+        database_url="sqlite+aiosqlite:///./var/test.db",
+        **overrides,  # type: ignore[arg-type]
+    )
+
+
 # ------------------------------------------------------------------ production guard
 
 
@@ -67,6 +76,45 @@ class TestProductionStartupSecurity:
         s = prod_settings(jwt_secret="y" * 31)
         with pytest.raises(RuntimeError):
             s.validate_startup_security()
+
+
+# ------------------------------------------------------------------ staging guard
+
+
+class TestStagingStartupSecurity:
+    """Staging is a non-development environment and must be guarded too."""
+
+    def test_known_weak_secret_raises_in_staging(self) -> None:
+        for weak in list(_KNOWN_WEAK_SECRETS)[:3]:
+            s = staging_settings(jwt_secret=weak)
+            with pytest.raises(RuntimeError, match="refused"):
+                s.validate_startup_security()
+
+    def test_short_secret_raises_in_staging(self) -> None:
+        s = staging_settings(jwt_secret="short-but-not-default-123")
+        with pytest.raises(RuntimeError, match="32 characters"):
+            s.validate_startup_security()
+
+    def test_strong_secret_accepted_in_staging(self) -> None:
+        s = staging_settings(jwt_secret="a" * 48)
+        s.validate_startup_security()  # must not raise
+
+    def test_is_jwt_secret_safe_false_for_weak_in_staging(self) -> None:
+        s = staging_settings(jwt_secret="dev-insecure-change-me")
+        assert s.is_jwt_secret_safe() is False
+
+    def test_is_jwt_secret_safe_true_for_strong_in_staging(self) -> None:
+        s = staging_settings(jwt_secret="a" * 48)
+        assert s.is_jwt_secret_safe() is True
+
+    def test_is_development_false_for_staging(self) -> None:
+        assert staging_settings().is_development is False
+
+    def test_is_development_true_for_development_and_test(self) -> None:
+        assert dev_settings().is_development is True
+        assert Settings(
+            app_env="test", database_url="sqlite+aiosqlite:///./var/test.db"
+        ).is_development is True
 
 
 # ------------------------------------------------------------------ development tolerance

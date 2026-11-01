@@ -1,0 +1,92 @@
+# ============================================================
+# Enterprise Procurement Intelligence — .dockerignore
+#
+# Applied to builds whose context is the repository root (the `api`
+# service in docker-compose.yml). Keeps secrets, local runtime state,
+# caches and VCS metadata out of build layers.
+# ============================================================
+
+# ------------------------------------------------------------------ VCS / CI
+.git
+.gitignore
+.github
+
+# ------------------------------------------------------------------ secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.fb_token
+.fb_token
+
+# ------------------------------------------------------------------ IDE / tooling caches
+.freebuff/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ------------------------------------------------------------------ Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+build/
+*.so
+*.whl
+
+# ------------------------------------------------------------------ local runtime state
+backend/var/
+*.sqlite
+*.sqlite3
+*.db
+
+# ------------------------------------------------------------------ Node / frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.vite/
+frontend/.vite/
+coverage/
+frontend/coverage/
+frontend/test-results/
+frontend/playwright-report/
+
+# ------------------------------------------------------------------ model / vector caches
+.cache/
+huggingface/
+sentence_transformers/
+torch_cache/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.onnx
+*.npy
+*.faiss
+*.annoy
+
+# ------------------------------------------------------------------ logs / tmp
+logs/
+*.log
+*.log.*
+tmp/
+temp/
+*.tmp
+*.temp
+
+# ------------------------------------------------------------------ docs / eval outputs
+docs/
+data/evaluation/runs/
+data/evaluation/outputs/

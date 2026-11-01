@@ -114,6 +114,41 @@ class AnswerPipeline:
             answer = await self._persist(session, principal, final_state, started)
         return answer
 
+    # ------------------------------------------------------------ raw state
+    async def answer_state(
+        self,
+        principal: Principal,
+        question: str,
+        *,
+        filters: QueryFilters | None = None,
+        strategy: str | None = None,
+        top_k: int | None = None,
+        max_iterations: int | None = None,
+        conversation_id: str | None = None,
+        debug: bool = False,
+    ) -> dict[str, Any]:
+        """Run the agent graph and return the final state without persisting.
+
+        Used by the offline evaluation, which needs the intermediate products
+        (the retrieved hits, the per-node timings and the token usage) that the
+        public ``AnswerOut`` intentionally does not expose. It runs the same
+        graph with the same initial state as ``answer`` — the only difference is
+        that no query/answer/trace rows are written.
+        """
+        state = self._initial_state(
+            principal,
+            question,
+            filters=filters,
+            strategy=strategy,
+            top_k=top_k,
+            max_iterations=max_iterations,
+            conversation_id=conversation_id,
+            debug=debug,
+        )
+        async with session_scope() as session:
+            graph = build_agent_graph(self.runtime, session)
+            return await graph.ainvoke(state)
+
     # ---------------------------------------------------------------- stream
     async def stream(
         self,

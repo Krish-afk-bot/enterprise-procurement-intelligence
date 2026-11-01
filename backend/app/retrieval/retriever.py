@@ -231,9 +231,24 @@ class HybridRetriever:
 
         # ------------------------------------------------------------- rerank
         if rerank and self.settings.reranker_enabled:
-            chunks, step = await self._rerank(query, chunks)
-            result.steps.append(step)
-            result.reranker = self.container.reranker.name if self.container.reranker else "none"
+            if self.settings.rerank_gate_enabled and self._rerank_confident(chunks):
+                result.steps.append(
+                    RetrievalStep(
+                        name="rerank",
+                        status="gated",
+                        detail=(
+                            "skipped: the dense ranking is confident (the top result is both "
+                            "high-scoring and clearly ahead), so the cross-encoder would only "
+                            "add latency"
+                        ),
+                        candidates=len(chunks),
+                    )
+                )
+                result.reranker = f"{self.container.reranker.name} (gated)" if self.container.reranker else "gated"
+            else:
+                chunks, step = await self._rerank(query, chunks)
+                result.steps.append(step)
+                result.reranker = self.container.reranker.name if self.container.reranker else "none"
         else:
             result.reranker = "disabled"
 
@@ -303,11 +318,34 @@ class HybridRetriever:
             metadata={"top_k": self.settings.sparse_top_k, "index": self.container.sparse.name},
         )
 
+    def _rerank_confident(self, chunks: list[RetrievedChunk]) -> bool:
+        """Whether the fused ranking is already clear enough to skip the model.
+
+        Only dense scores are comparable across queries; RRF scores are rank
+        reciprocals and carry no confidence. A high top score with a clear gap
+        to the fifth candidate means the cross-encoder is unlikely to reorder
+        the head, so its CPU time buys nothing.
+        """
+        scores = sorted(
+            (chunk.dense_score for chunk in chunks if chunk.dense_score is not None), reverse=True
+        )
+        if len(scores) < 2:
+            return False
+        fifth = scores[min(4, len(scores) - 1)]
+        return (
+            scores[0] >= self.settings.rerank_gate_min_score
+            and (scores[0] - fifth) >= self.settings.rerank_gate_min_margin
+        )
+
     async def _rerank(
         self, query: str, chunks: list[RetrievedChunk]
     ) -> tuple[list[RetrievedChunk], RetrievalStep]:
         started = time.perf_counter()
-        documents = [chunk.content for chunk in chunks]
+        # Rerank only the head. Candidates behind the cut keep their fused order
+        # and are still available to the context builder if the head is short.
+        limit = max(1, self.settings.rerank_candidate_limit)
+        head, tail = chunks[:limit], chunks[limit:]
+        documents = [chunk.content for chunk in head]
         try:
             scores = await self.container.router.rerank(query, documents, top_n=len(documents))  # type: ignore[union-attr]
         except Exception as exc:  # noqa: BLE001
@@ -324,19 +362,24 @@ class HybridRetriever:
                 candidates=len(chunks),
             )
         by_index = {score.index: score.score for score in scores}
-        for index, chunk in enumerate(chunks):
+        for index, chunk in enumerate(head):
             chunk.rerank_score = by_index.get(index)
         ordered = sorted(
-            chunks,
+            head,
             key=lambda chunk: chunk.rerank_score if chunk.rerank_score is not None else -1e9,
             reverse=True,
         )
-        return ordered, RetrievalStep(
+        return [*ordered, *tail], RetrievalStep(
             name="rerank",
             detail=f"cross-encoder reranking with {self.container.reranker.name}",  # type: ignore[union-attr]
             candidates=len(ordered),
             latency_ms=int((time.perf_counter() - started) * 1000),
-            metadata={"top_n": self.settings.rerank_top_n},
+            metadata={
+                "top_n": self.settings.rerank_top_n,
+                "reranked": len(head),
+                "unranked_tail": len(tail),
+                "candidate_limit": limit,
+            },
         )
 
     @staticmethod

@@ -172,6 +172,14 @@ class Settings(BaseSettings):
     reranker_model: str = "BAAI/bge-reranker-v2-m3"
     reranker_enabled: bool = True
     reranker_device: str = "auto"
+    #: Only this many fused candidates are scored by the cross-encoder. The rest
+    #: retain their fused order; 20 is the point where another 30 pairs buy no
+    #: measurable ranking quality on this corpus but double the CPU time.
+    rerank_candidate_limit: int = 20
+    #: Skip the cross-encoder when the dense head is already unambiguous.
+    rerank_gate_enabled: bool = True
+    rerank_gate_min_score: float = 0.62
+    rerank_gate_min_margin: float = 0.04
 
     #: When a configured external provider is unreachable in development, fall
     #: back to the locally-runnable implementation and say so in /health instead
@@ -186,6 +194,8 @@ class Settings(BaseSettings):
     rerank_top_n: int = 15
     context_max_chunks: int = 12
     context_max_tokens: int = 6000
+    #: A short answer should not display every block that entered the context.
+    citation_max: int = 5
     max_agent_iterations: int = 2
     evidence_sufficiency_threshold: float = 0.45
     #: Deterministic per-claim binding is the default grounding judge. The

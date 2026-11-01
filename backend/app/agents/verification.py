@@ -676,6 +676,44 @@ async def judge_grounding_llm(
     )
 
 
+def select_supporting_citations(
+    checks: list[ClaimCheck], citations: list[CitationDraft], *, cap: int = 5
+) -> tuple[list[CitationDraft], str]:
+    """Keep the citations that support a claim, ranked, capped.
+
+    A one-line answer used to carry every block that happened to be in the
+    context. Only blocks bound to a supported claim survive, ordered by
+    retrieval score; if binding produced no reference at all, fall back to the
+    best-scored citations so the answer is not left uncitable.
+    """
+    if cap <= 0:
+        return [], "disabled"
+    refs = {
+        ref
+        for check in checks
+        if check.supported
+        for ref in check.evidence_refs
+        if 1 <= ref <= len(citations)
+    }
+    selected: list[CitationDraft] = []
+    seen: set[tuple[object, object, object]] = set()
+    for ref in sorted(refs):
+        citation = citations[ref - 1]
+        key = (citation.chunk_id, citation.document_id, citation.page)
+        if key in seen:
+            continue
+        seen.add(key)
+        selected.append(citation)
+    method = "claim_bound"
+    if not selected:
+        selected = sorted(
+            citations, key=lambda item: (-(item.score or 0.0), item.rank or 10_000)
+        )
+        method = "score_ranked_fallback"
+    selected.sort(key=lambda item: (-(item.score or 0.0), item.rank or 10_000))
+    return selected[:cap], method
+
+
 def validate_citations(answer_text: str, bundle: ContextBundle) -> CitationCheck:
     """Keep only citations backed by retrieved evidence; record broken references.
 

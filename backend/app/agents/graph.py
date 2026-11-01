@@ -58,14 +58,8 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
     async def plan(state: AgentState) -> AgentState:
         return await runtime.plan(state)
 
-    async def structured(state: AgentState) -> AgentState:
-        return await runtime.structured(state, session)
-
-    async def graph_lookup(state: AgentState) -> AgentState:
-        return await runtime.graph(state, session)
-
-    async def retrieve(state: AgentState) -> AgentState:
-        return await runtime.retrieve(state, session)
+    async def parallel_evidence(state: AgentState) -> AgentState:
+        return await runtime.evidence_parallel(state)
 
     async def vision(state: AgentState) -> AgentState:
         return await runtime.vision(state, session)
@@ -88,9 +82,7 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
     builder = StateGraph(AgentState)
     builder.add_node("understand", understand)
     builder.add_node("plan", plan)
-    builder.add_node("structured", structured)
-    builder.add_node("graph", graph_lookup)
-    builder.add_node("retrieve", retrieve)
+    builder.add_node("parallel", parallel_evidence)
     builder.add_node("vision", vision)
     builder.add_node("evaluate", evaluate)
     builder.add_node("rewrite", rewrite)
@@ -100,15 +92,13 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
 
     builder.add_edge(START, "understand")
     builder.add_edge("understand", "plan")
-    builder.add_edge("plan", "structured")
-    builder.add_edge("structured", "graph")
-    builder.add_edge("graph", "retrieve")
-    builder.add_edge("retrieve", "vision")
+    builder.add_edge("plan", "parallel")
+    builder.add_edge("parallel", "vision")
     builder.add_edge("vision", "evaluate")
     builder.add_conditional_edges(
         "evaluate", route_after_evaluation, {"rewrite": "rewrite", "generate": "generate"}
     )
-    builder.add_edge("rewrite", "retrieve")
+    builder.add_edge("rewrite", "parallel")
     builder.add_edge("generate", "verify")
     builder.add_edge("verify", "finalize")
     builder.add_edge("finalize", END)
@@ -118,6 +108,6 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
 def graph_diagram() -> str:
     """Text rendering of the pipeline, used in docs and the Admin UI."""
     return (
-        "START → understand → plan → structured → graph → retrieve → vision → evaluate "
-        "→ (rewrite → retrieve)* → generate → verify → finalize → END"
+        "START → understand → plan → parallel(structured ‖ graph ‖ retrieve) → vision → evaluate "
+        "→ (rewrite → parallel)* → generate → verify → finalize → END"
     )

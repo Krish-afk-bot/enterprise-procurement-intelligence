@@ -16,7 +16,7 @@ import asyncio
 import math
 import re
 import time
-from collections import Counter
+from collections import Counter, OrderedDict
 from collections.abc import Sequence
 from typing import Any
 
@@ -46,13 +46,17 @@ class CrossEncoderReranker:
 
     name = "cross_encoder"
 
-    def __init__(self, model_name: str, *, device: str = "auto", enabled: bool = True) -> None:
+    def __init__(
+        self, model_name: str, *, device: str = "auto", enabled: bool = True, cache_size: int = 256
+    ) -> None:
         self.model_name = model_name
         self.device = _device(device)
         self.enabled = enabled
         self._model: Any = None
         self._lock = asyncio.Lock()
         self._load_error: str | None = None
+        self._cache: OrderedDict[tuple[str, tuple[str, ...]], list[float]] = OrderedDict()
+        self._cache_size = cache_size
 
     def _load_model(self) -> Any:
         from sentence_transformers import CrossEncoder
@@ -79,18 +83,32 @@ class CrossEncoderReranker:
         await self.ensure_loaded()
         assert self._model is not None
 
-        def _run() -> list[float]:
-            pairs = [(query, doc) for doc in documents]
-            scores = self._model.predict(pairs, show_progress_bar=False)
-            return [float(s) for s in scores]
+        # The same query over the same candidate set is common in a corrective
+        # loop and in an evaluation run; scoring it twice is pure latency.
+        key = (query, tuple(documents))
+        cached = self._cache.get(key)
+        if cached is not None:
+            self._cache.move_to_end(key)
+            scores = list(cached)
+            logger.info("rerank_cache_hit", candidates=len(documents))
+        else:
 
-        started = time.perf_counter()
-        scores = await asyncio.to_thread(_run)
-        logger.info(
-            "rerank_complete",
-            candidates=len(documents),
-            latency_ms=int((time.perf_counter() - started) * 1000),
-        )
+            def _run() -> list[float]:
+                pairs = [(query, doc) for doc in documents]
+                result = self._model.predict(pairs, show_progress_bar=False)
+                return [float(s) for s in result]
+
+            started = time.perf_counter()
+            scores = await asyncio.to_thread(_run)
+            self._cache[key] = list(scores)
+            self._cache.move_to_end(key)
+            while len(self._cache) > self._cache_size:
+                self._cache.popitem(last=False)
+            logger.info(
+                "rerank_complete",
+                candidates=len(documents),
+                latency_ms=int((time.perf_counter() - started) * 1000),
+            )
         ranked = sorted(
             (RerankScore(index=i, score=s) for i, s in enumerate(scores)), key=lambda r: r.score, reverse=True
         )

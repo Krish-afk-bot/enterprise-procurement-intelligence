@@ -33,6 +33,7 @@ from app.agents.verification import (
     judge_grounding_llm,
     refusal_reason,
     relevant_conflicts,
+    select_supporting_citations,
     validate_citations,
 )
 from app.config.container import Container
@@ -184,6 +185,57 @@ class AgentRuntime:
         )
         state["context"] = {"strategy": strategy, "tools": tools}
         return state
+
+    # ------------------------------------------------------------- parallel I/O
+    async def evidence_parallel(self, state: AgentState) -> AgentState:
+        """Run structured lookup, graph traversal and vector retrieval together.
+
+        They are independent reads over different stores and each used to wait
+        for the previous one to finish. Each branch gets its own database
+        session because an AsyncSession is not safe for concurrent use; the
+        results and events are merged after ``asyncio.gather``.
+        """
+        import asyncio
+        import time
+
+        started = time.perf_counter()
+        base = dict(state)
+
+        async def run(method: Any) -> AgentState:
+            from app.db.session import session_scope
+
+            async with session_scope() as session:
+                return await method(dict(base), session)
+
+        structured_state, graph_state, retrieval_state = await asyncio.gather(
+            run(self.structured),
+            run(self.graph),
+            run(self.retrieve),
+        )
+
+        merged = dict(state)
+        for branch in (structured_state, graph_state, retrieval_state):
+            for key in ("structured", "conflicts", "graph", "retrieval"):
+                if key in branch:
+                    merged[key] = branch[key]
+        merged["notes"] = list(
+            dict.fromkeys(
+                note
+                for branch in (structured_state, graph_state, retrieval_state)
+                for note in (branch.get("notes") or [])
+            )
+        )
+        base_event_count = len(base.get("events") or [])
+        events = list(base.get("events") or [])
+        for branch in (structured_state, graph_state, retrieval_state):
+            events.extend((branch.get("events") or [])[base_event_count:])
+        merged["events"] = events
+        timings = dict(base.get("timings") or {})
+        for branch in (structured_state, graph_state, retrieval_state):
+            timings.update(branch.get("timings") or {})
+        timings["parallel_ms"] = int((time.perf_counter() - started) * 1000)
+        merged["timings"] = timings
+        return merged
 
     # -------------------------------------------------------------- retrieval
     async def retrieve(self, state: AgentState, session: AsyncSession) -> AgentState:
@@ -773,6 +825,22 @@ class AgentRuntime:
             # the text that is actually returned, not the text that was dropped.
             citation_check = validate_citations(answer_text, bundle)
 
+        if refusal:
+            selected_citations: list[Any] = []
+            citation_selection = "refusal"
+        else:
+            selected_citations, citation_selection = select_supporting_citations(
+                grounding.claims,
+                bundle.citations,
+                cap=self.settings.citation_max,
+            )
+        state["citations"] = [citation.as_dict() for citation in selected_citations]
+        state["citation_selection"] = {
+            "method": citation_selection,
+            "available": len(bundle.citations),
+            "selected": len(selected_citations),
+            "cap": self.settings.citation_max,
+        }
         state["answer_text"] = answer_text
         state["grounding"] = grounding.as_dict()
         state["citation_check"] = citation_check.as_dict()
@@ -784,6 +852,7 @@ class AgentRuntime:
             "refusal_triggered": refusal,
             "claim_check_method": grounding.method,
             "coverage": coverage.as_dict(),
+            "citation_selection": state["citation_selection"],
         }
         if len(conflicts) != len(all_conflicts):
             state["notes"] = [

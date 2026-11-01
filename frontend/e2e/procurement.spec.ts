@@ -29,26 +29,16 @@ async function loginViaAPI(req: ReturnType<typeof request.newContext> extends Pr
 }
 
 async function setAuthState(page: import("@playwright/test").Page) {
-  const apiCtx = await request.newContext({ baseURL: "http://localhost:8000" });
-  const r = await apiCtx.post(`${API}/auth/login`, {
+  // Log in through the page's own request context. The backend returns the
+  // access token in the body and the refresh token as an httpOnly cookie on the
+  // browser context, so the app rebuilds its in-memory session on load. No auth
+  // state is written to localStorage any more.
+  const r = await page.request.post(`${API}/auth/login`, {
     data: { email: EMAIL, password: PASSWORD, tenant_slug: TENANT },
   });
   expect(r.ok()).toBeTruthy();
   const body = await r.json();
-  const token = body.access_token;
-  const user = body.user;
-
-  await page.goto("/");
-  await page.evaluate(
-    ({ token, user }) => {
-      localStorage.setItem(
-        "auth-storage",
-        JSON.stringify({ state: { token, user, isAuthenticated: true }, version: 0 }),
-      );
-    },
-    { token, user },
-  );
-  return token;
+  return body.access_token as string;
 }
 
 // ------------------------------------------------------------------ 1. Health
@@ -320,14 +310,14 @@ test("landing page renders without errors", async ({ page }) => {
 
 // ------------------------------------------------------------------ 16. Browser: app shell loads after auth
 
-test("app shell renders documents page after authentication injection", async ({ page }) => {
+test("app shell renders documents page from the refresh cookie session", async ({ page }) => {
   await setAuthState(page);
-  await page.goto("/app/documents");
+  await page.goto("/documents");
   await page.waitForLoadState("networkidle");
 
-  // Check we're not on a login redirect
   const url = page.url();
   console.log(`  navigated to: ${url}`);
-  // Page should not redirect back to / or /login
-  expect(url).toContain("localhost:5173");
+  // The access token is memory-only, so reaching this route proves the app
+  // rebuilt its session from the httpOnly refresh cookie.
+  expect(url).toContain("/documents");
 });

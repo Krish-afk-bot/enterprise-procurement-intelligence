@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -50,13 +51,17 @@ def create_token(
         if token_type == ACCESS_TOKEN_TYPE
         else settings.refresh_token_ttl_minutes
     )
-    expires_at = datetime.now(UTC) + timedelta(minutes=ttl)
+    now = datetime.now(UTC)
+    expires_at = now + timedelta(minutes=ttl)
     payload: dict[str, Any] = {
         "sub": subject,
         "tid": tenant_id,
         "role": role,
         "typ": token_type,
-        "iat": int(datetime.now(UTC).timestamp()),
+        # A unique id per token, so a refresh token can be revoked exactly once
+        # when it is rotated (see app.security.revocation).
+        "jti": uuid.uuid4().hex,
+        "iat": int(now.timestamp()),
         "exp": int(expires_at.timestamp()),
         "iss": "epi",
     }
@@ -64,6 +69,14 @@ def create_token(
         payload.update(extra)
     token = jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm)
     return token, expires_at
+
+
+def token_remaining_seconds(payload: dict[str, Any]) -> int:
+    """Seconds until this token expires (at least 1, for use as a cache TTL)."""
+    exp = payload.get("exp")
+    if not isinstance(exp, (int, float)):
+        return 1
+    return max(1, int(exp - datetime.now(UTC).timestamp()))
 
 
 def decode_token(settings: Settings, token: str, *, expected_type: str = ACCESS_TOKEN_TYPE) -> dict[str, Any]:

@@ -87,6 +87,15 @@ class Settings(BaseSettings):
     bootstrap_admin_email: str | None = None
     bootstrap_admin_password: str | None = None
 
+    #: Refresh tokens are delivered as an httpOnly cookie and never exposed to
+    #: JavaScript. Scoped to the auth endpoints so it is only sent where needed.
+    refresh_cookie_name: str = "epi_refresh"
+    refresh_cookie_path: str = "/api/v1/auth"
+    refresh_cookie_domain: str | None = None
+    refresh_cookie_samesite: Literal["strict", "lax", "none"] = "strict"
+    #: None => derive from the environment (Secure everywhere except local dev).
+    refresh_cookie_secure: bool | None = None
+
     @field_validator("jwt_secret", mode="after")
     @classmethod
     def _reject_weak_jwt_secret_in_production(cls, value: str) -> str:
@@ -283,6 +292,18 @@ class Settings(BaseSettings):
     def is_development(self) -> bool:
         """True for local environments where a weak secret is tolerated."""
         return self.app_env in _DEV_ENVS
+
+    @property
+    def cookie_secure(self) -> bool:
+        """Whether auth cookies carry the Secure flag.
+
+        Always true outside local development. Browsers silently drop Secure
+        cookies sent over plain HTTP, so local development opts out unless the
+        value is set explicitly.
+        """
+        if self.refresh_cookie_secure is not None:
+            return self.refresh_cookie_secure
+        return not self.is_development
 
     def is_jwt_secret_weak(self) -> bool:
         """True when the secret is a known default or shorter than 32 characters."""

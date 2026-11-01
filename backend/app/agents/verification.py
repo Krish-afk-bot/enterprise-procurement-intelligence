@@ -792,13 +792,23 @@ def decide_status(
     if not has_evidence:
         return "insufficient_evidence"
 
+    # A later amendment replacing an earlier price is a supersession, not a
+    # disagreement. It is still reported (both values, both dates) but it must
+    # not label an ordinary current-price answer as "conflicting".
+    genuine_conflicts = [
+        conflict
+        for conflict in conflicts
+        if (conflict.get("kind") if isinstance(conflict, dict) else getattr(conflict, "kind", None))
+        != "price_supersession"
+    ]
+
     # The evidence must cover the question's own constraints before it can be
     # reported as an answer. Uncovered constraints mean the question is
     # unanswerable from this corpus, whatever else was retrieved.
-    if coverage is not None and not coverage.satisfied and not conflicts:
+    if coverage is not None and not coverage.satisfied and not genuine_conflicts:
         return "insufficient_evidence"
 
-    if conflicts:
+    if genuine_conflicts:
         return "conflicting"
 
     if coverage is not None and not coverage.satisfied:

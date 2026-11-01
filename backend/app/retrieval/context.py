@@ -129,6 +129,13 @@ class ContextBuilder:
     ) -> ContextBundle:
         bundle = ContextBundle()
         seen: set[tuple[str, int | None, str]] = set()
+        extra = list(extra_blocks or [])
+        # Structured and supersession/conflict blocks are the evidence the
+        # answer's figures come from. Reserving room for them prevents the
+        # twelve retrieval chunks from crowding out the original 920.00 page
+        # that explains what changed.
+        reserve = min(len(extra), max(0, self.max_chunks - 1))
+        regular_limit = max(1, self.max_chunks - reserve)
 
         for chunk in chunks:
             key = (chunk.document_id, chunk.page, chunk.content[:200])
@@ -136,7 +143,7 @@ class ContextBuilder:
                 bundle.dropped += 1
                 continue
             seen.add(key)
-            if len(bundle.blocks) >= self.max_chunks:
+            if len(bundle.blocks) >= regular_limit:
                 bundle.dropped += 1
                 continue
 
@@ -214,7 +221,7 @@ class ContextBuilder:
             )
             bundle.citations.append(citation)
 
-        for citation, text, content_type in extra_blocks or []:
+        for citation, text, content_type in extra:
             if len(bundle.blocks) >= self.max_chunks:
                 bundle.dropped += 1
                 continue

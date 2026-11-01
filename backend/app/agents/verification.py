@@ -207,18 +207,94 @@ def _group_mentions(group: dict[str, Any] | None, name: Any) -> bool:
     return any(_mentions(str(value), name) for value in group.values())
 
 
+def _question_period(plan: dict[str, Any], question: str | None) -> tuple[str | None, str | None]:
+    """The period the question asks about, including one only the wording reveals.
+
+    The planner sets ``date_from``/``date_to`` when it recognises a date. An LLM
+    plan can miss a bare year ("the 2030 unit price"), which used to remove the
+    period constraint entirely and let an in-force 2026 figure answer a question
+    about 2030. Recover years that are clearly attached to a price/value/period
+    phrase; identifiers such as ``AWD-2025-A02`` or ``ISO 9001:2015`` do not
+    count because they are not periods the question asks about.
+    """
+    date_from, date_to = plan.get("date_from"), plan.get("date_to")
+    if date_from or date_to:
+        return (str(date_from) if date_from else None, str(date_to) if date_to else None)
+    if not question:
+        return None, None
+    if plan.get("intent") not in {"price_lookup", "aggregation", "comparison", "temporal_change"}:
+        return None, None
+    years = {
+        int(match.group(1))
+        for pattern in (
+            # A year embedded in an identifier (AWD-2025-A02, NS-2024-001,
+            # ISO 9001:2015) is not a period the question asks about.
+            r"(?<![A-Za-z0-9-])(?:in|as\s+of|during|for|by|through|until|between|from)\s+((?:19|20)\d{2})(?![0-9A-Za-z-])",
+            r"(?<![A-Za-z0-9-])((?:19|20)\d{2})\s+(?:unit\s+)?(?:price|prices|value|award|cost|total|revenue|spend)(?![0-9A-Za-z-])",
+            r"\b(?:price|value|award|cost|total|revenue|spend)\b[^.]{0,24}?(?<![A-Za-z0-9-])((?:19|20)\d{2})(?![0-9A-Za-z-])",
+        )
+        for match in re.finditer(pattern, question, re.IGNORECASE)
+    }
+    if not years:
+        return None, None
+    low, high = min(years), max(years)
+    return f"{low}-01-01", f"{high}-12-31"
+
+
+_CURRENCY_WORDS = {
+    "EUR": (r"\beur\b", r"\beuros?\b", "€"),
+    "GBP": (r"\bgbp\b", r"\bpounds?\b", "£"),
+    "JPY": (r"\bjpy\b", r"\byen\b", "¥"),
+    "USD": (r"\busd\b", r"\bdollars?\b", "$"),
+}
+
+#: Attributes an unanswerable question can ask for while the corpus only holds
+#: the adjacent fact (a minimum order quantity but no maximum, a price list but
+#: no rebate). If the question names one and no evidence mentions it at all, the
+#: corpus cannot answer it — refusing is the correct behaviour.
+_ATTRIBUTE_TERMS: dict[str, tuple[str, ...]] = {
+    "rebate": ("rebate", "rebates"),
+    "warranty": ("warranty", "warranties", "guarantee"),
+    "penalty": ("penalty", "penalties", "liquidated damages"),
+    "insurance": ("insurance", "insured"),
+    "maximum order quantity": ("maximum order", "max order", "maximum quantity", "moq"),
+    "lead time": ("lead time", "lead times"),
+}
+
+
+def _requested_tokens(question: str | None) -> tuple[str | None, list[str]]:
+    """Currency and attribute terms the question asks for."""
+    if not question:
+        return None, []
+    lowered = question.lower()
+    currency = None
+    for code, patterns in _CURRENCY_WORDS.items():
+        if any(re.search(pattern, lowered) for pattern in patterns):
+            currency = code
+            break
+    attributes = [
+        label
+        for label, synonyms in _ATTRIBUTE_TERMS.items()
+        if any(re.search(rf"\b{re.escape(term)}\b", lowered) for term in synonyms)
+    ]
+    return currency, attributes
+
+
 def assess_query_coverage(
     plan: dict[str, Any] | None,
-    bundle: ContextBundle,
+    bundle: ContextBundle | None,
     structured: StructuredResult | None,
+    *,
+    texts: list[str] | None = None,
+    question: str | None = None,
 ) -> CoverageResult:
     """Check the evidence against the constraints the question itself imposed."""
     plan = plan or {}
     result = CoverageResult()
     structured = structured if structured is not None else StructuredResult(queried=False)
-    texts = [(block.text or "") + " " + (block.citation.snippet or "") for block in bundle.blocks]
-    # blob is built for future claim-text comparison; currently used implicitly through texts
-    _blob = "\n".join(texts)  # noqa: F841
+    if texts is None:
+        texts = [(block.text or "") + " " + (block.citation.snippet or "") for block in (bundle.blocks if bundle else [])]
+    texts = list(texts)
     price_intent = plan.get("intent") in {
         "price_lookup",
         "aggregation",
@@ -294,7 +370,7 @@ def assess_query_coverage(
         )
 
     # ------------------------------------------------------------ period constraint
-    date_from, date_to = plan.get("date_from"), plan.get("date_to")
+    date_from, date_to = _question_period(plan, question)
     if date_from or date_to:
         scope_rows = [
             fact
@@ -323,6 +399,44 @@ def assess_query_coverage(
             satisfied, detail = False, f"no retrieved row or passage falls in {label}"
         result.constraints.append(
             {"kind": "period", "constraint": f"period={label}", "satisfied": satisfied, "detail": detail}
+        )
+
+    # ---------------------------------------------------------- currency constraint
+    currency, attributes = _requested_tokens(question)
+    if currency:
+        evidence_currencies: set[str] = set()
+        for fact in structured.facts:
+            evidence_currencies.add(str(getattr(fact, "currency", "") or "").upper())
+        for text in texts:
+            evidence_currencies.update(re.findall(r"\b(?:USD|EUR|GBP|JPY)\b", text.upper()))
+        satisfied = currency in evidence_currencies
+        result.constraints.append(
+            {
+                "kind": "currency",
+                "constraint": f"currency={currency}",
+                "satisfied": satisfied,
+                "detail": (
+                    f"evidence is denominated in {', '.join(sorted(value for value in evidence_currencies if value)) or 'no currency'}"
+                ),
+            }
+        )
+
+    # --------------------------------------------------------- attribute constraint
+    evidence_text = "\n".join(texts).lower()
+    for attribute in attributes:
+        synonyms = _ATTRIBUTE_TERMS[attribute]
+        satisfied = any(re.search(rf"\b{re.escape(term)}\b", evidence_text) for term in synonyms)
+        result.constraints.append(
+            {
+                "kind": "attribute",
+                "constraint": f"attribute={attribute}",
+                "satisfied": satisfied,
+                "detail": (
+                    f"evidence mentions {attribute}"
+                    if satisfied
+                    else f"no retrieved passage or structured row mentions {attribute}"
+                ),
+            }
         )
 
     return result

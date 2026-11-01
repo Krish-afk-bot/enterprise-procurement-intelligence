@@ -22,6 +22,11 @@ logger = get_logger(__name__)
 
 
 def route_after_evaluation(state: AgentState) -> str:
+    # A missing period/currency/attribute is not a retrieval failure; another
+    # rewrite cannot create evidence the corpus does not contain. Go straight to
+    # the refusal-generating path.
+    if state.get("answerability_hard") and not state.get("conflicts"):
+        return "generate"
     if state.get("evidence_sufficient"):
         return "generate"
     iterations = int(state.get("iteration") or 0)

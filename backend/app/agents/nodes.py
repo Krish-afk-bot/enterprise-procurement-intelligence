@@ -10,6 +10,7 @@ answer was verified) and never expose internal reasoning.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any
 
@@ -22,6 +23,7 @@ from app.agents.state import AgentState, add_event
 from app.agents.verification import (
     REFUSAL_TEXT,
     ClaimCheck,
+    CoverageResult,
     GroundingResult,
     assess_evidence_strength,
     assess_query_coverage,
@@ -39,7 +41,7 @@ from app.core.errors import AuthorizationError, NotFoundError
 from app.db.models import Chunk, Document, DocumentPage
 from app.observability.logging import get_logger
 from app.retrieval.analysis import Conflict, detect_price_conflicts, fetch_price_facts
-from app.retrieval.context import ContextBuilder
+from app.retrieval.context import ContextBuilder, ContextBundle
 from app.retrieval.graph_retrieval import GraphResult, graph_lookup
 from app.retrieval.query_understanding import (
     Intent,
@@ -352,6 +354,32 @@ class AgentRuntime:
         hits = state.get("retrieval", {}).get("hits") or []
         structured = state.get("structured") or {}
         graph = state.get("graph") or {}
+
+        # Explicit answerability check *after* retrieval: the corpus may return
+        # plenty of evidence and still hold nothing for the period, currency or
+        # attribute the question names. Those gaps are facts about the corpus,
+        # not retrieval quality, so the corrective loop cannot fix them and the
+        # question must be refused without asking a model to invent an answer.
+        structured_result = _structured_from_payload(structured)
+        answerability_texts = [str(hit.get("content") or "") for hit in hits]
+        for fact in structured_result.facts:
+            answerability_texts.append(
+                f"{fact.supplier_name} {fact.product_name} {fact.unit_price} {fact.currency} "
+                f"{fact.effective_date} {fact.expiry_date}"
+            )
+        answerability = assess_query_coverage(
+            state.get("plan"),
+            None,
+            structured_result,
+            texts=answerability_texts,
+            question=state.get("question"),
+        )
+        hard_gap = any(
+            not constraint.get("satisfied") and constraint.get("kind") in {"period", "currency", "attribute"}
+            for constraint in answerability.constraints
+        )
+        state["answerability"] = answerability.as_dict()
+        state["answerability_hard"] = hard_gap
         rerank_scores = [hit.get("rerank_score") for hit in hits if hit.get("rerank_score") is not None]
         dense_scores = [hit.get("dense_score") for hit in hits if hit.get("dense_score") is not None]
 
@@ -365,24 +393,47 @@ class AgentRuntime:
             "best_vector_score": round(max(dense_scores), 4) if dense_scores else None,
         }
         threshold = self.settings.evidence_sufficiency_threshold
-        score = 0.0
-        if criteria["documents"]:
-            score += 0.4
-        if int(criteria["chunks"] or 0) >= 2:
-            score += 0.15
-        if structured_rows:
-            score += 0.3
-        if graph.get("paths"):
-            score += 0.15
+        constraints = list(answerability.constraints)
+        unsatisfied = [item for item in constraints if not item.get("satisfied")]
+        coverage_ratio = 1.0 - (len(unsatisfied) / len(constraints)) if constraints else None
+        if constraints:
+            # Sufficiency is driven by whether the evidence covers what was
+            # asked, not by "at least one document came back". A single passage
+            # that satisfies every constraint is stronger than twelve that do
+            # not, and the old 0.4-per-document-anywhere rule could not tell the
+            # difference.
+            score = 0.6 * (coverage_ratio or 0.0)
+            if int(criteria["chunks"] or 0) >= 2:
+                score += 0.2
+            if structured_rows or graph.get("paths"):
+                score += 0.2
+        else:
+            score = 0.0
+            if criteria["documents"]:
+                score += 0.4
+            if int(criteria["chunks"] or 0) >= 2:
+                score += 0.15
+            if structured_rows:
+                score += 0.3
+            if graph.get("paths"):
+                score += 0.15
         if rerank_scores and max(rerank_scores) > 0:
-            score += 0.1
+            score += 0.05
         sufficient = score >= threshold and (int(criteria["chunks"] or 0) > 0 or structured_rows > 0)
+        if constraints and unsatisfied:
+            sufficient = False
+        if hard_gap:
+            sufficient = False
         state["evidence_sufficient"] = sufficient
         state["sufficiency"] = {
             "score": round(min(score, 1.0), 3),
             "threshold": threshold,
             "criteria": criteria,
-            "method": "weighted evidence criteria (documents, structured rows, graph paths, rerank score)",
+            "coverage_ratio": round(coverage_ratio, 3) if coverage_ratio is not None else None,
+            "unsatisfied": [item["constraint"] for item in unsatisfied],
+            "method": (
+                "coverage-weighted sufficiency (satisfied constraints, corroboration, structured/graph support)"
+            ),
         }
         state["events"] = add_event(
             state,
@@ -396,19 +447,19 @@ class AgentRuntime:
     async def rewrite_query(self, state: AgentState) -> AgentState:
         iteration = int(state.get("iteration") or 0) + 1
         plan = QueryPlan.model_validate(state["plan"])
-        suffix = REWRITE_SUFFIXES[(iteration - 1) % len(REWRITE_SUFFIXES)]
-        rewritten = f"{plan.query} {suffix}"
+        suffix = _missing_constraint_terms(state, plan, iteration)
+        rewritten = f"{plan.query} {suffix}".strip()
         state["iteration"] = iteration
-        state["question"] = state["question"]
         state["rewrites"] = [*state.get("rewrites", []), rewritten]
         state["strategy_selected"] = "hybrid_rerank"
         state["plan"] = plan.model_copy(update={"query": rewritten}).model_dump(mode="json")
         state["events"] = add_event(
             state,
             "rewrite",
-            "Corrective retrieval: query rewritten",
-            f"attempt {iteration} with additional terms",
+            "Corrective retrieval: query rewritten from coverage gaps",
+            f"attempt {iteration} targeting: {suffix}",
             attempt=iteration,
+            targeted=suffix,
         )
         return state
 
@@ -417,6 +468,34 @@ class AgentRuntime:
         import time
 
         started = time.perf_counter()
+        if state.get("answerability_hard") and not state.get("conflicts") and not state.get("hard_refusal"):
+            # The requested period/currency/attribute is absent from the corpus.
+            # Asking the generator anyway only invites a plausible wrong figure,
+            # so refuse here and keep the reason auditable.
+            structured_result = _structured_from_payload(state.get("structured"))
+            coverage = CoverageResult(
+                constraints=list((state.get("answerability") or {}).get("constraints") or [])
+            )
+            state["answer_text"] = (
+                f"{REFUSAL_TEXT}\n\nWhy: {refusal_reason(ContextBundle(), structured_result, coverage)}"
+            )
+            state["generation_mode"] = "refusal"
+            state["model"] = None
+            state["token_usage"] = {}
+            state["citations"] = []
+            state["context_blocks"] = []
+            state["grounding"] = GroundingResult(method="not_run", total=0, supported=0).as_dict()
+            state["events"] = add_event(
+                state,
+                "generate",
+                "Skipped generation",
+                "the question asks for a period, currency or attribute the corpus does not contain",
+            )
+            state["timings"] = {
+                **(state.get("timings") or {}),
+                "generation_ms": int((time.perf_counter() - started) * 1000),
+            }
+            return state
         if state.get("hard_refusal"):
             # Nothing is generated for an injection attempt: the question must not
             # reach the model at all, so a leaked system prompt is impossible.
@@ -642,7 +721,9 @@ class AgentRuntime:
         # Only a disagreement about an entity the question named can make this
         # answer ambiguous; unrelated conflicts stay in the corpus report.
         conflicts = relevant_conflicts(all_conflicts, state.get("plan"))
-        coverage = assess_query_coverage(state.get("plan"), bundle, structured)
+        coverage = assess_query_coverage(
+            state.get("plan"), bundle, structured, question=state.get("question")
+        )
         status = decide_status(
             grounding=grounding,
             conflicts=conflicts,
@@ -740,6 +821,47 @@ class AgentRuntime:
             status=state.get("status"),
         )
         return state
+
+
+def _missing_constraint_terms(state: AgentState, plan: QueryPlan, iteration: int) -> str:
+    """Turn the coverage gap into the terms the next retrieval must match.
+
+    The old loop appended one of three fixed suffixes regardless of *why* the
+    evidence was insufficient. The coverage check already names the missing
+    supplier/product/period/attribute, so the rewrite uses those names.
+    """
+    terms: list[str] = []
+    for constraint in (state.get("answerability") or {}).get("constraints") or []:
+        if constraint.get("satisfied"):
+            continue
+        kind = constraint.get("kind")
+        value = str(constraint.get("constraint") or "").split("=", 1)[-1].strip()
+        if not value:
+            continue
+        if kind == "period":
+            terms.extend(re.findall(r"(?:19|20)\d{2}", value))
+        elif kind == "currency":
+            terms.append(f"{value} price")
+        elif kind in {"supplier", "product", "attribute"}:
+            terms.append(value)
+
+    if not terms:
+        intent = getattr(plan.intent, "value", str(plan.intent))
+        intent_terms = {
+            "temporal_change": "amendment effective date superseded original",
+            "compliance_check": "certificate expiry issued scope",
+            "aggregation": "award total units value",
+            "comparison": "price list both suppliers",
+            "contract_terms": "clause terms conditions",
+            "relationship": "contract supplier relationship",
+        }
+        terms = [intent_terms.get(intent, REWRITE_SUFFIXES[(iteration - 1) % len(REWRITE_SUFFIXES)])]
+
+    query_lower = plan.query.lower()
+    fresh = [term for term in terms if term.lower() not in query_lower]
+    if not fresh:
+        fresh = [REWRITE_SUFFIXES[(iteration - 1) % len(REWRITE_SUFFIXES)]]
+    return " ".join(dict.fromkeys(fresh))
 
 
 def _select_strategy(plan: QueryPlan) -> str:

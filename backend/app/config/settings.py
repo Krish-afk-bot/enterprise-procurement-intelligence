@@ -40,6 +40,12 @@ _KNOWN_WEAK_SECRETS = frozenset(
     }
 )
 
+# Environments where a weak JWT secret is tolerated (local only). Every other
+# environment — staging and production included — must supply a strong secret.
+_DEV_ENVS = frozenset({"development", "test"})
+
+_MIN_SECRET_LENGTH = 32
+
 
 def _default_sqlite_url() -> str:
     (DEFAULT_VAR_DIR).mkdir(parents=True, exist_ok=True)
@@ -58,7 +64,7 @@ class Settings(BaseSettings):
 
     # ------------------------------------------------------------------ app
     app_name: str = "Enterprise Procurement Intelligence"
-    app_env: Literal["development", "test", "production"] = "development"
+    app_env: Literal["development", "test", "staging", "production"] = "development"
     api_prefix: str = "/api/v1"
     debug: bool = False
     log_level: str = "INFO"
@@ -71,7 +77,9 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------- security
     jwt_secret: str = "dev-insecure-change-me"
     jwt_algorithm: str = "HS256"
-    access_token_ttl_minutes: int = 720
+    #: Short-lived by design: a stolen access token is useful for minutes, and
+    #: the client silently rotates it via the httpOnly refresh cookie.
+    access_token_ttl_minutes: int = 15
     refresh_token_ttl_minutes: int = 10080
     allow_self_registration: bool = True
     default_tenant_slug: str = "acme-procurement"
@@ -80,6 +88,15 @@ class Settings(BaseSettings):
     #: in production and create users explicitly instead.
     bootstrap_admin_email: str | None = None
     bootstrap_admin_password: str | None = None
+
+    #: Refresh tokens are delivered as an httpOnly cookie and never exposed to
+    #: JavaScript. Scoped to the auth endpoints so it is only sent where needed.
+    refresh_cookie_name: str = "epi_refresh"
+    refresh_cookie_path: str = "/api/v1/auth"
+    refresh_cookie_domain: str | None = None
+    refresh_cookie_samesite: Literal["strict", "lax", "none"] = "strict"
+    #: None => derive from the environment (Secure everywhere except local dev).
+    refresh_cookie_secure: bool | None = None
 
     @field_validator("jwt_secret", mode="after")
     @classmethod
@@ -155,6 +172,14 @@ class Settings(BaseSettings):
     reranker_model: str = "BAAI/bge-reranker-v2-m3"
     reranker_enabled: bool = True
     reranker_device: str = "auto"
+    #: Only this many fused candidates are scored by the cross-encoder. The rest
+    #: retain their fused order; 20 is the point where another 30 pairs buy no
+    #: measurable ranking quality on this corpus but double the CPU time.
+    rerank_candidate_limit: int = 20
+    #: Skip the cross-encoder when the dense head is already unambiguous.
+    rerank_gate_enabled: bool = True
+    rerank_gate_min_score: float = 0.62
+    rerank_gate_min_margin: float = 0.04
 
     #: When a configured external provider is unreachable in development, fall
     #: back to the locally-runnable implementation and say so in /health instead
@@ -169,8 +194,14 @@ class Settings(BaseSettings):
     rerank_top_n: int = 15
     context_max_chunks: int = 12
     context_max_tokens: int = 6000
+    #: A short answer should not display every block that entered the context.
+    citation_max: int = 5
     max_agent_iterations: int = 2
     evidence_sufficiency_threshold: float = 0.45
+    #: Deterministic per-claim binding is the default grounding judge. The
+    #: model judge is optional because it costs a generation round-trip and can
+    #: only withdraw support, never add it.
+    grounding_llm_judge_enabled: bool = False
     enable_query_rewrite: bool = False
     enable_multi_query: bool = False
     enable_hyde: bool = False
@@ -212,6 +243,14 @@ class Settings(BaseSettings):
     langsmith_api_key: str | None = None
     langsmith_project: str = "epi-procurement"
     langsmith_tracing: bool = False
+
+    # ---------------------------------------------------------------- tracing
+    otel_enabled: bool = True
+    otel_service_name: str = "epi-api"
+    #: OTLP/HTTP collector, e.g. http://localhost:4318/v1/traces. Unset means
+    #: spans are created but not exported (a collector can be added later with
+    #: no code change).
+    otel_exporter_otlp_endpoint: str | None = None
     otel_exporter_otlp_endpoint: str | None = None
     trace_store_limit: int = 200
 
@@ -273,33 +312,55 @@ class Settings(BaseSettings):
             "max_agent_iterations": self.max_agent_iterations,
         }
 
+    @property
+    def is_development(self) -> bool:
+        """True for local environments where a weak secret is tolerated."""
+        return self.app_env in _DEV_ENVS
+
+    @property
+    def cookie_secure(self) -> bool:
+        """Whether auth cookies carry the Secure flag.
+
+        Always true outside local development. Browsers silently drop Secure
+        cookies sent over plain HTTP, so local development opts out unless the
+        value is set explicitly.
+        """
+        if self.refresh_cookie_secure is not None:
+            return self.refresh_cookie_secure
+        return not self.is_development
+
+    def is_jwt_secret_weak(self) -> bool:
+        """True when the secret is a known default or shorter than 32 characters."""
+        return self.jwt_secret in _KNOWN_WEAK_SECRETS or len(self.jwt_secret) < _MIN_SECRET_LENGTH
+
     def is_jwt_secret_safe(self) -> bool:
-        """Return True when the JWT secret is strong enough for the current env."""
-        if self.app_env == "production":
-            return self.jwt_secret not in _KNOWN_WEAK_SECRETS and len(self.jwt_secret) >= 32
-        # In development/test a weak secret is allowed but warned about.
-        return True
+        """Return True when the JWT secret is acceptable for the current env."""
+        if self.is_development:
+            return True
+        return not self.is_jwt_secret_weak()
 
     def validate_startup_security(self) -> None:
-        """Raise RuntimeError if running in production with an insecure secret.
+        """Raise RuntimeError if a non-development environment has a weak secret.
 
-        Called by the application lifespan so that a misconfigured production
-        deployment fails fast at boot rather than silently signing tokens with a
-        known-weak key.
+        Called by the application lifespan so that a misconfigured staging or
+        production deployment fails fast at boot rather than silently signing
+        tokens with a known-weak key. Development and test are exempt.
         """
-        if self.app_env == "production":
-            if self.jwt_secret in _KNOWN_WEAK_SECRETS:
-                raise RuntimeError(
-                    "Production startup refused: JWT_SECRET is set to a known "
-                    "insecure default value. Set JWT_SECRET to a securely-generated "
-                    "random string of at least 32 characters."
-                )
-            if len(self.jwt_secret) < 32:
-                raise RuntimeError(
-                    f"Production startup refused: JWT_SECRET is only "
-                    f"{len(self.jwt_secret)} characters long. "
-                    "Use a secret of at least 32 characters."
-                )
+        if self.is_development:
+            return
+        label = self.app_env.capitalize()
+        if self.jwt_secret in _KNOWN_WEAK_SECRETS:
+            raise RuntimeError(
+                f"{label} startup refused: JWT_SECRET is set to a known "
+                "insecure default value. Set JWT_SECRET to a securely-generated "
+                f"random string of at least {_MIN_SECRET_LENGTH} characters."
+            )
+        if len(self.jwt_secret) < _MIN_SECRET_LENGTH:
+            raise RuntimeError(
+                f"{label} startup refused: JWT_SECRET is only "
+                f"{len(self.jwt_secret)} characters long. "
+                f"Use a secret of at least {_MIN_SECRET_LENGTH} characters."
+            )
 
 
 @lru_cache

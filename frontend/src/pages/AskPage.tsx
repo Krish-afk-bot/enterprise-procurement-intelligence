@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, CornerDownLeft, Loader2, MessageSquarePlus, Settings2, Square } from "lucide-react";
 
 import { AnswerPanel } from "@/components/answer/AnswerPanel";
+import { EarlyEvidence } from "@/components/answer/EarlyEvidence";
 import { EvidencePanel } from "@/components/answer/EvidencePanel";
 import { StatusRail } from "@/components/answer/StatusRail";
 import { EmptyState, ErrorState, LoadingState } from "@/components/common/States";
@@ -11,10 +12,10 @@ import { CitationChip } from "@/components/common/Evidence";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch } from "@/components/ui/misc";
-import { api, streamQuery } from "@/lib/api";
+import { useAskStream } from "@/features/ask/useAskStream";
+import { api } from "@/lib/api";
 import { MICROCOPY, microcopyPlain } from "@/lib/microcopy";
 import { useMood } from "@/lib/useMood";
-import type { Answer, StreamEvent } from "@/lib/types";
 import { cn, formatDateTime, plural } from "@/lib/utils";
 
 const EXAMPLE_QUESTIONS = [
@@ -27,8 +28,6 @@ const EXAMPLE_QUESTIONS = [
   "What was Supplier C's price in 2030?",
 ];
 
-type PipelineEvent = NonNullable<StreamEvent["event"]>;
-
 export function AskPage() {
   const queryClient = useQueryClient();
   const [question, setQuestion] = useState("");
@@ -37,15 +36,22 @@ export function AskPage() {
   const [includeSynthetic, setIncludeSynthetic] = useState(true);
   const [includeTrace, setIncludeTrace] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [conversationId, setConversationId] = useState<string | null>(null);
-  const [events, setEvents] = useState<PipelineEvent[]>([]);
-  const [answer, setAnswer] = useState<Answer | null>(null);
-  const [error, setError] = useState<unknown>(null);
-  const [streaming, setStreaming] = useState(false);
   const [copied, setCopied] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const controllerRef = useRef<AbortController | null>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
+  const {
+    conversationId,
+    events,
+    evidence,
+    answer,
+    error,
+    streaming,
+    verifying,
+    ask,
+    stop,
+    reset,
+    openConversation: openStoredConversation,
+  } = useAskStream();
 
   // The world reacts to what the application is really doing: a question is
   // running, the answer is supported, the records disagree, or the documents do
@@ -92,10 +98,6 @@ export function AskPage() {
   );
 
   useEffect(() => {
-    return () => controllerRef.current?.abort();
-  }, []);
-
-  useEffect(() => {
     if (!copied) return;
     const timer = window.setTimeout(() => setCopied(false), 1600);
     return () => window.clearTimeout(timer);
@@ -104,73 +106,25 @@ export function AskPage() {
   async function run() {
     const trimmed = question.trim();
     if (!trimmed || streaming) return;
-
-    setError(null);
-    setEvents([]);
-    setAnswer(null);
-
-    const abort = new AbortController();
-    controllerRef.current = abort;
-    setStreaming(true);
-
-    try {
-      let activeConversation = conversationId;
-      if (!activeConversation) {
-        // The transcript is persisted by the API once a conversation exists,
-        // so the first question of a session creates one.
-        const created = await api.createConversation(trimmed.slice(0, 80));
-        activeConversation = created.id;
-        setConversationId(created.id);
-      }
-
-      await streamQuery(
-        {
-          query: trimmed,
-          strategy: strategy === "auto" ? null : strategy,
-          top_k: Number(topK),
-          include_trace: includeTrace,
-          conversation_id: activeConversation,
-          filters: { include_synthetic: includeSynthetic },
-        },
-        (event) => {
-          if (event.type === "status" && event.event) {
-            setEvents((previous) => [...previous, event.event!]);
-          } else if (event.type === "answer" && event.answer) {
-            setAnswer(event.answer);
-          } else if (event.type === "error") {
-            setError(new Error(event.error?.message ?? "The pipeline could not finish this query."));
-          }
-        },
-        abort.signal,
-      );
-
-      void queryClient.invalidateQueries({ queryKey: ["conversations"] });
-      void queryClient.invalidateQueries({ queryKey: ["conversation-messages", activeConversation] });
-    } catch (caught) {
-      if ((caught as Error).name !== "AbortError") setError(caught);
-    } finally {
-      setStreaming(false);
-      controllerRef.current = null;
-    }
+    await ask({
+      query: trimmed,
+      strategy: strategy === "auto" ? null : strategy,
+      top_k: Number(topK),
+      include_trace: includeTrace,
+      filters: { include_synthetic: includeSynthetic },
+    });
+    void queryClient.invalidateQueries({ queryKey: ["filters"] });
   }
 
   function startNewQuestion() {
-    controllerRef.current?.abort();
-    setConversationId(null);
-    setAnswer(null);
-    setEvents([]);
-    setError(null);
+    reset();
     setQuestion("");
     composerRef.current?.focus();
   }
 
   function openConversation(id: string) {
     if (id === conversationId) return;
-    controllerRef.current?.abort();
-    setConversationId(id);
-    setAnswer(null);
-    setEvents([]);
-    setError(null);
+    openStoredConversation(id);
   }
 
   const messageCount = conversations.data?.items.length ?? 0;
@@ -265,7 +219,7 @@ export function AskPage() {
                 {streaming ? "Running" : "Run query"}
               </Button>
               {streaming ? (
-                <Button type="button" variant="outline" onClick={() => controllerRef.current?.abort()}>
+                <Button type="button" variant="outline" onClick={stop}>
                   <Square className="h-3.5 w-3.5" />
                   Stop
                 </Button>
@@ -347,7 +301,9 @@ export function AskPage() {
             </section>
           ) : null}
 
-          <StatusRail events={events} streaming={streaming} />
+          <StatusRail events={events} streaming={streaming} verifying={verifying} />
+
+          {!answer ? <EarlyEvidence evidence={evidence} verifying={verifying} /> : null}
 
           {error ? <ErrorState error={error} onRetry={() => void run()} hint="The pipeline stopped before producing a verified answer." /> : null}
 

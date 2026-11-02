@@ -175,7 +175,10 @@ async def list_compliance(
 
     from app.db.models import ComplianceCertificate
 
-    statement = select(ComplianceCertificate).where(ComplianceCertificate.tenant_id == principal.tenant_id)
+    statement = select(ComplianceCertificate).where(
+        ComplianceCertificate.tenant_id == principal.tenant_id,
+        ComplianceCertificate.is_active == True,  # noqa: E712
+    )
     if supplier_id:
         statement = statement.where(ComplianceCertificate.supplier_id == supplier_id)
     total = int(await session.scalar(select(func.count()).select_from(statement.subquery())) or 0)

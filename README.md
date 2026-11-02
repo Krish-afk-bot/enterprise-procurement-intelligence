@@ -1,12 +1,24 @@
-# Enterprise Procurement Intelligence
+<div align="center">
 
-**Retrieval-augmented intelligence over supplier contracts, pricing agreements and amendments.**
+# 🏢 Enterprise Procurement Intelligence
 
-> Answer procurement questions with page-level evidence. Every fact cites a document and page. Every answer is verified against retrieved evidence before it reaches the user.
+### Retrieval-Augmented Intelligence for Supplier Contracts & Pricing
+
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![React 18](https://img.shields.io/badge/react-18-61dafb.svg)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688.svg)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
+**Answer procurement questions with page-level evidence. Every fact cites a document and page. Every answer is verified against retrieved evidence before it reaches the user.**
+
+[Features](#-key-capabilities) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Documentation](#-additional-documentation)
+
+</div>
 
 ---
 
-## The Problem
+## 🎯 The Problem
 
 Enterprise procurement teams hold hundreds of supplier contracts, pricing schedules, amendments and compliance documents. Getting a reliable answer to "what price did Supplier A negotiate for Product X, and does Amendment 2 change it?" normally requires manually searching multiple files, cross-referencing versions and hoping nothing was missed.
 
@@ -14,7 +26,7 @@ This platform makes that knowledge searchable and answerable — with citations 
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 ```mermaid
 flowchart TD
@@ -54,30 +66,36 @@ PostgreSQL · Qdrant · Neo4j · Redis · MinIO/S3 · real LLM endpoint
 
 ---
 
-## Key Capabilities
+## ✨ Key Capabilities
 
-| Capability | Status |
+| Capability | Measured result (v2 evaluation, 130 questions, 2026-11-02) |
 |---|---|
-| Hybrid dense + BM25 retrieval with RRF fusion | **Verified** |
-| Cross-encoder reranking (BGE-reranker-v2-m3) | **Verified** |
-| Structured price/contract SQL retrieval | **Verified** |
-| Supplier/contract/product graph traversal | **Verified** |
-| Citation validation — fabricated markers rejected | **Verified** |
-| Grounding verification before answer delivery | **Verified** |
-| Multi-format ingestion (PDF, DOCX, XLSX, CSV) | **Verified** |
-| OCR for scanned/image-only pages (PaddleOCR) | **Verified** |
-| JWT authentication + Argon2 password hashing | **Verified** |
-| Tenant isolation — cross-tenant data blocked | **Verified** |
-| Prompt-injection detection and containment | **Verified** |
-| Extractive fallback when LLM unavailable | **Verified** |
-| LLM narrative generation (OpenAI-compatible) | **Verified locally with llama3.1:8b** |
-| VLM visual reasoning for complex pages | Implemented — not yet verified in production |
-| Neo4j / Qdrant / MinIO / Redis / PostgreSQL adapters | Implemented — live verified via Docker Compose |
-| Production Qwen3-30B accuracy evaluation | NOT VERIFIED — requires production endpoint |
+| Hybrid dense + BM25 retrieval with RRF fusion | recall@10 **73.4%**, MRR **0.631**, nDCG@10 **0.649**, hit rate@10 **76.1%** |
+| Cross-encoder reranking (top 20) | enabled; MRR 0.621 → 0.631; p50 latency 10.2 s → 6.9 s with concurrent retrieval |
+| Structured price/contract SQL retrieval | exercised by the labelled set; answer correctness **68.3%** overall, not isolated per path |
+| Supplier/contract/product graph traversal | exercised by the labelled set; not measured separately |
+| Citation validation — fabricated markers rejected | citation precision **0.545** (baseline 0.316); unit tests cover fabricated markers |
+| Grounding verification before answer delivery | per-claim entity/date/number binding; verification pass rate **0.50**, `verification_miss` **2** |
+| Prompt-injection detection and containment | 12 security questions in the set; refusal recall **0.846** overall |
+| Refusal behaviour | precision **0.478**, recall **0.846** — over-refuses some comparison questions (see results) |
+| Latency on the local model | p50 **6.9 s**, p95 **10.5 s**, max **43.8 s**; 5 s target not met |
+| Answer generation (OpenAI-compatible) | `qwen2.5-coder:7b`; answer correctness **68.3%** (71/104 answerable) |
+| Deterministic CI evaluation gate | passes; all six tracked metrics equal the committed baseline |
+| Multi-format ingestion (PDF, DOCX, XLSX, CSV) | not measured in this run |
+| OCR for scanned/image-only pages (PaddleOCR) | not measured in this run |
+| JWT authentication + Argon2 password hashing | covered by backend tests; not performance-measured |
+| Tenant isolation — cross-tenant data blocked | covered by backend/security tests; not re-measured |
+| Extractive fallback when LLM unavailable | exercised by the CI gate (no LLM endpoint, exit 0) |
+| VLM visual reasoning for complex pages | not measured — no VLM was configured |
+| Neo4j / Qdrant / MinIO / Redis / PostgreSQL adapters | not measured — the evaluation ran on the local adapters |
+| Production Qwen3-30B accuracy | not measured — requires a production endpoint |
+
+Full before/after table, failure taxonomy and reproduction commands:
+[docs/RESULTS.md](docs/RESULTS.md).
 
 ---
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 **Frontend:** React 18 · TypeScript 5 · Vite 6 · Tailwind CSS 3 · TanStack Query · Zustand · React Router 6 · Three.js/R3F
 
@@ -91,7 +109,7 @@ PostgreSQL · Qdrant · Neo4j · Redis · MinIO/S3 · real LLM endpoint
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -147,7 +165,7 @@ Expected: `{"status":"ok","degraded":false,...}`
 
 ---
 
-## Configuration
+## ⚙️ Configuration
 
 Copy `.env.example` to `.env` and set the values relevant to your environment. The most important variables:
 
@@ -182,7 +200,7 @@ LLM_MODEL=llama3.1:8b
 
 ---
 
-## How the RAG Pipeline Works
+## 🔄 How the RAG Pipeline Works
 
 ```mermaid
 sequenceDiagram
@@ -215,7 +233,7 @@ sequenceDiagram
 
 ---
 
-## Evaluation and Measured Results
+## 📊 Evaluation and Measured Results
 
 > Evaluated on a 22-question golden set over the synthetic procurement corpus.
 > Hardware: Windows / RTX 4060 Laptop GPU (4 GB VRAM). Local LLM: llama3.1:8b via Ollama.
@@ -244,7 +262,7 @@ sequenceDiagram
 
 ---
 
-## Testing
+## 🧪 Testing
 
 ```bash
 # Backend — unit + integration + retrieval tests (no LLM key needed)
@@ -292,7 +310,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 .
@@ -332,7 +350,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Security
+## 🔒 Security
 
 - **Authentication:** JWT (HS256) with Argon2-hashed passwords. Production startup refuses a known-weak `JWT_SECRET`.
 - **Authorisation:** Role-based (admin / analyst / viewer) with per-tenant row-level isolation. Cross-tenant document access is blocked at the SQL and vector search layers.
@@ -345,7 +363,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Known Limitations
+## ⚠️ Known Limitations
 
 1. **gq-012 (Orion expired contract):** Retrieval miss when the query is processed without tenant-vocabulary entity linking (rule-based path). Fixed when the full pipeline loads supplier entities from the DB. The eval script uses rule-based-only for reproducibility.
 2. **Refusal in extractive mode:** An unanswerable question in extractive mode returns `status: partial` when structured retrieval surfaces out-of-period data. The LLM pipeline correctly refuses the same question.
@@ -357,7 +375,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
 | Status | Item |
 |---|---|
@@ -380,13 +398,13 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions, commit format, code-style commands and testing policy.
 
 ---
 
-## Additional Documentation
+## 📚 Additional Documentation
 
 | Document | Contents |
 |---|---|
@@ -394,11 +412,26 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions, commit format, co
 | [docs/development.md](docs/development.md) | Full local setup guide, env vars, ingestion, migration |
 | [docs/ci-cd.md](docs/ci-cd.md) | CI pipeline, workflow status, gates policy |
 | [docs/deployment.md](docs/deployment.md) | Docker Compose, production target architecture |
-| [audit.md](audit.md) | Verified capability audit |
+| [docs/RESULTS.md](docs/RESULTS.md) | Measured before/after metrics, failure taxonomy, reproduction commands |
+| [docs/archive/](docs/archive/) | Earlier phase reports and the capability audit |
 | [CHANGELOG.md](CHANGELOG.md) | Per-phase change log |
 | [prd.md](prd.md) | Product requirements document |
 | [data/evaluation/](data/evaluation/) | Golden question set and recorded retrieval metrics |
 
 ---
 
-> This project is not production-ready. Infrastructure is verified against a local Docker Compose stack. Production deployment requires a proper secrets-management strategy, hardened credentials, and performance evaluation against a real workload.
+<div align="center">
+
+## 📝 License
+
+This project is available under the MIT License.
+
+## 👥 Contributors
+
+Made with ❤️ by [Krish-afk-bot](https://github.com/Krish-afk-bot)
+
+---
+
+> ⚠️ **Development Status**: This project is not production-ready. Infrastructure is verified against a local Docker Compose stack. Production deployment requires proper secrets management, hardened credentials, and performance evaluation against a real workload.
+
+</div>

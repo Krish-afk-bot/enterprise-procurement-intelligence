@@ -58,4 +58,8 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Validate compose file (infra services only)
-        run: docker compose config --quiet
+        # The stack interpolates its credentials from the environment, so seed
+        # the dev placeholders from .env.example before validating.
+        run: |
+          cp .env.example .env
+          docker compose config --quiet

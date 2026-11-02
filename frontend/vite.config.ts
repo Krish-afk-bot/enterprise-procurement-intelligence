@@ -27,6 +27,17 @@ export default defineConfig({
       },
     },
   },
+  // `vite preview` serves the production build; without the same proxy the
+  // browser would call /api on the preview origin and every request would 404.
+  preview: {
+    port: 4173,
+    proxy: {
+      "/api": {
+        target: process.env.VITE_API_PROXY_TARGET ?? "http://localhost:8000",
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     outDir: "dist",
     sourcemap: false,

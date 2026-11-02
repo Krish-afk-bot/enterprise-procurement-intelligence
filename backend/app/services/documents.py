@@ -126,7 +126,12 @@ async def store_upload(
     document.storage_key = storage_key
     document.source_uri = payload.source_url or f"upload://{document.id}{upload.extension}"
 
-    job = await create_job(session, tenant_id=principal.tenant_id, document_id=document.id)
+    job = await create_job(
+        session,
+        tenant_id=principal.tenant_id,
+        document_id=document.id,
+        indexing_version=document.active_indexing_version or 1,
+    )
     upload_metadata: dict[str, Any] = {
         "upload": {
             "declared_mime": upload.declared_mime,
@@ -308,7 +313,12 @@ async def document_chunks(
     offset: int = 0,
 ) -> tuple[list[ChunkOut], int]:
     document = await get_document(session, principal, document_id)
-    conditions = [Chunk.document_id == document.id]
+    conditions = [
+        Chunk.document_id == document.id,
+        Chunk.tenant_id == principal.tenant_id,
+        Chunk.is_active == True,  # noqa: E712
+        Chunk.indexing_version == document.active_indexing_version,
+    ]
     if page is not None:
         conditions.append(Chunk.page_number == page)
     if content_type:

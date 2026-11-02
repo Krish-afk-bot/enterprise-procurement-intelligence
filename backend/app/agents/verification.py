@@ -161,24 +161,140 @@ class CoverageResult:
         }
 
 
-def _mentions(text: str, needle: str) -> bool:
-    if not needle:
+_SIZE_QUOTE_RE = re.compile(r"(\d)\s*(?:\"|''|\u201d|\u2033|\u2019\u2019)")
+_NON_ALNUM_RE = re.compile(r"[^a-z0-9]+")
+
+
+def normalise_entity_name(value: Any) -> str:
+    """Normalise a supplier or product name so spelling variants compare equal.
+
+    ``Enterprise Monitor 27"`` and ``Enterprise Monitor 27 inch`` are the same
+    product written two ways, and ``Northwind`` is a short form of ``Northwind
+    Industrial Supplies Ltd``. Punctuation, quotes and case carry no meaning in
+    an entity name, so both are folded away before comparison.
+    """
+    text = str(value or "").lower()
+    text = _SIZE_QUOTE_RE.sub(r"\1 inch ", text)
+    text = _NON_ALNUM_RE.sub(" ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _mentions(text: str, needle: Any) -> bool:
+    """Whether ``text`` mentions ``needle`` under entity-name normalisation."""
+    name = normalise_entity_name(needle)
+    if len(name) < 3:
         return False
-    return needle.lower() in text.lower()
+    return name in normalise_entity_name(text)
+
+
+def _name_matches(candidate: Any, name: Any) -> bool:
+    """Whether a stored name and a plan name refer to the same entity.
+
+    Equal after normalisation, or one contains the other (a short form such as
+    ``Northwind`` for ``Northwind Industrial Supplies Ltd``).
+    """
+    stored = normalise_entity_name(candidate)
+    wanted = normalise_entity_name(name)
+    if len(stored) < 3 or len(wanted) < 3:
+        return False
+    return stored == wanted or wanted in stored or stored in wanted
+
+
+def _group_mentions(group: dict[str, Any] | None, name: Any) -> bool:
+    """Whether any labelling value of an aggregation names this entity."""
+    if not group:
+        return False
+    return any(_mentions(str(value), name) for value in group.values())
+
+
+def _question_period(plan: dict[str, Any], question: str | None) -> tuple[str | None, str | None]:
+    """The period the question asks about, including one only the wording reveals.
+
+    The planner sets ``date_from``/``date_to`` when it recognises a date. An LLM
+    plan can miss a bare year ("the 2030 unit price"), which used to remove the
+    period constraint entirely and let an in-force 2026 figure answer a question
+    about 2030. Recover years that are clearly attached to a price/value/period
+    phrase; identifiers such as ``AWD-2025-A02`` or ``ISO 9001:2015`` do not
+    count because they are not periods the question asks about.
+    """
+    date_from, date_to = plan.get("date_from"), plan.get("date_to")
+    if date_from or date_to:
+        return (str(date_from) if date_from else None, str(date_to) if date_to else None)
+    if not question:
+        return None, None
+    if plan.get("intent") not in {"price_lookup", "aggregation", "comparison", "temporal_change"}:
+        return None, None
+    years = {
+        int(match.group(1))
+        for pattern in (
+            # A year embedded in an identifier (AWD-2025-A02, NS-2024-001,
+            # ISO 9001:2015) is not a period the question asks about.
+            r"(?<![A-Za-z0-9-])(?:in|as\s+of|during|for|by|through|until|between|from)\s+((?:19|20)\d{2})(?![0-9A-Za-z-])",
+            r"(?<![A-Za-z0-9-])((?:19|20)\d{2})\s+(?:unit\s+)?(?:price|prices|value|award|cost|total|revenue|spend)(?![0-9A-Za-z-])",
+            r"\b(?:price|value|award|cost|total|revenue|spend)\b[^.]{0,24}?(?<![A-Za-z0-9-])((?:19|20)\d{2})(?![0-9A-Za-z-])",
+        )
+        for match in re.finditer(pattern, question, re.IGNORECASE)
+    }
+    if not years:
+        return None, None
+    low, high = min(years), max(years)
+    return f"{low}-01-01", f"{high}-12-31"
+
+
+_CURRENCY_WORDS = {
+    "EUR": (r"\beur\b", r"\beuros?\b", "€"),
+    "GBP": (r"\bgbp\b", r"\bpounds?\b", "£"),
+    "JPY": (r"\bjpy\b", r"\byen\b", "¥"),
+    "USD": (r"\busd\b", r"\bdollars?\b", r"\$"),
+}
+
+#: Attributes an unanswerable question can ask for while the corpus only holds
+#: the adjacent fact (a minimum order quantity but no maximum, a price list but
+#: no rebate). If the question names one and no evidence mentions it at all, the
+#: corpus cannot answer it — refusing is the correct behaviour.
+_ATTRIBUTE_TERMS: dict[str, tuple[str, ...]] = {
+    "rebate": ("rebate", "rebates"),
+    "warranty": ("warranty", "warranties", "guarantee"),
+    "penalty": ("penalty", "penalties", "liquidated damages"),
+    "insurance": ("insurance", "insured"),
+    "maximum order quantity": ("maximum order", "max order", "maximum quantity", "moq"),
+    "lead time": ("lead time", "lead times"),
+}
+
+
+def _requested_tokens(question: str | None) -> tuple[str | None, list[str]]:
+    """Currency and attribute terms the question asks for."""
+    if not question:
+        return None, []
+    lowered = question.lower()
+    currency = None
+    for code, patterns in _CURRENCY_WORDS.items():
+        if any(re.search(pattern, lowered) for pattern in patterns):
+            currency = code
+            break
+    attributes = [
+        label
+        for label, synonyms in _ATTRIBUTE_TERMS.items()
+        if any(re.search(rf"\b{re.escape(term)}\b", lowered) for term in synonyms)
+    ]
+    return currency, attributes
 
 
 def assess_query_coverage(
     plan: dict[str, Any] | None,
-    bundle: ContextBundle,
+    bundle: ContextBundle | None,
     structured: StructuredResult | None,
+    *,
+    texts: list[str] | None = None,
+    question: str | None = None,
 ) -> CoverageResult:
     """Check the evidence against the constraints the question itself imposed."""
     plan = plan or {}
     result = CoverageResult()
     structured = structured if structured is not None else StructuredResult(queried=False)
-    texts = [(block.text or "") + " " + (block.citation.snippet or "") for block in bundle.blocks]
-    # blob is built for future claim-text comparison; currently used implicitly through texts
-    _blob = "\n".join(texts)  # noqa: F841
+    if texts is None:
+        texts = [(block.text or "") + " " + (block.citation.snippet or "") for block in (bundle.blocks if bundle else [])]
+    texts = list(texts)
     price_intent = plan.get("intent") in {
         "price_lookup",
         "aggregation",
@@ -189,17 +305,33 @@ def assess_query_coverage(
     # ---------------------------------------------------------- supplier constraint
     ids = list(plan.get("supplier_ids") or [])
     names = list(plan.get("suppliers") or [])
+    # ids only pair with names positionally while the two lists still describe
+    # the same mentions; an unresolved mention can make them drift, and a
+    # mis-attributed id would mark the wrong entity as covered.
+    supplier_ids_aligned = len(ids) == len(names)
     for index, name in enumerate(names):
-        supplier_id = ids[index] if index < len(ids) else None
-        fact_hits = [fact for fact in structured.facts if supplier_id and fact.supplier_id == supplier_id]
+        supplier_id = ids[index] if supplier_ids_aligned else None
+        fact_hits = [
+            fact
+            for fact in structured.facts
+            if (supplier_id and fact.supplier_id == supplier_id) or _name_matches(fact.supplier_name, name)
+        ]
         certificate_hits = [
-            item for item in structured.compliance if supplier_id and item.get("supplier_id") == supplier_id
+            item
+            for item in structured.compliance
+            if (supplier_id and item.get("supplier_id") == supplier_id)
+            or _name_matches(item.get("supplier_name"), name)
+        ]
+        aggregation_hits = [
+            aggregation for aggregation in structured.aggregations if _group_mentions(aggregation.group, name)
         ]
         text_hits = sum(1 for text in texts if _mentions(text, name))
         if fact_hits:
             satisfied, detail = True, f"{len(fact_hits)} structured price row(s) for {name}"
         elif certificate_hits:
             satisfied, detail = True, f"{len(certificate_hits)} compliance record(s) for {name}"
+        elif aggregation_hits:
+            satisfied, detail = True, f"{len(aggregation_hits)} aggregation(s) computed for {name}"
         elif text_hits:
             satisfied, detail = True, f"{text_hits} retrieved passage(s) name {name}"
         elif structured.suppliers and not price_intent:
@@ -212,12 +344,23 @@ def assess_query_coverage(
 
     # ----------------------------------------------------------- product constraint
     product_ids = list(plan.get("product_ids") or [])
-    for index, name in enumerate(plan.get("products") or []):
-        product_id = product_ids[index] if index < len(product_ids) else None
-        fact_hits = [fact for fact in structured.facts if product_id and fact.product_id == product_id]
+    products = list(plan.get("products") or [])
+    product_ids_aligned = len(product_ids) == len(products)
+    for index, name in enumerate(products):
+        product_id = product_ids[index] if product_ids_aligned else None
+        fact_hits = [
+            fact
+            for fact in structured.facts
+            if (product_id and fact.product_id == product_id) or _name_matches(fact.product_name, name)
+        ]
+        aggregation_hits = [
+            aggregation for aggregation in structured.aggregations if _group_mentions(aggregation.group, name)
+        ]
         text_hits = sum(1 for text in texts if _mentions(text, name))
         if fact_hits:
             satisfied, detail = True, f"{len(fact_hits)} structured price row(s) for {name}"
+        elif aggregation_hits:
+            satisfied, detail = True, f"{len(aggregation_hits)} aggregation(s) computed for {name}"
         elif text_hits:
             satisfied, detail = True, f"{text_hits} retrieved passage(s) mention {name}"
         else:
@@ -227,7 +370,7 @@ def assess_query_coverage(
         )
 
     # ------------------------------------------------------------ period constraint
-    date_from, date_to = plan.get("date_from"), plan.get("date_to")
+    date_from, date_to = _question_period(plan, question)
     if date_from or date_to:
         scope_rows = [
             fact
@@ -256,6 +399,44 @@ def assess_query_coverage(
             satisfied, detail = False, f"no retrieved row or passage falls in {label}"
         result.constraints.append(
             {"kind": "period", "constraint": f"period={label}", "satisfied": satisfied, "detail": detail}
+        )
+
+    # ---------------------------------------------------------- currency constraint
+    currency, attributes = _requested_tokens(question)
+    if currency:
+        evidence_currencies: set[str] = set()
+        for fact in structured.facts:
+            evidence_currencies.add(str(getattr(fact, "currency", "") or "").upper())
+        for text in texts:
+            evidence_currencies.update(re.findall(r"\b(?:USD|EUR|GBP|JPY)\b", text.upper()))
+        satisfied = currency in evidence_currencies
+        result.constraints.append(
+            {
+                "kind": "currency",
+                "constraint": f"currency={currency}",
+                "satisfied": satisfied,
+                "detail": (
+                    f"evidence is denominated in {', '.join(sorted(value for value in evidence_currencies if value)) or 'no currency'}"
+                ),
+            }
+        )
+
+    # --------------------------------------------------------- attribute constraint
+    evidence_text = "\n".join(texts).lower()
+    for attribute in attributes:
+        synonyms = _ATTRIBUTE_TERMS[attribute]
+        satisfied = any(re.search(rf"\b{re.escape(term)}\b", evidence_text) for term in synonyms)
+        result.constraints.append(
+            {
+                "kind": "attribute",
+                "constraint": f"attribute={attribute}",
+                "satisfied": satisfied,
+                "detail": (
+                    f"evidence mentions {attribute}"
+                    if satisfied
+                    else f"no retrieved passage or structured row mentions {attribute}"
+                ),
+            }
         )
 
     return result
@@ -495,6 +676,44 @@ async def judge_grounding_llm(
     )
 
 
+def select_supporting_citations(
+    checks: list[ClaimCheck], citations: list[CitationDraft], *, cap: int = 5
+) -> tuple[list[CitationDraft], str]:
+    """Keep the citations that support a claim, ranked, capped.
+
+    A one-line answer used to carry every block that happened to be in the
+    context. Only blocks bound to a supported claim survive, ordered by
+    retrieval score; if binding produced no reference at all, fall back to the
+    best-scored citations so the answer is not left uncitable.
+    """
+    if cap <= 0:
+        return [], "disabled"
+    refs = {
+        ref
+        for check in checks
+        if check.supported
+        for ref in check.evidence_refs
+        if 1 <= ref <= len(citations)
+    }
+    selected: list[CitationDraft] = []
+    seen: set[tuple[object, object, object]] = set()
+    for ref in sorted(refs):
+        citation = citations[ref - 1]
+        key = (citation.chunk_id, citation.document_id, citation.page)
+        if key in seen:
+            continue
+        seen.add(key)
+        selected.append(citation)
+    method = "claim_bound"
+    if not selected:
+        selected = sorted(
+            citations, key=lambda item: (-(item.score or 0.0), item.rank or 10_000)
+        )
+        method = "score_ranked_fallback"
+    selected.sort(key=lambda item: (-(item.score or 0.0), item.rank or 10_000))
+    return selected[:cap], method
+
+
 def validate_citations(answer_text: str, bundle: ContextBundle) -> CitationCheck:
     """Keep only citations backed by retrieved evidence; record broken references.
 
@@ -611,13 +830,23 @@ def decide_status(
     if not has_evidence:
         return "insufficient_evidence"
 
+    # A later amendment replacing an earlier price is a supersession, not a
+    # disagreement. It is still reported (both values, both dates) but it must
+    # not label an ordinary current-price answer as "conflicting".
+    genuine_conflicts = [
+        conflict
+        for conflict in conflicts
+        if (conflict.get("kind") if isinstance(conflict, dict) else getattr(conflict, "kind", None))
+        != "price_supersession"
+    ]
+
     # The evidence must cover the question's own constraints before it can be
     # reported as an answer. Uncovered constraints mean the question is
     # unanswerable from this corpus, whatever else was retrieved.
-    if coverage is not None and not coverage.satisfied and not conflicts:
+    if coverage is not None and not coverage.satisfied and not genuine_conflicts:
         return "insufficient_evidence"
 
-    if conflicts:
+    if genuine_conflicts:
         return "conflicting"
 
     if coverage is not None and not coverage.satisfied:

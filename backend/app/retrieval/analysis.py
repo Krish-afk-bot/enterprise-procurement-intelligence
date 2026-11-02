@@ -198,6 +198,35 @@ def dedupe_price_facts(facts: list[PriceFact]) -> list[PriceFact]:
     return list(unique.values())
 
 
+def _is_ordered_supersession(dated: list[PriceFact]) -> bool:
+    """True when later agreed terms replace earlier ones.
+
+    An amendment that raises 920.00 to 874.00 is a supersession, not a
+    disagreement: the documents agree about which value governs from which date.
+    A real conflict has two undated values, or two values effective at the same
+    time, or no amendment to establish which one wins.
+    """
+    if len(dated) < 2 or any(fact.effective_date is None for fact in dated):
+        return False
+    values = [round(fact.unit_price, 4) for fact in sorted(dated, key=lambda fact: fact.effective_date)]
+    distinct: list[float] = []
+    for value in values:
+        if not distinct or distinct[-1] != value:
+            distinct.append(value)
+    if len(distinct) < 2:
+        return False
+    latest_value = distinct[-1]
+    latest_rows = [fact for fact in dated if round(fact.unit_price, 4) == latest_value]
+    if not any(fact.amendment_ref for fact in latest_rows):
+        return False
+    # Every value must be introduced at a distinct date, in order.
+    effective_by_value: dict[float, set[date]] = {}
+    for fact in dated:
+        effective_by_value.setdefault(round(fact.unit_price, 4), set()).add(fact.effective_date)  # type: ignore[arg-type]
+    dates = sorted({min(days) for days in effective_by_value.values()})
+    return len(dates) == len(effective_by_value)
+
+
 def detect_price_conflicts(facts: list[PriceFact], *, as_of: date | None = None) -> list[Conflict]:
     """Group price facts per (supplier, product) and explain disagreements.
 
@@ -265,9 +294,28 @@ def detect_price_conflicts(facts: list[PriceFact], *, as_of: date | None = None)
                 "Neither price carries an effective date, so the current price cannot be determined "
                 "from the data alone; both sources are shown."
             )
+        supersession = _is_ordered_supersession(dated)
+        if supersession:
+            description = (
+                f"{supplier_name} superseded its earlier agreed unit price for {product_name}: "
+                + "; ".join(
+                    f"{named.currency} {named.unit_price:,.2f}"
+                    + (f" from {named.effective_date.isoformat()}" if named.effective_date else "")
+                    + (f" per {named.amendment_ref}" if named.amendment_ref else "")
+                    for _, facts_for_value in ordered_values
+                    for named in [next((f for f in facts_for_value if f.amendment_ref), facts_for_value[0])]
+                )
+                + f". {preferred.currency} {preferred.unit_price:,.2f} is in force"
+                + (f" from {preferred.effective_date.isoformat()}" if preferred.effective_date else "")
+                + "."
+            )
+            resolution = (
+                "The later terms govern; the earlier value is shown because the question "
+                "concerns what changed, not because the sources disagree."
+            )
         conflicts.append(
             Conflict(
-                kind="price_conflict",
+                kind="price_supersession" if supersession else "price_conflict",
                 description=description,
                 values=[fact.as_dict() for fact in dated],
                 resolution=resolution,

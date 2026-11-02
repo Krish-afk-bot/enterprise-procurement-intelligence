@@ -56,6 +56,7 @@ class QdrantVectorStore:
                 "document_id",
                 "document_type",
                 "access_level",
+                "indexing_version",
             ):
                 await client.create_payload_index(
                     collection_name=name,
@@ -134,6 +135,31 @@ class QdrantVectorStore:
                         qmodels.FieldCondition(key="document_id", match=qmodels.MatchValue(value=document_id))
                     ]
                 )
+            ),
+            wait=True,
+        )
+        return max(0, before - await self.count(collection))
+
+    async def delete_by_version(
+        self, collection: str, document_id: str, indexing_version: int, *, tenant_id: str | None = None
+    ) -> int:
+        from qdrant_client.http import models as qmodels
+
+        client = self._get_client()
+        before = await self.count(collection)
+        must_conditions: list[Any] = [
+            qmodels.FieldCondition(key="document_id", match=qmodels.MatchValue(value=document_id)),
+            qmodels.FieldCondition(key="indexing_version", match=qmodels.MatchValue(value=indexing_version)),
+        ]
+        if tenant_id is not None:
+            must_conditions.append(
+                qmodels.FieldCondition(key="tenant_id", match=qmodels.MatchValue(value=tenant_id))
+            )
+
+        await client.delete(
+            collection_name=collection,
+            points_selector=qmodels.FilterSelector(
+                filter=qmodels.Filter(must=must_conditions)
             ),
             wait=True,
         )

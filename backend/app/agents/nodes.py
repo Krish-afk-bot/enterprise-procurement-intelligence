@@ -10,16 +10,21 @@ answer was verified) and never expose internal reasoning.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.agents.claim_binding import bind_claims, passages_from_blocks
 from app.agents.generation import AnswerGenerator
 from app.agents.state import AgentState, add_event
 from app.agents.verification import (
     REFUSAL_TEXT,
+    ClaimCheck,
+    CoverageResult,
+    GroundingResult,
     assess_evidence_strength,
     assess_query_coverage,
     decide_status,
@@ -28,6 +33,7 @@ from app.agents.verification import (
     judge_grounding_llm,
     refusal_reason,
     relevant_conflicts,
+    select_supporting_citations,
     validate_citations,
 )
 from app.config.container import Container
@@ -36,7 +42,7 @@ from app.core.errors import AuthorizationError, NotFoundError
 from app.db.models import Chunk, Document, DocumentPage
 from app.observability.logging import get_logger
 from app.retrieval.analysis import Conflict, detect_price_conflicts, fetch_price_facts
-from app.retrieval.context import ContextBuilder
+from app.retrieval.context import ContextBuilder, ContextBundle
 from app.retrieval.graph_retrieval import GraphResult, graph_lookup
 from app.retrieval.query_understanding import (
     Intent,
@@ -46,6 +52,11 @@ from app.retrieval.query_understanding import (
 )
 from app.retrieval.retriever import HybridRetriever, RetrievalResult, expand_parents
 from app.retrieval.structured import StructuredResult, structured_lookup
+from app.security.injection import (
+    INJECTION_REFUSAL_REASON,
+    INJECTION_REFUSAL_TEXT,
+    detect_injection,
+)
 from app.security.rbac import Principal  # noqa: F401  (typing import)
 
 logger = get_logger(__name__)
@@ -119,6 +130,20 @@ class AgentRuntime:
         state["events"] = events
         state.setdefault("notes", [])
         state["notes"] = [*state.get("notes", []), *plan.notes]
+        # The question itself is untrusted input: an instruction aimed at the
+        # model ("ignore your instructions", "print your system prompt") is not a
+        # question about the corpus. It is refused before it reaches retrieval.
+        injection = detect_injection(question)
+        state["question_injection"] = injection.as_dict()
+        if injection.suspicious:
+            state["hard_refusal"] = True
+            state["events"] = add_event(
+                state,
+                "understand",
+                "Request refused as a prompt-injection attempt",
+                f"matched: {', '.join(injection.patterns)}",
+                patterns=injection.patterns,
+            )
         state["timings"] = {
             **(state.get("timings") or {}),
             "understand_ms": int((time.perf_counter() - started) * 1000),
@@ -160,6 +185,57 @@ class AgentRuntime:
         )
         state["context"] = {"strategy": strategy, "tools": tools}
         return state
+
+    # ------------------------------------------------------------- parallel I/O
+    async def evidence_parallel(self, state: AgentState) -> AgentState:
+        """Run structured lookup, graph traversal and vector retrieval together.
+
+        They are independent reads over different stores and each used to wait
+        for the previous one to finish. Each branch gets its own database
+        session because an AsyncSession is not safe for concurrent use; the
+        results and events are merged after ``asyncio.gather``.
+        """
+        import asyncio
+        import time
+
+        started = time.perf_counter()
+        base = dict(state)
+
+        async def run(method: Any) -> AgentState:
+            from app.db.session import session_scope
+
+            async with session_scope() as session:
+                return await method(dict(base), session)
+
+        structured_state, graph_state, retrieval_state = await asyncio.gather(
+            run(self.structured),
+            run(self.graph),
+            run(self.retrieve),
+        )
+
+        merged = dict(state)
+        for branch in (structured_state, graph_state, retrieval_state):
+            for key in ("structured", "conflicts", "graph", "retrieval"):
+                if key in branch:
+                    merged[key] = branch[key]
+        merged["notes"] = list(
+            dict.fromkeys(
+                note
+                for branch in (structured_state, graph_state, retrieval_state)
+                for note in (branch.get("notes") or [])
+            )
+        )
+        base_event_count = len(base.get("events") or [])
+        events = list(base.get("events") or [])
+        for branch in (structured_state, graph_state, retrieval_state):
+            events.extend((branch.get("events") or [])[base_event_count:])
+        merged["events"] = events
+        timings = dict(base.get("timings") or {})
+        for branch in (structured_state, graph_state, retrieval_state):
+            timings.update(branch.get("timings") or {})
+        timings["parallel_ms"] = int((time.perf_counter() - started) * 1000)
+        merged["timings"] = timings
+        return merged
 
     # -------------------------------------------------------------- retrieval
     async def retrieve(self, state: AgentState, session: AsyncSession) -> AgentState:
@@ -330,6 +406,32 @@ class AgentRuntime:
         hits = state.get("retrieval", {}).get("hits") or []
         structured = state.get("structured") or {}
         graph = state.get("graph") or {}
+
+        # Explicit answerability check *after* retrieval: the corpus may return
+        # plenty of evidence and still hold nothing for the period, currency or
+        # attribute the question names. Those gaps are facts about the corpus,
+        # not retrieval quality, so the corrective loop cannot fix them and the
+        # question must be refused without asking a model to invent an answer.
+        structured_result = _structured_from_payload(structured)
+        answerability_texts = [str(hit.get("content") or "") for hit in hits]
+        for fact in structured_result.facts:
+            answerability_texts.append(
+                f"{fact.supplier_name} {fact.product_name} {fact.unit_price} {fact.currency} "
+                f"{fact.effective_date} {fact.expiry_date}"
+            )
+        answerability = assess_query_coverage(
+            state.get("plan"),
+            None,
+            structured_result,
+            texts=answerability_texts,
+            question=state.get("question"),
+        )
+        hard_gap = any(
+            not constraint.get("satisfied") and constraint.get("kind") in {"period", "currency", "attribute"}
+            for constraint in answerability.constraints
+        )
+        state["answerability"] = answerability.as_dict()
+        state["answerability_hard"] = hard_gap
         rerank_scores = [hit.get("rerank_score") for hit in hits if hit.get("rerank_score") is not None]
         dense_scores = [hit.get("dense_score") for hit in hits if hit.get("dense_score") is not None]
 
@@ -343,24 +445,47 @@ class AgentRuntime:
             "best_vector_score": round(max(dense_scores), 4) if dense_scores else None,
         }
         threshold = self.settings.evidence_sufficiency_threshold
-        score = 0.0
-        if criteria["documents"]:
-            score += 0.4
-        if int(criteria["chunks"] or 0) >= 2:
-            score += 0.15
-        if structured_rows:
-            score += 0.3
-        if graph.get("paths"):
-            score += 0.15
+        constraints = list(answerability.constraints)
+        unsatisfied = [item for item in constraints if not item.get("satisfied")]
+        coverage_ratio = 1.0 - (len(unsatisfied) / len(constraints)) if constraints else None
+        if constraints:
+            # Sufficiency is driven by whether the evidence covers what was
+            # asked, not by "at least one document came back". A single passage
+            # that satisfies every constraint is stronger than twelve that do
+            # not, and the old 0.4-per-document-anywhere rule could not tell the
+            # difference.
+            score = 0.6 * (coverage_ratio or 0.0)
+            if int(criteria["chunks"] or 0) >= 2:
+                score += 0.2
+            if structured_rows or graph.get("paths"):
+                score += 0.2
+        else:
+            score = 0.0
+            if criteria["documents"]:
+                score += 0.4
+            if int(criteria["chunks"] or 0) >= 2:
+                score += 0.15
+            if structured_rows:
+                score += 0.3
+            if graph.get("paths"):
+                score += 0.15
         if rerank_scores and max(rerank_scores) > 0:
-            score += 0.1
+            score += 0.05
         sufficient = score >= threshold and (int(criteria["chunks"] or 0) > 0 or structured_rows > 0)
+        if constraints and unsatisfied:
+            sufficient = False
+        if hard_gap:
+            sufficient = False
         state["evidence_sufficient"] = sufficient
         state["sufficiency"] = {
             "score": round(min(score, 1.0), 3),
             "threshold": threshold,
             "criteria": criteria,
-            "method": "weighted evidence criteria (documents, structured rows, graph paths, rerank score)",
+            "coverage_ratio": round(coverage_ratio, 3) if coverage_ratio is not None else None,
+            "unsatisfied": [item["constraint"] for item in unsatisfied],
+            "method": (
+                "coverage-weighted sufficiency (satisfied constraints, corroboration, structured/graph support)"
+            ),
         }
         state["events"] = add_event(
             state,
@@ -374,19 +499,19 @@ class AgentRuntime:
     async def rewrite_query(self, state: AgentState) -> AgentState:
         iteration = int(state.get("iteration") or 0) + 1
         plan = QueryPlan.model_validate(state["plan"])
-        suffix = REWRITE_SUFFIXES[(iteration - 1) % len(REWRITE_SUFFIXES)]
-        rewritten = f"{plan.query} {suffix}"
+        suffix = _missing_constraint_terms(state, plan, iteration)
+        rewritten = f"{plan.query} {suffix}".strip()
         state["iteration"] = iteration
-        state["question"] = state["question"]
         state["rewrites"] = [*state.get("rewrites", []), rewritten]
         state["strategy_selected"] = "hybrid_rerank"
         state["plan"] = plan.model_copy(update={"query": rewritten}).model_dump(mode="json")
         state["events"] = add_event(
             state,
             "rewrite",
-            "Corrective retrieval: query rewritten",
-            f"attempt {iteration} with additional terms",
+            "Corrective retrieval: query rewritten from coverage gaps",
+            f"attempt {iteration} targeting: {suffix}",
             attempt=iteration,
+            targeted=suffix,
         )
         return state
 
@@ -395,6 +520,54 @@ class AgentRuntime:
         import time
 
         started = time.perf_counter()
+        if state.get("answerability_hard") and not state.get("conflicts") and not state.get("hard_refusal"):
+            # The requested period/currency/attribute is absent from the corpus.
+            # Asking the generator anyway only invites a plausible wrong figure,
+            # so refuse here and keep the reason auditable.
+            structured_result = _structured_from_payload(state.get("structured"))
+            coverage = CoverageResult(
+                constraints=list((state.get("answerability") or {}).get("constraints") or [])
+            )
+            state["answer_text"] = (
+                f"{REFUSAL_TEXT}\n\nWhy: {refusal_reason(ContextBundle(), structured_result, coverage)}"
+            )
+            state["generation_mode"] = "refusal"
+            state["model"] = None
+            state["token_usage"] = {}
+            state["citations"] = []
+            state["context_blocks"] = []
+            state["grounding"] = GroundingResult(method="not_run", total=0, supported=0).as_dict()
+            state["events"] = add_event(
+                state,
+                "generate",
+                "Skipped generation",
+                "the question asks for a period, currency or attribute the corpus does not contain",
+            )
+            state["timings"] = {
+                **(state.get("timings") or {}),
+                "generation_ms": int((time.perf_counter() - started) * 1000),
+            }
+            return state
+        if state.get("hard_refusal"):
+            # Nothing is generated for an injection attempt: the question must not
+            # reach the model at all, so a leaked system prompt is impossible.
+            state["answer_text"] = INJECTION_REFUSAL_TEXT
+            state["generation_mode"] = "refusal"
+            state["model"] = None
+            state["token_usage"] = {}
+            state["citations"] = []
+            state["context_blocks"] = []
+            state["events"] = add_event(
+                state,
+                "generate",
+                "Skipped generation",
+                "the request was refused before an answer was composed",
+            )
+            state["timings"] = {
+                **(state.get("timings") or {}),
+                "generation_ms": int((time.perf_counter() - started) * 1000),
+            }
+            return state
         principal = self.principal_from_state(state)
         plan = QueryPlan.model_validate(state["plan"])
 
@@ -495,11 +668,69 @@ class AgentRuntime:
 
         answer_text = state.get("answer_text", "")
         claims = extract_claims(answer_text)
-        grounding = None
-        if self.settings.llm_configured and self.container.router is not None and claims:
-            grounding = await judge_grounding_llm(claims, evidence_texts, self.container.router)
-        if grounding is None:
-            grounding = judge_grounding_lexical(claims, evidence_texts)
+        # Cheap deterministic pre-filter: token overlap plus every number being
+        # present *somewhere* in the context.
+        lexical = judge_grounding_lexical(claims, evidence_texts)
+        plan_payload = state.get("plan") or {}
+        passages, known_entities = passages_from_blocks(
+            blocks,
+            structured_facts=structured.facts,
+            aggregations=structured.aggregations,
+            conflicts=state.get("conflicts") or [],
+            known_entities=[
+                *(plan_payload.get("suppliers") or []),
+                *(plan_payload.get("products") or []),
+            ],
+        )
+        binding = bind_claims(claims, passages, known_entities=known_entities)
+        grounding = GroundingResult(
+            method="claim_binding_v1",
+            claims=[
+                ClaimCheck(
+                    claim=check.claim,
+                    supported=check.supported,
+                    support_score=check.support_score,
+                    missing_numbers=check.missing_numbers,
+                    evidence_refs=check.evidence_refs,
+                    reason=check.reason,
+                )
+                for check in binding
+            ],
+            score=(sum(1 for check in binding if check.supported) / len(binding)) if binding else None,
+            supported=sum(1 for check in binding if check.supported),
+            total=len(binding),
+            unsupported=[check.claim for check in binding if not check.supported],
+            details={
+                "criteria": (
+                    "each clause's numbers must occur in one passage that also names the "
+                    "claim's supplier/product and carries its date/period"
+                ),
+                "passages": len(passages),
+                "lexical_prefilter": {
+                    "supported": lexical.supported,
+                    "total": lexical.total,
+                    "unsupported": lexical.unsupported,
+                },
+            },
+        )
+        if self.settings.grounding_llm_judge_enabled and self.settings.llm_configured and self.container.router is not None and claims:
+            model_judgement = await judge_grounding_llm(claims, evidence_texts, self.container.router)
+            if model_judgement is not None:
+                # The model may only withdraw support: a claim that failed the
+                # deterministic entity/date/number binding is not rescued by a
+                # second opinion.
+                model_supported = {check.claim: check.supported for check in model_judgement.claims}
+                for check in grounding.claims:
+                    if not model_supported.get(check.claim, check.supported):
+                        check.supported = False
+                        check.support_score = 0.0
+                        check.reason = f"model judge: {check.reason}"
+                grounding.supported = sum(1 for check in grounding.claims if check.supported)
+                grounding.score = (
+                    grounding.supported / len(grounding.claims) if grounding.claims else None
+                )
+                grounding.unsupported = [check.claim for check in grounding.claims if not check.supported]
+                grounding.details["llm_judge"] = model_judgement.as_dict()
 
         from app.retrieval.context import CitationDraft, ContextBlock, ContextBundle
 
@@ -542,7 +773,9 @@ class AgentRuntime:
         # Only a disagreement about an entity the question named can make this
         # answer ambiguous; unrelated conflicts stay in the corpus report.
         conflicts = relevant_conflicts(all_conflicts, state.get("plan"))
-        coverage = assess_query_coverage(state.get("plan"), bundle, structured)
+        coverage = assess_query_coverage(
+            state.get("plan"), bundle, structured, question=state.get("question")
+        )
         status = decide_status(
             grounding=grounding,
             conflicts=conflicts,
@@ -574,7 +807,19 @@ class AgentRuntime:
         )
 
         refusal = False
-        if status == "insufficient_evidence" and not conflicts:
+        if state.get("hard_refusal"):
+            # Hard injection refusal: this overrides the evidence, coverage and
+            # grounding verdicts, because the question is not a question about the
+            # corpus. It is the last word on an injection attempt.
+            status = "insufficient_evidence"
+            answer_text = f"{INJECTION_REFUSAL_TEXT}\n\nWhy: {INJECTION_REFUSAL_REASON}"
+            refusal = True
+            citation_check = validate_citations(answer_text, bundle)
+        elif status == "insufficient_evidence":
+            # A status of ``insufficient_evidence`` is the verification verdict;
+            # it must replace the draft even when unrelated superseded prices or
+            # other non-blocking conflicts are present. Otherwise the surface
+            # would report a refusal status while returning the unverified draft.
             # The refusal body carries the refusal and its readable reason only;
             # the sufficiency criteria are structured data that already travel in
             # ``state['sufficiency']`` and are rendered by the interface.
@@ -584,6 +829,22 @@ class AgentRuntime:
             # the text that is actually returned, not the text that was dropped.
             citation_check = validate_citations(answer_text, bundle)
 
+        if refusal:
+            selected_citations: list[Any] = []
+            citation_selection = "refusal"
+        else:
+            selected_citations, citation_selection = select_supporting_citations(
+                grounding.claims,
+                bundle.citations,
+                cap=self.settings.citation_max,
+            )
+        state["citations"] = [citation.as_dict() for citation in selected_citations]
+        state["citation_selection"] = {
+            "method": citation_selection,
+            "available": len(bundle.citations),
+            "selected": len(selected_citations),
+            "cap": self.settings.citation_max,
+        }
         state["answer_text"] = answer_text
         state["grounding"] = grounding.as_dict()
         state["citation_check"] = citation_check.as_dict()
@@ -595,6 +856,7 @@ class AgentRuntime:
             "refusal_triggered": refusal,
             "claim_check_method": grounding.method,
             "coverage": coverage.as_dict(),
+            "citation_selection": state["citation_selection"],
         }
         if len(conflicts) != len(all_conflicts):
             state["notes"] = [
@@ -632,6 +894,47 @@ class AgentRuntime:
             status=state.get("status"),
         )
         return state
+
+
+def _missing_constraint_terms(state: AgentState, plan: QueryPlan, iteration: int) -> str:
+    """Turn the coverage gap into the terms the next retrieval must match.
+
+    The old loop appended one of three fixed suffixes regardless of *why* the
+    evidence was insufficient. The coverage check already names the missing
+    supplier/product/period/attribute, so the rewrite uses those names.
+    """
+    terms: list[str] = []
+    for constraint in (state.get("answerability") or {}).get("constraints") or []:
+        if constraint.get("satisfied"):
+            continue
+        kind = constraint.get("kind")
+        value = str(constraint.get("constraint") or "").split("=", 1)[-1].strip()
+        if not value:
+            continue
+        if kind == "period":
+            terms.extend(re.findall(r"(?:19|20)\d{2}", value))
+        elif kind == "currency":
+            terms.append(f"{value} price")
+        elif kind in {"supplier", "product", "attribute"}:
+            terms.append(value)
+
+    if not terms:
+        intent = getattr(plan.intent, "value", str(plan.intent))
+        intent_terms = {
+            "temporal_change": "amendment effective date superseded original",
+            "compliance_check": "certificate expiry issued scope",
+            "aggregation": "award total units value",
+            "comparison": "price list both suppliers",
+            "contract_terms": "clause terms conditions",
+            "relationship": "contract supplier relationship",
+        }
+        terms = [intent_terms.get(intent, REWRITE_SUFFIXES[(iteration - 1) % len(REWRITE_SUFFIXES)])]
+
+    query_lower = plan.query.lower()
+    fresh = [term for term in terms if term.lower() not in query_lower]
+    if not fresh:
+        fresh = [REWRITE_SUFFIXES[(iteration - 1) % len(REWRITE_SUFFIXES)]]
+    return " ".join(dict.fromkeys(fresh))
 
 
 def _select_strategy(plan: QueryPlan) -> str:

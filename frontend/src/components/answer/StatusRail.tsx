@@ -15,7 +15,15 @@ const VISIBLE_STEPS = 4;
  * keeps the node identifier for the technical details rather than leading with
  * `retrieve`-style identifiers.
  */
-export function StatusRail({ events, streaming }: { events: PipelineEvent[]; streaming: boolean }) {
+export function StatusRail({
+  events,
+  streaming,
+  verifying = false,
+}: {
+  events: PipelineEvent[];
+  streaming: boolean;
+  verifying?: boolean;
+}) {
   const [expanded, setExpanded] = useState(false);
   if (!streaming && events.length === 0) return null;
 
@@ -28,7 +36,11 @@ export function StatusRail({ events, streaming }: { events: PipelineEvent[]; str
         <p className="flex items-center gap-2 text-xs font-medium">
           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
           {MICROCOPY.readingDocuments}
-          <span className="font-normal text-muted-foreground">Searching the workspace and checking the evidence</span>
+          <span className="font-normal text-muted-foreground">
+            {verifying
+              ? "Verifying the answer against the retrieved passages"
+              : "Searching the workspace and checking the evidence"}
+          </span>
         </p>
       ) : (
         <p className="text-xs font-medium">How this answer was produced</p>

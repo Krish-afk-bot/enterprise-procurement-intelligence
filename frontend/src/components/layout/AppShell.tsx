@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/misc";
 import { api } from "@/lib/api";
+import { WORLD_ENABLED } from "@/lib/features";
 import { NAV_SECTIONS, routeMeta } from "@/lib/navigation";
 import { cn, titleCase } from "@/lib/utils";
 import { useAuth } from "@/store/auth";
@@ -77,21 +78,21 @@ export function AppShell() {
             {section.label}
           </p>
           <ul className="space-y-0.5">
-            {section.items.map((item) => (
+            {section.items.map((item) => {
+              const isActive = location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
+              return (
               <li key={item.to}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <NavLink
                       to={item.to}
-                      aria-current={location.pathname === item.to ? "page" : undefined}
-                      className={({ isActive }) =>
-                        cn(
-                          "group flex items-center gap-2.5 rounded-md border-l-2 px-3 py-2 text-sm transition-colors duration-micro",
-                          isActive
-                            ? "border-l-primary bg-primary/10 font-medium text-primary"
-                            : "border-l-transparent text-muted-foreground hover:bg-accent hover:text-foreground",
-                        )
-                      }
+                      aria-current={isActive ? "page" : undefined}
+                      className={cn(
+                        "group flex items-center gap-2.5 rounded-md border-l-2 px-3 py-2 text-sm transition-colors duration-micro",
+                        isActive
+                          ? "border-l-primary bg-primary/10 font-medium text-primary"
+                          : "border-l-transparent text-muted-foreground hover:bg-accent hover:text-foreground",
+                      )}
                     >
                       <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                       <span className={cn("truncate", sidebarCollapsed ? "lg:sr-only" : null)}>{item.label}</span>
@@ -104,7 +105,8 @@ export function AppShell() {
                   ) : null}
                 </Tooltip>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       ))}
@@ -137,9 +139,10 @@ export function AppShell() {
           )}
         >
           <div className="flex items-center justify-between px-3 py-3.5">
-            <NavLink to="/ask" className="min-w-0" aria-label="Procurement Intelligence, go to Ask">
+            <NavLink to="/ask" className="min-w-0">
               <span className={cn("flex items-center", sidebarCollapsed ? "lg:hidden" : null)}>
                 <Logo />
+                <span className="sr-only">— go to Ask</span>
               </span>
               {sidebarCollapsed ? (
                 <span className="hidden h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground lg:flex">
@@ -222,7 +225,7 @@ export function AppShell() {
               <SystemStatusSummary health={health.data} />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-2" aria-label="Account and permissions">
+                  <Button variant="outline" size="sm" className="gap-2" aria-label={`Account and permissions for ${user?.email ?? "this account"}`}>
                     <UserRound className="h-3.5 w-3.5" aria-hidden="true" />
                     <span className="hidden max-w-[160px] truncate sm:inline">{user?.email}</span>
                   </Button>
@@ -265,14 +268,20 @@ export function AppShell() {
 
           <main id="workspace-main" className="min-h-0 flex-1 px-4 py-5 lg:px-6 lg:py-6">
             <div className="mx-auto w-full max-w-[1400px]">
-              {/* The band is the workspace's persistent 3D strip. It also owns the
-                  context every page scene reads, so a scene can tell whether it
-                  should draw into the shared canvas or write its own. */}
-              <WorldStage>
+              {/* The 3D band is off unless VITE_ENABLE_WORLD=true at build time.
+                  With the flag off the pages render in the ordinary DOM flow and
+                  no three.js module is reachable from this entrypoint. */}
+              {WORLD_ENABLED ? (
+                <WorldStage>
+                  <Suspense fallback={<LoadingState label="Loading this workspace view" />}>
+                    <Outlet />
+                  </Suspense>
+                </WorldStage>
+              ) : (
                 <Suspense fallback={<LoadingState label="Loading this workspace view" />}>
                   <Outlet />
                 </Suspense>
-              </WorldStage>
+              )}
             </div>
           </main>
         </div>

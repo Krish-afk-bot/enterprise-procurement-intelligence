@@ -5,7 +5,7 @@
  * Run: npm run e2e
  */
 
-import { test, expect, request } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,24 +18,15 @@ const TENANT = "acme-procurement";
 // ------------------------------------------------------------------ helpers
 
 async function getToken(page: import("@playwright/test").Page): Promise<string> {
-  const ctx = await request.newContext({ baseURL: "http://localhost:8000" });
-  const r = await ctx.post(`${API}/auth/login`, {
+  // Log in through the page's own request context: the access token comes back
+  // in the body and the refresh token as an httpOnly cookie on the browser
+  // context. Nothing is written to localStorage any more.
+  const r = await page.request.post(`${API}/auth/login`, {
     data: { email: EMAIL, password: PASSWORD, tenant_slug: TENANT },
   });
   expect(r.ok()).toBeTruthy();
   const body = await r.json();
-  // Inject auth into browser localStorage
-  await page.goto("/");
-  await page.evaluate(
-    ({ token, user }) => {
-      localStorage.setItem(
-        "auth-storage",
-        JSON.stringify({ state: { token, user }, version: 0 }),
-      );
-    },
-    { token: body.access_token, user: body.user },
-  );
-  return body.access_token;
+  return body.access_token as string;
 }
 
 // ------------------------------------------------------------------ 1. Upload via API
@@ -275,10 +266,13 @@ test("logout clears auth state and subsequent requests are rejected", async ({ p
   // Logout should succeed or return 204/200
   expect([200, 204]).toContain(logoutR.status());
 
-  // Clear localStorage (simulate browser logout)
-  await page.evaluate(() => localStorage.removeItem("auth-storage"));
+  // The refresh cookie is httpOnly, so only the server can clear it. Logout must
+  // have removed it from the browser context.
+  const cookies = await page.context().cookies();
+  console.log(`  Refresh cookies after logout: ${cookies.filter((c) => c.name === "epi_refresh").length}`);
+  expect(cookies.some((c) => c.name === "epi_refresh" && c.value !== "")).toBeFalsy();
 
-  // Verify protected endpoint is now rejected (without the old token)
+  // Verify protected endpoint is now rejected (no credentials are sent)
   const after = await page.request.get(`${API}/documents`);
   console.log(`  Post-logout request status: ${after.status()}`);
   expect(after.status()).toBe(401);

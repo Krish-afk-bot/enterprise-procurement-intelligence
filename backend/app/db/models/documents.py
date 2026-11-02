@@ -78,6 +78,16 @@ class Document(Base, TenantScopedMixin, TimestampMixin, ProvenanceMixin):
     superseded_by_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     uploaded_by: Mapped[str | None] = mapped_column(String(64), nullable=True)
     extraction_metadata: Mapped[dict[str, Any]] = mapped_column(default=dict, nullable=False)
+    
+    # Cross-store consistency: version tracking for staged re-indexing
+    active_indexing_version: Mapped[int] = mapped_column(
+        Integer, default=1, nullable=False, 
+        comment="Currently active indexing version serving retrieval queries"
+    )
+    candidate_indexing_version: Mapped[int | None] = mapped_column(
+        Integer, nullable=True, 
+        comment="Version being prepared during re-indexing (NULL when no re-index active)"
+    )
 
     pages: Mapped[list[DocumentPage]] = relationship(
         back_populates="document", cascade="all, delete-orphan", order_by="DocumentPage.page_number"
@@ -170,5 +180,15 @@ class Chunk(Base, TenantScopedMixin, TimestampMixin):
     embedding_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     embedding_indexed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     metadata_json: Mapped[dict[str, Any]] = mapped_column(default=dict, nullable=False)
+    
+    # Cross-store consistency: version tracking for staged re-indexing
+    indexing_version: Mapped[int] = mapped_column(
+        Integer, default=1, nullable=False,
+        comment="Document indexing version this chunk belongs to"
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, default=True, nullable=False,
+        comment="Whether this chunk is currently serving retrieval queries"
+    )
 
     document: Mapped[Document] = relationship(back_populates="chunks")

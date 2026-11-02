@@ -60,8 +60,22 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * Access token handling.
+ *
+ * The access token is short-lived and held **only in memory**: it is never
+ * written to localStorage or any other storage a cross-site script could read.
+ * The durable credential is the refresh token, which the backend sets as an
+ * httpOnly, Secure, SameSite=Strict cookie; JavaScript cannot read it and it is
+ * only ever sent to the auth endpoints.
+ *
+ * Because the access token is gone after a page reload, the app recovers a
+ * session by calling {@link refreshAccessToken} once on boot. If that call
+ * fails the user is simply signed out.
+ */
 let accessToken: string | null = null;
 
+/** Supplies a new access token in exchange for the httpOnly refresh cookie. */
 export function setAccessToken(token: string | null) {
   accessToken = token;
 }
@@ -70,16 +84,89 @@ export function getAccessToken() {
   return accessToken;
 }
 
+/**
+ * Called when the session can no longer be recovered (refresh failed), so the
+ * store can drop the signed-in user and the UI can fall back to sign-in.
+ */
+let onAuthFailure: (() => void) | null = null;
+
+export function setAuthFailureHandler(handler: (() => void) | null) {
+  onAuthFailure = handler;
+}
+
+/** Paths that must never trigger an automatic refresh-and-retry. */
+const NO_RETRY_PATHS = ["/auth/login", "/auth/register", "/auth/refresh"];
+
+/** In-flight refresh, shared so concurrent 401s cause a single rotation. */
+let refreshInFlight: Promise<TokenResponse | null> | null = null;
+
+/**
+ * Exchange the refresh cookie for a fresh access token.
+ *
+ * Refresh tokens are single-use: the backend rotates (revokes) the presented
+ * token on every call, so this must never run twice in parallel.
+ */
+export function refreshAccessToken(): Promise<TokenResponse | null> {
+  if (!refreshInFlight) {
+    refreshInFlight = performRefresh().finally(() => {
+      refreshInFlight = null;
+    });
+  }
+  return refreshInFlight;
+}
+
+async function performRefresh(): Promise<TokenResponse | null> {
+  try {
+    const response = await fetch(`${BASE}${PREFIX}/auth/refresh`, {
+      method: "POST",
+      headers: { accept: "application/json", "content-type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({}),
+    });
+    if (!response.ok) return null;
+    const text = await response.text();
+    const payload = text ? (safeJson(text) as TokenResponse) : null;
+    if (payload?.access_token) {
+      accessToken = payload.access_token;
+      return payload;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Send a request with the in-memory access token attached, transparently
+ * refreshing the session once if the server answers 401. Returns the raw
+ * response so callers can decode it however they need (JSON, SSE, blob).
+ */
+async function send(path: string, init: RequestInit = {}, canRetry = true): Promise<Response> {
+  const headers = new Headers(init.headers);
+  if (accessToken) {
+    headers.set("authorization", `Bearer ${accessToken}`);
+  }
+  // `credentials: "include"` lets the browser send and receive the refresh
+  // cookie. Development goes through a same-origin Vite proxy, so this also
+  // covers the local stack.
+  const response = await fetch(`${BASE}${PREFIX}${path}`, { ...init, headers, credentials: "include" });
+  if (response.status === 401 && canRetry && !NO_RETRY_PATHS.some((prefix) => path.startsWith(prefix))) {
+    const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      return send(path, init, false);
+    }
+    onAuthFailure?.();
+  }
+  return response;
+}
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   headers.set("accept", "application/json");
   if (init.body && !headers.has("content-type")) {
     headers.set("content-type", "application/json");
   }
-  if (accessToken) {
-    headers.set("authorization", `Bearer ${accessToken}`);
-  }
-  const response = await fetch(`${BASE}${PREFIX}${path}`, { ...init, headers });
+  const response = await send(path, { ...init, headers });
   if (response.status === 204) {
     return undefined as T;
   }
@@ -237,9 +324,7 @@ export const api = {
     if (options.expiry_date) form.append("expiry_date", options.expiry_date);
     if (options.replaces_document_id) form.append("replaces_document_id", options.replaces_document_id);
     form.append("is_synthetic", String(options.is_synthetic ?? false));
-    const headers = new Headers();
-    if (accessToken) headers.set("authorization", `Bearer ${accessToken}`);
-    const response = await fetch(`${BASE}${PREFIX}/documents/upload`, { method: "POST", body: form, headers });
+    const response = await send("/documents/upload", { method: "POST", body: form });
     const text = await response.text();
     const payload = text ? safeJson(text) : null;
     if (!response.ok) {
@@ -313,8 +398,7 @@ export async function streamQuery(
   signal?: AbortSignal,
 ): Promise<void> {
   const headers = new Headers({ "content-type": "application/json", accept: "text/event-stream" });
-  if (accessToken) headers.set("authorization", `Bearer ${accessToken}`);
-  const response = await fetch(`${BASE}${PREFIX}/query/stream`, {
+  const response = await send("/query/stream", {
     method: "POST",
     headers,
     body: JSON.stringify(payload),

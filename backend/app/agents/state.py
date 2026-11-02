@@ -39,7 +39,18 @@ class AgentState(TypedDict, total=False):
     iteration: int
     evidence_sufficient: bool
     sufficiency: dict[str, Any]
+    #: Explicit answerability verdict produced after retrieval.
+    answerability: dict[str, Any]
+    #: True when the missing period/currency/attribute cannot be retrieved.
+    answerability_hard: bool
+    #: How many citations were kept and by which rule.
+    citation_selection: dict[str, Any]
     rewrites: list[str]
+    #: Result of scanning the *question* for instructions aimed at the model.
+    question_injection: dict[str, Any]
+    #: Set when the question is a prompt-injection attempt: the answer is refused
+    #: and generation is skipped.
+    hard_refusal: bool
 
     # outputs
     context: dict[str, Any]

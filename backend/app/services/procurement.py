@@ -361,6 +361,7 @@ async def contract_detail(session: AsyncSession, principal: Principal, contract_
                 Chunk.tenant_id == principal.tenant_id,
                 Chunk.contract_id == contract_id,
                 Chunk.clause.is_not(None),
+                Chunk.is_active == True,  # noqa: E712
             )
             .order_by(Chunk.page_number, Chunk.chunk_index)
             .limit(200)
@@ -479,7 +480,10 @@ async def list_prices(
         select(Price, Supplier.name, Product.name)
         .outerjoin(Supplier, Price.supplier_id == Supplier.id)
         .outerjoin(Product, Price.product_id == Product.id)
-        .where(Price.tenant_id == principal.tenant_id)
+        .where(
+            Price.tenant_id == principal.tenant_id,
+            Price.is_active == True,  # noqa: E712 - isolate candidate price facts
+        )
     )
     if supplier_id:
         statement = statement.where(Price.supplier_id == supplier_id)

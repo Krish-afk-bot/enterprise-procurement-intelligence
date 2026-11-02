@@ -539,7 +539,10 @@ async def _compliance_overview(
         select(ComplianceCertificate, Supplier.name, Document.title, Document.filename)
         .outerjoin(Supplier, ComplianceCertificate.supplier_id == Supplier.id)
         .outerjoin(Document, ComplianceCertificate.source_document_id == Document.id)
-        .where(ComplianceCertificate.tenant_id == principal.tenant_id)
+        .where(
+            ComplianceCertificate.tenant_id == principal.tenant_id,
+            ComplianceCertificate.is_active == True,  # noqa: E712
+        )
     )
     if plan.supplier_ids:
         statement = statement.where(ComplianceCertificate.supplier_id.in_(plan.supplier_ids))
@@ -637,6 +640,7 @@ async def comparison_matrix(
                 select(ComplianceCertificate).where(
                     ComplianceCertificate.tenant_id == principal.tenant_id,
                     ComplianceCertificate.supplier_id.in_(supplier_ids),
+                    ComplianceCertificate.is_active == True,  # noqa: E712
                 )
             )
         ).scalars()

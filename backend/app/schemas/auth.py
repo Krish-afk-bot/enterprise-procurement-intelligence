@@ -24,7 +24,9 @@ class RegisterRequest(APIModel):
 
 
 class RefreshRequest(APIModel):
-    refresh_token: str
+    #: Optional: browsers send the refresh token in an httpOnly cookie instead.
+    #: Non-browser clients may still post it in the body.
+    refresh_token: str | None = None
 
 
 class UserOut(APIModel):
@@ -41,7 +43,9 @@ class UserOut(APIModel):
 
 class TokenResponse(APIModel):
     access_token: str
-    refresh_token: str
+    #: Never populated for browser clients: the refresh token rides in an
+    #: httpOnly cookie so it is not reachable from JavaScript.
+    refresh_token: str | None = None
     token_type: str = "bearer"
     expires_at: datetime
     refresh_expires_at: datetime | None = None

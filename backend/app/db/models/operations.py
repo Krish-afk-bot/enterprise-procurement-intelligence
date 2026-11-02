@@ -11,7 +11,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.ids import new_id
 from app.db.base import Base, TenantScopedMixin, TimestampMixin
 
-JOB_STATUSES = ("queued", "running", "succeeded", "failed", "cancelled")
+JOB_STATUSES = ("queued", "running", "succeeded", "failed", "cancelled", "terminal_failure")
 
 
 class IngestionJob(Base, TenantScopedMixin, TimestampMixin):
@@ -30,6 +30,20 @@ class IngestionJob(Base, TenantScopedMixin, TimestampMixin):
     queued_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    
+    # Cross-store consistency: version tracking and recovery checkpoints
+    indexing_version: Mapped[int | None] = mapped_column(
+        Integer, nullable=True,
+        comment="Document version this job is creating (NULL for legacy jobs)"
+    )
+    checkpoint: Mapped[str | None] = mapped_column(
+        String(64), nullable=True,
+        comment="Recovery checkpoint: persist_chunks, vector_upload, graph_update, activation"
+    )
+    checkpoint_metadata: Mapped[dict[str, Any]] = mapped_column(
+        default=dict, nullable=False,
+        comment="Stage-specific recovery state (e.g., last uploaded vector batch)"
+    )
 
 
 class AuditLog(Base, TenantScopedMixin, TimestampMixin):

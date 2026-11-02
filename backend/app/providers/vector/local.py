@@ -104,6 +104,27 @@ class LocalVectorStore:
                 target.persist()
             return removed
 
+    async def delete_by_version(
+        self, collection: str, document_id: str, indexing_version: int, *, tenant_id: str | None = None
+    ) -> int:
+        async with self._lock:
+            target = self._collection(collection)
+            await target.load()
+            keep = []
+            for i, payload in enumerate(target.payloads):
+                matches_doc = payload.get("document_id") == document_id
+                matches_version = payload.get("indexing_version") == indexing_version
+                matches_tenant = (tenant_id is None) or (payload.get("tenant_id") == tenant_id)
+                # If it matches all delete conditions, do not keep it
+                if matches_doc and matches_version and matches_tenant:
+                    continue
+                keep.append(i)
+            removed = target.size - len(keep)
+            if removed:
+                target.retain(keep)
+                target.persist()
+            return removed
+
     async def count(self, collection: str) -> int:
         target = self._collection(collection)
         await target.load()

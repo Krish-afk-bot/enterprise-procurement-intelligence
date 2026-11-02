@@ -1,113 +1,62 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowUpDown, FileStack, Info, Search, Upload } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowUpDown, FileStack, Info, Upload } from "lucide-react";
 
 import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState, ErrorState, LoadingRows } from "@/components/common/States";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input, Label } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch } from "@/components/ui/misc";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  BUSINESS_STATES,
+  DocumentFilters,
+  type DocumentFilterValues,
+} from "@/features/documents/DocumentFilters";
+import { PIPELINE_ORDER, stageLabel } from "@/features/documents/stages";
+import { SortableHead, sortLabel, type SortKey } from "@/features/documents/SortableHead";
+import { UploadDocumentDialog } from "@/features/documents/UploadDocumentDialog";
 import { api } from "@/lib/api";
 import { useMood } from "@/lib/useMood";
 import { MICROCOPY, microcopyPlain } from "@/lib/microcopy";
-import type { UploadResponse } from "@/lib/types";
 import { useAuth } from "@/store/auth";
 import {
-  DOCUMENT_TYPE_LABELS,
   cn,
   documentLifecycle,
   documentTypeLabel,
   formatDate,
   formatDateTime,
-  titleCase,
   toneClasses,
 } from "@/lib/utils";
-
-/** Real ingestion stages, in the order the pipeline reports them. */
-const STAGE_LABELS: Record<string, string> = {
-  load: "Document received",
-  parse: "Document read",
-  ocr: "Scanned pages read",
-  vision: "Page imagery read",
-  layout: "Layout analysed",
-  chunk: "Sections identified",
-  persist_chunks: "Sections stored",
-  vector_index: "Added to the search index",
-  structured_and_graph: "Prices, contracts and relationships identified",
-  indexed: "Ready to search",
-  indexed_without_embeddings: "Ready to search (keyword index only)",
-  failed: "Processing failed",
-};
-
-/** The stages the pipeline reports, in order, for the progress view. */
-const PIPELINE_ORDER = [
-  "load",
-  "parse",
-  "ocr",
-  "layout",
-  "chunk",
-  "persist_chunks",
-  "vector_index",
-  "structured_and_graph",
-  "indexed",
-];
-
-function stageLabel(stage: string | null | undefined): string {
-  if (!stage) return "not reported";
-  return STAGE_LABELS[stage] ?? titleCase(stage);
-}
-
-type SortKey = "updated" | "title" | "type" | "supplier" | "effective" | "expiry";
-
-const BUSINESS_STATES = [
-  "all",
-  "Active",
-  "Expires soon",
-  "Expired",
-  "Superseded",
-  "Processing",
-  "Needs attention",
-  "Not available",
-] as const;
 
 export function DocumentsPage() {
   const user = useAuth((state) => state.user);
   const canUpload = Boolean(user?.permissions?.includes("documents:write"));
-  const [search, setSearch] = useState("");
-  const [documentType, setDocumentType] = useState("all");
-  const [supplierId, setSupplierId] = useState("all");
-  const [businessState, setBusinessState] = useState<string>("all");
-  const [includeSynthetic, setIncludeSynthetic] = useState(true);
+  const [filters, setFilters] = useState<DocumentFilterValues>({
+    search: "",
+    documentType: "all",
+    supplierId: "all",
+    businessState: "all",
+    includeSynthetic: true,
+  });
   const [sortKey, setSortKey] = useState<SortKey>("updated");
   const [sortAscending, setSortAscending] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const documents = useQuery({
-    queryKey: ["documents", search, documentType, supplierId, includeSynthetic],
+    queryKey: ["documents", filters.search, filters.documentType, filters.supplierId, filters.includeSynthetic],
     queryFn: () =>
       api.documents({
-        search: search || undefined,
-        document_type: documentType === "all" ? undefined : documentType,
-        supplier_id: supplierId === "all" ? undefined : supplierId,
-        include_synthetic: includeSynthetic,
+        search: filters.search || undefined,
+        document_type: filters.documentType === "all" ? undefined : filters.documentType,
+        supplier_id: filters.supplierId === "all" ? undefined : filters.supplierId,
+        include_synthetic: filters.includeSynthetic,
         limit: 200,
       }),
     refetchInterval: 8_000,
   });
   const suppliers = useQuery({ queryKey: ["suppliers", "documents-filter"], queryFn: () => api.suppliers({ limit: 100 }) });
-
   const items = documents.data?.items ?? [];
 
   useMood(documents.isPending ? "loading" : documents.isError ? "error" : items.length === 0 ? "empty" : null);
@@ -115,7 +64,9 @@ export function DocumentsPage() {
   const visible = useMemo(() => {
     const annotated = items.map((item) => ({ item, lifecycle: documentLifecycle(item) }));
     const filtered =
-      businessState === "all" ? annotated : annotated.filter((row) => row.lifecycle.label === businessState);
+      filters.businessState === "all"
+        ? annotated
+        : annotated.filter((row) => row.lifecycle.label === filters.businessState);
     const direction = sortAscending ? 1 : -1;
     const value = (row: (typeof annotated)[number]): string | number => {
       switch (sortKey) {
@@ -139,7 +90,7 @@ export function DocumentsPage() {
       if (left === right) return 0;
       return (left > right ? 1 : -1) * direction;
     });
-  }, [items, businessState, sortKey, sortAscending]);
+  }, [items, filters.businessState, sortKey, sortAscending]);
 
   function toggleSort(key: SortKey) {
     if (key === sortKey) {
@@ -174,74 +125,11 @@ export function DocumentsPage() {
         }
       />
 
-      <div className="flex flex-wrap items-end gap-3 rounded-lg border p-3">
-        <div className="min-w-[220px] flex-1 space-y-1.5">
-          <Label htmlFor="document-search">Search</Label>
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="document-search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Title or filename"
-              className="pl-8"
-            />
-          </div>
-        </div>
-        <div className="space-y-1.5">
-          <Label>Status</Label>
-          <Select value={businessState} onValueChange={setBusinessState}>
-            <SelectTrigger className="w-[170px]" aria-label="Filter by document status">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {BUSINESS_STATES.map((value) => (
-                <SelectItem key={value} value={value}>
-                  {value === "all" ? "all statuses" : value}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-1.5">
-          <Label>Type</Label>
-          <Select value={documentType} onValueChange={setDocumentType}>
-            <SelectTrigger className="w-[180px]" aria-label="Filter by document type">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">all types</SelectItem>
-              {Object.entries(DOCUMENT_TYPE_LABELS).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-1.5">
-          <Label>Supplier</Label>
-          <Select value={supplierId} onValueChange={setSupplierId}>
-            <SelectTrigger className="w-[200px]" aria-label="Filter by supplier">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">all suppliers</SelectItem>
-              {(suppliers.data?.items ?? []).map((supplier) => (
-                <SelectItem key={supplier.id} value={supplier.id}>
-                  {supplier.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center gap-2 pb-1.5">
-          <Switch id="documents-synthetic" checked={includeSynthetic} onCheckedChange={setIncludeSynthetic} />
-          <label htmlFor="documents-synthetic" className="text-xs text-muted-foreground">
-            include demo corpus
-          </label>
-        </div>
-      </div>
+      <DocumentFilters
+        values={filters}
+        onChange={(key, value) => setFilters((current) => ({ ...current, [key]: value }))}
+        suppliers={suppliers.data?.items ?? []}
+      />
 
       {documents.isError ? <ErrorState error={documents.error} onRetry={() => void documents.refetch()} /> : null}
       {documents.isLoading ? <LoadingRows rows={6} /> : null}
@@ -337,9 +225,11 @@ export function DocumentsPage() {
                   {visible.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={9} className="text-xs text-muted-foreground">
-                        No document in this list has the status {businessState}. Status is derived from the recorded
-                        effective and expiry dates and from processing; documents without dates are listed as
-                        &ldquo;Not available&rdquo;.
+                        No document in this list has the status {filters.businessState}. Status is{" "}
+                        {BUSINESS_STATES.includes(filters.businessState as (typeof BUSINESS_STATES)[number])
+                          ? "derived from the recorded effective and expiry dates and from processing"
+                          : "not available"}
+                        ; documents without dates are listed as &ldquo;Not available&rdquo;.
                       </TableCell>
                     </TableRow>
                   ) : null}
@@ -378,239 +268,3 @@ export function DocumentsPage() {
     </div>
   );
 }
-
-function sortLabel(key: SortKey): string {
-  switch (key) {
-    case "title":
-      return "document name";
-    case "type":
-      return "type";
-    case "supplier":
-      return "supplier";
-    case "effective":
-      return "effective date";
-    case "expiry":
-      return "expiry date";
-    default:
-      return "last updated";
-  }
-}
-
-function SortableHead({
-  label,
-  column,
-  current,
-  ascending,
-  onSort,
-}: {
-  label: string;
-  column: SortKey;
-  current: SortKey;
-  ascending: boolean;
-  onSort: (key: SortKey) => void;
-}) {
-  const active = current === column;
-  return (
-    <TableHead scope="col" aria-sort={active ? (ascending ? "ascending" : "descending") : "none"}>
-      <button
-        type="button"
-        onClick={() => onSort(column)}
-        className={cn(
-          "inline-flex items-center gap-1 text-left text-xs font-medium transition-colors duration-micro hover:text-foreground",
-          active ? "text-foreground" : "text-muted-foreground",
-        )}
-      >
-        {label}
-        <ArrowUpDown className="h-3 w-3" aria-hidden="true" />
-      </button>
-    </TableHead>
-  );
-}
-
-function UploadDocumentDialog({ onClose }: { onClose: () => void }) {
-  const queryClient = useQueryClient();
-  const limits = useQuery({ queryKey: ["upload-limits"], queryFn: api.uploadLimits });
-  const suppliers = useQuery({ queryKey: ["suppliers", "upload-form"], queryFn: () => api.suppliers({ limit: 100 }) });
-  const fileInput = useRef<HTMLInputElement>(null);
-
-  const [documentType, setDocumentType] = useState("");
-  const [supplierId, setSupplierId] = useState("none");
-  const [title, setTitle] = useState("");
-  const [revisionLabel, setRevisionLabel] = useState("");
-  const [effectiveDate, setEffectiveDate] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [isSynthetic, setIsSynthetic] = useState(false);
-  const [result, setResult] = useState<UploadResponse | null>(null);
-  const [error, setError] = useState<unknown>(null);
-
-  const selectedSupplier = (suppliers.data?.items ?? []).find((supplier) => supplier.id === supplierId) ?? null;
-
-  const upload = useMutation({
-    mutationFn: (file: File) =>
-      api.uploadDocument(file, {
-        document_type: documentType || undefined,
-        supplier_name: selectedSupplier?.name,
-        title: title || undefined,
-        revision_label: revisionLabel || undefined,
-        effective_date: effectiveDate || undefined,
-        expiry_date: expiryDate || undefined,
-        is_synthetic: isSynthetic,
-      }),
-    onSuccess: (payload) => {
-      setResult(payload);
-      setError(null);
-      void queryClient.invalidateQueries({ queryKey: ["documents"] });
-    },
-    onError: (uploadError) => {
-      setResult(null);
-      setError(uploadError);
-    },
-  });
-
-  return (
-    <DialogContent className="max-w-2xl">
-      <DialogHeader>
-        <DialogTitle>Upload a document</DialogTitle>
-        <DialogDescription>
-          The file is stored, then read and indexed. The details you add here are what the repository, the filters and the
-          citations show.
-        </DialogDescription>
-      </DialogHeader>
-
-      <div className="space-y-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="upload-file">File</Label>
-          <input
-            id="upload-file"
-            ref={fileInput}
-            type="file"
-            accept={(limits.data?.allowed_extensions ?? [".pdf", ".docx", ".xlsx", ".csv", ".txt", ".md"]).join(",")}
-            className="block w-full rounded-md border border-input bg-background text-xs file:mr-3 file:rounded-l-md file:border-0 file:bg-secondary file:px-3 file:py-2 file:text-xs file:font-medium"
-          />
-          <p className="text-[11px] text-muted-foreground">
-            Maximum size {limits.data ? `${limits.data.max_upload_mb} MB` : "set by the deployment"}. Accepted types:{" "}
-            {(limits.data?.allowed_extensions ?? ["not reported"]).join(", ")}. Uploading a file that is already in the
-            corpus returns the existing document instead of ingesting it twice.
-          </p>
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <Label>Document type</Label>
-            <Select value={documentType || "unset"} onValueChange={(value) => setDocumentType(value === "unset" ? "" : value)}>
-              <SelectTrigger aria-label="Document type">
-                <SelectValue placeholder="Choose a type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="unset">let the pipeline classify it</SelectItem>
-                {Object.entries(DOCUMENT_TYPE_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label>Supplier</Label>
-            <Select value={supplierId} onValueChange={setSupplierId}>
-              <SelectTrigger aria-label="Supplier">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">not linked yet</SelectItem>
-                {(suppliers.data?.items ?? []).map((supplier) => (
-                  <SelectItem key={supplier.id} value={supplier.id}>
-                    {supplier.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <p className="text-[11px] text-muted-foreground">
-              {suppliers.data
-                ? "The supplier is recorded on the document; a contract can be linked from the document page."
-                : "Loading suppliers"}
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="upload-title">Document name</Label>
-            <Input
-              id="upload-title"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              placeholder="Master Supply Agreement"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="upload-revision">Revision label</Label>
-            <Input
-              id="upload-revision"
-              value={revisionLabel}
-              onChange={(event) => setRevisionLabel(event.target.value)}
-              placeholder="signed copy"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="upload-effective">Effective date</Label>
-            <Input
-              id="upload-effective"
-              type="date"
-              value={effectiveDate}
-              onChange={(event) => setEffectiveDate(event.target.value)}
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="upload-expiry">Expiry date</Label>
-            <Input id="upload-expiry" type="date" value={expiryDate} onChange={(event) => setExpiryDate(event.target.value)} />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Switch id="upload-synthetic" checked={isSynthetic} onCheckedChange={setIsSynthetic} />
-          <label htmlFor="upload-synthetic" className="text-xs text-muted-foreground">
-            label this file as part of the demo corpus
-          </label>
-        </div>
-
-        {result ? (
-          <div className="rounded-md border border-success/35 bg-success/5 p-3 text-xs">
-            <p className="font-medium">
-              {result.duplicate_of ? "This file is already in the repository. It was not ingested again." : result.message}
-            </p>
-            <p className="mt-1 text-muted-foreground">{result.document.filename}</p>
-            {result.job ? (
-              <p className="mt-1 text-[11px] text-muted-foreground">
-                Processing: {stageLabel(result.job.stage ?? result.job.status)} · {Math.round((result.job.progress ?? 0) * 100)}%
-              </p>
-            ) : null}
-            <p className="mt-2">
-              <Link to={`/documents/${result.document.id}`} className="font-medium text-primary hover:underline">
-                Open the document
-              </Link>
-            </p>
-          </div>
-        ) : null}
-
-        {error ? <ErrorState error={error} /> : null}
-      </div>
-
-      <DialogFooter>
-        <Button variant="outline" size="sm" onClick={onClose} disabled={upload.isPending}>
-          Close
-        </Button>
-        <Button
-          size="sm"
-          disabled={upload.isPending}
-          onClick={() => {
-            const file = fileInput.current?.files?.[0];
-            if (file) upload.mutate(file);
-          }}
-        >
-          {upload.isPending ? "Uploading" : "Upload"}
-        </Button>
-      </DialogFooter>
-    </DialogContent>
-  );
-}
-
-

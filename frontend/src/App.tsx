@@ -1,8 +1,9 @@
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { AppShell } from "@/components/layout/AppShell";
 import { PublicLayout } from "@/components/layout/PublicLayout";
+import { Logo } from "@/components/brand/Logo";
 import { AccessDeniedPage } from "@/pages/AccessDeniedPage";
 import { AskPage } from "@/pages/AskPage";
 import { LoginPage } from "@/pages/LoginPage";
@@ -36,6 +37,16 @@ const AdminPage = lazy(() => import("@/pages/AdminPage").then((module) => ({ def
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const token = useAuth((state) => state.token);
+  const bootstrapped = useAuth((state) => state.bootstrapped);
+  // The access token is memory-only, so on a reload we must wait for the
+  // silent refresh to settle before deciding the user is signed out.
+  if (!bootstrapped) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Logo />
+      </div>
+    );
+  }
   if (!token) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
@@ -47,6 +58,11 @@ function RequirePermission({ permission, children }: { permission: string; child
 }
 
 export function App() {
+  const bootstrap = useAuth((state) => state.bootstrap);
+  useEffect(() => {
+    void bootstrap();
+  }, [bootstrap]);
+
   return (
     <Routes>
       {/* Public product information */}

@@ -118,6 +118,8 @@ export interface RetrievalStep {
 
 export interface Answer {
   query_id: string;
+  /** Present when the answer was persisted; the server creates it lazily. */
+  conversation_id?: string | null;
   answer_text: string;
   status: AnswerStatus;
   generation_mode: string;
@@ -628,8 +630,10 @@ export interface GraphOverview {
 }
 
 export interface StreamEvent {
-  type: "status" | "answer" | "error";
+  type: "status" | "evidence" | "answer" | "error";
   event?: { node: string; event: string; detail: string; data?: Record<string, unknown> };
+  /** Retrieved passages, emitted as soon as retrieval finishes. */
+  evidence?: Citation[];
   answer?: Answer;
   error?: { code: string; message: string };
 }

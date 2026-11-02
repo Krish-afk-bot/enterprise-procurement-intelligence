@@ -10,6 +10,7 @@ question can never spin.
 
 from __future__ import annotations
 
+import time
 from typing import Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,11 +18,17 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.agents.nodes import AgentRuntime
 from app.agents.state import AgentState
 from app.observability.logging import get_logger
+from app.observability.tracing import annotate_node_span, node_span
 
 logger = get_logger(__name__)
 
 
 def route_after_evaluation(state: AgentState) -> str:
+    # A missing period/currency/attribute is not a retrieval failure; another
+    # rewrite cannot create evidence the corpus does not contain. Go straight to
+    # the refusal-generating path.
+    if state.get("answerability_hard") and not state.get("conflicts"):
+        return "generate"
     if state.get("evidence_sufficient"):
         return "generate"
     iterations = int(state.get("iteration") or 0)
@@ -47,45 +54,54 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
     except ImportError as exc:  # pragma: no cover
         raise RuntimeError("langgraph is required to run the agent") from exc
 
+    async def run_node(name: str, call: Any) -> AgentState:
+        started = time.perf_counter()
+        with node_span(name) as span:
+            try:
+                result = await call()
+            except Exception as exc:  # noqa: BLE001 - recorded, then re-raised
+                span.record_exception(exc)
+                try:
+                    from opentelemetry.trace import Status, StatusCode
+
+                    span.set_status(Status(StatusCode.ERROR, str(exc)))
+                except ImportError:  # pragma: no cover
+                    pass
+                raise
+            annotate_node_span(span, started, result)
+            return result
+
     async def understand(state: AgentState) -> AgentState:
-        return await runtime.understand(state, session)
+        return await run_node("agent.understand", lambda: runtime.understand(state, session))
 
     async def plan(state: AgentState) -> AgentState:
-        return await runtime.plan(state)
+        return await run_node("agent.plan", lambda: runtime.plan(state))
 
-    async def structured(state: AgentState) -> AgentState:
-        return await runtime.structured(state, session)
-
-    async def graph_lookup(state: AgentState) -> AgentState:
-        return await runtime.graph(state, session)
-
-    async def retrieve(state: AgentState) -> AgentState:
-        return await runtime.retrieve(state, session)
+    async def parallel_evidence(state: AgentState) -> AgentState:
+        return await run_node("agent.evidence_parallel", lambda: runtime.evidence_parallel(state))
 
     async def vision(state: AgentState) -> AgentState:
-        return await runtime.vision(state, session)
+        return await run_node("agent.vision", lambda: runtime.vision(state, session))
 
     async def evaluate(state: AgentState) -> AgentState:
-        return await runtime.evaluate_evidence(state)
+        return await run_node("agent.evaluate", lambda: runtime.evaluate_evidence(state))
 
     async def rewrite(state: AgentState) -> AgentState:
-        return await runtime.rewrite_query(state)
+        return await run_node("agent.rewrite", lambda: runtime.rewrite_query(state))
 
     async def generate(state: AgentState) -> AgentState:
-        return await runtime.generate(state, session)
+        return await run_node("agent.generate", lambda: runtime.generate(state, session))
 
     async def verify(state: AgentState) -> AgentState:
-        return await runtime.verify(state)
+        return await run_node("agent.verify", lambda: runtime.verify(state))
 
     async def finalize(state: AgentState) -> AgentState:
-        return await runtime.finalize(state)
+        return await run_node("agent.finalize", lambda: runtime.finalize(state))
 
     builder = StateGraph(AgentState)
     builder.add_node("understand", understand)
     builder.add_node("plan", plan)
-    builder.add_node("structured", structured)
-    builder.add_node("graph", graph_lookup)
-    builder.add_node("retrieve", retrieve)
+    builder.add_node("parallel", parallel_evidence)
     builder.add_node("vision", vision)
     builder.add_node("evaluate", evaluate)
     builder.add_node("rewrite", rewrite)
@@ -95,15 +111,13 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
 
     builder.add_edge(START, "understand")
     builder.add_edge("understand", "plan")
-    builder.add_edge("plan", "structured")
-    builder.add_edge("structured", "graph")
-    builder.add_edge("graph", "retrieve")
-    builder.add_edge("retrieve", "vision")
+    builder.add_edge("plan", "parallel")
+    builder.add_edge("parallel", "vision")
     builder.add_edge("vision", "evaluate")
     builder.add_conditional_edges(
         "evaluate", route_after_evaluation, {"rewrite": "rewrite", "generate": "generate"}
     )
-    builder.add_edge("rewrite", "retrieve")
+    builder.add_edge("rewrite", "parallel")
     builder.add_edge("generate", "verify")
     builder.add_edge("verify", "finalize")
     builder.add_edge("finalize", END)
@@ -113,6 +127,6 @@ def build_agent_graph(runtime: AgentRuntime, session: AsyncSession) -> Any:
 def graph_diagram() -> str:
     """Text rendering of the pipeline, used in docs and the Admin UI."""
     return (
-        "START → understand → plan → structured → graph → retrieve → vision → evaluate "
-        "→ (rewrite → retrieve)* → generate → verify → finalize → END"
+        "START → understand → plan → parallel(structured ‖ graph ‖ retrieve) → vision → evaluate "
+        "→ (rewrite → parallel)* → generate → verify → finalize → END"
     )

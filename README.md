@@ -1,12 +1,24 @@
-# Enterprise Procurement Intelligence
+<div align="center">
 
-**Retrieval-augmented intelligence over supplier contracts, pricing agreements and amendments.**
+# 🏢 Enterprise Procurement Intelligence
 
-> Answer procurement questions with page-level evidence. Every fact cites a document and page. Every answer is verified against retrieved evidence before it reaches the user.
+### Retrieval-Augmented Intelligence for Supplier Contracts & Pricing
+
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![React 18](https://img.shields.io/badge/react-18-61dafb.svg)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688.svg)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
+**Answer procurement questions with page-level evidence. Every fact cites a document and page. Every answer is verified against retrieved evidence before it reaches the user.**
+
+[Features](#-key-capabilities) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Documentation](#-additional-documentation)
+
+</div>
 
 ---
 
-## The Problem
+## 🎯 The Problem
 
 Enterprise procurement teams hold hundreds of supplier contracts, pricing schedules, amendments and compliance documents. Getting a reliable answer to "what price did Supplier A negotiate for Product X, and does Amendment 2 change it?" normally requires manually searching multiple files, cross-referencing versions and hoping nothing was missed.
 
@@ -14,7 +26,7 @@ This platform makes that knowledge searchable and answerable — with citations 
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 ```mermaid
 flowchart TD
@@ -54,7 +66,7 @@ PostgreSQL · Qdrant · Neo4j · Redis · MinIO/S3 · real LLM endpoint
 
 ---
 
-## Key Capabilities
+## ✨ Key Capabilities
 
 | Capability | Measured result (v2 evaluation, 130 questions, 2026-11-02) |
 |---|---|
@@ -83,7 +95,7 @@ Full before/after table, failure taxonomy and reproduction commands:
 
 ---
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 **Frontend:** React 18 · TypeScript 5 · Vite 6 · Tailwind CSS 3 · TanStack Query · Zustand · React Router 6 · Three.js/R3F
 
@@ -97,7 +109,7 @@ Full before/after table, failure taxonomy and reproduction commands:
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -153,7 +165,7 @@ Expected: `{"status":"ok","degraded":false,...}`
 
 ---
 
-## Configuration
+## ⚙️ Configuration
 
 Copy `.env.example` to `.env` and set the values relevant to your environment. The most important variables:
 
@@ -188,7 +200,7 @@ LLM_MODEL=llama3.1:8b
 
 ---
 
-## How the RAG Pipeline Works
+## 🔄 How the RAG Pipeline Works
 
 ```mermaid
 sequenceDiagram
@@ -221,7 +233,7 @@ sequenceDiagram
 
 ---
 
-## Evaluation and Measured Results
+## 📊 Evaluation and Measured Results
 
 > Evaluated on a 22-question golden set over the synthetic procurement corpus.
 > Hardware: Windows / RTX 4060 Laptop GPU (4 GB VRAM). Local LLM: llama3.1:8b via Ollama.
@@ -250,7 +262,7 @@ sequenceDiagram
 
 ---
 
-## Testing
+## 🧪 Testing
 
 ```bash
 # Backend — unit + integration + retrieval tests (no LLM key needed)
@@ -298,7 +310,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 .
@@ -338,7 +350,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Security
+## 🔒 Security
 
 - **Authentication:** JWT (HS256) with Argon2-hashed passwords. Production startup refuses a known-weak `JWT_SECRET`.
 - **Authorisation:** Role-based (admin / analyst / viewer) with per-tenant row-level isolation. Cross-tenant document access is blocked at the SQL and vector search layers.
@@ -351,7 +363,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Known Limitations
+## ⚠️ Known Limitations
 
 1. **gq-012 (Orion expired contract):** Retrieval miss when the query is processed without tenant-vocabulary entity linking (rule-based path). Fixed when the full pipeline loads supplier entities from the DB. The eval script uses rule-based-only for reproducibility.
 2. **Refusal in extractive mode:** An unanswerable question in extractive mode returns `status: partial` when structured retrieval surfaces out-of-period data. The LLM pipeline correctly refuses the same question.
@@ -363,7 +375,7 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
 | Status | Item |
 |---|---|
@@ -386,13 +398,13 @@ mypy is configured (`pyproject.toml`) and runs in CI on Ubuntu. It times out on 
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions, commit format, code-style commands and testing policy.
 
 ---
 
-## Additional Documentation
+## 📚 Additional Documentation
 
 | Document | Contents |
 |---|---|
@@ -408,4 +420,18 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions, commit format, co
 
 ---
 
-> This project is not production-ready. Infrastructure is verified against a local Docker Compose stack. Production deployment requires a proper secrets-management strategy, hardened credentials, and performance evaluation against a real workload.
+<div align="center">
+
+## 📝 License
+
+This project is available under the MIT License.
+
+## 👥 Contributors
+
+Made with ❤️ by [Krish-afk-bot](https://github.com/Krish-afk-bot)
+
+---
+
+> ⚠️ **Development Status**: This project is not production-ready. Infrastructure is verified against a local Docker Compose stack. Production deployment requires proper secrets management, hardened credentials, and performance evaluation against a real workload.
+
+</div>

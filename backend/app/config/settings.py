@@ -177,7 +177,7 @@ class Settings(BaseSettings):
     #: measurable ranking quality on this corpus but double the CPU time.
     rerank_candidate_limit: int = 20
     #: Skip the cross-encoder when the dense head is already unambiguous.
-    rerank_gate_enabled: bool = True
+    rerank_gate_enabled: bool = False  # Phase 4A: Disable to ensure all queries are reranked
     rerank_gate_min_score: float = 0.62
     rerank_gate_min_margin: float = 0.04
 
@@ -188,11 +188,11 @@ class Settings(BaseSettings):
 
     # ------------------------------------------------------------ retrieval
     dense_top_k: int = 50
-    sparse_top_k: int = 50
+    sparse_top_k: int = 75  # Phase 4A: +50% BM25 candidates to improve entity coverage
     fusion_top_k: int = 50
     rrf_k: int = 60
-    rerank_top_n: int = 15
-    context_max_chunks: int = 12
+    rerank_top_n: int = 20  # Phase 4A: +33% to capture more documents for comparisons
+    context_max_chunks: int = 15  # Phase 4A: Allow more context for multi-entity questions
     context_max_tokens: int = 6000
     #: A short answer should not display every block that entered the context.
     citation_max: int = 5

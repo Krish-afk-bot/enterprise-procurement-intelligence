@@ -97,6 +97,41 @@ class AgentRuntime:
             role=state["role"],
         )
 
+    # Phase 4B: Query expansion helpers for better entity matching
+    def _expand_query_with_entities(self, query: str, plan: QueryPlan) -> str:
+        """Boost supplier/product names in query for better BM25 matching."""
+        boosted_terms = []
+        
+        # Repeat supplier names for BM25 term frequency boost
+        for supplier in plan.suppliers:
+            boosted_terms.append(supplier)
+        
+        # Repeat product names
+        for product in plan.products:
+            boosted_terms.append(product)
+        
+        if boosted_terms:
+            return f"{query} {' '.join(boosted_terms)}"
+        return query
+
+    def _expand_query_with_synonyms(self, query: str, plan: QueryPlan) -> str:
+        """Add synonyms for compliance/security queries to improve recall."""
+        EXPANSIONS = {
+            "compliance": ["certificate", "certification", "ISO", "standards"],
+            "security": ["vulnerability", "CVE", "patch"],
+        }
+        
+        lower_query = query.lower()
+        synonyms = []
+        
+        for keyword, expansion in EXPANSIONS.items():
+            if keyword in lower_query:
+                synonyms.extend(expansion)
+        
+        if synonyms:
+            return f"{query} {' '.join(synonyms)}"
+        return query
+
     # ------------------------------------------------------------- understand
     async def understand(self, state: AgentState, session: AsyncSession) -> AgentState:
         import time
@@ -247,7 +282,22 @@ class AgentRuntime:
         strategy = state.get("strategy_selected") or "hybrid_rerank"
         mode = _mode_for_strategy(strategy)
         limit = state.get("top_k") or self.settings.rerank_top_n
+        
+        # Phase 4B: Improve query quality with entity boosting and synonym expansion
+        query_text = plan.query
+        expanded_query = self._expand_query_with_entities(query_text, plan)
+        expanded_query = self._expand_query_with_synonyms(expanded_query, plan)
+        
         result: RetrievalResult = await self.retriever.retrieve(
+            session,
+            principal,
+            plan,
+            mode=mode,
+            limit=limit,
+            filters=state.get("filters") or None,
+            rerank=strategy != "dense",
+            query_text=expanded_query,  # Use expanded query for retrieval
+        )
             session,
             principal,
             plan,

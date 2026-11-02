@@ -21,7 +21,7 @@ jobs:
 
       - name: Dependency Review
         id: dep-review
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@v5
         continue-on-error: true
         with:
           # Fail on high or critical severity vulnerabilities

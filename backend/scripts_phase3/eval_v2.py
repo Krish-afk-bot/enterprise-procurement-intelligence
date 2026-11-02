@@ -196,6 +196,12 @@ async def main() -> int:
         default="baseline",
         help="artifact prefix, e.g. phase-2-after-grounding (default: baseline)",
     )
+    parser.add_argument(
+        "--dataset",
+        choices=["full", "dev", "held-out"],
+        default="full",
+        help="which dataset to evaluate: full (130), dev (90), or held-out (40)",
+    )
     args = parser.parse_args()
 
     from app.config.container import get_container
@@ -217,7 +223,16 @@ async def main() -> int:
     principal = await _principal_from_db()
     print(f"Principal : {principal.user_id} / {principal.tenant_id} / role={principal.role}")
 
+    # Select dataset file
+    if args.dataset == "dev":
+        dataset_file = "questions_dev.json"
+    elif args.dataset == "held-out":
+        dataset_file = "questions_held_out.json"
+    else:
+        dataset_file = "questions.json"
+    
     runner = V2Runner(container, settings)
+    runner.dataset_file = dataset_file  # Override dataset file
     modes = ["current", "oracle"] if args.mode == "both" else [args.mode]
     EVAL_DIR.mkdir(parents=True, exist_ok=True)
     reports: dict[str, dict] = {}
@@ -242,7 +257,8 @@ async def main() -> int:
             on_row=_progress,
         )
         reports[mode] = report
-        out = EVAL_DIR / f"{args.label}_{mode}_{_slug(settings.llm_model)}.json"
+        dataset_suffix = "" if args.dataset == "full" else f"_{args.dataset}"
+        out = EVAL_DIR / f"{args.label}{dataset_suffix}_{mode}_{_slug(settings.llm_model)}.json"
         out.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
         print(f"  saved {out.relative_to(PROJECT_ROOT)}")
         _print_report(report, title=f"v2 evaluation — {mode}")

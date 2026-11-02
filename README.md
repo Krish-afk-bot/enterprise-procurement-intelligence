@@ -56,24 +56,30 @@ PostgreSQL · Qdrant · Neo4j · Redis · MinIO/S3 · real LLM endpoint
 
 ## Key Capabilities
 
-| Capability | Status |
+| Capability | Measured result (v2 evaluation, 130 questions, 2026-11-02) |
 |---|---|
-| Hybrid dense + BM25 retrieval with RRF fusion | **Verified** |
-| Cross-encoder reranking (BGE-reranker-v2-m3) | **Verified** |
-| Structured price/contract SQL retrieval | **Verified** |
-| Supplier/contract/product graph traversal | **Verified** |
-| Citation validation — fabricated markers rejected | **Verified** |
-| Grounding verification before answer delivery | **Verified** |
-| Multi-format ingestion (PDF, DOCX, XLSX, CSV) | **Verified** |
-| OCR for scanned/image-only pages (PaddleOCR) | **Verified** |
-| JWT authentication + Argon2 password hashing | **Verified** |
-| Tenant isolation — cross-tenant data blocked | **Verified** |
-| Prompt-injection detection and containment | **Verified** |
-| Extractive fallback when LLM unavailable | **Verified** |
-| LLM narrative generation (OpenAI-compatible) | **Verified locally with llama3.1:8b** |
-| VLM visual reasoning for complex pages | Implemented — not yet verified in production |
-| Neo4j / Qdrant / MinIO / Redis / PostgreSQL adapters | Implemented — live verified via Docker Compose |
-| Production Qwen3-30B accuracy evaluation | NOT VERIFIED — requires production endpoint |
+| Hybrid dense + BM25 retrieval with RRF fusion | recall@10 **73.4%**, MRR **0.631**, nDCG@10 **0.649**, hit rate@10 **76.1%** |
+| Cross-encoder reranking (top 20) | enabled; MRR 0.621 → 0.631; p50 latency 10.2 s → 6.9 s with concurrent retrieval |
+| Structured price/contract SQL retrieval | exercised by the labelled set; answer correctness **68.3%** overall, not isolated per path |
+| Supplier/contract/product graph traversal | exercised by the labelled set; not measured separately |
+| Citation validation — fabricated markers rejected | citation precision **0.545** (baseline 0.316); unit tests cover fabricated markers |
+| Grounding verification before answer delivery | per-claim entity/date/number binding; verification pass rate **0.50**, `verification_miss` **2** |
+| Prompt-injection detection and containment | 12 security questions in the set; refusal recall **0.846** overall |
+| Refusal behaviour | precision **0.478**, recall **0.846** — over-refuses some comparison questions (see results) |
+| Latency on the local model | p50 **6.9 s**, p95 **10.5 s**, max **43.8 s**; 5 s target not met |
+| Answer generation (OpenAI-compatible) | `qwen2.5-coder:7b`; answer correctness **68.3%** (71/104 answerable) |
+| Deterministic CI evaluation gate | passes; all six tracked metrics equal the committed baseline |
+| Multi-format ingestion (PDF, DOCX, XLSX, CSV) | not measured in this run |
+| OCR for scanned/image-only pages (PaddleOCR) | not measured in this run |
+| JWT authentication + Argon2 password hashing | covered by backend tests; not performance-measured |
+| Tenant isolation — cross-tenant data blocked | covered by backend/security tests; not re-measured |
+| Extractive fallback when LLM unavailable | exercised by the CI gate (no LLM endpoint, exit 0) |
+| VLM visual reasoning for complex pages | not measured — no VLM was configured |
+| Neo4j / Qdrant / MinIO / Redis / PostgreSQL adapters | not measured — the evaluation ran on the local adapters |
+| Production Qwen3-30B accuracy | not measured — requires a production endpoint |
+
+Full before/after table, failure taxonomy and reproduction commands:
+[docs/RESULTS.md](docs/RESULTS.md).
 
 ---
 
@@ -394,7 +400,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions, commit format, co
 | [docs/development.md](docs/development.md) | Full local setup guide, env vars, ingestion, migration |
 | [docs/ci-cd.md](docs/ci-cd.md) | CI pipeline, workflow status, gates policy |
 | [docs/deployment.md](docs/deployment.md) | Docker Compose, production target architecture |
-| [audit.md](audit.md) | Verified capability audit |
+| [docs/RESULTS.md](docs/RESULTS.md) | Measured before/after metrics, failure taxonomy, reproduction commands |
+| [docs/archive/](docs/archive/) | Earlier phase reports and the capability audit |
 | [CHANGELOG.md](CHANGELOG.md) | Per-phase change log |
 | [prd.md](prd.md) | Product requirements document |
 | [data/evaluation/](data/evaluation/) | Golden question set and recorded retrieval metrics |

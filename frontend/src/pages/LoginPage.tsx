@@ -59,8 +59,9 @@ export function LoginPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
       <aside className="hidden flex-col justify-between border-r bg-muted/30 px-10 py-12 lg:flex">
-        <Link to="/" className="w-fit" aria-label="Back to product overview">
+        <Link to="/" className="w-fit">
           <Logo />
+          <span className="sr-only">— back to product overview</span>
         </Link>
         <div className="max-w-md">
           <h2 className="text-xl font-semibold leading-snug tracking-tight">
@@ -86,8 +87,9 @@ export function LoginPage() {
 
       <div className="flex items-center justify-center px-5 py-10">
         <div className="w-full max-w-sm">
-          <Link to="/" className="mb-8 inline-block lg:hidden" aria-label="Back to product overview">
+          <Link to="/" className="mb-8 inline-block lg:hidden">
             <Logo />
+            <span className="sr-only">— back to product overview</span>
           </Link>
 
           <h1 className="text-xl font-semibold tracking-tight">{isSignIn ? "Sign in" : "Create an account"}</h1>

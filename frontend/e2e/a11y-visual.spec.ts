@@ -15,7 +15,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 const API = "http://localhost:8000/api/v1";
 const EMAIL = "admin@epi.local";
-const PASSWORD = "EpiAdmin2026!";
+const PASSWORD = process.env.E2E_PASSWORD ?? "EpiAdmin2026!";
 const TENANT = "acme-procurement";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];

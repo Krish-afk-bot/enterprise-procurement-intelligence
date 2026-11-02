@@ -104,12 +104,21 @@ LLM run's; it measures the pipeline, not the model.
 | Entry bundle, `VITE_ENABLE_WORLD=false` | 467.1 KiB |
 | Entry bundle, `VITE_ENABLE_WORLD=true` | 478.0 KiB |
 | three.js | 838.2 KiB lazy chunk in both builds; never in the entry bundle |
-| Lighthouse | **not measured** — the backend/Docker stack was not running |
-| axe / visual snapshots | Spec added (`frontend/e2e/a11y-visual.spec.ts`), **not executed** for the same reason |
+| axe, WCAG 2.1 A/AA (Ask, Documents, Login) | **3/3 pass** after fixing three real defects |
+| Visual snapshots, light/dark (Ask, Documents, Login) | **6/6 pass**; baselines committed |
+| Lighthouse, production preview, Ask | performance **89**, accessibility **100**; FCP 1.7 s, LCP 2.1 s, TBT 40 ms, CLS 0.188 |
 
 The 3D band is off by default and its scenes are separate lazy chunks; enabling
 the flag adds 10.9 KiB to the entry (the loader) and fetches the three.js chunk
 only when the world mounts.
+
+The accessibility run found real defects rather than only confirming the pages:
+the sidebar wrapped `NavLink` in `TooltipTrigger asChild`, which passes
+`className` through as a string, so React Router's `className` callback never
+ran and every item carried both the active and inactive classes (muted text on
+the active background, 4.46:1). The login brand link and the account button had
+`aria-label`s that omitted their visible text (WCAG 2.5.3). All three are fixed;
+the checks now pass and are committed as a regression gate.
 
 ## Not fixed / not measured
 
@@ -121,9 +130,10 @@ only when the world mounts.
   cross-encoder and generation dominate.
 - OCR/VLM paths, production models and the oracle-mode after-run were not part
   of this final measurement.
-- Lighthouse, axe and visual snapshots could not run because the E2E stack
-  (PostgreSQL, Qdrant, Neo4j, Redis, MinIO) was not up; the specs and baselines
-  are ready for a machine where it is.
+- Lighthouse CLS is 0.188, above the 0.1 "good" threshold; the shifting
+  element was not investigated in this pass.
+- The checks ran against the local SQLite dev database and a production preview
+  build, not the full Docker Compose stack.
 
 ## Reproduce
 
@@ -148,6 +158,11 @@ VITE_ENABLE_WORLD=true npm run build   # compare dist/assets/index-*.js
 
 # Accessibility and visual checks (requires backend :8000, frontend :5173,
 # seeded admin account and the Docker Compose services)
-npx playwright test e2e/a11y-visual.spec.ts --update-snapshots
-npx playwright test e2e/a11y-visual.spec.ts
+# E2E_PASSWORD defaults to the Compose seed; set it for the local dev database.
+E2E_PASSWORD=admin-local-password npx playwright test e2e/a11y-visual.spec.ts
+
+# Lighthouse against the built app (the Ask page needs a signed-in session)
+npm run build
+npx vite preview --port 4173
+npx lighthouse http://localhost:4173/ask --only-categories=performance,accessibility
 ```

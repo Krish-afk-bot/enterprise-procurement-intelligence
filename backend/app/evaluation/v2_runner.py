@@ -101,10 +101,14 @@ class V2Runner:
         self.settings = settings
         self.pipeline = AnswerPipeline(container, settings)
         self.runtime = self.pipeline.runtime
+        self.dataset_file = "questions.json"  # Can be overridden
 
     # ------------------------------------------------------------------ public
     def load_dataset(self, directory: str | None = None) -> V2Dataset:
-        return load_v2_dataset(self.settings.evaluation_dir / "v2" if directory is None else directory)
+        return load_v2_dataset(
+            self.settings.evaluation_dir / "v2" if directory is None else directory,
+            filename=self.dataset_file
+        )
 
     async def run(
         self,

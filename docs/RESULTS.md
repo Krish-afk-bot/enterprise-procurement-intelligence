@@ -1,7 +1,33 @@
 # Results
 
+**Status**: Evaluation trustworthiness improvement in progress. Phase 1 complete (dev/held-out split created). Phases 2-9 documented and scripted in `docs/evaluation-workflow.md`.
+
 Measured results for the review-driven work. Every number below comes from a
 command in this repository; nothing here is estimated.
+
+## Current Status (2026-11-03)
+
+### Completed
+- ✅ **Hold-out split created**: 90 dev questions (18 unanswerable), 40 held-out questions (8 unanswerable), stratified by category
+- ✅ **Analysis scripts ready**: oracle gap analysis, over-refusal analysis, paired bootstrap testing
+- ✅ **Workflow documented**: Complete step-by-step process in `docs/evaluation-workflow.md`
+
+### Next Steps
+1. **Oracle run** (30-45 min): Compare current vs oracle mode on dev set to quantify retrieval vs generation gap
+2. **Over-refusal analysis**: Identify root causes of 24+ false refusals on dev set
+3. **Iterative fixes**: Address largest cause first, validate with statistical tests
+4. **Final held-out run**: Validate on frozen 40-question set
+
+### Why This Matters
+Current results show 28 refusal failures (mostly answerable questions refused). We need to:
+- Understand if failures are retrieval (missing evidence) or generation (bad answers given good evidence)
+- Fix over-refusal without introducing false answers on unanswerable questions
+- Validate fixes with statistical rigor (paired bootstrap, 95% CI)
+- Report final metrics on held-out set to avoid overfitting
+
+## Historical Results (Full 130-question set)
+
+*These results are from before the dev/held-out split. New results will report dev and held-out separately.*
 
 ## Evaluation setup
 

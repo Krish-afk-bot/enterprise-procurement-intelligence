@@ -245,7 +245,7 @@ _CURRENCY_WORDS = {
     "EUR": (r"\beur\b", r"\beuros?\b", "€"),
     "GBP": (r"\bgbp\b", r"\bpounds?\b", "£"),
     "JPY": (r"\bjpy\b", r"\byen\b", "¥"),
-    "USD": (r"\busd\b", r"\bdollars?\b", "$"),
+    "USD": (r"\busd\b", r"\bdollars?\b", r"\$"),
 }
 
 #: Attributes an unanswerable question can ask for while the corpus only holds

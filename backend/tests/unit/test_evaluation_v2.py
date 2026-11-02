@@ -210,3 +210,27 @@ def test_wrong_answer_reported_as_verified_is_a_verification_miss() -> None:
 def test_wrong_answer_not_verified_is_a_generation_error() -> None:
     row = _row(answer_correct=False, status="partial", grounding_total=2, grounding_supported=1)
     assert _failure_label(row) == "generation_error"
+
+
+# ------------------------------------------------------------- runner row scoring
+def test_score_reads_the_grounding_result_keys() -> None:
+    """``GroundingResult.as_dict()`` says ``total_claims``/``supported_claims``.
+
+    The runner used to read ``total``/``supported``, so every row reported 0/0
+    and a supported answer could be mislabelled ``verification_miss``.
+    """
+    from app.evaluation.v2_dataset import V2Question
+    from app.evaluation.v2_runner import V2Runner
+
+    runner = object.__new__(V2Runner)
+    question = V2Question(id="q-1", question="What is the unit price?", category="price_lookup", expected_facts=["100"])
+    row = runner._score(
+        question,
+        {
+            "answer_text": "The unit price is 100.",
+            "status": "partial",
+            "grounding": {"supported_claims": 1, "total_claims": 3},
+        },
+    )
+    assert row["grounding_supported"] == 1
+    assert row["grounding_total"] == 3

@@ -448,3 +448,70 @@ class TestDecideStatusEdgeCases:
             generation_mode="llm",
         )
         assert status == "partial"
+
+
+# ------------------------------------------------- refusal replaces the draft
+async def test_refusal_replaces_the_draft_despite_a_superseded_price_conflict(settings) -> None:
+    """A refusal verdict must replace the draft, not sit beside it.
+
+    ``decide_status`` ignores a price supersession when deciding whether the
+    answer is conflicting, so a question whose coverage is unsatisfied still
+    gets ``insufficient_evidence``. The replacement guard used to test the raw
+    relevant-conflict list, so a supersession about the named supplier skipped
+    the replacement: the row reported a refusal status while returning the
+    ungrounded draft (and scored it as a correct answer).
+    """
+    from app.agents.nodes import AgentRuntime
+    from app.agents.verification import REFUSAL_TEXT
+    from app.config.container import Container
+
+    runtime = AgentRuntime(Container(settings=settings), settings)
+    snippet = "The unit price is USD 92.00."
+    citation = CitationDraft(
+        chunk_id="chk_1",
+        document_id="doc_1",
+        document_name="other.pdf",
+        page=1,
+        snippet=snippet,
+        evidence_type="document",
+        verified=True,
+    )
+    state = {
+        "tenant_id": "tenant-1",
+        "user_id": "user-1",
+        "role": "analyst",
+        "question": "What is the minimum order quantity for the Industrial Laptop X200 from Northwind Industrial Supplies Ltd?",
+        "plan": {
+            "supplier_ids": ["sup_northwind"],
+            "suppliers": ["Northwind Industrial Supplies Ltd"],
+            "product_ids": ["prod_laptop"],
+            "products": ["Industrial Laptop X200"],
+        },
+        "structured": {},
+        "conflicts": [
+            {
+                "kind": "price_supersession",
+                "description": "Northwind Industrial Supplies Ltd revised the laptop price from 920.00 to 874.00.",
+                "resolution": "The later amendment is in force.",
+                "values": [{"supplier_id": "sup_northwind", "product_id": "prod_laptop"}],
+            }
+        ],
+        "answer_text": "The minimum order quantity for the Industrial Laptop X200 is 100 units.",
+        "generation_mode": "llm",
+        "context_blocks": [
+            {
+                "marker": "[1]",
+                "text": f"[1] {snippet}",
+                "content_type": "paragraph",
+                "is_synthetic": False,
+                "injection": {},
+                "citation": citation.as_dict(),
+            }
+        ],
+    }
+
+    state = await runtime.verify(state)
+
+    assert state["status"] == "insufficient_evidence"
+    assert state["validation"]["refusal_triggered"] is True
+    assert state["answer_text"].startswith(REFUSAL_TEXT)

@@ -210,8 +210,10 @@ class V2Runner:
         citation_score = citation_precision(cited_documents, question.expected_documents)
         recall_5 = recall_at_k(retrieved_documents, question.expected_documents, 5)
         recall_10 = recall_at_k(retrieved_documents, question.expected_documents, 10)
-        grounding_total = int(grounding.get("total") or 0)
-        grounding_supported = int(grounding.get("supported") or 0)
+        # ``state['grounding']`` is ``GroundingResult.as_dict()``, whose keys are
+        # ``total_claims``/``supported_claims`` (not ``total``/``supported``).
+        grounding_total = int(grounding.get("total_claims") or 0)
+        grounding_supported = int(grounding.get("supported_claims") or 0)
 
         return {
             "answer_text": answer_text,
@@ -253,6 +255,9 @@ class V2Runner:
             "grounding_supported": grounding_supported,
             "grounding_total": grounding_total,
             "evidence_strength": (state.get("evidence_strength") or {}).get("level"),
+            "answerability": state.get("answerability") or {},
+            "citation_selection": state.get("citation_selection") or {},
+            "grounding_details": grounding.get("details") or {},
             # latency + cost
             "timings_ms": state.get("timings") or {},
             "prompt_tokens": int(token_usage.get("prompt_tokens") or 0),

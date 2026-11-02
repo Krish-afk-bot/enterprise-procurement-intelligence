@@ -8,7 +8,9 @@ from __future__ import annotations
 
 from app.retrieval.query_understanding import (
     Intent,
+    LLMUnderstanding,
     TenantVocabulary,
+    understand_query,
     keyword_terms,
     understand_query_rule_based,
 )
@@ -178,3 +180,48 @@ class TestQueryPlanContract:
         q = "How much does the XL Widget cost per unit?"
         plan = understand_query_rule_based(q)
         assert plan.query == q
+
+
+# ------------------------------------------------------------------ LLM entities
+
+
+class _StubUnderstandingRouter:
+    """Return a fixed LLM understanding, the way a small model invents entities."""
+
+    def __init__(self, understanding: LLMUnderstanding) -> None:
+        self.understanding = understanding
+
+    async def generate_structured(self, messages, schema, *, task=None):  # noqa: ANN001, ANN202
+        return self.understanding
+
+
+async def test_hallucinated_placeholder_suppliers_are_dropped() -> None:
+    # "Which supplier offers the larger volume discount?" names no supplier;
+    # qwen2.5-coder:7b answered with the placeholders "supplier1"/"supplier2".
+    # Keeping them created unsatisfiable constraints and forced a refusal.
+    router = _StubUnderstandingRouter(
+        LLMUnderstanding(intent="comparison", suppliers=["supplier1", "supplier2"])
+    )
+    plan = await understand_query(
+        "Which supplier offers the larger volume discount on the laptop?",
+        router=router,  # type: ignore[arg-type]
+    )
+    assert plan.suppliers == []
+
+
+async def test_unresolved_supplier_mentioned_in_the_query_is_kept() -> None:
+    router = _StubUnderstandingRouter(LLMUnderstanding(suppliers=["Contoso Metals"]))
+    plan = await understand_query(
+        "What is the unit price from Contoso Metals?",
+        router=router,  # type: ignore[arg-type]
+    )
+    assert "Contoso Metals" in plan.suppliers
+
+
+async def test_hallucinated_product_placeholder_is_dropped() -> None:
+    router = _StubUnderstandingRouter(LLMUnderstanding(products=["product1"]))
+    plan = await understand_query(
+        "Which product has the longest delivery lead time?",
+        router=router,  # type: ignore[arg-type]
+    )
+    assert plan.products == []

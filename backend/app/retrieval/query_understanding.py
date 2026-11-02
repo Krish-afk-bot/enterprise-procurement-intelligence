@@ -695,7 +695,12 @@ async def understand_query(
                     method="llm",
                 )
             )
-        elif name not in plan.suppliers:
+        elif name not in plan.suppliers and _name_mentioned(query, name):
+            # Only keep an unresolved name when the reader actually wrote it.
+            # Small models hallucinate placeholders such as "supplier1" for
+            # "which supplier offers the larger discount?"; that phantom entity
+            # then becomes an unsatisfiable coverage constraint and forces a
+            # refusal on a question the corpus can answer.
             plan.suppliers.append(name)
     for name in result.products:
         resolved_product = _resolve_product(name, vocabulary)
@@ -714,7 +719,7 @@ async def understand_query(
                     method="llm",
                 )
             )
-        elif name not in plan.products:
+        elif name not in plan.products and _name_mentioned(query, name):
             plan.products.append(name)
     for number in result.contract_numbers:
         if number not in plan.contract_numbers:

@@ -815,7 +815,11 @@ class AgentRuntime:
             answer_text = f"{INJECTION_REFUSAL_TEXT}\n\nWhy: {INJECTION_REFUSAL_REASON}"
             refusal = True
             citation_check = validate_citations(answer_text, bundle)
-        elif status == "insufficient_evidence" and not conflicts:
+        elif status == "insufficient_evidence":
+            # A status of ``insufficient_evidence`` is the verification verdict;
+            # it must replace the draft even when unrelated superseded prices or
+            # other non-blocking conflicts are present. Otherwise the surface
+            # would report a refusal status while returning the unverified draft.
             # The refusal body carries the refusal and its readable reason only;
             # the sufficiency criteria are structured data that already travel in
             # ``state['sufficiency']`` and are rendered by the interface.

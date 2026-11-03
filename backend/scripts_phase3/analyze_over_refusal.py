@@ -113,8 +113,10 @@ def analyze_over_refusal(results_file: Path, questions_file: Path) -> str:
         if question.get("expected_refusal", False):
             continue  # Not a false refusal
         
-        status = row.get("status", "")
-        if status in ("insufficient_evidence", "refused"):
+        # Check if this row was refused (either status=insufficient_evidence or refusal_triggered)
+        refused = row.get("refused", False)
+        
+        if refused:
             reason = analyze_refusal_reason(row)
             evidence = check_evidence_location(row, question)
             

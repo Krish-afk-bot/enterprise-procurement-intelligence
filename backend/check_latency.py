@@ -1,0 +1,21 @@
+import json
+
+baseline = json.load(open('../data/evaluation/v2/dev-baseline_dev_current_qwen2.5-coder-7b.json'))
+phase4a = json.load(open('../data/evaluation/v2/phase4a_dev_current_qwen2.5-coder-7b.json'))
+
+print('Latency comparison:')
+print(f'  Baseline p50: {baseline["latency_ms"]["p50"]}ms')
+print(f'  Phase4a p50: {phase4a["latency_ms"]["p50"]}ms')
+print(f'  Change: +{phase4a["latency_ms"]["p50"] - baseline["latency_ms"]["p50"]}ms ({(phase4a["latency_ms"]["p50"] / baseline["latency_ms"]["p50"] - 1) * 100:.1f}%)')
+print()
+print(f'  Baseline duration: {baseline["run"]["duration_seconds"]}s for 90 questions')
+print(f'  Phase4a duration: {phase4a["run"]["duration_seconds"]}s for 90 questions')
+print(f'  Change: +{phase4a["run"]["duration_seconds"] - baseline["run"]["duration_seconds"]}s')
+print()
+print(f'  Baseline per question: {baseline["run"]["duration_seconds"] / 90:.1f}s')
+print(f'  Phase4a per question: {phase4a["run"]["duration_seconds"] / 90:.1f}s')
+print()
+print('Token usage:')
+print(f'  Baseline mean prompt: {baseline["tokens"]["prompt_mean"]}')
+print(f'  Phase4a mean prompt: {phase4a["tokens"]["prompt_mean"]}')
+print(f'  Change: +{phase4a["tokens"]["prompt_mean"] - baseline["tokens"]["prompt_mean"]} tokens')

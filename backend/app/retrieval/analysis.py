@@ -18,6 +18,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.clock import today
 from app.db.models import Contract, Document, Price, Product, Supplier
 from app.observability.logging import get_logger
 from app.security.rbac import Principal
@@ -52,7 +53,6 @@ class PriceFact:
     #: Other documents that record the same agreed value (provenance kept).
     also_in: list[dict[str, Any]] = field(default_factory=list)
 
-    from app.core.clock import today
     @property
     def is_expired(self) -> bool:
         return bool(self.expiry_date and self.expiry_date < today())

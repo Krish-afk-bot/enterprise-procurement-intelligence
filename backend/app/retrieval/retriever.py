@@ -388,55 +388,17 @@ class HybridRetriever:
 
         The ordering changes; nothing is deleted, so a conflict between the
         original agreement and a later amendment can still be reported.
-        
-        Changes from baseline:
-        - Expired chunks get 0.5x score penalty, not moved to separate tier
-        - No penalty if document type matches question or question asks about expiry/validity
-        - For temporal queries, use effective date only for supersession within same contract
         """
         from app.core.clock import today
         as_of_date = today()
-        
-        # Check if question is about expiry/validity/expired status
-        question_lower = plan.query.lower() if hasattr(plan, 'query') else ""
-        is_expiry_question = any(
-            term in question_lower 
-            for term in ["expir", "valid", "expired", "in force", "active", "certificate", "compliance", "certification"]
-        )
 
         def sort_key(chunk: RetrievedChunk) -> tuple[int, float]:
+            expired = 1 if (chunk.expiry_date is not None and chunk.expiry_date < as_of_date) else 0
+            effective = chunk.effective_date.toordinal() if chunk.effective_date else 0
             base = chunk.rerank_score if chunk.rerank_score is not None else (chunk.fused_score or 0.0)
-            
-            # Check if document type matches question context
-            doc_type_matches = False
-            if chunk.document_type:
-                doc_type_lower = chunk.document_type.lower()
-                if ("certificate" in question_lower or "compliance" in question_lower) and "certificate" in doc_type_lower:
-                    doc_type_matches = True
-                elif "amendment" in question_lower and "amendment" in doc_type_lower:
-                    doc_type_matches = True
-            
-            # No penalty if asking about expiry/validity or if doc type matches
-            if is_expiry_question or doc_type_matches:
-                if plan.requires_temporal and chunk.effective_date:
-                    # For temporal queries, use effective date for ordering within same contract
-                    # But don't penalize unrelated documents
-                    return (0, -chunk.effective_date.toordinal(), -base)
-                return (0, -base)
-            
-            # Apply soft penalty for expired chunks
-            expired = chunk.expiry_date is not None and chunk.expiry_date < as_of_date
-            if expired:
-                # 0.5x penalty instead of moving to separate tier
-                adjusted_score = base * 0.5
-                return (0, -adjusted_score)
-            
-            # For temporal queries on non-expired chunks, use effective date for supersession
-            if plan.requires_temporal and chunk.effective_date:
-                # Use effective date to prefer newer versions of same contract
-                return (0, -chunk.effective_date.toordinal(), -base)
-            
-            return (0, -base)
+            if plan.requires_temporal:
+                return (expired, -effective)
+            return (expired, -base)
 
         return sorted(chunks, key=sort_key)
 

@@ -389,10 +389,11 @@ class HybridRetriever:
         The ordering changes; nothing is deleted, so a conflict between the
         original agreement and a later amendment can still be reported.
         """
-        today = date.today()
+        from app.core.clock import today
+        as_of_date = today()
 
         def sort_key(chunk: RetrievedChunk) -> tuple[int, float]:
-            expired = 1 if (chunk.expiry_date is not None and chunk.expiry_date < today) else 0
+            expired = 1 if (chunk.expiry_date is not None and chunk.expiry_date < as_of_date) else 0
             effective = chunk.effective_date.toordinal() if chunk.effective_date else 0
             base = chunk.rerank_score if chunk.rerank_score is not None else (chunk.fused_score or 0.0)
             if plan.requires_temporal:

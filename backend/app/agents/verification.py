@@ -756,7 +756,8 @@ def assess_evidence_strength(
         (citation.score or 0.0 for citation in bundle.citations),
         default=0.0,
     )
-    today = date.today()
+    from app.core.clock import today as get_today
+    today = get_today()
     in_force = any(
         (citation.metadata.get("expiry_date") is None)
         or (str(citation.metadata.get("expiry_date")) >= today.isoformat())

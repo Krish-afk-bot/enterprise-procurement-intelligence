@@ -502,7 +502,8 @@ async def _contract_overview(
         statement = statement.where(Contract.supplier_id.in_(plan.supplier_ids))
     rows = (await session.execute(statement.limit(50))).all()
     overviews: list[dict[str, Any]] = []
-    today = date.today()
+    from app.core.clock import today
+    as_of_date = today()
     for contract, supplier_name in rows:
         document_ids = [
             row[0]
@@ -547,7 +548,8 @@ async def _compliance_overview(
     if plan.supplier_ids:
         statement = statement.where(ComplianceCertificate.supplier_id.in_(plan.supplier_ids))
     rows = (await session.execute(statement.limit(100))).all()
-    today = date.today()
+    from app.core.clock import today
+    as_of_date = today()
     return [
         {
             "certificate_id": certificate.id,
@@ -558,7 +560,7 @@ async def _compliance_overview(
             "issued_date": certificate.issued_date.isoformat() if certificate.issued_date else None,
             "expiry_date": certificate.expiry_date.isoformat() if certificate.expiry_date else None,
             "status": certificate.status,
-            "is_expired": bool(certificate.expiry_date and certificate.expiry_date < today),
+            "is_expired": bool(certificate.expiry_date and certificate.expiry_date < as_of_date),
             "source_document_id": certificate.source_document_id,
             "source_document_name": document_title or document_filename,
             "source_page": certificate.source_page,
@@ -621,7 +623,8 @@ async def comparison_matrix(
     as_of: date | None = None,
 ) -> dict[str, Any]:
     """Supplier-vs-supplier matrix built from structured rows (used by /compare)."""
-    as_of = as_of or date.today()
+    from app.core.clock import today
+    as_of = as_of or today()
     facts = await fetch_price_facts(
         session, principal, supplier_ids=supplier_ids, product_ids=product_ids or None, limit=500
     )

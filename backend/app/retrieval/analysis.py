@@ -52,9 +52,10 @@ class PriceFact:
     #: Other documents that record the same agreed value (provenance kept).
     also_in: list[dict[str, Any]] = field(default_factory=list)
 
+    from app.core.clock import today
     @property
     def is_expired(self) -> bool:
-        return bool(self.expiry_date and self.expiry_date < date.today())
+        return bool(self.expiry_date and self.expiry_date < today())
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -234,7 +235,8 @@ def detect_price_conflicts(facts: list[PriceFact], *, as_of: date | None = None)
     shown to disagree with anything until attribution is resolved, and reporting
     them as a conflict would be misleading.
     """
-    as_of = as_of or date.today()
+    from app.core.clock import today
+    as_of = as_of or today()
     grouped: dict[tuple[str | None, str | None], list[PriceFact]] = {}
     for fact in dedupe_price_facts(facts):
         if fact.supplier_id is None:
@@ -360,7 +362,8 @@ def current_price(
     facts: list[PriceFact], *, as_of: date | None = None, supplier_id: str | None = None
 ) -> PriceFact | None:
     """The price in force for a supplier/product on a date, chosen by effective date."""
-    as_of = as_of or date.today()
+    from app.core.clock import today
+    as_of = as_of or today()
     candidates = [fact for fact in facts if supplier_id is None or fact.supplier_id == supplier_id]
     if not candidates:
         return None
@@ -375,7 +378,8 @@ def current_price(
 
 
 def temporal_summary(facts: list[PriceFact], *, as_of: date | None = None) -> dict[str, Any]:
-    as_of = as_of or date.today()
+    from app.core.clock import today
+    as_of = as_of or today()
     return {
         "as_of": as_of.isoformat(),
         "total_price_rows": len(facts),

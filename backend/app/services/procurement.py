@@ -434,7 +434,8 @@ async def contract_detail(session: AsyncSession, principal: Principal, contract_
 def _contract_payload(
     contract: Contract, access_level: str | None = None, *, supplier_name: str | None = None
 ) -> dict[str, Any]:
-    today = date.today()
+    from app.core.clock import today
+    as_of_date = today()
     return {
         "id": contract.id,
         "supplier_id": contract.supplier_id,

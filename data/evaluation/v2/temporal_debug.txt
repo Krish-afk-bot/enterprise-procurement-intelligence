@@ -1,0 +1,52 @@
+2026-11-03 10:46:44 [info     ] container_started              cache=memory fallbacks=[] graph=local llm_configured=False storage=local vector=local
+Today's date (for expiry check): 2026-11-03
+Eval DB: sqlite+aiosqlite:///C:/Users/user/OneDrive/Desktop/Sprint 2/backend/var/eval-v2/eval.db
+Reranker: True
+
+================================================================================
+Question: v2-compl-002
+Text: What is the certificate number of Northwind's ISO 9001:2015 certification?
+Expected docs: ['supplier_a_compliance_certificate.pdf']
+
+2026-11-03 10:47:08 [info     ] embedding_model_loaded         device=cuda dim=384 model=BAAI/bge-small-en-v1.5
+2026-11-03 10:47:09 [info     ] bm25_index_built               chunks=36 tenant_id=ten_35935b0f94d447a29e9bfce09fa7e37a
+Plan: requires_temporal=False, filters={}
+Retrieved 10 chunks
+
+| Doc Name | Doc Type | Effective | Expiry | Fused | Rerank | Before | After | Expired? |
+|----------|----------|-----------|--------|-------|--------|--------|-------|----------|
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.032 | None   |      1 |     1 | no       |
+| security_fixture_inj | contract     | None       | None       | 0.031 | None   |      2 |     2 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.031 | None   |      3 |     3 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.030 | None   |      4 |     4 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.029 | None   |      5 |     5 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.028 | None   |      6 |     6 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.028 | None   |      7 |     7 | no       |
+| supplier_a_amendment | amendment    | 2026-01-01 | None       | 0.028 | None   |      8 |     8 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.028 | None   |      9 |     9 | no       |
+| supplier_a_master_co | contract     | 2024-01-01 | 2026-12-31 | 0.028 | None   |     10 |    10 | no       |
+
+No certificate chunks found
+
+No Supplier C chunks found
+
+Traceback (most recent call last):
+  File "C:\Users\user\OneDrive\Desktop\Sprint 2\backend\scripts_phase3\debug_temporal_rank.py", line 256, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Program Files\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Program Files\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Program Files\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\user\OneDrive\Desktop\Sprint 2\backend\scripts_phase3\debug_temporal_rank.py", line 249, in main
+    print("\u2717 HYPOTHESIS NOT CONFIRMED: No expired chunks moved down")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2717' in position 0: character maps to <undefined>

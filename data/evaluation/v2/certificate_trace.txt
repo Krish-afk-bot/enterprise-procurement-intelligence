@@ -1,0 +1,162 @@
+2026-11-03 11:00:03 [info     ] container_started              cache=memory fallbacks=[] graph=local llm_configured=False storage=local vector=local
+Certificate document: supplier_a_compliance_certificate.pdf
+Certificate chunks: 1
+  First chunk content: CERTIFICATE OF COMPLIANCE
+Supplier: Northwind Industrial Supplies Ltd
+Contract Reference: NS-2024-00
+  Expiry date: 2026-04-30
+
+Today's date for expiry check: 2026-11-03
+Settings: fusion_top_k=50, rerank_top_n=15, rrf_k=60
+
+================================================================================
+Question: v2-compl-002
+Text: What is the certificate number of Northwind's ISO 9001:2015 certification?
+Expected docs: ['supplier_a_compliance_certificate.pdf']
+Plan: requires_temporal=False, supplier_ids=['sup_0fdef056140b47aabf56ce5d286e584a']
+Scoped filters: {'supplier_id': 'sup_0fdef056140b47aabf56ce5d286e584a', 'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+2026-11-03 11:00:22 [info     ] embedding_model_loaded         device=cuda dim=384 model=BAAI/bge-small-en-v1.5
+2026-11-03 11:00:22 [info     ] bm25_index_built               chunks=36 tenant_id=ten_35935b0f94d447a29e9bfce09fa7e37a
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | rank 1 | 28 hits |
+| Sparse search | DONE | rank 1 | 20 hits |
+| Fusion (RRF) | DONE | rank 1 | 28 fused |
+| Top 50 candidates | DONE | rank 1 | 28 kept |
+| Auth filter | DONE | rank 1 | 0 dropped |
+| Rerank | GATED | rank 1 | 28 chunks |
+| Before temporal | DONE | rank 1 | requires_temporal=False |
+| After temporal | DONE | rank 28 | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 8: Ranked below position 15 after temporal**
+
+================================================================================
+Question: v2-compl-003
+Text: What is the certificate number of Northwind's ISO 14001:2015 certification?
+Expected docs: ['supplier_a_compliance_certificate.pdf']
+Plan: requires_temporal=False, supplier_ids=['sup_0fdef056140b47aabf56ce5d286e584a']
+Scoped filters: {'supplier_id': 'sup_0fdef056140b47aabf56ce5d286e584a', 'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | rank 1 | 28 hits |
+| Sparse search | DONE | rank 1 | 20 hits |
+| Fusion (RRF) | DONE | rank 1 | 28 fused |
+| Top 50 candidates | DONE | rank 1 | 28 kept |
+| Auth filter | DONE | rank 1 | 0 dropped |
+| Rerank | GATED | rank 1 | 28 chunks |
+| Before temporal | DONE | rank 1 | requires_temporal=False |
+| After temporal | DONE | rank 28 | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 8: Ranked below position 15 after temporal**
+
+================================================================================
+Question: v2-compl-004
+Text: When was Northwind's ISO 9001:2015 certificate issued?
+Expected docs: ['supplier_a_compliance_certificate.pdf']
+Plan: requires_temporal=False, supplier_ids=['sup_0fdef056140b47aabf56ce5d286e584a']
+Scoped filters: {'supplier_id': 'sup_0fdef056140b47aabf56ce5d286e584a', 'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | rank 1 | 28 hits |
+| Sparse search | DONE | rank 1 | 5 hits |
+| Fusion (RRF) | DONE | rank 1 | 28 fused |
+| Top 50 candidates | DONE | rank 1 | 28 kept |
+| Auth filter | DONE | rank 1 | 0 dropped |
+| Rerank | GATED | rank 1 | 28 chunks |
+| Before temporal | DONE | rank 1 | requires_temporal=False |
+| After temporal | DONE | rank 28 | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 8: Ranked below position 15 after temporal**
+
+================================================================================
+Question: v2-compl-005
+Text: When was Northwind's ISO 14001:2015 certificate issued?
+Expected docs: ['supplier_a_compliance_certificate.pdf']
+Plan: requires_temporal=False, supplier_ids=['sup_0fdef056140b47aabf56ce5d286e584a']
+Scoped filters: {'supplier_id': 'sup_0fdef056140b47aabf56ce5d286e584a', 'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | rank 1 | 28 hits |
+| Sparse search | DONE | rank 1 | 5 hits |
+| Fusion (RRF) | DONE | rank 1 | 28 fused |
+| Top 50 candidates | DONE | rank 1 | 28 kept |
+| Auth filter | DONE | rank 1 | 0 dropped |
+| Rerank | GATED | rank 1 | 28 chunks |
+| Before temporal | DONE | rank 1 | requires_temporal=False |
+| After temporal | DONE | rank 28 | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 8: Ranked below position 15 after temporal**
+
+================================================================================
+Question: v2-rel-008
+Text: Which supplier and contract does the certificate of compliance reference?
+Expected docs: ['supplier_a_compliance_certificate.pdf']
+Plan: requires_temporal=False, supplier_ids=[]
+Scoped filters: {'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | rank 1 | 36 hits |
+| Sparse search | DONE | rank 1 | 27 hits |
+| Fusion (RRF) | DONE | rank 1 | 36 fused |
+| Top 50 candidates | DONE | rank 1 | 36 kept |
+| Auth filter | DONE | rank 1 | 0 dropped |
+| Rerank | GATED | rank 1 | 36 chunks |
+| Before temporal | DONE | rank 1 | requires_temporal=False |
+| After temporal | DONE | rank 35 | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 8: Ranked below position 15 after temporal**
+
+================================================================================
+Question: v2-comp-009
+Text: Compare the compliance certifications held by Northwind and Helios.
+Expected docs: ['supplier_a_compliance_certificate.pdf', 'supplier_b_supply_agreement_HTP-2024-014.pdf']
+Plan: requires_temporal=False, supplier_ids=['sup_0fdef056140b47aabf56ce5d286e584a', 'sup_4e63e5c1b2ad4b698387f82c3847592e']
+Scoped filters: {'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | rank 3 | 36 hits |
+| Sparse search | DONE | rank 5 | 18 hits |
+| Fusion (RRF) | DONE | rank 3 | 36 fused |
+| Top 50 candidates | DONE | rank 3 | 36 kept |
+| Auth filter | DONE | rank 3 | 0 dropped |
+| Rerank | GATED | rank 3 | 36 chunks |
+| Before temporal | DONE | rank 3 | requires_temporal=False |
+| After temporal | DONE | rank 35 | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 8: Ranked below position 15 after temporal**
+
+================================================================================
+Question: v2-agg-002
+Text: What was the total 2025 award value with Helios Technology Partners?
+Expected docs: []
+Plan: requires_temporal=False, supplier_ids=['sup_4e63e5c1b2ad4b698387f82c3847592e']
+Scoped filters: {'supplier_id': 'sup_4e63e5c1b2ad4b698387f82c3847592e', 'tenant_id': 'ten_35935b0f94d447a29e9bfce09fa7e37a', 'access_level': {'$in': ['public', 'internal', 'confidential', 'restricted']}}
+
+2026-11-03 11:00:28 [info     ] reranker_loaded                device=cuda model=BAAI/bge-reranker-v2-m3
+2026-11-03 11:00:28 [info     ] rerank_complete                candidates=7 latency_ms=240
+| Stage | Status | Certificate | Details |
+|-------|--------|------------|---------|
+| Dense search | DONE | NOT FOUND | 7 hits |
+| Sparse search | DONE | NOT FOUND | 3 hits |
+| Fusion (RRF) | DONE | NOT FOUND | 7 fused |
+| Top 50 candidates | DONE | NOT FOUND | 7 kept |
+| Auth filter | DONE | NOT FOUND | 0 dropped |
+| Rerank | RERANKED | NOT FOUND | 7 chunks |
+| Before temporal | DONE | NOT FOUND | requires_temporal=False |
+| After temporal | DONE | NOT FOUND | 0 expired chunks |
+| Top-15 cut | DONE | NOT FOUND | final result |
+
+**Certificate first lost at: STAGE 1-2: Not in dense or sparse search results**
+

@@ -19,6 +19,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
+from app.core.clock import today as get_today
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -1000,7 +1001,7 @@ class IngestionPipeline:
                     effective_date=meta.effective_date,
                     expiry_date=meta.expiry_date,
                     status="active"
-                    if (meta.expiry_date is None or meta.expiry_date >= date.today())
+                    if (meta.expiry_date is None or meta.expiry_date >= get_today())
                     else "expired",
                     version=(meta.amendment_number + 1) if meta.amendment_number else (meta.version or 1),
                     is_synthetic=meta.is_synthetic,
@@ -1029,7 +1030,7 @@ class IngestionPipeline:
                     contract.total_value = meta.total_value
                 if meta.currency and contract.currency in {None, "USD"}:
                     contract.currency = meta.currency
-                if meta.expiry_date is None or meta.expiry_date >= date.today():
+                if meta.expiry_date is None or meta.expiry_date >= get_today():
                     contract.status = "active"
                 else:
                     contract.status = "expired"
@@ -1093,7 +1094,7 @@ class IngestionPipeline:
                     issued_date=extracted_cert.issued_date,
                     expiry_date=extracted_cert.expiry_date,
                     status="active"
-                    if (extracted_cert.expiry_date is None or extracted_cert.expiry_date >= date.today())
+                    if (extracted_cert.expiry_date is None or extracted_cert.expiry_date >= get_today())
                     else "expired",
                     scope=extracted_cert.scope,
                     source_document_id=document_id,
@@ -1107,7 +1108,7 @@ class IngestionPipeline:
 
             if contract is not None:
                 contract_status = "active"
-                if contract.expiry_date and contract.expiry_date < date.today():
+                if contract.expiry_date and contract.expiry_date < get_today():
                     contract_status = "expired"
                 contract.status = contract_status
                 if supplier is not None:

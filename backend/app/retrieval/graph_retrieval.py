@@ -313,7 +313,8 @@ async def _compliance_paths(
             )
         )
     ).all()
-    today = date.today()
+    from app.core.clock import today
+    as_of_date = today()
     paths: list[dict[str, Any]] = []
     for certificate, supplier_name, title, filename in rows:
         in_force = certificate.status == "active" and not (

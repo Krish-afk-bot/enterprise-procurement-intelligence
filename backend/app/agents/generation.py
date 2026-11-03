@@ -327,12 +327,13 @@ def _display_aggregations(question: str, structured: StructuredResult) -> list[A
 
 def _preferred_of(facts: list[Any]) -> Any:
     """The row that governs today: in force first, then the latest effective date."""
-    today = date.today()
+    from app.core.clock import today
+    as_of_date = today()
     in_force = [
         fact
         for fact in facts
-        if (fact.effective_date is None or fact.effective_date <= today)
-        and (fact.expiry_date is None or fact.expiry_date >= today)
+        if (fact.effective_date is None or fact.effective_date <= as_of_date)
+        and (fact.expiry_date is None or fact.expiry_date >= as_of_date)
     ]
     pool = in_force or list(facts)
     return max(pool, key=lambda fact: (fact.effective_date or date.min, fact.amendment_ref or ""))

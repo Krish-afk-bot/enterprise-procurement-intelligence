@@ -135,3 +135,32 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+  # ------------------------------------------------------------------ eval gate
+  eval-gate:
+    name: Evaluation — Retrieval Accuracy
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Advisory only, does not block PR
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e ".[eval]"
+
+      - name: Run retrieval evaluation
+        run: |
+          python scripts_phase3/eval_retrieval.py --limit 50 || true
+          echo "Evaluation complete (advisory only)"

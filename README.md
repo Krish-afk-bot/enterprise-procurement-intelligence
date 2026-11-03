@@ -165,6 +165,61 @@ Expected: `{"status":"ok","degraded":false,...}`
 
 ---
 
+## 👤 User Flow and Default Credentials
+
+### Default Test Credentials
+
+When self-registration is enabled (`ALLOW_SELF_REGISTRATION=true` in `.env`), you can create accounts through the UI. For testing purposes, the following credentials are commonly used in development:
+
+| Email | Password | Role |
+|---|---|---|
+| `admin@epi.local` | `admin-local-password` | Admin |
+| `buyer@epi.local` | `buyer-local-password` | Analyst/Buyer |
+
+**Bootstrap Admin:** Set `BOOTSTRAP_ADMIN_EMAIL` and `BOOTSTRAP_ADMIN_PASSWORD` in `.env` to create an admin user automatically on first startup.
+
+### User Flow
+
+1. **Registration/Login**
+   - Navigate to `http://localhost:5173`
+   - Register a new account or log in with existing credentials
+   - JWT tokens are issued (access token valid for 15 minutes, refresh token for 7 days)
+   - Tokens are stored securely (httpOnly cookies for refresh, memory for access)
+
+2. **Document Upload** (Admin/Analyst roles)
+   - Navigate to **Documents** page
+   - Click **Upload Document**
+   - Select PDF/DOCX/XLSX/CSV files (max 100MB per file)
+   - Documents are:
+     - Parsed and chunked
+     - OCR applied to scanned pages (if `OCR_ENABLED=true`)
+     - Embedded with BGE model
+     - Indexed in vector store
+     - Metadata stored in PostgreSQL/SQLite
+
+3. **Ask Questions**
+   - Navigate to **Ask** page
+   - Type your procurement question (e.g., "What is the price for Product X from Supplier A?")
+   - The system:
+     - Understands intent and extracts entities
+     - Retrieves relevant evidence (hybrid dense + BM25 + structured SQL)
+     - Generates an answer with citations
+     - Validates grounding and citations
+     - Returns answer with page-level evidence
+   - Click citation markers `[1]` `[2]` to view source documents
+
+4. **View Suppliers & Contracts** (optional)
+   - Navigate to **Suppliers** page
+   - Browse supplier relationships and contracts
+   - Explore the knowledge graph visualization
+
+5. **Admin Functions** (Admin role only)
+   - **User Management:** Create users, assign roles, manage tenants
+   - **Document Management:** View all documents, delete, re-ingest
+   - **System Monitoring:** View health status, provider status, audit logs
+
+---
+
 ## ⚙️ Configuration
 
 Copy `.env.example` to `.env` and set the values relevant to your environment. The most important variables:

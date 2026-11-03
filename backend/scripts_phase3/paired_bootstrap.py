@@ -35,7 +35,7 @@ def get_metric_values(report: dict, metric_path: str) -> list[float | bool]:
     rows = report.get("rows", [])
     
     if metric_path == "answer.correct":
-        return [1.0 if row.get("facts_found", 0) == row.get("facts_expected", 1) else 0.0 for row in rows]
+        return [1.0 if row.get("answer_correct") else 0.0 for row in rows]
     
     elif metric_path == "refusal.false_refusal":
         # false refusal: expected_refusal=false but status=insufficient_evidence or refused

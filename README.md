@@ -7,298 +7,438 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.141+-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB.svg)](https://reactjs.org/)
 
-> Multi-agent RAG platform for procurement intelligence with hybrid retrieval, knowledge graphs, and evidence grounding.
+> Graph-enhanced RAG platform with multi-agent orchestration, hybrid retrieval, model routing, and MCP interoperability for procurement intelligence.
 
 **Live Demo:** [enterprise-procurement-intelligence-n04pc4po3.vercel.app](https://enterprise-procurement-intelligence-n04pc4po3.vercel.app)  
 **API:** [enterprise-procurement-intelligence.onrender.com](https://enterprise-procurement-intelligence.onrender.com)  
-**Docs:** [/docs](https://enterprise-procurement-intelligence.onrender.com/docs)
+**API Docs:** [/docs](https://enterprise-procurement-intelligence.onrender.com/docs)
 
 ---
 
 ## The Problem
 
-Procurement data lives in fragmented silos—contracts in document management systems, supplier information in ERP databases, compliance certificates in email attachments, pricing schedules in spreadsheets. Traditional keyword search cannot answer questions like *"Which suppliers have active ISO 27001 certificates and pricing below market rate?"* because the evidence spans multiple sources and requires reasoning over relationships.
+Procurement data lives fragmented across systems—contracts in document repositories, supplier records in ERP databases, compliance certificates in email, pricing schedules in spreadsheets. Traditional keyword search cannot answer *"Which suppliers have active ISO 27001 certificates and pricing below £50k?"* because evidence spans multiple sources and requires reasoning over entity relationships, temporal validity, and numerical comparisons.
 
 ## The Solution
 
-EPI is a graph-enhanced RAG platform that unifies documents, structured data, and entity relationships into a queryable intelligence layer. Every answer is grounded in source evidence with page-level citations. The system routes queries through specialized retrieval strategies—dense vectors for semantic similarity, BM25 for precise keyword matching, graph traversal for multi-hop entity relationships, and SQL for structured aggregations.
+EPI unifies documents, structured procurement data, and entity relationships into a queryable intelligence layer. The system classifies incoming queries by intent and complexity, routes them through specialized retrieval strategies (dense vectors, BM25 sparse, graph traversal, SQL aggregations), and grounds every answer in source evidence with page-level citations. A LangGraph agent orchestrates parallel evidence gathering, evaluation, optional query rewriting, generation, and grounding verification in a corrective loop that stops when evidence is sufficient or iteration limits are reached.
 
 ---
 
-## Platform Capabilities
+## Core Capabilities
 
-**Document Intelligence**
-- Parse and index procurement documents (PDF, DOCX, XLSX, scanned images)
-- OCR with PaddleOCR for text extraction from images
-- Layout-aware parsing preserving tables, sections, and formatting
-- Semantic chunking with 320-token targets and 60-token overlap
-- Chunk enrichment with document metadata for improved context
-
-**Retrieval Engineering**
-- **Dense retrieval**: BAAI/bge-m3 embeddings (1024-dim) via sentence-transformers
-- **Sparse retrieval**: BM25 keyword matching via rank-bm25
-- **Cross-encoder reranking**: BAAI/bge-reranker-v2-m3 for precision
-- **Reciprocal Rank Fusion**: Hybrid combination of dense and sparse results
-- **Measured performance**: Recall@10: 86.8%, MRR: 0.802, nDCG@10: 0.819 (120-question benchmark)
-
-**Knowledge Graph & GraphRAG**
-- Neo4j property graph connecting suppliers, contracts, buyers, products, prices, compliance certificates, documents, clauses, and obligations
-- Entity extraction and normalization during ingestion
-- Multi-hop graph traversal for relationship queries
-- Graph-enhanced retrieval combining vector search with entity expansion
-- Provenance tracking for all extracted entities
-
-**Multi-Agent Orchestration**
-- LangGraph pipeline with query understanding, planning, parallel retrieval, evidence evaluation, generation, and verification nodes
-- Intelligent task routing selecting optimal retrieval strategies per query type
-- Evidence-grounded generation with claim-to-citation binding
-- Confidence scoring and unsupported claim detection
+**Multi-Agent Orchestration (LangGraph)**
+- 11-node agent graph: understand → plan → parallel evidence → vision → evaluate → (rewrite loop) → generate → verify → finalize
+- Query understanding with entity linking against tenant vocabulary (suppliers, products, contracts)
+- Parallel evidence gathering: dense retrieval, BM25 sparse, graph traversal, SQL aggregations execute concurrently
+- Evidence evaluation with sufficiency scoring and conflict detection
+- Bounded corrective loop (max 2 iterations by default) with query rewriting
+- Grounding verification: claim extraction, evidence binding, unsupported claim detection
 - Extractive fallback when no LLM is configured
 
-**Model Context Protocol (MCP)**
-- MCP server exposing procurement intelligence tools
-- Standard tool schemas for document search, contract retrieval, supplier lookup, and structured queries
-- Authorization and tenant context enforcement
-- Audit trail for all tool invocations
+**Intelligent Classification & Model Routing**
+- **Query Intent Classification** (9 categories): price_lookup, contract_terms, comparison, temporal_change, compliance_check, aggregation, relationship, document_lookup, general
+- **Model Task Routing** (8 routing tasks): classify, plan, rewrite, generate, compare, verify, vision, extract
+- **Complexity-based tiering**: routes high-complexity tasks to large LLM, simple extractions to small LLM
+- **Deterministic engines**: Python for arithmetic, SQL for aggregations, Neo4j Cypher for graph traversal
+- **Fallback handling**: Vision unavailable → text evidence; LLM unavailable → extractive mode
+
+**Hybrid Retrieval Engineering**
+- **Dense retrieval**: BAAI/bge-m3 embeddings (1024-dim) via sentence-transformers, cosine similarity
+- **Sparse retrieval**: BM25 keyword matching via rank-bm25
+- **Reciprocal Rank Fusion (RRF)**: combines dense and sparse rankings with configurable k=45
+- **Cross-encoder reranking**: BAAI/bge-reranker-v2-m3 for precision (reranks top-50 to top-15)
+- **Measured performance** (120-question benchmark): Recall@10: **86.8%**, MRR: **0.802**, nDCG@10: **0.819**
+
+**Knowledge Graph & GraphRAG**
+- Neo4j property graph: 9 node types (Supplier, Contract, Buyer, Product, Price, Compliance, Document, Clause, Obligation)
+- Entity extraction during document ingestion with rule-based and optional LLM parsers
+- Entity normalization and linking to tenant vocabulary
+- Multi-hop graph traversal (1-3 hops) with temporal filtering (as_of date support)
+- Graph-enhanced retrieval: entity expansion → vector search → reranking → synthesis
+- Provenance tracking: all nodes include tenant_id and source_doc_id
+
+**Document Intelligence**
+- **Supported formats**: PDF (native + scanned OCR), DOCX, XLSX, JPG/PNG (PaddleOCR)
+- **Parsing**: PyMuPDF for PDF text/tables/images, python-docx for Word, openpyxl for Excel
+- **Semantic chunking**: 320-token target, 700-token max, 60-token overlap, sentence-boundary-aware
+- **Metadata extraction**: Contract number, parties, dates, values, CPV codes, clause detection
+- **Chunk enrichment**: Prepends document metadata (title, supplier, date) for improved context
+- **Pipeline**: Upload → validation → S3/MinIO storage → parsing → OCR → chunking → embedding → vector index + graph index
+
+**Model Context Protocol (MCP) Server**
+- **9 registered tools** exposing read-only procurement intelligence
+- **stdio transport**: Compatible with Claude Desktop, Cline, and MCP-enabled assistants
+- **Authorization**: Every tool call validates tenant context and RBAC permissions
+- **Audit logging**: All invocations logged to audit_logs table with timestamp, principal, inputs, outcomes
+- **Tools**: search_documents, get_document, search_contracts, get_supplier_profile, get_contract_amendments, get_ingestion_status, get_evaluation_metrics, search_graph, get_entity_neighbours
 
 **Security & Multi-Tenancy**
-- JWT-based authentication with access and refresh tokens
-- Role-based access control (RBAC): admin, analyst, viewer
-- Tenant isolation at database, vector, and graph layers
-- Document-level authorization
-- Audit logging with structured event capture
+- JWT authentication (HS256, 15-min access tokens, 7-day refresh tokens in httpOnly cookies)
+- Role-based access control: admin, analyst, viewer with permission checks (e.g., docs:read, query:ask)
+- Tenant isolation at database, vector store, and graph layers
+- Document-level authorization with access_level field
+- Audit logging with structured events (authentication, document access, query execution, admin actions)
+- Argon2 password hashing, CORS whitelist, request ID tracing, Pydantic input validation
 
 ---
 
-## Architecture
+## System Architecture
 
 ```mermaid
 graph TB
-    subgraph Frontend
-        UI[React SPA<br/>TypeScript + Vite]
+    subgraph "Frontend Layer"
+        UI[React SPA<br/>TypeScript + Vite<br/>15+ pages]
     end
 
-    subgraph "API Layer"
-        API[FastAPI REST API<br/>70+ endpoints]
-        Auth[JWT Auth & RBAC]
+    subgraph "API Gateway"
+        API[FastAPI<br/>70+ REST endpoints]
+        Auth[JWT + RBAC<br/>Tenant isolation]
         API --> Auth
     end
 
-    subgraph "Agent Orchestration"
-        LG[LangGraph Pipeline]
-        Plan[Query Planning]
-        Retrieve[Evidence Retrieval]
-        Generate[Answer Generation]
-        Verify[Grounding Verification]
+    subgraph "LangGraph Agent Orchestration"
+        Understand[Query Understanding<br/>Entity linking]
+        Plan[Query Planning<br/>Intent + routing]
+        Parallel[Parallel Evidence<br/>Dense ‖ Sparse ‖ Graph ‖ SQL]
+        Vision[Vision Processing<br/>VLM for images]
+        Evaluate[Evidence Evaluation<br/>Sufficiency + conflicts]
+        Rewrite[Query Rewriting<br/>Corrective loop]
+        Generate[Answer Generation<br/>LLM or extractive]
+        Verify[Grounding Verification<br/>Claim-evidence binding]
         
-        LG --> Plan --> Retrieve --> Generate --> Verify
+        Understand --> Plan --> Parallel --> Vision --> Evaluate
+        Evaluate -->|Insufficient| Rewrite --> Parallel
+        Evaluate -->|Sufficient| Generate --> Verify
+    end
+
+    subgraph "Model Router"
+        IntentClass[Intent Classifier<br/>9 query types]
+        TaskRoute[Task Router<br/>8 routing tasks]
+        ModelTier[Model Tier Selection<br/>LLM/Small/VLM/SQL/Graph]
+        
+        Plan --> IntentClass --> TaskRoute --> ModelTier
     end
 
     subgraph "Retrieval Engine"
-        Dense[Dense Search<br/>bge-m3 embeddings]
-        Sparse[BM25 Sparse<br/>rank-bm25]
-        Graph[Graph Traversal<br/>Cypher queries]
-        SQL[Structured Queries<br/>PostgreSQL]
-        Rerank[Cross-Encoder<br/>bge-reranker-v2-m3]
+        Dense[Dense Search<br/>bge-m3 embeddings<br/>Top-50]
+        Sparse[BM25 Sparse<br/>rank-bm25<br/>Top-50]
+        GraphTrav[Graph Traversal<br/>Neo4j Cypher<br/>Multi-hop]
+        SQLQuery[SQL Aggregations<br/>PostgreSQL<br/>Exact answers]
+        RRF[Reciprocal Rank Fusion<br/>k=45]
+        Rerank[Cross-Encoder Reranking<br/>bge-reranker-v2-m3<br/>Top-15]
         
-        Retrieve --> Dense
-        Retrieve --> Sparse
-        Retrieve --> Graph
-        Retrieve --> SQL
-        Dense --> Rerank
-        Sparse --> Rerank
+        Parallel --> Dense
+        Parallel --> Sparse
+        Parallel --> GraphTrav
+        Parallel --> SQLQuery
+        Dense --> RRF
+        Sparse --> RRF
+        RRF --> Rerank
     end
 
-    subgraph "Document Intelligence"
-        Upload[Document Upload]
-        Parse[Parser<br/>PDF/DOCX/XLSX/OCR]
-        Chunk[Semantic Chunking]
-        Embed[Embedding Generation]
-        Index[Vector Indexing]
+    subgraph "MCP Tool Boundary"
+        MCPServer[MCP Server<br/>stdio transport]
+        MCPTools[9 Read Tools<br/>search/get/profile]
+        MCPGuard[Authorization Guard<br/>Tenant context + RBAC]
         
-        Upload --> Parse --> Chunk --> Embed --> Index
+        MCPServer --> MCPGuard --> MCPTools
+    end
+
+    subgraph "Document Intelligence Pipeline"
+        Upload[Upload & Validate<br/>Size, type, malware]
+        Parse[Format Parser<br/>PDF/DOCX/XLSX/OCR]
+        Extract[Metadata Extraction<br/>Contract data, clauses]
+        Chunk[Semantic Chunking<br/>320 tokens, 60 overlap]
+        Embed[Embedding Generation<br/>bge-m3]
+        VIndex[Vector Indexing<br/>Qdrant or local]
+        GIndex[Graph Indexing<br/>Neo4j entities]
+        
+        Upload --> Parse --> Extract --> Chunk --> Embed --> VIndex
+        Extract --> GIndex
     end
 
     subgraph "Storage Layer"
-        PG[(PostgreSQL<br/>24 tables)]
-        VDB[(Qdrant<br/>Vector Store)]
-        Neo[(Neo4j<br/>Property Graph)]
-        S3[(S3/MinIO<br/>Documents)]
-        
-        Index --> VDB
-        Parse --> S3
-        Generate --> PG
+        PG[(PostgreSQL<br/>24 tables<br/>Relational data)]
+        VDB[(Qdrant<br/>Dense vectors<br/>1024-dim)]
+        Neo[(Neo4j<br/>Property graph<br/>9 node types)]
+        S3[(S3/MinIO<br/>Document blobs)]
+        Redis[(Redis<br/>Response cache)]
     end
 
-    UI -.HTTP/SSE.-> API
-    API --> LG
+    UI -->|HTTP/SSE| API
+    API --> Understand
     Rerank --> Generate
-    Parse --> Neo
-    Chunk --> PG
-
-    style LG fill:#4a90e2
-    style Rerank fill:#50c878
+    Parse --> S3
+    Embed --> VDB
+    Extract --> Neo
+    Generate --> PG
+    MCPTools --> PG
+    MCPTools --> VDB
+    MCPTools --> Neo
+    
+    GraphTrav -.->|Cypher| Neo
+    SQLQuery -.->|SQL| PG
+    Dense -.->|Vector search| VDB
+    
+    style Understand fill:#4a90e2
+    style ModelTier fill:#e25050
+    style RRF fill:#50c878
     style Neo fill:#e25050
-    style VDB fill:#9b59b6
+    style MCPServer fill:#f39c12
 ```
+
+**Architecture Notes:**
+- **Logical vs Deployed**: Diagram shows complete architecture. Current Render deployment uses SQLite (not PostgreSQL), local vectors (not Qdrant), local graph (not Neo4j). Configurable via environment variables.
+- **MCP as Tool Boundary**: MCP server is separate from core retrieval—it exposes read tools over protocol, not a retrieval algorithm.
+- **Parallel Evidence**: Dense, sparse, graph, and SQL execute concurrently in agent's parallel node.
 
 ---
 
-## Intelligent Task Classification & Model Routing
+## Intelligent Classification & Model Routing
 
-EPI implements **task-aware routing** that selects retrieval strategies and model tiers based on query characteristics:
+EPI implements a **two-level routing system**:
 
-### Task Classification Pipeline
+1. **Query Intent Classification** → Determines **what** the user is asking (business logic)
+2. **Model Task Routing** → Determines **which model/engine** to use (infrastructure)
 
-```mermaid
-graph LR
-    Query[User Query] --> Understand[Query Understanding]
-    Understand --> Extract[Entity Extraction]
-    Understand --> Intent[Intent Classification]
-    Extract --> Plan[Query Planning]
-    Intent --> Plan
-    Plan --> Route{Task Router}
-    
-    Route -->|Factual Lookup| Dense[Dense Retrieval]
-    Route -->|Precise Match| Sparse[BM25 Sparse]
-    Route -->|Entity Relationship| Graph[Graph Traversal]
-    Route -->|Aggregation| SQL[Structured Query]
-    Route -->|Complex Reasoning| Multi[Multi-Strategy]
-    
-    style Route fill:#e25050
-    style Plan fill:#4a90e2
-```
+### Level 1: Query Intent Classification (9 Categories)
 
-### Supported Task Categories
+Implemented in `backend/app/retrieval/query_understanding.py` as `Intent` enum.
 
-| Task Type | Classification Signals | Retrieval Strategy | Example Query |
-|-----------|----------------------|-------------------|---------------|
-| **Factual Lookup** | Single entity, specific fact | Dense → Rerank | *"What is the contract value for supplier X?"* |
-| **Document Search** | Document-level request | Dense + Sparse hybrid | *"Find contracts mentioning ISO 27001"* |
-| **Entity Relationship** | Multiple entities, relationships | Graph traversal + Dense | *"Which suppliers have contracts with buyer Y?"* |
-| **Temporal Query** | Date constraints, time ranges | Temporal filtering + Dense | *"Active contracts as of 2025-06-01"* |
-| **Aggregation** | Counts, sums, averages | SQL structured query | *"Total contract value by supplier"* |
-| **Multi-Hop Reasoning** | Chained relationships | Graph + Dense fusion | *"Suppliers with ISO cert AND pricing <£50k"* |
-| **Clause Extraction** | Contract-specific sections | Sparse + Layout-aware | *"Payment terms in the Acme contract"* |
-| **Unanswerable** | Insufficient evidence | Confidence threshold → Refusal | *"What is the CEO's favorite color?"* |
+**Classification Method:** Rule-based regex patterns + tenant vocabulary entity linking (suppliers, products, contracts from database). Optional LLM fallback when configured.
 
-### Model Tier Selection
+| Intent | Triggers | Processing Strategy | Example |
+|--------|---------|--------------------|---------| 
+| **PRICE_LOOKUP** | "price", "cost", product mentions | SQL price table + dense retrieval | *"What's the unit price for Product X?"* |
+| **CONTRACT_TERMS** | "terms", "payment", clause keywords | Dense + sparse hybrid | *"Payment terms in the Acme contract"* |
+| **COMPARISON** | "compare", "vs", "cheaper", "better" | Multi-document dense + LLM synthesis | *"Compare supplier A vs supplier B pricing"* |
+| **TEMPORAL_CHANGE** | "current", "changed", "amendment", "after" | Temporal filtering + graph traversal | *"What changed in the latest amendment?"* |
+| **COMPLIANCE_CHECK** | "ISO", "certified", "compliance", "valid" | Graph traversal (HAS_CERT edges) + documents | *"Which suppliers have ISO 27001?"* |
+| **AGGREGATION** | "total", "average", "count", "sum" | SQL aggregation (exact answers) | *"Total contract value by supplier"* |
+| **RELATIONSHIP** | "which suppliers", "connected", "contracts with" | Graph multi-hop traversal + entity expansion | *"Suppliers with active contracts for buyer Y"* |
+| **DOCUMENT_LOOKUP** | Document type keywords, file references | Dense + sparse retrieval, no LLM needed | *"Find the master services agreement"* |
+| **GENERAL** | Open-ended, no clear intent | Full hybrid RAG pipeline with LLM | *"Tell me about recent procurement activity"* |
 
+**Entity Linking:** Query understanding extracts mentions of suppliers, products, contracts, and SKUs, then links them to actual database IDs using fuzzy name matching and initials resolution against a tenant-specific vocabulary cache.
+
+### Level 2: Model Task Routing (8 Routing Tasks)
+
+Implemented in `backend/app/providers/router.py` as `Task` enum and `ModelRouter` class.
+
+**Routing Logic:**
 ```python
-# Task routing logic (app/providers/router.py)
-def route(task: Task, complexity: str) -> RouteDecision:
+def route(task: Task, complexity: str = None, requires_vision: bool = False) -> RouteDecision:
+    if requires_vision and vlm_available:
+        return RouteDecision(task, ENGINE_VLM, vlm_model)
+    if task in [CLASSIFY, REWRITE, EXTRACT] and small_llm_configured:
+        return RouteDecision(task, ENGINE_SMALL_LLM, small_llm_model)
     if complexity == "high":
-        return RouteDecision(task, ENGINE_LLM, settings.llm_model)
+        return RouteDecision(task, ENGINE_LLM, llm_model)
     return RouteDecision(task, default_engine(task), default_model(task))
 ```
 
-**Available Engines:**
-- `ENGINE_LLM`: Full LLM generation (OpenAI-compatible endpoints, Ollama, etc.)
-- `ENGINE_EXTRACTIVE`: Keyword-based extraction from top-ranked chunks
-- `ENGINE_STRUCTURED`: SQL query execution for aggregations
-- `ENGINE_VLM`: Vision-language model for image-based evidence (planned)
+| Routing Task | Default Engine | Purpose | Fallback |
+|--------------|----------------|---------|----------|
+| **CLASSIFY** | Small LLM | Cheap structure extraction (intent, entities) | LLM if no small model |
+| **PLAN** | LLM | Query planning and tool selection | None (required for agent) |
+| **REWRITE** | Small LLM | Query expansion in corrective loop | LLM if no small model |
+| **GENERATE** | LLM | Final grounded answer generation | Extractive mode if no LLM |
+| **COMPARE** | LLM | Multi-document synthesis and comparison | Extractive concatenation |
+| **VERIFY** | LLM | Grounding verification and claim extraction | Rule-based citation check |
+| **VISION** | VLM | Page image understanding (charts, tables) | Text evidence from OCR |
+| **EXTRACT** | Small LLM | Table/metadata extraction from unstructured text | Rule-based extraction |
 
-**Fallback Behavior:** If no LLM is configured, EPI falls back to extractive mode, returning evidence chunks with confidence scores rather than generated answers.
+**Additional Engines:**
+- `ENGINE_PYTHON`: Deterministic arithmetic (unit conversions, date math)
+- `ENGINE_SQL`: PostgreSQL aggregations (SUM, COUNT, AVG with exact answers)
+- `ENGINE_GRAPH`: Neo4j Cypher traversal (relationship queries, multi-hop paths)
 
----
+**Fallback Behavior:**
+- No LLM configured → Extractive mode (returns top-ranked evidence chunks with confidence scores)
+- Vision unavailable → Uses OCR text from PaddleOCR instead of VLM understanding
+- Small LLM not configured → Routes small tasks to primary LLM (increased cost/latency)
 
-## Hybrid RAG & Retrieval Engineering
-
-### Retrieval Flow
+### Query Processing Flow
 
 ```mermaid
 sequenceDiagram
-    participant Query
-    participant Plan as Query Planner
-    participant Dense as Dense Search
-    participant Sparse as BM25 Sparse
+    participant User
+    participant Agent as LangGraph Agent
+    participant Understand as Query Understanding
+    participant IntentClass as Intent Classifier
+    participant Router as Model Router
+    participant Dense as Dense Retrieval
+    participant Sparse as Sparse Retrieval
+    participant Graph as Graph Traversal
+    participant SQL as SQL Aggregation
     participant Fusion as RRF Fusion
     participant Rerank as Cross-Encoder
-    participant Context as Context Builder
+    participant LLM as LLM Generation
 
-    Query->>Plan: Analyze query
-    Plan->>Dense: Retrieve top-50 (cosine)
-    Plan->>Sparse: Retrieve top-50 (BM25)
-    Dense-->>Fusion: 50 candidates
-    Sparse-->>Fusion: 50 candidates
-    Fusion->>Rerank: Fused candidates
-    Rerank->>Context: Reranked top-15
-    Context-->>Query: Top-12 chunks (6K tokens)
+    User->>Agent: "Which suppliers have ISO 27001?"
+    Agent->>Understand: Extract entities & keywords
+    Understand->>IntentClass: Analyze query patterns
+    IntentClass-->>Agent: Intent: COMPLIANCE_CHECK
+    Agent->>Router: Route task=PLAN, complexity=medium
+    Router-->>Agent: Engine: LLM
+    Agent->>Dense: Search "ISO 27001 certified"
+    Agent->>Sparse: BM25 "ISO 27001"
+    Agent->>Graph: MATCH (s:Supplier)-[:HAS_CERT]->(:Compliance {cert_type: 'ISO 27001'})
+    Agent->>SQL: SELECT DISTINCT supplier_id FROM compliance_certificates WHERE cert_type='ISO 27001'
+    Dense-->>Fusion: 50 candidates (vector scores)
+    Sparse-->>Fusion: 50 candidates (BM25 scores)
+    Fusion->>Rerank: 80 unique candidates (fused scores)
+    Rerank-->>Agent: Top-15 reranked chunks
+    Graph-->>Agent: [supplier_123, supplier_456] + metadata
+    SQL-->>Agent: [supplier_123, supplier_789]
+    Agent->>Router: Route task=GENERATE, complexity=low
+    Router-->>Agent: Engine: LLM
+    Agent->>LLM: Generate answer from evidence
+    LLM-->>Agent: "Suppliers with ISO 27001: Acme Corp, Global Supplies..."
+    Agent->>Agent: Verify grounding (claim-evidence binding)
+    Agent-->>User: Answer + Citations + Confidence
 ```
+
+---
+
+## Hybrid Retrieval & Reciprocal Rank Fusion
+
+### Retrieval Pipeline
+
+```mermaid
+graph LR
+    Query[Query + Plan] --> Dense[Dense Search<br/>bge-m3<br/>Top-50]
+    Query --> Sparse[Sparse Search<br/>BM25<br/>Top-50]
+    Dense --> Fusion[Reciprocal Rank Fusion<br/>k=45]
+    Sparse --> Fusion
+    Fusion --> Rerank[Cross-Encoder<br/>bge-reranker-v2-m3<br/>Top-15]
+    Rerank --> Context[Context Builder<br/>Select top-12<br/>Max 6K tokens]
+    Context --> Generation[Answer Generation]
+    
+    style Fusion fill:#50c878
+    style Rerank fill:#e25050
+```
+
+**Implementation:** `backend/app/retrieval/retriever.py` (HybridRetriever), `backend/app/retrieval/fusion.py` (reciprocal_rank_fusion)
+
+### Reciprocal Rank Fusion (RRF)
+
+**Formula:** `score = w_dense / (k + rank_dense) + w_sparse / (k + rank_sparse)`
+
+**Configuration:**
+- **k = 45** (down from 60 to weight top documents more heavily)
+- **weights = (1.0, 1.0)** (equal weighting of dense and sparse)
+- **Dense top-K = 50**, **Sparse top-K = 50**, **Fused output = unique candidates**
+
+**Why RRF:** Dense cosine scores and BM25 scores are not comparable in magnitude. RRF combines *ranks*, which is stable, needs no score normalization, and is documented as the fusion algorithm for this platform (PRD s.29).
 
 ### Benchmark Results (120-Question Dataset)
 
-**Retrieval Quality** (70 answerable questions with known documents):
+**Dataset Composition:**
+- **Total questions:** 120
+- **Answerable:** 66 (55.0%)
+- **Unanswerable:** 39 (32.5%)
+- **Needs review:** 15 (12.5%)
+- **Categories:** 12 (document_metadata: 18, parties: 10, dates_and_duration: 18, payment_terms: 8, pricing_schedules: 8, clauses: 8, amendments: 8, obligations: 8, supplier_buyer_relationships: 8, graph_multi_hop: 6, historical_temporal: 10, unanswerable: 10)
 
-| Metric | Score | Notes |
-|--------|-------|-------|
+**Corpus:**
+- **Documents:** 20 (19 indexed successfully, 1 failed)
+- **Pages:** 42
+- **Chunks:** 655
+- **Procurement records:** 83,724 OCDS records
+- **Suppliers:** 65,406 entities
+
+**Retrieval Quality** (70 questions with known documents, but only 68 had successful retrieval):
+
+| Metric | Value | Calculation |
+|--------|-------|-------------|
 | **Recall@5** | 86.8% | Correct document in top-5: 59/68 queries |
-| **Recall@10** | 86.8% | Correct document in top-10: 59/68 queries |
-| **MRR** | 0.802 | Mean Reciprocal Rank |
-| **nDCG@10** | 0.819 | Normalized Discounted Cumulative Gain |
+| **Recall@10** | 86.8% | Correct document in top-10: 59/68 queries (same as @5) |
+| **MRR** | 0.802 | Mean Reciprocal Rank across all queries |
+| **nDCG@10** | 0.819 | Normalized Discounted Cumulative Gain at 10 |
 | **Page Coverage** | 93.8% | Correct page retrieved when document found |
+| **Hit Rate@5** | 86.8% | 59 successes / 68 total (95% CI: 76.7%-92.9%) |
 
-**Answer Quality** (78 answerable questions):
+**Answer Quality** (78 answerable questions that generated answers):
 
-| Metric | Score | Notes |
+| Metric | Value | Notes |
 |--------|-------|-------|
-| **Answer Correctness** | 39.7% | Literal fact containment (strict) |
-| **Citation Precision** | 77.4% | Correct citations / total citations |
-| **Citation Recall** | 55.9% | Correct citations / expected citations |
-| **Faithfulness** | 69.4% | Self-reported grounding (not independent judge) |
-| **Unsupported Claim Rate** | 30.6% | Claims without evidence support |
+| **Answer Correctness** | 39.7% | Literal fact containment (31/78 correct) |
+| **Mean Fact Coverage** | 39.7% | Proportion of expected facts present |
+| **Citation Precision** | 77.4% | Correct citations / total citations (43 questions) |
+| **Citation Recall** | 55.9% | Correct citations / expected citations (43 questions) |
+| **Faithfulness** | 69.4% | Self-reported evidence grounding (65 questions) |
+| **Unsupported Claim Rate** | 30.6% | Claims without evidence support (65 questions) |
+| **Citations Clean** | 72.1% | Questions with all citations valid (31/43) |
 
-**Refusal Behavior** (39 unanswerable questions):
+**Refusal Behavior** (120 total questions, 39 unanswerable):
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| **Refusal Precision** | 42.9% | True negatives / (TP + FP) |
-| **Refusal Recall** | 76.9% | Detected unanswerable / total unanswerable |
-| **Correct Refusal Accuracy** | 58.1% | Overall refusal decision correctness |
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| **Refusal Precision** | 42.9% | True negatives / (TP + FP) = 30 / (30 + 40) |
+| **Refusal Recall** | 76.9% | Detected unanswerable / total unanswerable = 30/39 |
+| **Correct Refusal Accuracy** | 58.1% | (TP + TN) / Total = (30 + 38) / 117 = 58.1% |
+| **False Positives** | 40 | Answerable questions incorrectly refused |
+| **False Negatives** | 9 | Unanswerable questions incorrectly answered |
 
-**Performance:**
+**Performance Metrics:**
 
-| Metric | Value |
-|--------|-------|
-| **Latency (p50)** | 9.2s |
-| **Latency (p95)** | 16.3s |
-| **Latency (max)** | 32.2s |
-| **Tokens (prompt mean)** | 1,675 |
-| **Tokens (completion mean)** | 61 |
+| Metric | p50 | p95 | Max | Mean |
+|--------|-----|-----|-----|------|
+| **Latency (ms)** | 9,151 | 16,279 | 32,180 | 9,745 |
+| **Prompt Tokens** | — | — | — | 1,675 |
+| **Completion Tokens** | — | — | — | 61 |
 
 **Evaluation Configuration:**
-- **Dataset:** 120 questions (66 answerable, 39 unanswerable, 15 needs review)
 - **Model:** qwen2.5-coder:7b (local Ollama)
-- **Embeddings:** BAAI/bge-small-en-v1.5
-- **Reranker:** bge-reranker-v2-m3 (cross-encoder)
+- **Embeddings:** BAAI/bge-small-en-v1.5 (384-dim, different from production bge-m3 1024-dim)
+- **Reranker:** bge-reranker-v2-m3 (cross-encoder, enabled)
 - **Top-K:** Dense 50, Sparse 50, Rerank 15, Context 12
-- **Benchmark Date:** 2026-11-12
+- **Benchmark Date:** 2026-11-12T20:06:37+00:00
+- **Duration:** 1,169.5 seconds (19.5 minutes)
 - **Source:** `data/evaluation/benchmark_v3/results/baseline/`
 
-**Limitations of Current Benchmark:**
-- Labels are auto-verified by string matching, not human-adjudicated
-- Answer correctness uses literal fact containment (correct paraphrases scored as misses)
-- Faithfulness is self-reported by the pipeline, not an independent evaluator
-- Refusal failure rate is high (49/120) due to overly defensive thresholds
-- Small corpus (20 documents, 655 chunks) limits generalization
+**Failure Taxonomy:**
+
+| Failure Type | Count | Description |
+|--------------|-------|-------------|
+| **refusal_failure** | 49 | Answered when should refuse, or refused when answerable |
+| **generation_error** | 3 | Generated answer missing expected facts |
+| **wrong_context_selected** | 2 | Correct document retrieved but wrong passage selected |
+| **verification_miss** | 1 | Grounding verification failed to catch unsupported claim |
+| **temporal_error** | 1 | Incorrect handling of temporal query |
+| **error** | 3 | Execution errors during processing |
+
+**Benchmark Limitations:**
+- **Auto-verified labels**: Evidence quotes matched programmatically, not human-reviewed
+- **Strict matching**: Answer correctness uses literal fact containment (correct paraphrases scored as misses)
+- **Self-reported faithfulness**: Pipeline's own grounding verdict, not independent judge
+- **High refusal failure**: 49/120 questions (40.8%) due to overly defensive thresholds
+- **Small corpus**: 20 documents, 655 chunks limits generalization
+- **Embedding mismatch**: Benchmark used bge-small-en-v1.5 (384-dim), production uses bge-m3 (1024-dim)
+
+**No Regression Framework:** EPI does not currently have automated baseline-vs-candidate regression testing. Benchmark runs are stored in `evaluation_runs` table for manual comparison via `/api/v1/evaluation/compare` endpoint.
 
 ---
 
 ## Knowledge Graph & GraphRAG
 
+**Implementation:** `backend/app/graph/builder.py` (graph construction), `backend/app/providers/graph/` (Neo4j + SQLite providers)
+
 ### Graph Schema
 
 ```mermaid
 graph LR
-    Buyer[Buyer] -->|PROCURES| Contract[Contract]
-    Supplier[Supplier] -->|SUPPLIES| Contract
-    Contract -->|CONTAINS| Clause[Clause]
-    Clause -->|CREATES| Obligation[Obligation]
-    Contract -->|HAS_AMENDMENT| Amendment[Amendment]
-    Contract -->|FOR_PRODUCT| Product[Product]
-    Product -->|HAS_PRICE| Price[Price]
-    Supplier -->|HAS_CERT| Compliance[Compliance Cert]
-    Document[Document] -->|REFERENCES| Contract
+    Buyer[Buyer<br/>name, id, sector] -->|PROCURES| Contract[Contract<br/>id, value, dates, status]
+    Supplier[Supplier<br/>name, address, contact] -->|SUPPLIES| Contract
+    Contract -->|FOR_PRODUCT| Product[Product<br/>name, category, spec]
+    Product -->|HAS_PRICE| Price[Price<br/>amount, currency, date]
+    Supplier -->|HAS_CERT| Compliance[Compliance<br/>cert_type, issuer, valid_until]
+    Contract -->|CONTAINS| Clause[Clause<br/>number, title, category]
+    Clause -->|CREATES| Obligation[Obligation<br/>party, action, deadline]
+    Contract -->|HAS_AMENDMENT| Amendment[Amendment<br/>version, effective_date]
+    Document[Document<br/>id, title, type] -->|REFERENCES| Contract
     Document -->|MENTIONS| Supplier
     Clause -->|IN_DOCUMENT| Document
     
@@ -307,330 +447,473 @@ graph LR
     style Document fill:#9b59b6
 ```
 
-### Node Types
+### Node Types (9 Labels)
 
-| Node Label | Properties | Count (Sample) |
-|------------|-----------|----------------|
-| `Supplier` | name, id, address, contact | 65,402 |
-| `Buyer` | name, id, sector | 83,724 records |
-| `Contract` | id, value, start_date, end_date, status | Ingested from docs |
-| `Product` | name, category, specification | 7 |
-| `Price` | amount, currency, unit, effective_date | 18 |
-| `Compliance` | cert_type, issuer, valid_until | 119 |
-| `Document` | id, title, type, upload_date | Ready for production |
-| `Clause` | number, title, text, category | Extracted during parsing |
-| `Obligation` | party, action, deadline, penalty | Extracted from clauses |
+| Node Label | Properties | Count (Data) | Status |
+|------------|-----------|--------------|--------|
+| **Supplier** | name, id, address, contact, sector | 65,406 | Loaded from OCDS |
+| **Buyer** | name, id, sector, location | 83,724 records | Loaded from OCDS |
+| **Contract** | id, number, value, currency, start_date, end_date, status | Variable | Created during doc ingestion |
+| **Product** | name, category, specification, cpv_code | 7 | Sample data |
+| **Price** | amount, currency, unit, effective_date, valid_until | 18 | Sample data |
+| **Compliance** | cert_type, issuer, issue_date, valid_until | 119 | Sample data |
+| **Document** | id, title, filename, type, upload_date | 0 in production | Ready for upload |
+| **Clause** | number, title, text, category, extracted_date | Extracted during parsing | Implementation ready |
+| **Obligation** | party, action, deadline, penalty, status | Extracted from clauses | Implementation ready |
 
-### Relationship Types
+**Note on Node Counts:** Supplier and Buyer counts reflect OCDS procurement records loaded into the system. Contract, Clause, and Obligation nodes are created dynamically during document ingestion. Current production deployment has 0 user-uploaded documents.
 
-- `PROCURES`: Buyer → Contract
-- `SUPPLIES`: Supplier → Contract
-- `FOR_PRODUCT`: Contract → Product
-- `HAS_PRICE`: Product → Price
-- `HAS_CERT`: Supplier → Compliance
-- `CONTAINS`: Contract → Clause
-- `CREATES`: Clause → Obligation
-- `REFERENCES`: Document → Contract/Supplier/Product
-- `MENTIONS`: Document → Entity
-- `HAS_AMENDMENT`: Contract → Amendment
+### Relationship Types (11 Types)
+
+- **PROCURES**: Buyer → Contract (who is procuring)
+- **SUPPLIES**: Supplier → Contract (who is supplying)
+- **FOR_PRODUCT**: Contract → Product (what is being procured)
+- **HAS_PRICE**: Product → Price (pricing information)
+- **HAS_CERT**: Supplier → Compliance (certifications held)
+- **CONTAINS**: Contract → Clause (contract sections)
+- **CREATES**: Clause → Obligation (obligations defined in clauses)
+- **REFERENCES**: Document → Contract/Supplier/Product (document mentions)
+- **MENTIONS**: Document → Entity (entity appears in document)
+- **HAS_AMENDMENT**: Contract → Amendment (contract modifications)
+- **IN_DOCUMENT**: Clause → Document (clause source provenance)
+
+### Graph Construction Pipeline
+
+1. **Entity Extraction** (during document ingestion):
+   - Rule-based: Regex patterns for contract numbers, supplier names, dates, monetary values
+   - Optional LLM: Structured extraction when configured
+   
+2. **Entity Normalization**:
+   - Name cleaning (whitespace, case, punctuation)
+   - Date parsing to ISO format
+   - Currency normalization
+   
+3. **Entity Resolution**:
+   - Fuzzy matching against existing supplier/product/contract records
+   - Initials resolution (e.g., "FCA" → "Financial Conduct Authority")
+   - Tenant vocabulary cache for fast lookups
+   
+4. **Relationship Extraction**:
+   - Supplier-Contract links from document metadata
+   - Product-Price links from pricing tables
+   - Clause-Obligation links from contract sections
+   - Document-Entity links from chunk mentions
+   
+5. **Graph Indexing**:
+   - Nodes created with `tenant_id` for isolation
+   - Nodes include `source_doc_id` for provenance
+   - Temporal properties: `effective_date`, `valid_until`, `superseded_by`
+   - All writes use Neo4j transactions (or SQLite graph store locally)
 
 ### GraphRAG Query Example
 
-**Question:** *"Which suppliers have ISO 27001 certificates and active contracts?"*
+**Question:** *"Which suppliers have active ISO 27001 certificates and contracts with the Home Office?"*
 
-**Cypher Query:**
+**Step 1: Graph Traversal**
 ```cypher
 MATCH (s:Supplier)-[:HAS_CERT]->(cert:Compliance {cert_type: 'ISO 27001'})
 WHERE cert.valid_until > date()
-MATCH (s)-[:SUPPLIES]->(c:Contract)
+MATCH (s)-[:SUPPLIES]->(c:Contract)<-[:PROCURES]-(b:Buyer {name: 'Home Office'})
 WHERE c.status = 'active'
-RETURN s.name, cert.valid_until, c.id, c.value
+RETURN s.name, s.id, cert.valid_until, c.contract_number, c.value
 ```
 
-**Hybrid Execution:**
-1. Graph traversal returns entity IDs: `[supplier_123, supplier_456]`
-2. Vector search retrieves relevant chunks mentioning these entities
-3. Reranker combines graph context with document evidence
-4. Answer generator produces grounded response with citations
+**Step 2: Entity Expansion**
+- Graph query returns: `[supplier_123, supplier_456]`
+- Expand to related document IDs: `[doc_a, doc_b, doc_c]`
 
-**Graph Construction:** Entities and relationships are extracted during document ingestion using rule-based parsers and optional LLM extraction. All graph nodes include `tenant_id` for isolation and `source_doc_id` for provenance.
+**Step 3: Vector Search**
+- Dense retrieval filtered by: `supplier_id IN [supplier_123, supplier_456]`
+- Query: "ISO 27001 certified suppliers Home Office contracts"
+- Returns top-50 chunks mentioning these entities
+
+**Step 4: Reranking**
+- Cross-encoder reranks combined graph + vector results
+- Keeps top-15 most relevant chunks
+
+**Step 5: Answer Generation**
+- Context includes: Graph data (supplier names, cert dates, contract numbers) + Document evidence (contract text, certificate mentions)
+- LLM synthesizes answer with both graph facts and document quotes
+- Verification binds claims to both graph properties and document citations
+
+**Hybrid Execution Value:** GraphRAG provides **structured facts** (exact supplier IDs, cert expiry dates, contract numbers) that complement **unstructured evidence** (contract clauses, certificate descriptions). This prevents hallucination of entity names and ensures temporal accuracy.
 
 ---
 
-## MCP Integration
+## Model Context Protocol (MCP) Integration
 
-EPI exposes a **Model Context Protocol (MCP) server** at `backend/app/mcp_server/`, allowing AI assistants (Claude Desktop, Cline, etc.) to invoke procurement intelligence tools.
-
-### Registered Tools
-
-| Tool | Purpose | Input | Output |
-|------|---------|-------|--------|
-| `search_documents` | Full-text document search | `query: str, limit: int` | List of documents with excerpts |
-| `get_document` | Retrieve single document | `document_id: str` | Document detail with pages and metadata |
-| `search_contracts` | Contract search and filtering | `query: str, limit: int` | List of contracts with suppliers and values |
+**Implementation:** `backend/app/mcp_server/` (FastMCP server over stdio)
 
 ### MCP Server Architecture
 
 ```mermaid
 graph LR
-    Client[AI Assistant] -->|stdio| MCP[MCP Server]
-    MCP -->|Authorization| Auth[Tenant Context]
-    Auth -->|Validated Request| Tools[Tool Registry]
-    Tools -->|search_documents| DocService[Document Service]
-    Tools -->|get_document| DocService
-    Tools -->|search_contracts| ProcService[Procurement Service]
-    DocService --> DB[(Database)]
-    ProcService --> DB
+    Client[AI Assistant<br/>Claude Desktop, Cline] -->|stdio<br/>JSON-RPC| MCP[MCP Server<br/>FastMCP]
+    MCP --> Guard[Tool Guard<br/>Authorization]
+    Guard -->|Validates| Tenant[Tenant Context<br/>Principal]
+    Tenant -->|Permissions| Tools[Tool Registry<br/>9 tools]
+    Tools --> DocSvc[Document Service]
+    Tools --> ProcSvc[Procurement Service]
+    Tools --> GraphSvc[Graph Service]
+    DocSvc --> DB[(Database)]
+    ProcSvc --> DB
+    GraphSvc --> Neo[(Neo4j)]
+    Guard --> Audit[Audit Logger<br/>audit_logs table]
     
-    style MCP fill:#e25050
-    style Auth fill:#f39c12
+    style MCP fill:#f39c12
+    style Guard fill:#e25050
+    style Tools fill:#4a90e2
 ```
 
-**Authorization:** Every tool invocation includes a `Principal` with tenant context and permissions. Tools validate `docs:read` or `procurement:read` permissions before execution.
+### Registered MCP Tools (9 Tools)
 
-**Audit Trail:** All tool calls are logged to `audit_logs` table with timestamp, principal, tool name, inputs, and outcomes.
+| Tool | Permission | Input | Output | Purpose |
+|------|-----------|-------|--------|---------|
+| **search_documents** | docs:read | `query: str, limit: int` | List of documents with id, title, filename, type, status | Full-text search across document titles and filenames |
+| **get_document** | docs:read | `document_id: str` | Document metadata: id, title, filename, type, status, stage, version, dates, supplier_id, contract_id | Retrieve single document detail with all metadata |
+| **search_contracts** | procurement:read | `query: str, limit: int` | List of contracts with number, title, supplier, value, dates | Search contracts by number or title |
+| **get_supplier_profile** | procurement:read | `supplier_id: str` | Supplier record with name, address, contact, contracts[], document_count | Supplier detail with related contracts and doc counts |
+| **get_contract_amendments** | procurement:read | `contract_id: str` | List of amendments with id, number, title, version, effective_date, status | Amendment history for a contract, newest first |
+| **get_ingestion_status** | docs:read | `limit: int` | Recent ingestion jobs with id, document_id, document_title, status, stage, progress, attempts, error_message | Monitor document processing pipeline |
+| **get_evaluation_metrics** | evaluation:read | `limit: int` | Completed evaluation runs with id, experiment, dataset, questions, metrics, finished_at | Retrieve benchmark results and metrics |
+| **search_graph** | graph:read | `label: str, query: str, limit: int` | Graph nodes by label with key, properties | Find entities in knowledge graph (Supplier, Contract, Product, Price, Document, Compliance, Amendment) |
+| **get_entity_neighbours** | graph:read | `label: str, key: str, max_hops: int, as_of: str` | Entity relationships with type, start, end, properties | Typed relationships around entity, supports temporal as_of queries |
 
-**Usage Example (Claude Desktop):**
+**Allowed Graph Labels:** Supplier, Contract, Amendment, Product, Price, ComplianceCertificate, Document, Category (hardcoded whitelist prevents arbitrary label probing)
+
+### Authorization & Security
+
+**Tool Guard:** Every tool call passes through `ToolGuard` (`backend/app/mcp_server/guards.py`) which enforces:
+- **Tenant Context**: All queries scoped to configured `MCP_TENANT_ID`
+- **Principal Permissions**: Validates user has required permission (e.g., `docs:read`, `procurement:read`)
+- **Timeout**: Configurable per-tool timeout (default: 30 seconds)
+- **Rate Limiting**: Calls per minute limit (default: 60/min)
+- **Audit Logging**: Every invocation logged to `audit_logs` table with timestamp, principal, tool name, inputs, outcome
+
+**Tenant Binding:** MCP server is deployed per-tenant. Environment variables `MCP_TENANT_ID` and `MCP_USER_EMAIL` are set at deployment time, so no client can access another tenant's data.
+
+### Usage Example (Claude Desktop)
+
+**Configuration:** Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
 ```json
 {
   "mcpServers": {
-    "epi": {
+    "epi-procurement": {
       "command": "python",
       "args": ["-m", "app.mcp_server"],
       "cwd": "/path/to/backend",
       "env": {
         "DATABASE_URL": "postgresql://...",
-        "MCP_TENANT_ID": "tenant_abc123"
+        "MCP_ENABLED": "true",
+        "MCP_TENANT_ID": "tenant_acme",
+        "MCP_USER_EMAIL": "tools@acme.com",
+        "MCP_TENANT_DEFAULT_ROLE": "analyst"
       }
     }
   }
 }
 ```
 
+**Tool Invocation:**
+```
+User: "Which suppliers in the system have ISO 27001 certificates?"
+
+Claude: Let me search the graph for suppliers with ISO 27001 certifications.
+[Calls: search_graph(label="Supplier", query="ISO 27001", limit=10)]
+
+MCP Response: {
+  "label": "Supplier",
+  "query": "ISO 27001",
+  "items": [
+    {"label": "Supplier", "key": "sup_123", "properties": {"name": "Acme Corp", "sector": "IT"}},
+    {"label": "Supplier", "key": "sup_456", "properties": {"name": "Global Tech", "sector": "Services"}}
+  ],
+  "total": 2
+}
+
+Claude: I found 2 suppliers with ISO 27001 certifications:
+1. Acme Corp (IT sector)
+2. Global Tech (Services sector)
+
+Would you like me to get more details about their contracts?
+```
+
+### MCP vs Direct API
+
+| Aspect | MCP Tools | Direct API |
+|--------|-----------|------------|
+| **Transport** | stdio (JSON-RPC) | HTTP REST |
+| **Authentication** | Environment-bound (single tenant/user) | JWT per request |
+| **Use Case** | AI assistant integration | Web/mobile apps, integrations |
+| **Write Operations** | None (read-only by design) | Full CRUD via API |
+| **Tool Discovery** | MCP protocol (server advertises tools) | OpenAPI schema |
+| **Audience** | Claude Desktop, Cline, MCP clients | Developers, custom apps |
+
 ---
 
 ## Document Intelligence Pipeline
 
+**Implementation:** `backend/app/ingestion/pipeline.py` (IngestionPipeline), `backend/app/ingestion/parsers/` (format-specific parsers)
+
 ```mermaid
 graph TD
-    Upload[Document Upload] --> Validate[Validation<br/>Size, Type, Malware]
-    Validate --> Store[S3/MinIO Storage]
-    Store --> Parse[Parser Selection<br/>PDF, DOCX, XLSX, Image]
+    Upload[Document Upload<br/>POST /documents/upload] --> Validate[Validation<br/>Size, type, malware check]
+    Validate --> Store[Object Storage<br/>S3/MinIO/local filesystem]
+    Store --> Job[Create Ingestion Job<br/>Status: pending]
+    Job --> Worker[Background Worker<br/>Picks up job]
+    Worker --> Parse[Format Parser<br/>PDF/DOCX/XLSX/Image]
     Parse --> OCR[OCR if Scanned<br/>PaddleOCR]
-    OCR --> Layout[Layout Analysis<br/>Tables, Sections]
-    Layout --> Extract[Metadata Extraction<br/>Supplier, Date, Value]
-    Extract --> Chunk[Semantic Chunking<br/>320 tokens, 60 overlap]
+    OCR --> Layout[Layout Analysis<br/>Tables, sections, headings]
+    Layout --> Extract[Metadata Extraction<br/>Contract #, parties, dates, $]
+    Extract --> Clause[Clause Detection<br/>Payment terms, obligations]
+    Clause --> Chunk[Semantic Chunking<br/>320 tokens, 60 overlap]
     Chunk --> Enrich[Chunk Enrichment<br/>Prepend doc metadata]
-    Enrich --> Embed[Embedding Generation<br/>BAAI/bge-m3]
-    Embed --> VecIndex[Vector Indexing<br/>Qdrant]
-    Extract --> GraphIndex[Graph Indexing<br/>Neo4j entities]
-    VecIndex --> Ready[Ready for Retrieval]
-    GraphIndex --> Ready
+    Enrich --> Embed[Embedding Generation<br/>bge-m3, batch=16]
+    Embed --> VIndex[Vector Indexing<br/>Qdrant or local]
+    Extract --> GIndex[Graph Indexing<br/>Neo4j entities + relationships]
+    VIndex --> Complete[Job Status: completed<br/>Document status: indexed]
+    GIndex --> Complete
+    Complete --> Ready[Ready for Retrieval]
     
     style Parse fill:#4a90e2
     style Embed fill:#50c878
-    style GraphIndex fill:#e25050
+    style GIndex fill:#e25050
 ```
 
-### Supported Formats
+### Supported Formats & Parsers
 
-| Format | Parser | Capabilities |
-|--------|--------|-------------|
-| **PDF** | PyMuPDF | Text, tables, images, metadata |
-| **PDF (scanned)** | PyMuPDF + PaddleOCR | OCR text extraction, layout preservation |
-| **DOCX** | python-docx | Text, tables, headings, styles |
-| **XLSX** | openpyxl | Tables, formulas, named ranges |
-| **Images** | PaddleOCR | Text extraction from JPG, PNG |
+| Format | Parser Library | Capabilities | Status |
+|--------|---------------|--------------|--------|
+| **PDF (native)** | PyMuPDF (fitz) | Text extraction, table detection, images, metadata | ✅ Implemented |
+| **PDF (scanned)** | PyMuPDF + PaddleOCR | OCR text extraction, layout preservation, confidence scores | ✅ Implemented |
+| **DOCX** | python-docx | Text, tables, headings, styles, document properties | ✅ Implemented |
+| **XLSX** | openpyxl | Tables, formulas, named ranges, multi-sheet | ✅ Implemented |
+| **JPG/PNG** | PaddleOCR | Text extraction from images, bounding boxes | ✅ Implemented |
+| **HTML** | BeautifulSoup | Text, tables, structure (for OCDS tender notices) | ✅ Implemented |
 
 ### Chunking Strategy
 
-- **Target:** 320 tokens per chunk
-- **Max:** 700 tokens
-- **Overlap:** 60 tokens
+**Configuration** (`backend/app/config/settings.py`):
+- **Target tokens:** 320
+- **Max tokens:** 700
+- **Overlap tokens:** 60
 - **Method:** Sentence-boundary-aware semantic chunking
-- **Enrichment:** Prepends document metadata (title, supplier, date) to each chunk for context
+- **Tokenizer:** tiktoken cl100k_base (GPT-4 tokenizer)
+
+**Algorithm:**
+1. Split document by sentence boundaries (nltk or spaCy)
+2. Accumulate sentences until ~320 tokens
+3. If next sentence would exceed 700 tokens, finalize chunk
+4. Add 60-token overlap from end of previous chunk
+5. Never split mid-sentence
+
+**Chunk Enrichment:** Each chunk is prepended with document metadata to provide context:
+```
+Document: Master Services Agreement
+Supplier: Acme Corporation
+Contract Number: CNT-2025-001
+Effective Date: 2025-01-15
+
+[Chunk text starts here...]
+```
+
+This improves retrieval quality when user queries mention entity names or document types.
 
 ### Metadata Extraction
 
-**Contract Metadata:**
-- Contract number, title, parties (buyer, supplier)
-- Contract value, currency, effective dates
-- Product/service categories, CPV codes
-- Compliance requirements, certificate references
+**Contract Metadata** (rule-based + optional LLM):
+- Contract number, title
+- Parties: buyer name, supplier name, addresses
+- Financial: contract value, currency, payment terms
+- Temporal: effective date, expiry date, renewal dates
+- Classification: CPV codes, product categories, service types
+- Compliance: Required certificates, insurance, regulations
 
-**Clause Detection:**
-- Payment terms, delivery schedules, termination clauses
-- Liability limits, warranties, indemnification
-- Intellectual property rights, confidentiality obligations
+**Clause Detection** (regex patterns + section analysis):
+- **Payment Terms**: "Net 30", "Payment within X days", milestone payments
+- **Delivery Schedules**: Delivery dates, shipment terms, Incoterms
+- **Termination Clauses**: Termination for convenience, breach conditions, notice periods
+- **Liability Limits**: Indemnification amounts, liability caps, force majeure
+- **Intellectual Property**: IP ownership, licensing terms, confidentiality
+- **Warranties**: Product warranties, service level agreements, guarantees
 
-**Pricing Schedules:**
-- Unit prices, quantity discounts, price escalation clauses
-- Renewal pricing, tiered pricing structures
+**Pricing Schedules** (table extraction):
+- Unit prices per product/service
+- Volume discounts and tiered pricing
+- Price escalation clauses (CPI adjustments, fuel surcharges)
+- Renewal pricing and options
+
+### Ingestion Job Lifecycle
+
+```python
+class IngestionJob:
+    status: str  # pending, processing, completed, failed
+    stage: str   # parsing, ocr, chunking, embedding, indexing
+    progress: float  # 0.0 to 1.0
+    attempts: int  # Retry count
+    error_message: str | None
+    
+    # Job leases for distributed workers
+    lease_holder: str | None  # Worker ID
+    leased_until: datetime | None
+```
+
+**Job Processing:**
+1. Worker queries for `status=pending AND (leased_until IS NULL OR leased_until < now())`
+2. Worker acquires lease by setting `lease_holder` and `leased_until` (120 seconds)
+3. Worker updates `status=processing`, `stage=parsing`
+4. Worker processes document step-by-step, updating `stage` and `progress`
+5. On success: `status=completed`, release lease
+6. On failure: `status=failed` if `attempts >= 3`, else retry with exponential backoff
+7. Lease expires if worker crashes → another worker can pick up job
+
+**Idempotency:** Each document has a `version` field. Re-indexing same document with same version skips duplicate work. Version changes (amendments) trigger new chunks with provenance links.
 
 ---
 
 ## Quality, Evaluation & Security
 
-### Quality Metrics (Measured)
+### Quality Metrics
 
-**Retrieval Metrics:**
-- Recall@K: Proportion of queries where correct document appears in top-K
-- Precision@K: Proportion of top-K results that are correct
-- MRR (Mean Reciprocal Rank): Average 1/rank of first correct result
-- nDCG (Normalized Discounted Cumulative Gain): Ranking quality with position discount
+**Retrieval Evaluation** (measured against 70 labeled questions):
+- **Recall@K**: Proportion of queries where correct document appears in top-K results
+- **Precision@K**: Proportion of top-K results that are correct (less relevant for recall-focused systems)
+- **MRR (Mean Reciprocal Rank)**: Average of 1/rank where rank is position of first correct result
+- **nDCG@K**: Normalized Discounted Cumulative Gain, rewards correct documents appearing earlier
+- **Page Coverage**: When correct document is retrieved, whether correct page is included
 
-**Answer Metrics:**
-- Answer Correctness: Literal fact containment (strict matching)
-- Citation Precision: Correct citations / total citations
-- Citation Recall: Correct citations / expected citations
-- Faithfulness: Self-reported evidence grounding
-- Unsupported Claim Rate: Generated claims without evidence support
+**Answer Quality Evaluation** (measured against 78 answerable questions):
+- **Answer Correctness**: Literal fact containment (expected_facts ⊆ generated_answer)
+- **Fact Coverage**: Proportion of expected facts present in answer
+- **Citation Precision**: Correct citations / total citations produced
+- **Citation Recall**: Correct citations / expected citations from labels
+- **Faithfulness**: Pipeline's self-reported evidence grounding score (0-1)
+- **Unsupported Claim Rate**: Claims in answer without supporting evidence
 
-**System Metrics:**
-- Latency: p50, p95, max response times
-- Token Usage: Prompt and completion token counts
-- Cost: Estimated cost per query (when using paid APIs)
+**Refusal Quality** (measured against 39 unanswerable + 81 answerable questions):
+- **Refusal Precision**: True negatives / (true negatives + false positives)
+- **Refusal Recall**: Detected unanswerable / total unanswerable
+- **Correct Refusal Accuracy**: (TP + TN) / Total questions
+
+**System Performance**:
+- **Latency**: p50, p95, p99, max response time (milliseconds)
+- **Token Usage**: Prompt tokens, completion tokens per query
+- **Cost**: Estimated cost per query (when using paid APIs)
+- **Throughput**: Queries per second under load
 
 ### Evaluation Framework
 
-**Golden Dataset:** 120 hand-crafted questions across 12 categories (document_metadata, parties, dates_and_duration, payment_terms, pricing_schedules, clauses, amendments, obligations, supplier_buyer_relationships, graph_multi_hop, historical_temporal, unanswerable)
+**Golden Dataset:** `data/evaluation/benchmark_v3/questions.json`
+- **120 questions** hand-crafted by engineering team
+- **12 categories**: document_metadata, parties, dates_and_duration, payment_terms, pricing_schedules, clauses, amendments, obligations, supplier_buyer_relationships, graph_multi_hop, historical_temporal, unanswerable
+- **Verification methods**: verbatim_page_text+raw_html (46), verbatim_page_text (20), corpus_absence (39), database_row (9), graph_store (6)
+- **Labels**: Auto-verified by string matching (not human-adjudicated)
+- **Corpus**: 20 real UK Find a Tender OCDS notices, 19 indexed, 655 chunks
 
-**Verification Methods:**
-- `verbatim_page_text+raw_html`: Evidence quote matched in stored page text and original HTML
-- `database_row`: Answer verified against structured database record
-- `graph_store`: Answer verified via Cypher query result
-- `corpus_absence`: Unanswerable question with no evidence in corpus
+**Experiment Tracking:**
+- Evaluation runs stored in `evaluation_runs` table with full reproducibility
+- Tracks: model, settings, dataset version, strategy, timestamps
+- Individual question results stored in `evaluation_results` table
+- Comparison tool: `/api/v1/evaluation/compare?run_ids=run1,run2`
 
-**Experiment Tracking:** Evaluation runs stored in `evaluation_runs` and `evaluation_results` tables with full reproducibility (model, settings, dataset version, timestamps)
+**No Automated Regression:** EPI does not have automated baseline-vs-candidate regression testing. Developers manually run benchmarks and compare metrics. Future work: Automated regression with pass/fail thresholds.
 
-**Comparison Tool:** API endpoint `/api/v1/evaluation/compare?run_ids=run1,run2` generates side-by-side metric comparison
+### Security Implementation
 
-### Security (Implemented)
+**Authentication (JWT):**
+- **Algorithm**: HS256 (symmetric signing)
+- **Access Token**: 15-minute TTL, includes user_id, tenant_id, role, permissions
+- **Refresh Token**: 7-day TTL, stored in httpOnly cookie (SameSite=Strict), single-use (revoked after refresh)
+- **Password Hashing**: Argon2id with memory=65536, time=3, parallelism=4
+- **Token Revocation**: Logout adds token to revocation store (Redis if configured, memory otherwise)
 
-**Authentication:**
-- JWT tokens with HS256 signing
-- Access tokens: 15-minute TTL
-- Refresh tokens: 7-day TTL, httpOnly cookies
-- Argon2 password hashing
+**Authorization (RBAC):**
+- **Roles**: admin, analyst, viewer
+- **Permissions**: resource:action format (e.g., `docs:read`, `docs:write`, `query:ask`, `admin:read`)
+- **Permission Checks**: Every API endpoint decorated with `@require_permission("resource:action")`
+- **Tenant Isolation**: All database queries include `WHERE tenant_id = :tenant_id`
+- **Document-level Authorization**: Documents have `access_level` field, users have `readable_access_levels`
 
-**Authorization:**
-- Role-based access control (RBAC): admin, analyst, viewer
-- Permission format: `resource:action` (e.g., `docs:write`, `query:ask`)
-- Tenant isolation at database, vector store, and graph layers
-- Document-level authorization checks
-
-**Audit & Compliance:**
-- Structured audit logging to `audit_logs` table
-- Events: authentication, document access, query execution, admin actions
-- Immutable audit trail with timestamps, principals, resources, outcomes
+**Audit Logging:**
+- **Events**: authentication (login, logout, refresh), document access (upload, view, delete), query execution, admin actions
+- **Schema**: timestamp, tenant_id, user_id, action, resource_type, resource_id, outcome (success/failure), detail (JSON)
+- **Storage**: `audit_logs` table (SQLite dev, PostgreSQL prod)
+- **Not encrypted at rest**: Limitation—audit logs stored in plaintext in database
 
 **API Security:**
-- CORS whitelist (configurable origins)
-- Request ID tracing for all endpoints
-- Rate limiting configuration (not enforced in current deployment)
-- Input validation via Pydantic schemas
+- **CORS**: Whitelist of allowed origins (configurable via `CORS_ORIGINS`)
+- **Request ID Tracing**: Every request assigned unique ID for log correlation
+- **Rate Limiting**: Configured (20/min login, 60/min upload, 120/min query) but **not enforced in current deployment**
+- **Input Validation**: Pydantic schemas validate all request bodies, query params
+- **SQL Injection Protection**: SQLAlchemy ORM with parameterized queries
+- **Upload Security**: File type validation, size limits, malware scanning placeholder (not implemented)
 
 **Data Security:**
-- Secrets managed via environment variables
-- No credentials in source code or logs
-- S3/MinIO object storage with access control
-- TLS/HTTPS required in production (not enforced in dev)
+- **Secrets**: Managed via environment variables, never committed to code
+- **Object Storage**: S3/MinIO with bucket-level access control
+- **TLS/HTTPS**: Required in production (not enforced in dev mode)
+- **Database Encryption**: Not implemented (plaintext at rest)
 
-**Limitations:**
-- No multi-factor authentication (MFA)
-- Rate limiting configured but not enforced
-- Cypher injection protection not implemented (graph queries use parameterization but lack input sanitization)
-- Audit logs not encrypted at rest
+**Security Limitations:**
+- ❌ No multi-factor authentication (MFA)
+- ❌ Rate limiting configured but not enforced
+- ❌ Cypher injection protection incomplete (uses parameterization but lacks input sanitization for label/property names)
+- ❌ Audit logs not encrypted at rest
+- ❌ No secrets rotation automation
+- ❌ Upload malware scanning not implemented (placeholder only)
 
 ---
 
 ## Technology Stack
 
-### Backend (124 Python files)
+### Backend (124 Python Files)
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Web Framework** | FastAPI 0.141+ | REST API, WebSocket, SSE streaming |
-| **Agent Orchestration** | LangGraph 0.2+ | Multi-step reasoning graph |
-| **Database** | PostgreSQL + asyncpg / SQLite + aiosqlite | Transactional data, async ORM |
-| **Migrations** | Alembic 1.13+ | Schema versioning |
-| **Vector Store** | Qdrant 1.10+ | Dense retrieval |
-| **Graph Database** | Neo4j 5.24+ | Entity relationships |
-| **Cache** | Redis 5.0+ | Response caching |
-| **Object Storage** | MinIO / S3 | Document storage |
-| **Embeddings** | sentence-transformers 3.0+ | BAAI/bge-m3 (1024-dim) |
-| **Reranker** | sentence-transformers CrossEncoder | bge-reranker-v2-m3 |
-| **Sparse Retrieval** | rank-bm25 0.2.2+ | BM25 scoring |
-| **PDF Parsing** | PyMuPDF 1.24+ | Text, tables, images |
-| **OCR** | PaddleOCR 2.7+ | Scanned document text extraction |
-| **Authentication** | PyJWT 2.15+, argon2-cffi 23.1+ | Token auth, password hashing |
-| **Logging** | structlog 24.1+ | Structured logging |
+| Layer | Technology | Version | Purpose |
+|-------|-----------|---------|---------|
+| **Web Framework** | FastAPI | 0.141+ | REST API, WebSocket, SSE streaming, OpenAPI docs |
+| **Agent Orchestration** | LangGraph | 0.2+ | StateGraph for multi-step reasoning |
+| **LLM Integration** | LangChain Core | 0.3+ | Prompt templates, message formatting |
+| **Database** | SQLAlchemy (async) | 2.0.35+ | ORM with asyncio support |
+| **DB Drivers** | asyncpg (PostgreSQL), aiosqlite (SQLite) | Latest | Async database drivers |
+| **Migrations** | Alembic | 1.13+ | Schema versioning |
+| **Vector Store** | Qdrant Client | 1.10+ | Dense retrieval (or local numpy index) |
+| **Graph Database** | Neo4j Driver | 5.24+ | Property graph (or local SQLite graph) |
+| **Cache** | Redis (async) | 5.0+ | Response caching (or in-memory) |
+| **Object Storage** | boto3 (S3) | 1.34+ | Document storage (or local filesystem) |
+| **Embeddings** | sentence-transformers | 3.0+ | BAAI/bge-m3 (1024-dim) |
+| **Reranking** | sentence-transformers CrossEncoder | 3.0+ | bge-reranker-v2-m3 |
+| **Sparse Retrieval** | rank-bm25 | 0.2.2+ | BM25 scoring algorithm |
+| **PDF Parsing** | PyMuPDF (fitz) | 1.24+ | Text, tables, images extraction |
+| **DOCX Parsing** | python-docx | 1.1+ | Word document processing |
+| **XLSX Parsing** | openpyxl | 3.1+ | Excel spreadsheet processing |
+| **OCR** | PaddleOCR | 2.7+ | Scanned document text extraction |
+| **Authentication** | PyJWT | 2.15+ | JWT token generation/validation |
+| **Password Hashing** | argon2-cffi | 23.1+ | Argon2id password hashing |
+| **MCP Server** | mcp (FastMCP) | 1.21+ | Model Context Protocol server |
+| **Logging** | structlog | 24.1+ | Structured JSON logging |
+
+**Total Files:** 124 Python files in `backend/app/`
 
 ### Frontend
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Framework** | React 18.3 | UI library |
-| **Language** | TypeScript 5.7 | Type safety |
-| **Build Tool** | Vite 6.4 | Fast dev server and bundling |
-| **Routing** | react-router-dom 6.30 | SPA routing |
-| **State Management** | Zustand 5.0 | Global state |
-| **Server State** | TanStack Query 5.62 | Data fetching, caching |
-| **UI Components** | Radix UI | Accessible primitives |
-| **Styling** | Tailwind CSS 3.4 | Utility-first CSS |
-| **Icons** | lucide-react 0.469 | Icon library |
-| **Charts** | Recharts 2.15 | Data visualization |
-| **3D Graphics** | Three.js + React Three Fiber | 3D globe visualization (optional) |
+| Layer | Technology | Version | Purpose |
+|-------|-----------|---------|---------|
+| **Framework** | React | 18.3 | UI library with hooks |
+| **Language** | TypeScript | 5.7 | Type safety and IDE support |
+| **Build Tool** | Vite | 6.4 | Fast dev server, HMR, optimized bundling |
+| **Routing** | react-router-dom | 6.30 | SPA routing with nested routes |
+| **State Management** | Zustand | 5.0 | Lightweight global state |
+| **Server State** | TanStack Query | 5.62 | Data fetching, caching, synchronization |
+| **UI Components** | Radix UI | Various | Accessible headless components |
+| **Styling** | Tailwind CSS | 3.4 | Utility-first CSS framework |
+| **Icons** | lucide-react | 0.469 | Icon library |
+| **Charts** | Recharts | 2.15 | Data visualization |
+| **Form Validation** | Zod | Latest | Runtime type validation |
+| **HTTP Client** | axios | Latest | API communication |
+| **3D Graphics** | Three.js + React Three Fiber | Latest | Optional 3D globe visualization |
 
----
-
-## Project Structure (Top-Level)
-
-```
-enterprise-procurement-intelligence/
-├── backend/                      # FastAPI backend (124 Python files)
-│   ├── alembic/                  # Database migrations (4 versions)
-│   ├── app/                      # Application code
-│   │   ├── agents/               # LangGraph nodes (7 files)
-│   │   ├── api/v1/               # REST endpoints (8 route files, 70+ endpoints)
-│   │   ├── config/               # Settings & dependency injection
-│   │   ├── db/models/            # SQLAlchemy models (6 files, 24 tables)
-│   │   ├── evaluation/           # Evaluation framework
-│   │   ├── graph/                # Neo4j graph operations
-│   │   ├── ingestion/            # Document pipeline (12 files)
-│   │   ├── mcp_server/           # Model Context Protocol server
-│   │   ├── providers/            # LLM, embeddings, vector, graph providers (15 files)
-│   │   ├── retrieval/            # Hybrid retrieval engine (8 files)
-│   │   ├── schemas/              # Pydantic request/response models
-│   │   ├── security/             # Auth, RBAC, audit logging
-│   │   └── main.py               # FastAPI app entrypoint
-│   ├── tests/                    # Test suite (68 test files, 473+ tests)
-│   ├── var/                      # Runtime data (database, logs, indexes)
-│   ├── Dockerfile                # Production Docker image
-│   └── pyproject.toml            # Python dependencies
-│
-├── frontend/                     # React frontend
-│   ├── src/
-│   │   ├── components/           # React components
-│   │   ├── pages/                # Page components (15+ routes)
-│   │   └── lib/                  # Utilities
-│   ├── Dockerfile                # Frontend Docker image
-│   ├── package.json              # Node dependencies
-│   └── vite.config.ts            # Vite configuration
-│
-├── data/                         # Data directory
-│   ├── evaluation/               # Evaluation datasets
-│   │   ├── benchmark_v3/         # 120-question benchmark
-│   │   └── golden_questions.json
-│   └── real_procurement_ocds/    # UK OCDS procurement data (83,724 records)
-│
-├── .env.example                  # Environment variables template
-├── docker-compose.yml            # Local development stack
-├── render.yaml                   # Render.com deployment config
-├── LICENSE                       # MIT License
-├── audit.md                      # Complete system audit
-└── README.md                     # This file
-```
+**Total Files:** 150+ TypeScript/TSX files in `frontend/src/`
 
 ---
 
@@ -638,190 +921,289 @@ enterprise-procurement-intelligence/
 
 ### Prerequisites
 
-- Python 3.12+
-- Node.js 18+
-- Docker & Docker Compose (optional, for infrastructure)
+- **Python 3.12+** (asyncio, type hints support)
+- **Node.js 18+** (modern JavaScript features)
+- **Docker & Docker Compose** (optional, for infrastructure services)
+- **Git** (version control)
 
 ### Quick Start
 
-**1. Clone repository**
+**1. Clone repository:**
 ```bash
 git clone https://github.com/Krish-afk-bot/enterprise-procurement-intelligence.git
 cd enterprise-procurement-intelligence
 ```
 
-**2. Backend setup**
+**2. Backend setup:**
 ```bash
 cd backend
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e .
-cp ../.env.example ../.env  # Configure environment variables
+cp ../.env.example ../.env
+# Edit .env: Set JWT_SECRET, configure providers
 alembic upgrade head
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**3. Frontend setup**
+**3. Frontend setup:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-**4. Access**
-- Frontend: http://localhost:5173
-- API Docs: http://localhost:8000/docs
-- Health Check: http://localhost:8000/api/v1/health
+**4. Access:**
+- **Frontend:** http://localhost:5173
+- **API Docs:** http://localhost:8000/docs
+- **Health Check:** http://localhost:8000/api/v1/health
 
-### Docker Setup (Infrastructure Only)
+### Docker Infrastructure (Optional)
 
 ```bash
 docker compose up -d postgres qdrant neo4j redis minio
 ```
 
+Starts supporting services. Configure backend `.env` to use them:
+```bash
+VECTOR_PROVIDER=qdrant
+GRAPH_PROVIDER=neo4j
+CACHE_PROVIDER=redis
+STORAGE_PROVIDER=s3
+```
+
 ### Environment Configuration
 
-Key environment variables (see `.env.example` for full list):
-
+**Minimal Development** (all local providers):
 ```bash
 # Security
-JWT_SECRET=your-secret-key-here  # Generate: python -c "import secrets; print(secrets.token_urlsafe(48))"
+JWT_SECRET=dev-insecure-change-me  # OK for local only
 
 # Database
-DATABASE_URL=sqlite+aiosqlite:///./var/epi.db  # Dev
-# DATABASE_URL=postgresql+asyncpg://user:pass@host:5432/epi  # Prod
+DATABASE_URL=sqlite+aiosqlite:///./var/epi.db
 
-# Providers
-VECTOR_PROVIDER=local            # local | qdrant
-GRAPH_PROVIDER=local             # local | neo4j
-LLM_BASE_URL=http://localhost:11434/v1  # Optional (Ollama, OpenAI-compatible)
+# Providers (all local, no external services)
+VECTOR_PROVIDER=local
+GRAPH_PROVIDER=local
+CACHE_PROVIDER=memory
+STORAGE_PROVIDER=local
+
+# Optional: Connect to local Ollama
+LLM_BASE_URL=http://localhost:11434/v1
 LLM_MODEL=llama3.1:8b
 
-# Embeddings
+# Embeddings (downloads model on first use)
 EMBEDDING_MODEL=BAAI/bge-m3
-EMBEDDING_DEVICE=auto            # auto | cpu | cuda
+EMBEDDING_DEVICE=auto  # Uses CUDA if available
+```
+
+**Production-Ready** (external providers):
+```bash
+# Security (REQUIRED)
+JWT_SECRET=<48+ char random string>  # python -c "import secrets; print(secrets.token_urlsafe(48))"
+
+# Database
+DATABASE_URL=postgresql+asyncpg://user:pass@host:5432/epi
+
+# Providers
+VECTOR_PROVIDER=qdrant
+QDRANT_URL=https://xyz.qdrant.io:6333
+QDRANT_API_KEY=<key>
+
+GRAPH_PROVIDER=neo4j
+NEO4J_URI=bolt://neo4j.host:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=<password>
+
+CACHE_PROVIDER=redis
+REDIS_URL=redis://redis.host:6379/0
+
+STORAGE_PROVIDER=s3
+S3_ENDPOINT=https://s3.amazonaws.com
+S3_BUCKET=epi-documents
+S3_ACCESS_KEY=<key>
+S3_SECRET_KEY=<secret>
 ```
 
 ### Running Tests
 
 ```bash
 cd backend
-pytest                           # All tests
-pytest --cov=app --cov-report=html  # With coverage
-pytest tests/integration/        # Integration tests only
-pytest -v -k "retrieval"         # Specific test pattern
+pytest                                    # All tests
+pytest --cov=app --cov-report=html        # With coverage
+pytest tests/integration/                 # Integration tests only
+pytest -v -k "retrieval"                  # Specific pattern
+pytest -m "not slow"                      # Skip slow tests
 ```
 
-**Current Status:** 473/493 tests passing (96.0%), 13 failures (mock configuration issues), 7 skipped
+**Test Status:** 473/493 tests passing (96.0%), 13 failures (mock configuration), 7 skipped
+
+**Test Structure:**
+- `tests/unit/` - Unit tests (pure logic, no I/O)
+- `tests/integration/` - Integration tests (database, APIs)
+- `tests/ingestion/` - Document processing tests
+- `tests/reliability/` - Failure injection, job leases
+- `tests/security/` - Auth, RBAC, tenant isolation
 
 ---
 
 ## Deployment
 
-### Render.com (Backend)
+### Current Production Deployment
 
-1. Push to GitHub
-2. Create Web Service on Render:
-   - Root Directory: `backend`
-   - Build Command: `pip install -e .`
-   - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-3. Set environment variables (see `.env.example`)
-4. Deploy
+**Frontend (Vercel):**
+- **URL:** https://enterprise-procurement-intelligence-n04pc4po3.vercel.app
+- **Deployment:** Automatic on git push to master
+- **Configuration:** `frontend/vercel.json`
 
-**Live Backend:** [enterprise-procurement-intelligence.onrender.com](https://enterprise-procurement-intelligence.onrender.com)
+**Backend (Render.com):**
+- **URL:** https://enterprise-procurement-intelligence.onrender.com
+- **API Docs:** https://enterprise-procurement-intelligence.onrender.com/docs
+- **Configuration:** `render.yaml`
+- **Services:** Web service only (no background worker deployed)
 
-### Vercel (Frontend)
+**Deployed Infrastructure:**
+- **Database:** SQLite (local file in Render persistent disk)
+- **Vector Store:** Local numpy index (in-memory)
+- **Graph Store:** Local SQLite graph (not Neo4j)
+- **Cache:** In-memory (not Redis)
+- **Object Storage:** Local filesystem (not S3)
+- **LLM:** Not configured (extractive mode only)
 
+**Implications:**
+- ✅ Hosted UI accessible for demos
+- ✅ API documentation browsable
+- ⚠️ Local providers limit scalability (single instance, no horizontal scaling)
+- ⚠️ No LLM configured → extractive answers only (returns evidence chunks, no generation)
+- ⚠️ No background worker → document uploads queue but don't process automatically
+- ⚠️ Persistent disk subject to Render's retention policy
+
+### Deploying to Render (Production-Ready)
+
+**1. Configure render.yaml:**
+- Set `VECTOR_PROVIDER=qdrant`, configure Qdrant Cloud URL and API key
+- Set `GRAPH_PROVIDER=neo4j`, configure Neo4j Aura credentials
+- Set `CACHE_PROVIDER=redis`, configure Redis Cloud URL
+- Set `STORAGE_PROVIDER=s3`, configure S3 bucket
+- Set `LLM_BASE_URL` and `LLM_MODEL` for answer generation
+
+**2. Create Render services:**
+- **epi-api** (Web Service): Root Directory = `backend`, Dockerfile path = `./backend/Dockerfile`
+- **epi-worker** (Background Worker): Root Directory = `backend`, Command = `python -m app.workers.ingestion_worker`
+
+**3. Set environment variables:**
+- Add to `epi-backend` env var group in Render dashboard
+- All services inherit from group
+
+**4. Deploy:**
+- Push to master branch
+- Render auto-deploys on push
+
+### Docker Deployment
+
+**Full Stack:**
 ```bash
-cd frontend
-npm i -g vercel
-vercel --prod
+docker compose up -d
+docker compose logs -f api
 ```
 
-**Live Frontend:** [enterprise-procurement-intelligence-n04pc4po3.vercel.app](https://enterprise-procurement-intelligence-n04pc4po3.vercel.app)
-
-### Docker
-
-```bash
-docker compose up -d  # Full stack
-docker compose logs -f api  # View logs
+**Production Dockerfile:**
+```dockerfile
+FROM python:3.12-slim
+WORKDIR /app
+COPY backend/pyproject.toml .
+RUN pip install -e .
+COPY backend/ .
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
 ```
-
-**Note:** Current deployment uses local providers (SQLite, in-memory vectors, SQLite graph). For production, configure PostgreSQL, Qdrant, Neo4j, and Redis via environment variables.
 
 ---
 
 ## Roadmap
 
 ### Completed ✓
-- Hybrid retrieval (dense + sparse + graph)
-- Cross-encoder reranking
-- LangGraph multi-agent pipeline
-- Evidence grounding and citation
-- MCP server integration
-- RBAC and tenant isolation
-- 120-question benchmark evaluation
-- Production deployment (Render + Vercel)
+- [x] Hybrid retrieval (dense + sparse + RRF)
+- [x] Cross-encoder reranking
+- [x] LangGraph 11-node agent pipeline with corrective loop
+- [x] Evidence grounding and claim verification
+- [x] MCP server with 9 tools
+- [x] RBAC and tenant isolation
+- [x] 120-question benchmark evaluation
+- [x] Knowledge graph with 9 node types
+- [x] Document ingestion (PDF, DOCX, XLSX, OCR)
+- [x] Production deployment (Vercel + Render)
 
 ### In Progress 🔄
-- Improving refusal precision (currently 42.9%)
-- Answer correctness optimization (currently 39.7%)
-- Clause extraction accuracy
-- Multi-hop graph reasoning
+- [ ] Improving refusal precision (currently 42.9%, target 70%+)
+- [ ] Answer correctness optimization (currently 39.7%, target 60%+)
+- [ ] Automated regression testing framework
+- [ ] Query rewriting effectiveness (current implementation basic)
 
-### Planned 📋
-- **Q1 2025:**
-  - Human evaluation of benchmark dataset
-  - Fine-tuned reranker for procurement domain
-  - Query rewriting for improved retrieval
-  - Bulk document upload
-- **Q2 2025:**
-  - Vision-language model integration for charts/diagrams
-  - Advanced graph algorithms (PageRank, community detection)
-  - Federated search across multiple tenants
-  - Export to Excel/PDF
-- **Q3 2025:**
-  - Fine-tuned embedding model (bge-m3 → domain-specific)
-  - Real-time document change detection
-  - Slack/Teams integration
-  - Mobile app (React Native)
+### Planned (Q1-Q2 2025) 📋
+- [ ] Human evaluation of benchmark dataset
+- [ ] Fine-tuned reranker for procurement domain
+- [ ] Vision-language model integration (charts, diagrams, handwritten annotations)
+- [ ] Bulk document upload with batch processing
+- [ ] Advanced graph algorithms (PageRank, community detection, path scoring)
+- [ ] Clause classification model (payment, liability, IP, termination)
+- [ ] Export to Excel/PDF with evidence provenance
+- [ ] Slack/Teams integration for conversational search
+
+### Future (Q3-Q4 2025) 🔮
+- [ ] Fine-tuned embedding model (domain-specific, trained on procurement corpus)
+- [ ] Real-time document change detection and incremental reindexing
+- [ ] Federated search across multiple tenants (with privacy controls)
+- [ ] Mobile app (React Native)
+- [ ] Advanced temporal reasoning (contract lifecycle, amendment chains)
+- [ ] Supplier risk scoring (compliance history, contract performance)
 
 ---
 
 ## Contributing
 
-Contributions welcome! Please open an issue or pull request.
+Contributions welcome! Open an issue or pull request.
 
 **Development Guidelines:**
-- Follow PEP 8 (Python) and ESLint rules (TypeScript)
-- Add tests for new features
-- Update documentation
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
+- Follow PEP 8 (Python), ESLint rules (TypeScript)
+- Add tests for new features (maintain 95%+ coverage)
+- Update documentation (README, audit.md, docstrings)
+- Use conventional commits: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `perf:`, `chore:`
+
+**Commit Examples:**
+```bash
+feat(agents): add clause extraction node to pipeline
+fix(retrieval): correct RRF k parameter from 60 to 45
+docs(readme): update MCP tool count to 9
+test(ingestion): add PDF parsing failure recovery test
+```
 
 ---
 
 ## License
 
-**MIT License**
+**MIT License** - See [LICENSE](LICENSE) file.
 
-Copyright (c) 2024 Enterprise Procurement Intelligence
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-**OCDS Data:** Open Contracting Data Standard (OCDS) data is licensed under the Open Data Commons Open Database License (ODbL). Attribution to UK Find a Tender Service required when using procurement data.
+**OCDS Data:** UK Find a Tender procurement data licensed under Open Data Commons Open Database License (ODbL). Attribution required when using.
 
 ---
 
 ## Support
 
-**Documentation:** See `audit.md` for complete system documentation  
-**Issues:** [GitHub Issues](https://github.com/Krish-afk-bot/enterprise-procurement-intelligence/issues)  
-**Repository:** [github.com/Krish-afk-bot/enterprise-procurement-intelligence](https://github.com/Krish-afk-bot/enterprise-procurement-intelligence)
+**Documentation:**
+- **Complete Audit:** [audit.md](audit.md) - 70+ API endpoints, architecture details
+- **Deployment Guide:** `docs/deployment/` (if exists)
+- **Testing Guide:** `docs/testing/` (if exists)
+
+**Links:**
+- **Repository:** https://github.com/Krish-afk-bot/enterprise-procurement-intelligence
+- **Issues:** https://github.com/Krish-afk-bot/enterprise-procurement-intelligence/issues
+- **API Docs:** https://enterprise-procurement-intelligence.onrender.com/docs
+
+**Health Check:**
+```bash
+curl https://enterprise-procurement-intelligence.onrender.com/api/v1/health
+```
 
 ---
 
-*Built with FastAPI, LangGraph, React, Neo4j, and Qdrant. Powered by evidence.*
+**Built with FastAPI, LangGraph, React, Neo4j, and Qdrant. Powered by evidence, not hallucination.**

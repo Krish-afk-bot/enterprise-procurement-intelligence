@@ -1,7 +1,8 @@
 # Backend image for deployment (Render, Docker Compose, etc.)
 #
-# This Dockerfile is designed to be built from the repository root:
-#   docker build -f backend/Dockerfile .
+# When Render Root Directory is set to 'backend', this Dockerfile is built with
+# the backend/ directory as the build context:
+#   docker build -f Dockerfile .  (from within backend/ directory)
 #
 # Dependencies are read from pyproject.toml rather than a second requirements
 # file, so the image can never drift from the declared dependency set.
@@ -25,7 +26,8 @@ RUN apt-get update \
 WORKDIR /app/backend
 
 # Copy only pyproject.toml first for better layer caching
-COPY backend/pyproject.toml ./pyproject.toml
+# When build context is backend/, we copy from current directory
+COPY pyproject.toml ./pyproject.toml
 
 # CPU-only torch first. sentence-transformers pulls torch as a dependency, and
 # its default wheel drags in ~2 GB of CUDA libraries this container can never
@@ -37,8 +39,8 @@ RUN python -m pip install --no-cache-dir --retries 10 --timeout 180 \
 # Install all dependencies from pyproject.toml
 RUN python -c "import subprocess, sys, tomllib; deps = tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--retries', '10', '--timeout', '180', *deps])"
 
-# Copy the entire backend directory
-COPY backend/ ./
+# Copy the entire backend directory (current directory when context is backend/)
+COPY . ./
 
 EXPOSE 8000
 

@@ -1,4 +1,7 @@
-# Backend image for the compose stack.
+# Backend image for deployment (Render, Docker Compose, etc.)
+#
+# This Dockerfile is designed to be built from the repository root:
+#   docker build -f backend/Dockerfile .
 #
 # Dependencies are read from pyproject.toml rather than a second requirements
 # file, so the image can never drift from the declared dependency set.
@@ -21,6 +24,7 @@ RUN apt-get update \
 
 WORKDIR /app/backend
 
+# Copy only pyproject.toml first for better layer caching
 COPY backend/pyproject.toml ./pyproject.toml
 
 # CPU-only torch first. sentence-transformers pulls torch as a dependency, and
@@ -30,8 +34,10 @@ COPY backend/pyproject.toml ./pyproject.toml
 RUN python -m pip install --no-cache-dir --retries 10 --timeout 180 \
         --index-url https://download.pytorch.org/whl/cpu torch
 
+# Install all dependencies from pyproject.toml
 RUN python -c "import subprocess, sys, tomllib; deps = tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--retries', '10', '--timeout', '180', *deps])"
 
+# Copy the entire backend directory
 COPY backend/ ./
 
 EXPOSE 8000

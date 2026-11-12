@@ -10,7 +10,7 @@ from __future__ import annotations
 import os
 from functools import lru_cache
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -46,7 +46,6 @@ _DEV_ENVS = frozenset({"development", "test"})
 
 _MIN_SECRET_LENGTH = 32
 
-
 def _default_sqlite_url() -> str:
     (DEFAULT_VAR_DIR).mkdir(parents=True, exist_ok=True)
     return f"sqlite+aiosqlite:///{(DEFAULT_VAR_DIR / 'epi.db').as_posix()}"
@@ -60,6 +59,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=False,
+        env_parse_none_str="null",
     )
 
     # ------------------------------------------------------------------ app
@@ -69,10 +69,28 @@ class Settings(BaseSettings):
     debug: bool = False
     log_level: str = "INFO"
     log_json: bool = True
-    cors_origins: list[str] = Field(
-        default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"]
+    cors_origins_raw: str = Field(
+        default="http://localhost:5173,http://127.0.0.1:5173",
+        alias="cors_origins"
     )
     var_dir: Path = DEFAULT_VAR_DIR
+
+    @field_validator("cors_origins_raw", mode="before")
+    @classmethod
+    def _normalize_cors_origins(cls, value: Any) -> str:
+        """Accept both string (from env) and list (from constructor) for cors_origins."""
+        if isinstance(value, list):
+            return ",".join(str(item) for item in value)
+        return str(value)
+
+    @property
+    def cors_origins(self) -> list[str]:
+        """Parse CORS_ORIGINS from comma-separated string, stripping whitespace and trailing slashes."""
+        return [
+            item.strip().rstrip("/") 
+            for item in self.cors_origins_raw.split(",") 
+            if item.strip()
+        ]
 
     # ------------------------------------------------------------- security
     jwt_secret: str = "dev-insecure-change-me"

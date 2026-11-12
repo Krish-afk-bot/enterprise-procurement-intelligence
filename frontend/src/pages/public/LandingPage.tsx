@@ -2,24 +2,22 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  BadgeCheck,
   ChartNoAxesColumn,
   ChevronDown,
-  FileSearch,
-  FileStack,
   GitBranch,
   Layers,
   Link2,
-  ScanText,
-  ShieldCheck,
   ShieldQuestion,
   Sparkles,
   TriangleAlert,
-  Users,
 } from "lucide-react";
 
+import { AnimatedDataPoints } from "@/components/landing/AnimatedDataPoints";
 import { EvidenceTrace } from "@/components/landing/EvidenceTrace";
+import { InteractiveCapabilities } from "@/components/landing/InteractiveCapabilities";
+import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { canPin, loadScroll } from "@/components/motion/scroll";
 import { LazyWaveHero } from "@/components/three/hero/LazyWaveHero";
 import { Button } from "@/components/ui/button";
@@ -42,33 +40,6 @@ const PILLARS = [
     title: "Relationship Intelligence",
     body: "Suppliers, contracts, amendments and awards modelled as a network you can traverse from any record.",
     points: ["Supplier relationships", "Procurement networks", "Contract and award connections"],
-  },
-];
-
-const CAPABILITIES = [
-  {
-    icon: FileSearch,
-    title: "Procurement Search",
-    body: "One query across agreements, pricing schedules, amendments and compliance records, with the passage and page attached.",
-    preview: <SearchPreview />,
-  },
-  {
-    icon: FileStack,
-    title: "Document Intelligence",
-    body: "Ingestion reports its stage, the pages it extracted, and whether OCR or a vision model was used.",
-    preview: <DocumentPreview />,
-  },
-  {
-    icon: Users,
-    title: "Supplier Intelligence",
-    body: "Contracts, price rows, documents and certificates that reference a supplier, resolved to one record.",
-    preview: <SupplierPreview />,
-  },
-  {
-    icon: ShieldCheck,
-    title: "Evidence & Citation Tracking",
-    body: "Each statement is checked against the passage it cites, and the outcome is shown as supported, partial or refused.",
-    preview: <EvidencePreview />,
   },
 ];
 
@@ -112,9 +83,10 @@ const TRUST = [
 export function LandingPage() {
   return (
     <div className="bg-ink text-foreground">
+      <ScrollProgress />
       <Hero />
       <Platform />
-      <Capabilities />
+      <InteractiveCapabilities />
       <EvidenceTrace />
       <Trust />
       <ClosingCta />
@@ -223,6 +195,7 @@ function Hero() {
             className="absolute inset-0 transition-transform duration-300 ease-out motion-reduce:transition-none"
           >
             <LazyWaveHero />
+            <AnimatedDataPoints />
           </div>
         </div>
       {/* The grid and scrim sit above the canvas and below the copy. */}
@@ -279,15 +252,19 @@ function Hero() {
 
         <div className="animate-rise" style={{ animationDelay: "260ms" }}>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button size="lg" variant="glow" asChild className="w-full sm:w-auto">
-              <Link to="/login">
-                Explore Intelligence
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
-              <a href="#platform">View Platform</a>
-            </Button>
+            <MagneticButton className="w-full sm:w-auto" strength={0.4} radius={100}>
+              <Button size="lg" variant="glow" asChild className="w-full sm:w-auto">
+                <Link to="/login">
+                  Explore Intelligence
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </MagneticButton>
+            <MagneticButton className="w-full sm:w-auto" strength={0.3} radius={90}>
+              <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
+                <a href="#platform">View Platform</a>
+              </Button>
+            </MagneticButton>
           </div>
         </div>
 
@@ -300,7 +277,7 @@ function Hero() {
 
       <a
         href="#platform"
-        className="absolute bottom-7 left-1/2 -translate-x-1/2 rounded-full p-2 text-subtle transition-colors hover:text-foreground focus-visible:text-foreground"
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 rounded-full p-2 text-subtle transition-all duration-300 hover:text-foreground hover:scale-110 focus-visible:text-foreground focus-visible:scale-110"
         aria-label="Scroll to the platform overview"
       >
         <ChevronDown className="h-5 w-5 animate-float-slow motion-reduce:animate-none" aria-hidden="true" />
@@ -352,50 +329,6 @@ function Platform() {
 }
 
 /* -------------------------------------------------------------- workflow */
-
-/* ---------------------------------------------------------- capabilities */
-
-function Capabilities() {
-  return (
-    <section id="features" className="scroll-mt-24 border-t border-white/[0.07] bg-ink px-5 py-24 lg:px-8 lg:py-32">
-      <div className="mx-auto w-full max-w-7xl">
-        <Reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-subtle">Platform capabilities</p>
-            <h2 className="mt-4 text-display-sm text-balance">Built for the evidence, not the demo.</h2>
-          </div>
-          <p className="max-w-sm text-[13px] leading-relaxed text-muted-foreground">
-            Each panel below is a layout preview of a surface in the working application, not a sample result. Figures
-            are never invented to fill a card.
-          </p>
-        </Reveal>
-
-        <ul className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {CAPABILITIES.map((capability, index) => (
-            <Reveal as="li" key={capability.title} delay={(index % 3) * 80}>
-              <article className="glass card-interactive group flex h-full flex-col overflow-hidden rounded-2xl">
-                <div className="relative h-[152px] overflow-hidden border-b border-white/[0.08] bg-ink-2/80">
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_65%)]" />
-                  <div aria-hidden="true" className="absolute inset-x-4 top-5 origin-top scale-[0.98]">
-                    {capability.preview}
-                  </div>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-2.5">
-                    <capability.icon className="h-4 w-4 text-white/70" aria-hidden="true" />
-                    <h3 className="text-[15px] font-medium tracking-tight">{capability.title}</h3>
-                  </div>
-                  <p className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">{capability.body}</p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 /* ---------------------------------------------------------------- trust */
 
@@ -466,137 +399,5 @@ function ClosingCta() {
         </Reveal>
       </div>
     </section>
-  );
-}
-
-/* --------------------------------------------------------------- previews
- *
- * These are interface layouts, drawn from the same tokens as the product. They
- * contain structure — rows, labels, emphasis — and no procurement figures, so a
- * preview can never be read as a sample of someone's data.
- */
-
-function PreviewFrame({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="rounded-t-lg border border-white/10 bg-ink-3/95 shadow-[0_-1px_0_0_rgba(255,255,255,0.06)_inset]">
-      <div className="flex items-center gap-1.5 border-b border-white/[0.07] px-3 py-2">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/15" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/10" />
-        <span className="ml-2 text-[9px] uppercase tracking-[0.14em] text-subtle">{label}</span>
-      </div>
-      <div className="p-3">{children}</div>
-    </div>
-  );
-}
-
-function Bar({ width, className = "" }: { width: string; className?: string }) {
-  return <span className={`block h-1.5 rounded-full bg-white/12 ${className}`} style={{ width }} />;
-}
-
-function SearchPreview() {
-  return (
-    <PreviewFrame label="Search">
-      <div className="flex items-center gap-2 rounded-md border border-white/12 bg-white/[0.04] px-2.5 py-1.5">
-        <FileSearch className="h-3 w-3 text-white/45" aria-hidden="true" />
-        <Bar width="52%" />
-      </div>
-      <div className="mt-2 space-y-1.5">
-        {["68%", "84%", "57%"].map((width, index) => (
-          <div key={width} className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1.5">
-            <div className="flex items-center gap-2">
-              <span className="rounded-sm border border-white/15 px-1 text-[7px] uppercase tracking-wider text-subtle">
-                page
-              </span>
-              <Bar width={width} />
-            </div>
-            {index === 0 ? <Bar width="40%" className="mt-1.5 h-1 bg-white/[0.07]" /> : null}
-          </div>
-        ))}
-      </div>
-    </PreviewFrame>
-  );
-}
-
-function DocumentPreview() {
-  return (
-    <PreviewFrame label="Document">
-      <div className="flex gap-3">
-        <div className="w-12 shrink-0 rounded-sm border border-white/12 bg-white/[0.03] p-1.5">
-          <Bar width="100%" className="h-1" />
-          <Bar width="80%" className="mt-1 h-1" />
-          <Bar width="90%" className="mt-1 h-1" />
-          <Bar width="60%" className="mt-1 h-1" />
-        </div>
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <div className="flex items-center gap-1.5">
-            <ScanText className="h-3 w-3 text-white/45" aria-hidden="true" />
-            <Bar width="45%" />
-          </div>
-          <div className="rounded-sm border-l-2 border-l-white/60 bg-white/[0.06] py-1 pl-2">
-            <Bar width="88%" className="h-1" />
-            <Bar width="72%" className="mt-1 h-1" />
-          </div>
-          <div className="flex gap-1.5 pt-1">
-            <span className="rounded-full border border-white/12 px-1.5 py-0.5 text-[7px] uppercase tracking-wider text-subtle">
-              extracted
-            </span>
-            <span className="rounded-full border border-white/12 px-1.5 py-0.5 text-[7px] uppercase tracking-wider text-subtle">
-              cited
-            </span>
-          </div>
-        </div>
-      </div>
-    </PreviewFrame>
-  );
-}
-
-function SupplierPreview() {
-  return (
-    <PreviewFrame label="Supplier">
-      <div className="flex items-center gap-2">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-white/[0.06]">
-          <Users className="h-3 w-3 text-white/55" aria-hidden="true" />
-        </span>
-        <Bar width="42%" />
-      </div>
-      <div className="mt-3 grid grid-cols-3 gap-2">
-        {["w-full", "w-4/5", "w-2/3"].map((width) => (
-          <div key={width} className="rounded-md border border-white/[0.07] bg-white/[0.02] p-2">
-            <Bar width={width} className="h-1" />
-            <Bar width="55%" className="mt-1.5 h-2.5 bg-white/20" />
-          </div>
-        ))}
-      </div>
-      <div className="mt-2 space-y-1">
-        <Bar width="76%" className="h-1" />
-        <Bar width="64%" className="h-1" />
-      </div>
-    </PreviewFrame>
-  );
-}
-
-function EvidencePreview() {
-  return (
-    <PreviewFrame label="Evidence">
-      <div className="space-y-1.5">
-        {[0, 1].map((row) => (
-          <div key={row} className="rounded-md border border-white/[0.07] bg-white/[0.02] p-2">
-            <div className="flex items-center gap-1.5">
-              <BadgeCheck className="h-3 w-3 text-white/50" aria-hidden="true" />
-              <Bar width="48%" className="h-1" />
-              <span className="ml-auto rounded-sm border border-white/15 px-1 text-[7px] uppercase tracking-wider text-subtle">
-                cited
-              </span>
-            </div>
-            <Bar width="86%" className="mt-1.5 h-1 bg-white/[0.07]" />
-          </div>
-        ))}
-      </div>
-      <div className="mt-2 flex items-center gap-1.5">
-        <span className="h-1 w-1 rounded-full bg-white/50" />
-        <Bar width="40%" className="h-1" />
-      </div>
-    </PreviewFrame>
   );
 }

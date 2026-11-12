@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BadgeCheck, FileText, Link2, Quote, ScrollText, Table2 } from "lucide-react";
 
+import { FlowParticles } from "@/components/motion/FlowParticles";
 import { canPin, loadScroll } from "@/components/motion/scroll";
 import { cn } from "@/lib/utils";
 
@@ -153,6 +154,12 @@ export function EvidenceTrace() {
                   style={{ transition: "stroke-dashoffset 120ms linear" }}
                 />
               </svg>
+              <FlowParticles
+                pathRef={pathRef}
+                active={pinned && active >= 2}
+                particleCount={4}
+                className="-right-16 top-1/2 hidden h-16 w-16 lg:block"
+              />
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">

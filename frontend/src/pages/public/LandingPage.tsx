@@ -4,10 +4,12 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { ExplainerSection } from "@/components/sections/ExplainerSection";
 import { FeatureBentoSection } from "@/components/sections/FeatureBentoSection";
 import { ProcurementGlobeSection } from "@/components/sections/ProcurementGlobeSection";
+import { EvidenceDemoSection } from "@/components/sections/EvidenceDemoSection";
 import { UseCasesSection } from "@/components/sections/UseCasesSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { SunriseCTASection } from "@/components/sections/SunriseCTASection";
 import { ProductCrossSellSection } from "@/components/sections/ProductCrossSellSection";
+import { AdaptiveNav } from "@/components/navigation/AdaptiveNav";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 /**
@@ -19,11 +21,12 @@ import { ScrollProgress } from "@/components/motion/ScrollProgress";
  * - Light explainer section with marquee chips
  * - Feature bento grid with mouse tilt
  * - Signature 3D procurement globe
+ * - Evidence demo with pinned scroll
  * - Use cases grid
  * - FAQ accordion
  * - Sunrise CTA with orange gradient
  * - Product cross-sell
- * - Enhanced footer (in PublicLayout)
+ * - Adaptive navigation pill
  */
 export function LandingPage() {
   const [loaderComplete, setLoaderComplete] = useState(false);
@@ -36,6 +39,7 @@ export function LandingPage() {
       {/* Main content */}
       <div className="bg-ink text-foreground">
         <ScrollProgress />
+        <AdaptiveNav />
 
         {/* Scene 01: Hero */}
         <HeroSection />
@@ -48,6 +52,9 @@ export function LandingPage() {
 
         {/* Scene 04: 3D Globe */}
         <ProcurementGlobeSection />
+
+        {/* Scene 05: Evidence Demo */}
+        <EvidenceDemoSection />
 
         {/* Scene 06: Use Cases (light section) */}
         <UseCasesSection />

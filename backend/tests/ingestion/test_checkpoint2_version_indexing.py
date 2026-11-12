@@ -169,7 +169,12 @@ class TestQdrantVersionIsolation:
         draft.metadata["embedding"] = [0.1, 0.2, 0.3]
         outcome = IngestionOutcome(document_id=doc_id, status="processing")
 
-        with patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)):
+        with (
+            patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)),
+            # The pipeline binds session_scope at import time, so patching only
+            # app.db.session leaves it writing to the real database.
+            patch("app.ingestion.pipeline.session_scope", _patched_scope_factory(factory)),
+        ):
             await pipeline._index_chunks(
                 [draft],
                 tenant_id=t_id,
@@ -291,7 +296,12 @@ class TestGraphVersionIsolation:
         pipeline = IngestionPipeline(container, settings)
         pipeline.graph_builder = graph_builder_mock
 
-        with patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)):
+        with (
+            patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)),
+            # The pipeline binds session_scope at import time, so patching only
+            # app.db.session leaves it writing to the real database.
+            patch("app.ingestion.pipeline.session_scope", _patched_scope_factory(factory)),
+        ):
             # Candidate mode
             success = await pipeline._update_graph(
                 t_id, doc_id, supplier=None, contract=None, counts={}, is_candidate=True
@@ -318,7 +328,12 @@ class TestGraphVersionIsolation:
         pipeline = IngestionPipeline(container, settings)
         pipeline.graph_builder = graph_builder_mock
 
-        with patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)):
+        with (
+            patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)),
+            # The pipeline binds session_scope at import time, so patching only
+            # app.db.session leaves it writing to the real database.
+            patch("app.ingestion.pipeline.session_scope", _patched_scope_factory(factory)),
+        ):
             success = await pipeline._update_graph(
                 t_id, doc_id, supplier=None, contract=None, counts={}, is_candidate=True
             )
@@ -369,7 +384,7 @@ class TestDurableCheckpointTracking:
         assert fresh_job2.checkpoint_metadata["points_indexed"] == 10
 
     async def test_qdrant_failure_stops_before_candidate_ready(self, engine):
-        """When Qdrant fails, document status becomes failed and checkpoint is not candidate_ready."""
+        """When Qdrant fails, candidate preparation fails but the active version survives."""
         factory = async_sessionmaker(engine, expire_on_commit=False)
         async with factory() as s:
             doc = await _make_document(s)
@@ -389,9 +404,37 @@ class TestDurableCheckpointTracking:
 
         settings = Settings(database_url="sqlite+aiosqlite:///:memory:", auto_create_schema=False)
         pipeline = IngestionPipeline(container, settings)
-        pipeline._parse = AsyncMock(return_value=MagicMock(pages=[], metadata={}, page_count=1, warnings=[]))
+        from app.ingestion.types import ParsedDocument, ParsedPage, TextBlock
 
-        with patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)):
+        page = ParsedPage(
+            page_number=1,
+            text="Contract MS-2026-014 for laboratory consumables and reagents. " * 4,
+            blocks=[
+                TextBlock(
+                    text="Contract MS-2026-014 for laboratory consumables and reagents.", order=0
+                )
+            ],
+        )
+        pipeline._parse = AsyncMock(
+            return_value=ParsedDocument(pages=[page], title="Test Master Services Agreement")
+        )
+
+        async def _embed(drafts, outcome):
+            # Keep the failure confined to the vector store, which is what this
+            # test is about.
+            for draft in drafts:
+                draft.metadata["embedding"] = [0.1] * 8
+            outcome.metrics["embeddings"] = "applied"
+            return True
+
+        pipeline._embed_drafts = _embed
+
+        with (
+            patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)),
+            # The pipeline binds session_scope at import time, so patching only
+            # app.db.session leaves it writing to the real database.
+            patch("app.ingestion.pipeline.session_scope", _patched_scope_factory(factory)),
+        ):
             outcome = await pipeline.process_document(doc_id, job_id=job_id)
 
         assert outcome.status == "failed"
@@ -399,6 +442,7 @@ class TestDurableCheckpointTracking:
             failed_job = await s.get(IngestionJob, job_id)
             assert failed_job.checkpoint != "candidate_ready"
             failed_doc = await s.get(Document, doc_id)
-            assert failed_doc.status == "failed"
-            # Active version is intact
+            # A failed candidate must never take the live document down with it.
+            assert failed_doc.status == "indexed"
+            assert failed_doc.candidate_indexing_version is None
             assert failed_doc.active_indexing_version == 1

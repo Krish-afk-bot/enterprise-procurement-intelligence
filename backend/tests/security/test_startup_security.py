@@ -17,13 +17,16 @@ from app.config.settings import _KNOWN_WEAK_SECRETS, Settings
 
 
 def prod_settings(**overrides: object) -> Settings:
-    """A Settings instance with app_env='production'."""
-    return Settings(
-        app_env="production",
-        jwt_algorithm="HS256",
-        database_url="sqlite+aiosqlite:///./var/test.db",
-        **overrides,  # type: ignore[arg-type]
-    )
+    """A Settings instance with app_env='production' and deployed-safe flags."""
+    values: dict[str, object] = {
+        "app_env": "production",
+        "jwt_algorithm": "HS256",
+        "database_url": "sqlite+aiosqlite:///./var/test.db",
+        "allow_provider_fallback": False,
+        "auto_create_schema": False,
+    }
+    values.update(overrides)
+    return Settings(**values)  # type: ignore[arg-type]
 
 
 def dev_settings(**overrides: object) -> Settings:
@@ -36,12 +39,15 @@ def dev_settings(**overrides: object) -> Settings:
 
 
 def staging_settings(**overrides: object) -> Settings:
-    return Settings(
-        app_env="staging",
-        jwt_algorithm="HS256",
-        database_url="sqlite+aiosqlite:///./var/test.db",
-        **overrides,  # type: ignore[arg-type]
-    )
+    values: dict[str, object] = {
+        "app_env": "staging",
+        "jwt_algorithm": "HS256",
+        "database_url": "sqlite+aiosqlite:///./var/test.db",
+        "allow_provider_fallback": False,
+        "auto_create_schema": False,
+    }
+    values.update(overrides)
+    return Settings(**values)  # type: ignore[arg-type]
 
 
 # ------------------------------------------------------------------ production guard
@@ -115,6 +121,51 @@ class TestStagingStartupSecurity:
         assert Settings(
             app_env="test", database_url="sqlite+aiosqlite:///./var/test.db"
         ).is_development is True
+
+
+class TestProductionConfigurationGuards:
+    """Local conveniences that must fail fast when deployed."""
+
+    def test_provider_fallback_is_refused(self) -> None:
+        s = prod_settings(jwt_secret="a" * 48, allow_provider_fallback=True)
+        with pytest.raises(RuntimeError, match="ALLOW_PROVIDER_FALLBACK"):
+            s.validate_startup_security()
+
+    def test_auto_create_schema_is_refused(self) -> None:
+        s = prod_settings(jwt_secret="a" * 48, auto_create_schema=True)
+        with pytest.raises(RuntimeError, match="AUTO_CREATE_SCHEMA"):
+            s.validate_startup_security()
+
+    def test_debug_is_refused(self) -> None:
+        s = prod_settings(jwt_secret="a" * 48, debug=True)
+        with pytest.raises(RuntimeError, match="DEBUG"):
+            s.validate_startup_security()
+
+    def test_wildcard_cors_is_refused(self) -> None:
+        s = prod_settings(jwt_secret="a" * 48, cors_origins=["*"])
+        with pytest.raises(RuntimeError, match="CORS_ORIGINS"):
+            s.validate_startup_security()
+
+    def test_mcp_without_scope_is_refused(self) -> None:
+        s = prod_settings(jwt_secret="a" * 48, mcp_enabled=True)
+        with pytest.raises(RuntimeError, match="MCP_TENANT_ID"):
+            s.validate_startup_security()
+
+    def test_mcp_with_scope_is_accepted(self) -> None:
+        s = prod_settings(
+            jwt_secret="a" * 48,
+            mcp_enabled=True,
+            mcp_tenant_id="ten_x",
+            mcp_user_email="ops@example.com",
+        )
+        s.validate_startup_security()
+
+    def test_multiple_problems_are_reported_together(self) -> None:
+        s = prod_settings(jwt_secret="short", debug=True, cors_origins=["*"])
+        with pytest.raises(RuntimeError) as excinfo:
+            s.validate_startup_security()
+        message = str(excinfo.value)
+        assert "JWT_SECRET" in message and "CORS_ORIGINS" in message and "DEBUG" in message
 
 
 # ------------------------------------------------------------------ development tolerance

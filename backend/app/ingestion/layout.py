@@ -20,6 +20,21 @@ CLAUSE_PATTERNS = [
     re.compile(r"^(?P<label>[A-Z])\.\s+(?P<title>[A-Z][^.]{3,80})$"),
 ]
 
+#: Clause references at the start of a *long* paragraph. Contract bodies rarely
+#: put "3.2" on its own line, so requiring a short line missed every clause in
+#: prose documents. A dotted number (3.2) or an explicit keyword is required, so
+#: a sentence that merely begins with a year or a list number is not a clause.
+INLINE_CLAUSE_PATTERNS = (
+    re.compile(r"^(?P<label>\d{1,3}(?:\.\d{1,3})+)\s+(?=\S)"),
+    # "section" is deliberately absent: procurement notices label their headings
+    # "Section 1 …", and turning a heading into a clause would mislabel every
+    # paragraph below it.
+    re.compile(
+        r"^(?P<label>(?:clause|article)\s+\d+(?:\.\d+)*)\s*[:.\-]?\s+(?=\S)",
+        re.IGNORECASE,
+    ),
+)
+
 KEYWORD_SECTIONS = (
     "definitions",
     "scope",
@@ -165,6 +180,12 @@ def _classify(block: TextBlock, text: str) -> tuple[str, str | None, str | None]
                 ):
                     return ("subsection", label, f"{label} {title}".strip())
                 return ("clause", label, f"{label} {title}".strip())
+    # Long paragraphs: recognise a clause reference only at the very start.
+    first_line = stripped.splitlines()[0].strip()
+    for pattern in INLINE_CLAUSE_PATTERNS:
+        match = pattern.match(first_line)
+        if match:
+            return ("clause", match.group("label").strip(), None)
     return ("paragraph", None, None)
 
 

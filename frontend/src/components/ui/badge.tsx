@@ -3,18 +3,26 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Badges are hairlines, not colour chips.
+ *
+ * Status is carried by the text and by one restrained semantic tone, so a table
+ * of twenty rows does not turn into a traffic-light wall.
+ */
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors",
+  "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-medium leading-5 tracking-wide transition-colors",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground",
-        secondary: "border-transparent bg-secondary text-secondary-foreground",
-        destructive: "border-transparent bg-destructive text-destructive-foreground",
-        outline: "text-foreground",
+        default: "border-white/15 bg-white/[0.06] text-foreground",
+        secondary: "border-transparent bg-white/[0.08] text-foreground",
+        destructive: "border-destructive/40 bg-destructive/10 text-destructive",
+        success: "border-success/40 bg-success/10 text-success",
+        warning: "border-warning/40 bg-warning/10 text-warning",
+        outline: "border-white/15 text-muted-foreground",
       },
     },
-    defaultVariants: { variant: "default" },
+    defaultVariants: { variant: "outline" },
   },
 );
 

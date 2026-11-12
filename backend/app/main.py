@@ -15,7 +15,7 @@ from app.api.errors import register_exception_handlers
 from app.api.v1 import api_router
 from app.config.container import get_container
 from app.config.settings import Settings, get_settings
-from app.db.session import dispose_engine, init_db, session_scope
+from app.db.session import assert_schema_current, dispose_engine, init_db, session_scope
 from app.observability.logging import configure_logging, get_logger, request_id_var
 from app.observability.tracing import configure_tracing
 from app.services.auth import bootstrap_admin
@@ -45,6 +45,10 @@ async def lifespan(app: FastAPI):
 
     if settings.auto_create_schema:
         await init_db()
+    elif settings.app_env not in {"development", "test"}:
+        # Production/staging never create tables; fail loudly here rather than
+        # on the first request if `alembic upgrade head` was not run.
+        await assert_schema_current()
     container = get_container()
     await container.startup()
 
@@ -56,14 +60,24 @@ async def lifespan(app: FastAPI):
         except Exception as exc:  # noqa: BLE001
             logger.error("bootstrap_failed", error=str(exc))
 
-    worker = IngestionWorker(settings, container)
-    app.state.worker = worker
-    await worker.start()
+    # Exactly one process owns the ingestion loops. ``embedded`` keeps the
+    # developmental single-process setup; ``external`` hands them to
+    # ``python -m app.workers.ingestion_worker`` so the API and the worker do
+    # not both poll (and starve) the same queue.
+    worker: IngestionWorker | None = None
+    if settings.worker_mode == "embedded":
+        worker = IngestionWorker(settings, container)
+        app.state.worker = worker
+        await worker.start()
+    else:
+        app.state.worker = None
+        logger.info("ingestion_worker_not_started", worker_mode=settings.worker_mode)
 
     try:
         yield
     finally:
-        await worker.stop()
+        if worker is not None:
+            await worker.stop()
         await container.shutdown()
         await dispose_engine()
         logger.info("shutdown_complete")

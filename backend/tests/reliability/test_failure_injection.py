@@ -303,7 +303,7 @@ class TestHealthCheckTimeouts:
 
         # Mock container with working providers
         mock_container = MagicMock()
-        mock_container._providers = {}
+        mock_container.provider_map.return_value = {}
         mock_container.fallbacks = []  # FIX: Must be a list, not dict
 
         # Mock settings
@@ -348,7 +348,7 @@ class TestHealthCheckTimeouts:
 
         # Mock container with slow provider
         mock_container = MagicMock()
-        mock_container._providers = {"vector": slow_provider}
+        mock_container.provider_map.return_value = {"vector": slow_provider}
         mock_container.fallbacks = []  # FIX: Must be a list
 
         # Mock settings
@@ -375,6 +375,8 @@ class TestHealthCheckTimeouts:
         """Test that readiness check times out on slow critical provider."""
         from unittest.mock import AsyncMock
 
+        from fastapi import Response
+
         from app.api.v1.health import ready
 
         # Mock fast database
@@ -390,10 +392,11 @@ class TestHealthCheckTimeouts:
 
         # Mock container with slow critical provider
         mock_container = MagicMock()
-        mock_container._providers = {"vector": slow_provider, "embedding": slow_provider}
+        mock_container.provider_map.return_value = {"vector": slow_provider, "embedding": slow_provider}
 
         # Call ready endpoint directly
         result = await ready(
+            Response(),
             container=mock_container,
             session=mock_session
         )
@@ -429,7 +432,7 @@ class TestHealthCheckTimeouts:
 
         # Mock container
         mock_container = MagicMock()
-        mock_container._providers = {"vector": healthy_provider}
+        mock_container.provider_map.return_value = {"vector": healthy_provider}
         mock_container.fallbacks = []  # FIX: Must be a list
 
         # Mock settings
@@ -475,7 +478,7 @@ class TestHealthCheckTimeouts:
 
         # Mock container
         mock_container = MagicMock()
-        mock_container._providers = {"vector": timeout_provider}
+        mock_container.provider_map.return_value = {"vector": timeout_provider}
         mock_container.fallbacks = []  # FIX: Must be a list
 
         # Mock settings
@@ -504,6 +507,8 @@ class TestHealthCheckTimeouts:
         """Test that readiness check properly cancels timed-out provider checks."""
         from unittest.mock import AsyncMock
 
+        from fastapi import Response
+
         from app.api.v1.health import ready
 
         # Mock fast database
@@ -526,10 +531,11 @@ class TestHealthCheckTimeouts:
 
         # Mock container
         mock_container = MagicMock()
-        mock_container._providers = {"vector": hanging_provider, "embedding": hanging_provider}
+        mock_container.provider_map.return_value = {"vector": hanging_provider, "embedding": hanging_provider}
 
         # Call ready endpoint
         result = await ready(
+            Response(),
             container=mock_container,
             session=mock_session
         )

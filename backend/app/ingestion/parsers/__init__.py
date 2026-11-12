@@ -8,6 +8,7 @@ alone.
 from __future__ import annotations
 
 from app.core.errors import FileValidationError
+from app.ingestion.parsers.html import parse_html
 from app.ingestion.parsers.image import parse_image
 from app.ingestion.parsers.office import parse_csv, parse_docx, parse_text, parse_xlsx
 from app.ingestion.parsers.pdf import parse_pdf
@@ -61,6 +62,9 @@ def parse_document(
     if mime_type in {"text/csv", "application/csv"}:
         return parse_csv(content, filename=filename)
 
+    if mime_type in {"text/html", "application/xhtml+xml"}:
+        return parse_html(content, filename=filename)
+
     if mime_type in {"text/plain", "text/markdown"}:
         return parse_text(content, filename=filename)
 
@@ -105,6 +109,7 @@ __all__ = [
     "parse_csv",
     "parse_docx",
     "parse_document",
+    "parse_html",
     "parse_image",
     "parse_pdf",
     "parse_text",

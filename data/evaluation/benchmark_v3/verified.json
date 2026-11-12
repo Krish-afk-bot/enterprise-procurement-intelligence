@@ -1,0 +1,2469 @@
+{
+  "dataset": "epi-benchmark-120",
+  "bucket": "verified",
+  "count": 66,
+  "questions": [
+    {
+      "id": "META-001",
+      "question": "What notice identifier is recorded for the tender 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "2025/S 000-010515",
+      "expected_facts": [
+        "2025/S 000-010515"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Notice identifier: 2025/S 000-010515",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-002",
+      "question": "Which OCID identifies the procurement for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "ocds-h6vhtk-04f6f2",
+      "expected_facts": [
+        "ocds-h6vhtk-04f6f2"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Procurement identifier (OCID): ocds-h6vhtk-04f6f2",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-003",
+      "question": "When was the notice for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' published?",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "20 March 2025",
+      "expected_facts": [
+        "20 March 2025"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 20 March 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-004",
+      "question": "Which main procurement category is recorded for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Main procurement category\nServices",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-005",
+      "question": "Which CPV code leads the classification list for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "79415200 - Design consultancy services",
+      "expected_facts": [
+        "79415200"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "CPV classifications\n79415200 - Design consultancy services",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-006",
+      "question": "What notice identifier is recorded for the tender 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "2025/S 000-030631",
+      "expected_facts": [
+        "2025/S 000-030631"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Notice identifier: 2025/S 000-030631",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-007",
+      "question": "Which OCID identifies the procurement for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "ocds-h6vhtk-0508f7",
+      "expected_facts": [
+        "ocds-h6vhtk-0508f7"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Procurement identifier (OCID): ocds-h6vhtk-0508f7",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-008",
+      "question": "When was the notice for 'Supporting Holocaust Survivor Testimony in Teaching' published?",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "6 June 2025",
+      "expected_facts": [
+        "6 June 2025"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 6 June 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-009",
+      "question": "Which main procurement category is recorded for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Main procurement category\nServices",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-010",
+      "question": "Which CPV code leads the classification list for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "80000000 - Education and training services",
+      "expected_facts": [
+        "80000000"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "CPV classifications\n80000000 - Education and training services",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-011",
+      "question": "What notice identifier is recorded for the tender 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "2025/S 000-057546",
+      "expected_facts": [
+        "2025/S 000-057546"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Notice identifier: 2025/S 000-057546",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-012",
+      "question": "Which OCID identifies the procurement for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "ocds-h6vhtk-0523fd",
+      "expected_facts": [
+        "ocds-h6vhtk-0523fd"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Procurement identifier (OCID): ocds-h6vhtk-0523fd",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-013",
+      "question": "When was the notice for 'Provision of a Human Resource System & Duties Management System' published?",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "18 September 2025",
+      "expected_facts": [
+        "18 September 2025"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 18 September 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-014",
+      "question": "Which main procurement category is recorded for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "Goods",
+      "expected_facts": [
+        "Goods"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Main procurement category\nGoods",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-015",
+      "question": "Which CPV code leads the classification list for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "48000000 - Software package and information systems",
+      "expected_facts": [
+        "48000000"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "CPV classifications\n48000000 - Software package and information systems",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-016",
+      "question": "What notice identifier is recorded for the tender 'NBI Energy Centre - Next Generation Infrastructure Programme'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "2025/S 000-074135",
+      "expected_facts": [
+        "2025/S 000-074135"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Notice identifier: 2025/S 000-074135",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-017",
+      "question": "Which OCID identifies the procurement for 'NBI Energy Centre - Next Generation Infrastructure Programme'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "ocds-h6vhtk-05a7e4",
+      "expected_facts": [
+        "ocds-h6vhtk-05a7e4"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Procurement identifier (OCID): ocds-h6vhtk-05a7e4",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "META-018",
+      "question": "When was the notice for 'NBI Energy Centre - Next Generation Infrastructure Programme' published?",
+      "category": "document_metadata",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "14 November 2025",
+      "expected_facts": [
+        "14 November 2025"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 14 November 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-001",
+      "question": "Which organisation is the contracting authority for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Natural History Museum",
+      "expected_facts": [
+        "Natural History Museum"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Natural History Museum",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-002",
+      "question": "Who is the named contact for the 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' procurement?",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Chloe Higgins",
+      "expected_facts": [
+        "Chloe Higgins"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Contact name: Chloe Higgins",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-003",
+      "question": "Which region is recorded for the contracting authority of 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "UKI33 - Kensington & Chelsea and Hammersmith & Fulham",
+      "expected_facts": [
+        "UKI33 - Kensington & Chelsea and Hammersmith & Fulham"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Region: UKI33 - Kensington & Chelsea and Hammersmith & Fulham",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-004",
+      "question": "Which organisation type is recorded for the buyer of 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Public authority - sub-central government",
+      "expected_facts": [
+        "Public authority - sub-central government"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Organisation type: Public authority - sub-central government",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-005",
+      "question": "Which organisation is the contracting authority for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Department for Education",
+      "expected_facts": [
+        "Department for Education"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Department for Education",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-006",
+      "question": "Who is the named contact for the 'Supporting Holocaust Survivor Testimony in Teaching' procurement?",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Anne Hardy",
+      "expected_facts": [
+        "Anne Hardy"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Contact name: Anne Hardy",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-007",
+      "question": "Which region is recorded for the contracting authority of 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "UKI32 - Westminster",
+      "expected_facts": [
+        "UKI32 - Westminster"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Region: UKI32 - Westminster",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-008",
+      "question": "Which organisation type is recorded for the buyer of 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Public authority - central government",
+      "expected_facts": [
+        "Public authority - central government"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Organisation type: Public authority - central government",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-009",
+      "question": "Which organisation is the contracting authority for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "parties",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "The Police and Crime Commissioner for Warwickshire",
+      "expected_facts": [
+        "The Police and Crime Commissioner for Warwickshire"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "The Police and Crime Commissioner for Warwickshire",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PARTY-010",
+      "question": "Which region is recorded for the contracting authority of 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "parties",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "UKG13 - Warwickshire",
+      "expected_facts": [
+        "UKG13 - Warwickshire"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Contracting authority",
+      "evidence_quote": "Region: UKG13 - Warwickshire",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-001",
+      "question": "When does the estimated contract period for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' start?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "7 July 2025",
+      "expected_facts": [
+        "7 July 2025"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n7 July 2025 to 1 August 2027",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-002",
+      "question": "When does the estimated contract period for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' end?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "1 August 2027",
+      "expected_facts": [
+        "1 August 2027"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n7 July 2025 to 1 August 2027",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-003",
+      "question": "What contract duration is estimated for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "2 years, 26 days",
+      "expected_facts": [
+        "2 years, 26 days"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "7 July 2025 to 1 August 2027\n2 years, 26 days",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-004",
+      "question": "What is the tender submission deadline for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "25 April 2025, 1:00pm",
+      "expected_facts": [
+        "25 April 2025, 1:00pm"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Tender submission deadline\n25 April 2025, 1:00pm",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-005",
+      "question": "What award decision date is estimated for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "17 June 2025",
+      "expected_facts": [
+        "17 June 2025"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Award decision date (estimated)\n17 June 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-006",
+      "question": "When does the estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' start?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "1 August 2025",
+      "expected_facts": [
+        "1 August 2025"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n1 August 2025 to 31 March 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-007",
+      "question": "When does the estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' end?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "31 March 2026",
+      "expected_facts": [
+        "31 March 2026"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n1 August 2025 to 31 March 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-008",
+      "question": "What contract duration is estimated for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "8 months",
+      "expected_facts": [
+        "8 months"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "1 August 2025 to 31 March 2026\n8 months",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-009",
+      "question": "What is the tender submission deadline for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "3 July 2025, 12:00pm",
+      "expected_facts": [
+        "3 July 2025, 12:00pm"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Tender submission deadline\n3 July 2025, 12:00pm",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-010",
+      "question": "What award decision date is estimated for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "31 July 2025",
+      "expected_facts": [
+        "31 July 2025"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Award decision date (estimated)\n31 July 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-011",
+      "question": "When does the estimated contract period for 'Provision of a Human Resource System & Duties Management System' start?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "1 February 2026",
+      "expected_facts": [
+        "1 February 2026"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n1 February 2026 to 31 July 2032",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-012",
+      "question": "When does the estimated contract period for 'Provision of a Human Resource System & Duties Management System' end?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "31 July 2032",
+      "expected_facts": [
+        "31 July 2032"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n1 February 2026 to 31 July 2032",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-013",
+      "question": "What is the tender submission deadline for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "31 October 2025, 12:00pm",
+      "expected_facts": [
+        "31 October 2025, 12:00pm"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Tender submission deadline\n31 October 2025, 12:00pm",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-014",
+      "question": "What award decision date is estimated for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "6 January 2026",
+      "expected_facts": [
+        "6 January 2026"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Award decision date (estimated)\n6 January 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-015",
+      "question": "When does the estimated contract period for 'NBI Energy Centre - Next Generation Infrastructure Programme' start?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "15 June 2026",
+      "expected_facts": [
+        "15 June 2026"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n15 June 2026 to 11 January 2028",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-016",
+      "question": "When does the estimated contract period for 'NBI Energy Centre - Next Generation Infrastructure Programme' end?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "11 January 2028",
+      "expected_facts": [
+        "11 January 2028"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n15 June 2026 to 11 January 2028",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-017",
+      "question": "What award decision date is estimated for 'NBI Energy Centre - Next Generation Infrastructure Programme'?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "8 May 2026",
+      "expected_facts": [
+        "8 May 2026"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Submission",
+      "evidence_quote": "Award decision date (estimated)\n8 May 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "DATE-018",
+      "question": "When does the estimated contract period for 'ACE - Provision of Financial Management System' start?",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "1 September 2026",
+      "expected_facts": [
+        "1 September 2026"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Scope",
+      "evidence_quote": "Contract dates (estimated)\n1 September 2026 to 31 August 2030",
+      "evidence_verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "e8e07ba61231eb67f6aed453b60886baa549d04f295be93397f04bfd752dfea3"
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/014023-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "extraction": "native"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PAY-001",
+      "question": "What payment term is stated in the '06e110_tender_4' notice?",
+      "category": "payment_terms",
+      "source_document_id": "doc_f03a0f961d1f4b98a72c65794ddc295f",
+      "source_document": "06e110_tender_4.html",
+      "expected_answer": "30 Days",
+      "expected_facts": [
+        "30 Days"
+      ],
+      "expected_documents": [
+        "06e110_tender_4.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Payment terms",
+      "evidence_quote": "Payment terms\n30 Days",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/076123-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "PAY-002",
+      "question": "What payment profile does the '06093e_tender_20' notice require for implementation costs?",
+      "category": "payment_terms",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "25% invoiced upon Contract Signature",
+      "expected_facts": [
+        "25% invoiced upon Contract Signature"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Payment terms",
+      "evidence_quote": "25% invoiced upon Contract Signature",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/014023-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-001",
+      "question": "What does the 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "The NHM is looking to appoint design consultants to help us delivery our vision for a new, permanent gallery at South Kensington dedicated to building a positive connection to nature",
+      "expected_facts": [
+        "The NHM is looking to appoint design consultants to help us delivery"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "The NHM is looking to appoint design consultants to help us delivery our vision for a new, permanent gallery at South Kensington dedicated to building a positive connection to nature in our very youngest audiences. The 3D and 2D Exhibition Designer / Exhibition Lead Designer will be responsible for the development, design and specification of the exhibition. They will lead the creative team to del",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-002",
+      "question": "What does the 'Supporting Holocaust Survivor Testimony in Teaching' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "The Department for Education (the department) is looking for a provider to help schools with fulfilling the ambition for young people to hear recorded survivor testimony by enabling access to",
+      "expected_facts": [
+        "The Department for Education (the department) is looking for a provider to"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "The Department for Education (the department) is looking for a provider to help schools with fulfilling the ambition for young people to hear recorded survivor testimony by enabling access to support and guidance which they can continue to use in future years. The programme will equip schools with tools, guidance and support, including signposting to high-quality sources for Holocaust survivor tes",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-003",
+      "question": "What does the 'Provision of a Human Resource System & Duties Management System' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "You are invited to tender for the provision of a Human Resources (HR) System and Duties Management System to Warwickshire Police. The requirement will be tendered in the following lots:",
+      "expected_facts": [
+        "You are invited to tender for the provision of a Human Resources"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "You are invited to tender for the provision of a Human Resources (HR) System and Duties Management System to Warwickshire Police. The requirement will be tendered in the following lots: Lot 1 – HR System including: o Human Resources Management and Training Administration (core requirements). o Case Management, Performance Management, and Recruitment (optional). Lot 2 – Duties Management System - A",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-004",
+      "question": "What does the 'NBI Energy Centre - Next Generation Infrastructure Programme' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "This package of works forms part of the Next Generation Infrastructure (NGI) Programme, a funded development programme looking to develop the facilities across Norwich Research Park to transform the existing",
+      "expected_facts": [
+        "This package of works forms part of the Next Generation Infrastructure (NGI)"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "This package of works forms part of the Next Generation Infrastructure (NGI) Programme, a funded development programme looking to develop the facilities across Norwich Research Park to transform the existing capabilities of John Innes Centre (JIC) and The Sainsbury Laboratory (TSL), both internally recognised centres of excellence in plant and microbial science. NGI will address the deterioration ",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-005",
+      "question": "What does the 'ACE - Provision of Financial Management System' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "This tender opportunity has been issued by Academies for Character and Excellence (“the Trust”) and Tenderers are invited to tender for the provision of Financial Management System. Full details of",
+      "expected_facts": [
+        "This tender opportunity has been issued by Academies for Character and Excellence"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "This tender opportunity has been issued by Academies for Character and Excellence (“the Trust”) and Tenderers are invited to tender for the provision of Financial Management System. Full details of all contract requirements are given in this document - Document 2. Specification of Requirement. The Trust comprises multiple academies operating under a unified governance structure and financial frame",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/014023-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-006",
+      "question": "What does the 'RFQ 2025/59 - NMANDD PEACEPLUS Thriving Together Cross Community Festivals Programme Castlewellan Peace Maze: Connecting Generations' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "Newry, Mourne and Down District Council (NMDDC) seeks a suitably experienced supplier to design, manage, and deliver a comprehensive cultural, heritage, and community engagement programme as part of the Castlewellan",
+      "expected_facts": [
+        "Newry, Mourne and Down District Council (NMDDC) seeks a suitably experienced supplier"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "Newry, Mourne and Down District Council (NMDDC) seeks a suitably experienced supplier to design, manage, and deliver a comprehensive cultural, heritage, and community engagement programme as part of the Castlewellan Peace Maze: Connecting Generations initiative. The programme will mark the 25th anniversary of the Peace Maze and must reflect the objectives of the PEACEPLUS Action Plan, Strand 2 – T",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/013050-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-007",
+      "question": "What does the 'Dockless bike hire concession services Lot 1 (contract 1)' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "The London Borough of Camden are seeking to award concession contracts for the provision of Dockless Bike Hire Services. The contracts will be for a period of 5 years commencing",
+      "expected_facts": [
+        "The London Borough of Camden are seeking to award concession contracts for"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "The London Borough of Camden are seeking to award concession contracts for the provision of Dockless Bike Hire Services. The contracts will be for a period of 5 years commencing on 1st June 2027 with a break clause at the end of the second year of the contract or at any time thereafter, at the sole option of the Council. Full details of the requirements are set out in the Specification and other d",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/079931-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "OBL-008",
+      "question": "What does the 'Loan Management System' notice say the appointed supplier will deliver?",
+      "category": "obligations",
+      "source_document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "The British Business Bank (BBB) is the UK’s economic development bank, with a mission to make finance markets work better for smaller businesses. BBB typically operates on a wholesale basis,",
+      "expected_facts": [
+        "The British Business Bank (BBB) is the UK’s economic development bank, with"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "Description",
+      "evidence_quote": "The British Business Bank (BBB) is the UK’s economic development bank, with a mission to make finance markets work better for smaller businesses. BBB typically operates on a wholesale basis, partnering with lenders within the existing financial ecosystem to increase the supply, diversity, and regional reach of finance available to UK SMEs. Start Up Loans (SUL) provides debt finance to support work",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": "Answer is scored by containment of the quoted description opening; paraphrase variants count as misses.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/029908-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-001",
+      "question": "As of 2026-11-12, what publication date was recorded for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "20 March 2025",
+      "expected_facts": [
+        "20 March 2025"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 20 March 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-002",
+      "question": "As of 2026-11-12, what publication date was recorded for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "6 June 2025",
+      "expected_facts": [
+        "6 June 2025"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 6 June 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-003",
+      "question": "As of 2026-11-12, what publication date was recorded for 'Provision of a Human Resource System & Duties Management System'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "18 September 2025",
+      "expected_facts": [
+        "18 September 2025"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 18 September 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-004",
+      "question": "As of 2026-11-12, what publication date was recorded for 'NBI Energy Centre - Next Generation Infrastructure Programme'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "14 November 2025",
+      "expected_facts": [
+        "14 November 2025"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 14 November 2025",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-005",
+      "question": "As of 2026-11-12, what publication date was recorded for 'ACE - Provision of Financial Management System'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "16 February 2026",
+      "expected_facts": [
+        "16 February 2026"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 16 February 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/014023-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-006",
+      "question": "As of 2026-11-12, what publication date was recorded for 'RFQ 2025/59 - NMANDD PEACEPLUS Thriving Together Cross Community Festivals Programme Castlewellan Peace Maze: Connecting Generations'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "12 February 2026",
+      "expected_facts": [
+        "12 February 2026"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 12 February 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/013050-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-007",
+      "question": "As of 2026-11-12, what publication date was recorded for 'Dockless bike hire concession services Lot 1 (contract 1)'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "21 August 2026",
+      "expected_facts": [
+        "21 August 2026"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 21 August 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/079931-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-008",
+      "question": "As of 2026-11-12, what publication date was recorded for 'Loan Management System'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "31 March 2026",
+      "expected_facts": [
+        "31 March 2026"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 31 March 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/029908-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-009",
+      "question": "As of 2026-11-12, what publication date was recorded for 'Fulwood Bridge Painting'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_371526f6059f4944ad27c413797bf687",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "16 April 2026",
+      "expected_facts": [
+        "16 April 2026"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 16 April 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/034593-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "TIME-010",
+      "question": "As of 2026-11-12, what publication date was recorded for 'POW-FTS-62602 - Critical Ventilation Contract - PTHB'?",
+      "category": "historical_temporal",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "source_document": "0685ae_tender_3.html",
+      "expected_answer": "17 April 2026",
+      "expected_facts": [
+        "17 April 2026"
+      ],
+      "expected_documents": [
+        "0685ae_tender_3.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "supporting_section": "notice header",
+      "evidence_quote": "Published 17 April 2026",
+      "evidence_verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "reviewer": null,
+      "adjudication_notes": null,
+      "expected_refusal": false,
+      "temporal": {
+        "as_of": "2026-11-12",
+        "expected_as_of": "2026-11-12",
+        "expectation": "The answer must carry the recorded publication date, not the current state."
+      },
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/035358-2026",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    }
+  ]
+}

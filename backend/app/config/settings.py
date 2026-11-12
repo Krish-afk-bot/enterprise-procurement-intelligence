@@ -208,6 +208,11 @@ class Settings(BaseSettings):
 
     # ----------------------------------------------------------- ingestion
     max_upload_mb: int = 100
+    #: Container limits for DOCX/XLSX uploads. The archive is inspected from the
+    #: central directory only, so a ZIP bomb is rejected without being expanded.
+    max_archive_entries: int = 2000
+    max_archive_uncompressed_mb: int = 500
+    max_archive_compression_ratio: float = 200.0
     allowed_extensions: list[str] = Field(
         default_factory=lambda: [
             ".pdf",
@@ -217,6 +222,8 @@ class Settings(BaseSettings):
             ".csv",
             ".txt",
             ".md",
+            ".html",
+            ".htm",
             ".png",
             ".jpg",
             ".jpeg",
@@ -238,11 +245,24 @@ class Settings(BaseSettings):
     vision_min_table_complexity: int = 4
     worker_poll_interval_seconds: float = 1.0
     worker_concurrency: int = 2
+    #: Where the ingestion loops run. ``embedded`` starts them inside the API
+    #: process (convenient for local development, one process to launch);
+    #: ``external`` leaves them to ``python -m app.workers.ingestion_worker``;
+    #: ``disabled`` starts none (tests, or a deployment that queues elsewhere).
+    worker_mode: Literal["embedded", "external", "disabled"] = "embedded"
+    #: How long a claimed job stays owned by a worker without a heartbeat. The
+    #: worker renews it every third of this window; recovery only requeues jobs
+    #: whose lease has actually expired, so long ingestions are never stolen.
+    worker_lease_seconds: int = 120
 
     # --------------------------------------------------------- observability
     langsmith_api_key: str | None = None
     langsmith_project: str = "epi-procurement"
     langsmith_tracing: bool = False
+    #: LangSmith records prompts and retrieved context by default. Procurement
+    #: documents are sensitive, so inputs/outputs are hidden unless a deployment
+    #: deliberately opts in.
+    langsmith_hide_io: bool = True
 
     # ---------------------------------------------------------------- tracing
     otel_enabled: bool = True
@@ -254,12 +274,27 @@ class Settings(BaseSettings):
     otel_exporter_otlp_endpoint: str | None = None
     trace_store_limit: int = 200
 
+    # ------------------------------------------------------------------- mcp
+    #: The MCP server serves tools for exactly one tenant and one account. Both
+    #: are deployment configuration, never tool arguments, so a client cannot
+    #: widen scope by asking.
+    mcp_enabled: bool = False
+    mcp_tenant_id: str | None = None
+    mcp_user_email: str | None = None
+    mcp_role: str = "viewer"
+    mcp_tool_timeout_seconds: float = 20.0
+    mcp_rate_limit_per_minute: int = 60
+
     # ------------------------------------------------------------ rate limits
     rate_limit_login: int = 20
     rate_limit_upload: int = 60
     rate_limit_query: int = 120
     rate_limit_model: int = 240
     rate_limit_window_seconds: int = 60
+    #: Trust ``X-Forwarded-For`` for client identity and rate-limit scoping. Only
+    #: enable behind a reverse proxy that overwrites the header; otherwise a
+    #: client can rotate it to bypass every unauthenticated rate limit.
+    trust_forwarded_for: bool = False
 
     # ------------------------------------------------------------- evaluation
     evaluation_dir: Path = PROJECT_ROOT / "data" / "evaluation"
@@ -349,18 +384,39 @@ class Settings(BaseSettings):
         if self.is_development:
             return
         label = self.app_env.capitalize()
+        problems: list[str] = []
         if self.jwt_secret in _KNOWN_WEAK_SECRETS:
-            raise RuntimeError(
-                f"{label} startup refused: JWT_SECRET is set to a known "
-                "insecure default value. Set JWT_SECRET to a securely-generated "
-                f"random string of at least {_MIN_SECRET_LENGTH} characters."
+            problems.append(
+                "JWT_SECRET is set to a known insecure default value. Set JWT_SECRET to a "
+                f"securely-generated random string of at least {_MIN_SECRET_LENGTH} characters."
             )
-        if len(self.jwt_secret) < _MIN_SECRET_LENGTH:
-            raise RuntimeError(
-                f"{label} startup refused: JWT_SECRET is only "
-                f"{len(self.jwt_secret)} characters long. "
+        elif len(self.jwt_secret) < _MIN_SECRET_LENGTH:
+            problems.append(
+                f"JWT_SECRET is only {len(self.jwt_secret)} characters long. "
                 f"Use a secret of at least {_MIN_SECRET_LENGTH} characters."
             )
+        # Configuration that is convenient locally but unsafe when deployed.
+        if self.allow_provider_fallback:
+            problems.append(
+                "ALLOW_PROVIDER_FALLBACK is true: a missing vector/graph/cache provider would be "
+                "silently replaced at runtime. Set it to false and provision the configured provider."
+            )
+        if self.auto_create_schema:
+            problems.append(
+                "AUTO_CREATE_SCHEMA is true: production schemas must be migrated with "
+                "'alembic upgrade head', not created implicitly at boot."
+            )
+        if self.debug:
+            problems.append("DEBUG is true: debug responses and verbose errors must stay off.")
+        if any(origin.strip() == "*" for origin in self.cors_origins):
+            problems.append("CORS_ORIGINS contains '*': list explicit origins instead.")
+        if self.mcp_enabled and not (self.mcp_tenant_id and self.mcp_user_email):
+            problems.append(
+                "MCP_ENABLED is true without MCP_TENANT_ID and MCP_USER_EMAIL; the tool server "
+                "would have no fixed tenant and account to scope tools to."
+            )
+        if problems:
+            raise RuntimeError(f"{label} startup refused: " + " ".join(problems))
 
 
 @lru_cache

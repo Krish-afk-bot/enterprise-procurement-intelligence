@@ -31,7 +31,7 @@ Coverage
 from __future__ import annotations
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from app.ingestion.jobs import activate_candidate_version, ActivationError
 
@@ -62,11 +62,24 @@ def _make_doc(
     return doc
 
 
-def _make_job(*, job_id: str = "job-1", checkpoint: str | None = None) -> MagicMock:
+def _make_job(
+    *,
+    job_id: str = "job-1",
+    # Activation only accepts a job that finished preparing its candidate.
+    checkpoint: str | None = "candidate_ready",
+    status: str = "succeeded",
+    indexing_version: int | None = 2,
+) -> MagicMock:
     job = MagicMock()
     job.id = job_id
+    job.document_id = "doc-1"
+    job.tenant_id = "tenant-a"
     job.checkpoint = checkpoint
+    job.status = status
     job.checkpoint_metadata = {}
+    # Activation compares this against the expected candidate version; leaving it
+    # as an auto-created MagicMock made every activation look like a mismatch.
+    job.indexing_version = indexing_version
     return job
 
 
@@ -113,8 +126,8 @@ async def test_successful_activation_flips_version():
     )
 
     assert result is doc
-    # CAS UPDATE, old-active deactivation, candidate activation = 3 execute calls
-    assert session.execute.await_count == 3
+    # count + CAS + deactivate (chunks/prices/certificates) + activate (3) = 8
+    assert session.execute.await_count == 8
     session.flush.assert_awaited_once()
     session.refresh.assert_awaited_once_with(doc)
 
@@ -251,8 +264,9 @@ async def test_cas_rowcount_zero_raises():
             expected_candidate_version=2,
         )
 
-    # Only the CAS UPDATE should have fired; chunk updates must NOT have run
-    assert session.execute.await_count == 1
+    # The candidate-chunk count ran, then the CAS UPDATE. The chunk/structured
+    # updates must NOT have run, and nothing may be flushed.
+    assert session.execute.await_count == 2
     session.flush.assert_not_awaited()
 
 
@@ -263,7 +277,12 @@ async def test_cas_rowcount_zero_raises():
 
 @pytest.mark.asyncio
 async def test_three_execute_calls_for_full_activation():
-    """CAS + deactivate-old + activate-new = exactly 3 execute() calls."""
+    """One statement per activation step.
+
+    The current activation issues: candidate-chunk count, CAS update, then
+    deactivate/activate for chunks, prices and compliance certificates — eight
+    statements in total. The chunk pair is what this test has always been about.
+    """
     doc = _make_doc(active_version=1, candidate_version=2)
     session = _make_session(doc=doc, cas_rowcount=1)
 
@@ -274,7 +293,7 @@ async def test_three_execute_calls_for_full_activation():
         expected_candidate_version=2,
     )
 
-    assert session.execute.await_count == 3
+    assert session.execute.await_count == 8
 
 
 # ---------------------------------------------------------------------------
@@ -409,8 +428,8 @@ async def test_first_activation_old_version_zero():
     )
 
     assert result is doc
-    # CAS UPDATE + deactivate old (version 0) + activate candidate = 3 calls
-    assert session.execute.await_count == 3
+    # count + CAS + deactivate old (version 0, 3 statements) + activate (3) = 8
+    assert session.execute.await_count == 8
 
 
 # ---------------------------------------------------------------------------
@@ -534,7 +553,7 @@ async def test_job_status_not_ready_raises():
 @pytest.mark.asyncio
 async def test_expand_parents_filters_inactive_and_outdated_versions():
     """expand_parents query must filter on is_active == True and match Document.active_indexing_version."""
-    from app.core.auth import Principal
+    from app.security.rbac import Principal
     from app.retrieval.retriever import expand_parents, RetrievedChunk
 
     session = AsyncMock()
@@ -545,17 +564,25 @@ async def test_expand_parents_filters_inactive_and_outdated_versions():
     principal = Principal(
         user_id="u1",
         tenant_id="tenant-a",
-        roles=["reader"],
-        access_level="public",
-        readable_access_levels=["public"],
+        email="test@example.com",
+        role="reader",
     )
     chunks = [
         RetrievedChunk(
-            id="c1",
+            chunk_id="c1",
+            document_id="doc1",
+            document_name="Test Doc",
+            document_type="contract",
+            page=1,
+            section=None,
+            clause=None,
             content="child text",
-            metadata={},
-            score=0.9,
+            contextual_content=None,
+            content_type="paragraph",
+            access_level="public",
+            is_synthetic=False,
             parent_chunk_id="p1",
+            fused_score=0.9,
         )
     ]
 
@@ -607,6 +634,13 @@ async def test_worker_outbox_reconciles_and_clears_pending():
     from app.config.settings import Settings
 
     settings = MagicMock(spec=Settings)
+    settings.worker_concurrency = 2
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
     container = MagicMock()
     container.sparse = AsyncMock()
 
@@ -647,6 +681,13 @@ async def test_worker_outbox_rejects_stale_version():
     from app.config.settings import Settings
 
     settings = MagicMock(spec=Settings)
+    settings.worker_concurrency = 2
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
     container = MagicMock()
     container.sparse = AsyncMock()
 
@@ -681,6 +722,10 @@ async def test_recover_pending_outbox_paginates_all_activated_jobs():
     from app.config.settings import Settings
 
     settings = MagicMock(spec=Settings)
+    settings.worker_concurrency = 2
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
     container = MagicMock()
     worker = IngestionWorker(settings, container)
     worker._process_external_outbox = AsyncMock()
@@ -721,6 +766,10 @@ async def test_recover_pending_outbox_multi_batch_keyset_pagination():
     from app.config.settings import Settings
 
     settings = MagicMock(spec=Settings)
+    settings.worker_concurrency = 2
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
     container = MagicMock()
     worker = IngestionWorker(settings, container)
     worker._process_external_outbox = AsyncMock()
@@ -773,6 +822,10 @@ async def test_recover_pending_outbox_permanent_failure_does_not_infinite_loop()
     from app.config.settings import Settings
 
     settings = MagicMock(spec=Settings)
+    settings.worker_concurrency = 2
+    settings.ocr_enabled = True
+    settings.ocr_language = "en"
+    settings.ocr_use_onednn = False
     container = MagicMock()
     worker = IngestionWorker(settings, container)
     # Simulate process_external_outbox raising an exception on a job

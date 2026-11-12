@@ -298,14 +298,6 @@ class AgentRuntime:
             rerank=strategy != "dense",
             query_text=expanded_query,  # Use expanded query for retrieval
         )
-            session,
-            principal,
-            plan,
-            mode=mode,
-            limit=limit,
-            filters=state.get("filters") or None,
-            rerank=strategy != "dense",
-        )
         state["retrieval"] = {
             "mode": result.mode,
             "hits": [hit.as_dict() for hit in result.hits],
@@ -495,6 +487,9 @@ class AgentRuntime:
             "best_vector_score": round(max(dense_scores), 4) if dense_scores else None,
         }
         threshold = self.settings.evidence_sufficiency_threshold
+        # assess_query_coverage only reports gaps for constraints that name a
+        # stored fact (or a resolved entity), so every unsatisfied entry here is
+        # something the corpus genuinely does not hold.
         constraints = list(answerability.constraints)
         unsatisfied = [item for item in constraints if not item.get("satisfied")]
         coverage_ratio = 1.0 - (len(unsatisfied) / len(constraints)) if constraints else None
@@ -522,7 +517,7 @@ class AgentRuntime:
         if rerank_scores and max(rerank_scores) > 0:
             score += 0.05
         sufficient = score >= threshold and (int(criteria["chunks"] or 0) > 0 or structured_rows > 0)
-        if constraints and unsatisfied:
+        if unsatisfied:
             sufficient = False
         if hard_gap:
             sufficient = False

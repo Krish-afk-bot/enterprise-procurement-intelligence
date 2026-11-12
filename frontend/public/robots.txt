@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# The workspace is authenticated; crawlers have nothing to index behind it.
+Disallow: /login
+Disallow: /ask
+Disallow: /search
+Disallow: /documents
+Disallow: /contracts
+Disallow: /suppliers
+Disallow: /compare
+Disallow: /graph
+Disallow: /evaluation
+Disallow: /admin
+
+# Replace this origin with the deployment origin before publishing.
+Sitemap: https://epi.local/sitemap.xml

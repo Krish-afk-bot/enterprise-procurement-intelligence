@@ -31,9 +31,12 @@ AMENDMENT_RE = re.compile(
     re.IGNORECASE,
 )
 VERSION_RE = re.compile(r"\b(?:version|revision|rev)\.?\s*[:#]?\s*(\d+(?:\.\d+)?)\b", re.IGNORECASE)
+#: The party groups capture to the end of the line and are trimmed afterwards.
+#: A period is not a name boundary when it follows an initial: the previous
+#: pattern ended "C. & P. ENGINEERING SERVICES LIMITED" at "C. & P", the name
+#: then failed validation, and a real supplier was discarded.
 PARTIES_RE = re.compile(
-    r"between\s+(?P<buyer>[A-Z][A-Za-z0-9&.,'\- ]{3,80}?)\s+(?:\(|,)?\s*(?:and|&)\s+"
-    r"(?P<supplier>[A-Z][A-Za-z0-9&.,'\- ]{3,80}?)\s*(?:\(|,|\.|\n|$)",
+    r"between\s+(?P<buyer>[^\n]{3,90}?)\s+(?:\(|,)?\s*(?:and|&)\s+(?P<supplier>[^\n]{3,140})",
     re.IGNORECASE,
 )
 SUPPLIER_FIELD_RE = re.compile(
@@ -204,23 +207,25 @@ def extract_metadata(
             meta.buyer_name = buyer
     if not meta.supplier_name:
         phrase_match = SUPPLIER_PHRASE_RE.search(head) or SUPPLIER_PHRASE_RE.search(full_text)
-        if phrase_match:
-            meta.supplier_name = _clean_party(phrase_match.group(1))
+        phrase_name = _clean_party(phrase_match.group(1)) if phrase_match else ""
+        if phrase_match and phrase_name:
+            meta.supplier_name = phrase_name
             _record(
                 meta,
                 "supplier_name",
-                meta.supplier_name,
+                phrase_name,
                 phrase_match.group(0),
                 _page_of(full_text, phrase_match.group(0), document),
             )
     if not meta.supplier_name:
         field_match = SUPPLIER_FIELD_RE.search(head) or SUPPLIER_FIELD_RE.search(full_text)
-        if field_match:
-            meta.supplier_name = _clean_party(field_match.group(1))
+        field_name = _clean_party(field_match.group(1)) if field_match else ""
+        if field_match and field_name:
+            meta.supplier_name = field_name
             _record(
                 meta,
                 "supplier_name",
-                meta.supplier_name,
+                field_name,
                 field_match.group(0),
                 _page_of(full_text, field_match.group(0), document),
             )
@@ -318,10 +323,116 @@ def _title_from_filename(filename: str) -> str:
     return re.sub(r"[_\-]+", " ", stem).strip().title()
 
 
+_GENERIC_PARTY_WORDS = {
+    "the",
+    "a",
+    "an",
+    "any",
+    "each",
+    "other",
+    "another",
+    "such",
+    "this",
+    "that",
+    "these",
+    "those",
+    "all",
+    "both",
+    "either",
+    "neither",
+    "every",
+    "some",
+    "no",
+    "party",
+    "parties",
+    "council",
+    "authority",
+    "supplier",
+    "suppliers",
+    "vendor",
+    "contractor",
+    "buyer",
+    "customer",
+    "client",
+    "country",
+    "rest",
+}
+
+
+def _looks_like_party_name(value: str) -> bool:
+    """Whether an extracted phrase is a name rather than prose about a party.
+
+    Procurement text says "between the Council and any other party". The party
+    patterns matched those phrases and the pipeline then created supplier
+    records literally called "the council" and "the rest of the country", which
+    the graph then carried as entities. A name must contain a capitalised word
+    that is not a generic designator; a corpus label such as "Supplier A" is
+    still accepted because the letter identifies it.
+    """
+    text = (value or "").strip()
+    tokens = [token for token in re.split(r"[^A-Za-z0-9]+", text) if token]
+    if not tokens:
+        return False
+    if re.fullmatch(r"(?:supplier|vendor|contractor)\s+[A-Za-z0-9]", text, re.IGNORECASE):
+        return True
+    if not any(token[:1].isupper() for token in tokens):
+        return False
+    distinctive = [token for token in tokens if token.lower() not in _GENERIC_PARTY_WORDS]
+    return any(len(token) >= 3 for token in distinctive)
+
+
+_SENTENCE_STARTERS = {
+    "a",
+    "all",
+    "an",
+    "any",
+    "each",
+    "for",
+    "if",
+    "in",
+    "it",
+    "no",
+    "such",
+    "that",
+    "the",
+    "these",
+    "this",
+    "those",
+    "under",
+    "where",
+}
+
+
+def _trim_party_capture(value: str) -> str:
+    """Cut a captured party at the end of the name, not at its first period.
+
+    "C. & P. ENGINEERING SERVICES LIMITED" contains three periods, two of them
+    after initials. A period only ends the name when nothing follows it or when
+    the next word starts a new sentence. Governing phrases ("pursuant to",
+    "under") also end the name.
+    """
+    text = value or ""
+    governing = re.search(
+        r",|;|\s(?:pursuant|under|per|in\s+respect|for\s+the|of\s+the|as\s+the)\s",
+        text,
+        re.IGNORECASE,
+    )
+    if governing:
+        text = text[: governing.start()]
+    for match in re.finditer(r"\.(?=\s|$)", text):
+        rest = text[match.end() :].strip()
+        if not rest:
+            return text[: match.start()]
+        first = re.match(r"[A-Za-z]+", rest)
+        if first and first.group(0).lower() in _SENTENCE_STARTERS:
+            return text[: match.start()]
+    return text
+
+
 def _clean_party(value: str) -> str:
-    cleaned = re.sub(r"[\"'\(\)]", "", value or "").strip(" .,:;-")
-    cleaned = re.sub(r"\s+", " ", cleaned)
-    return cleaned[:120]
+    cleaned = re.sub(r"[\"'\(\)]", "", _trim_party_capture(value))
+    cleaned = re.sub(r"\s+", " ", cleaned).strip(" .,:;-")[:120]
+    return cleaned if _looks_like_party_name(cleaned) else ""
 
 
 def _classify_type(haystack: str, body: str) -> str:

@@ -26,7 +26,7 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <header className={cn("flex flex-wrap items-start justify-between gap-3", className)}>
+    <header className={cn("flex flex-wrap items-start justify-between gap-3 border-b border-white/[0.07] pb-5", className)}>
       <div className="flex min-w-0 items-start gap-2">
         {backTo ? (
           <Button variant="ghost" size="icon" asChild className="-ml-2 mt-0.5">
@@ -36,9 +36,9 @@ export function PageHeader({
           </Button>
         ) : null}
         <div className="min-w-0">
-          <h1 className="truncate text-lg font-semibold tracking-tight">{title}</h1>
+          <h1 className="truncate text-2xl font-semibold tracking-tight sm:text-[28px]">{title}</h1>
           {description ? (
-            <p className="mt-0.5 max-w-3xl text-xs leading-relaxed text-muted-foreground">{description}</p>
+            <p className="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">{description}</p>
           ) : null}
           {meta ? <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">{meta}</div> : null}
         </div>

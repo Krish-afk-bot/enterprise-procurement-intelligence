@@ -1,0 +1,48 @@
+{
+  "name": "epi-benchmark-120",
+  "version": "3.0.0",
+  "path": "C:\\Users\\user\\OneDrive\\Desktop\\Sprint 2\\data\\evaluation\\benchmark_v3\\questions.json",
+  "created": "2026-11-12T19:41:42.236339+00:00",
+  "question_count": 120,
+  "categories": {
+    "document_metadata": 18,
+    "parties": 10,
+    "dates_and_duration": 18,
+    "payment_terms": 8,
+    "pricing_schedules": 8,
+    "clauses": 8,
+    "amendments": 8,
+    "obligations": 8,
+    "supplier_buyer_relationships": 8,
+    "graph_multi_hop": 6,
+    "historical_temporal": 10,
+    "unanswerable": 10
+  },
+  "answerable": 66,
+  "unanswerable": 39,
+  "needs_review": 15,
+  "auto_verified": 66,
+  "pending_review": 54,
+  "human_reviewed": 0,
+  "verification_methods": {
+    "verbatim_page_text+raw_html": 46,
+    "verbatim_page_text": 20,
+    "corpus_absence": 39,
+    "database_row": 9,
+    "graph_store": 6
+  },
+  "corpus": {
+    "documents": 20,
+    "indexed_documents": 19,
+    "pages": 42,
+    "chunks": 655,
+    "prices": 0,
+    "chunks_with_clause_number": 0,
+    "chunks_mentioning_payment_terms": 2,
+    "documents_with_revision_label": 1,
+    "procurement_records": 83724,
+    "records_with_supplier": 83243,
+    "records_with_value": 39339,
+    "suppliers": 65406
+  }
+}

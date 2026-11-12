@@ -72,6 +72,17 @@ class Container:
     startup_errors: list[str] = field(default_factory=list)
 
     # ------------------------------------------------------------- bootstrap
+    def graph_store(self) -> Any:
+        """The graph provider without starting the full provider set.
+
+        MCP read tools need the graph and nothing else; building embeddings, the
+        LLM client and the reranker for a traversal would cost startup time and
+        memory for no benefit. The graph provider is created once per process.
+        """
+        if self.graph is None:
+            self.graph = self._build_graph()
+        return self.graph
+
     async def startup(self) -> None:
         if self.started:
             return
@@ -274,6 +285,27 @@ class Container:
         self.started = False
 
     # ----------------------------------------------------------------- health
+    def provider_map(self) -> dict[str, Any]:
+        """Live provider instances keyed by the kind reported in ``/health``.
+
+        Health and readiness checks must enumerate what is actually running.
+        Before this accessor existed the endpoints read ``container._providers``,
+        which never existed on ``Container``, so every check failed silently and
+        ``/health`` reported no providers at all.
+        """
+        mapping: dict[str, Any] = {
+            "vector": self.vector,
+            "graph": self.graph,
+            "cache": self.cache,
+            "storage": self.storage,
+            "sparse": self.sparse,
+            "embedding": self.embeddings,
+            "reranker": self.reranker,
+            "llm": self.llm,
+            "vision": self.vision,
+        }
+        return {kind: provider for kind, provider in mapping.items() if provider is not None}
+
     async def provider_statuses(self) -> dict[str, ProviderStatus]:
         statuses: dict[str, ProviderStatus] = {}
         for kind, provider in (

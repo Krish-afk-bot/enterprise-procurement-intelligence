@@ -198,3 +198,37 @@ class TestGenuineAbsenceStillUnsatisfied:
             coverage=coverage,
         )
         assert status == "insufficient_evidence"
+
+
+# ================================================ wording differences still match
+
+
+class TestParaphraseMatching:
+    """A name the corpus writes differently is still the same entity.
+
+    Real notices write "Master Vendor Contingent Workforce Recruitment and
+    Management Services" for the question's "master vendor contingent workforce
+    recruitment service". Requiring the literal phrase refused questions whose
+    evidence was present; requiring every word keeps genuinely absent entities
+    unsatisfied.
+    """
+
+    def test_connective_words_and_plural_do_not_break_coverage(self) -> None:
+        coverage = assess_query_coverage(
+            plan(products=["master vendor contingent workforce recruitment service"]),
+            make_bundle(
+                ["FSCS569 Master Vendor Contingent Workforce Recruitment and Management Services."]
+            ),
+            StructuredResult(queried=False),
+        )
+        assert coverage.satisfied, coverage.as_dict()
+        assert coverage.unsatisfied == []
+
+    def test_partial_word_overlap_is_not_coverage(self) -> None:
+        coverage = assess_query_coverage(
+            plan(products=["Unobtainium Widget"]),
+            make_bundle(["Unobtainium appears without the second word."]),
+            StructuredResult(queried=False),
+        )
+        assert not coverage.satisfied
+        assert any(item["constraint"] == "product=Unobtainium Widget" for item in coverage.unsatisfied)

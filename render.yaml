@@ -1,0 +1,145 @@
+# Render blueprint for the EPI API and ingestion worker.
+#
+# Two services, one image:
+#   epi-api     — FastAPI only (WORKER_MODE=external), gated on /api/v1/ready
+#   epi-worker  — ingestion loops only (python -m app.workers.ingestion_worker)
+#
+# Values marked `sync: false` must be entered in the Render dashboard; nothing
+# secret belongs in this file. Fill the `epi-backend` group once, and both
+# services inherit it.
+#
+# This blueprint has not been deployed. Verify every value against
+# EPI_DEPLOYMENT_GUIDE.md before using it.
+
+services:
+  - type: web
+    name: epi-api
+    runtime: docker
+    plan: standard
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    dockerCommand: >-
+      sh -c "alembic upgrade head &&
+      uvicorn app.main:app --host 0.0.0.0 --port $PORT
+      --proxy-headers --forwarded-allow-ips='*' --timeout-keep-alive 30"
+    healthCheckPath: /api/v1/ready
+    autoDeploy: false
+    envVars:
+      - fromGroup: epi-backend
+      - key: APP_ENV
+        value: production
+      - key: WORKER_MODE
+        value: external
+      - key: AUTO_CREATE_SCHEMA
+        value: "false"
+      - key: ALLOW_PROVIDER_FALLBACK
+        value: "false"
+      - key: LOG_JSON
+        value: "true"
+
+  - type: worker
+    name: epi-worker
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    dockerCommand: python -m app.workers.ingestion_worker
+    autoDeploy: false
+    envVars:
+      - fromGroup: epi-backend
+      - key: APP_ENV
+        value: production
+      - key: WORKER_MODE
+        value: external
+      - key: AUTO_CREATE_SCHEMA
+        value: "false"
+      - key: ALLOW_PROVIDER_FALLBACK
+        value: "false"
+
+envVarGroups:
+  - name: epi-backend
+    envVars:
+      # ---------------------------------------------------------- application
+      - key: CORS_ORIGINS
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: REFRESH_COOKIE_SECURE
+        value: "true"
+      - key: REFRESH_COOKIE_SAMESITE
+        sync: false
+      - key: ALLOW_SELF_REGISTRATION
+        value: "false"
+      # -------------------------------------------------------------- data
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_POOL_SIZE
+        value: "5"
+      - key: DB_MAX_OVERFLOW
+        value: "5"
+      # ----------------------------------------------------------- providers
+      - key: VECTOR_PROVIDER
+        value: qdrant
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: GRAPH_PROVIDER
+        value: neo4j
+      - key: NEO4J_URI
+        sync: false
+      - key: NEO4J_USERNAME
+        sync: false
+      - key: NEO4J_PASSWORD
+        sync: false
+      - key: CACHE_PROVIDER
+        value: redis
+      - key: REDIS_URL
+        sync: false
+      - key: STORAGE_PROVIDER
+        value: s3
+      - key: S3_ENDPOINT
+        sync: false
+      - key: S3_ACCESS_KEY
+        sync: false
+      - key: S3_SECRET_KEY
+        sync: false
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_REGION
+        sync: false
+      # -------------------------------------------------------------- models
+      - key: LLM_BASE_URL
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        sync: false
+      - key: VLM_BASE_URL
+        sync: false
+      - key: VLM_API_KEY
+        sync: false
+      - key: EMBEDDING_MODEL
+        value: BAAI/bge-small-en-v1.5
+      - key: RERANKER_ENABLED
+        value: "true"
+      # --------------------------------------------------------- observability
+      - key: LANGSMITH_TRACING
+        value: "true"
+      - key: LANGSMITH_API_KEY
+        sync: false
+      - key: LANGSMITH_PROJECT
+        sync: false
+      - key: LOG_LEVEL
+        value: INFO
+      - key: OTEL_EXPORTER_OTLP_ENDPOINT
+        sync: false
+      # --------------------------------------------------------------- limits
+      - key: MAX_UPLOAD_MB
+        value: "50"
+      - key: WORKER_CONCURRENCY
+        value: "2"
+      - key: WORKER_LEASE_SECONDS
+        value: "120"

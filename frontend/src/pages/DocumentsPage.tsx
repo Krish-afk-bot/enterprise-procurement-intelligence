@@ -30,6 +30,18 @@ import {
   toneClasses,
 } from "@/lib/utils";
 
+/** Every label `documentLifecycle` can produce, in the order a reader scans them. */
+const LIFECYCLE_ORDER: string[] = [
+  "Active",
+  "Expires soon",
+  "Expired",
+  "Scheduled",
+  "Superseded",
+  "Processing",
+  "Needs attention",
+  "Not available",
+];
+
 export function DocumentsPage() {
   const user = useAuth((state) => state.user);
   const canUpload = Boolean(user?.permissions?.includes("documents:write"));
@@ -57,7 +69,7 @@ export function DocumentsPage() {
     refetchInterval: 8_000,
   });
   const suppliers = useQuery({ queryKey: ["suppliers", "documents-filter"], queryFn: () => api.suppliers({ limit: 100 }) });
-  const items = documents.data?.items ?? [];
+  const items = useMemo(() => documents.data?.items ?? [], [documents.data]);
 
   useMood(documents.isPending ? "loading" : documents.isError ? "error" : items.length === 0 ? "empty" : null);
 
@@ -92,6 +104,17 @@ export function DocumentsPage() {
     });
   }, [items, filters.businessState, sortKey, sortAscending]);
 
+  // Counted with the same derivation the table uses, so the strip can never
+  // contradict the rows below it.
+  const lifecycleCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const item of items) {
+      const label = documentLifecycle(item).label;
+      counts.set(label, (counts.get(label) ?? 0) + 1);
+    }
+    return counts;
+  }, [items]);
+
   function toggleSort(key: SortKey) {
     if (key === sortKey) {
       setSortAscending((value) => !value);
@@ -124,6 +147,26 @@ export function DocumentsPage() {
           )
         }
       />
+
+      {items.length > 0 ? (
+        <dl
+          aria-label="Documents by lifecycle"
+          className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.08] sm:grid-cols-[repeat(auto-fit,minmax(148px,1fr))]"
+        >
+          {[...lifecycleCounts.keys()]
+            .sort((a, b) => {
+              const left = LIFECYCLE_ORDER.indexOf(a);
+              const right = LIFECYCLE_ORDER.indexOf(b);
+              return (left === -1 ? 99 : left) - (right === -1 ? 99 : right);
+            })
+            .map((state) => (
+              <div key={state} className="bg-card px-4 py-3">
+                <dt className="text-[10px] font-medium uppercase tracking-[0.14em] text-subtle">{state}</dt>
+                <dd className="tnum mt-1 text-xl font-semibold leading-none">{lifecycleCounts.get(state)}</dd>
+              </div>
+            ))}
+        </dl>
+      ) : null}
 
       <DocumentFilters
         values={filters}
@@ -163,7 +206,7 @@ export function DocumentsPage() {
                   Documents in this workspace with the supplier, contract, state, version and recorded term of each. The
                   layers behind this table show that a document can exist in more than one version.
                 </caption>
-                <TableHeader>
+                <TableHeader className="sticky top-0 z-10 bg-card">
                   <TableRow>
                     <SortableHead label="Document" column="title" current={sortKey} ascending={sortAscending} onSort={toggleSort} />
                     <SortableHead label="Type" column="type" current={sortKey} ascending={sortAscending} onSort={toggleSort} />

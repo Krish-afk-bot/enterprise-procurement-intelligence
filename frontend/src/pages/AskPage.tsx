@@ -131,21 +131,48 @@ export function AskPage() {
 
   return (
     <div className="space-y-5">
-      {/* One statement about the corpus, made once for the whole workspace
-          instead of a "demo" badge on every passage. */}
-      <p className="flex flex-wrap items-center gap-2 rounded-md border border-dashed px-3 py-2 text-[11px] text-muted-foreground">
-        <span className="font-medium text-foreground">Demo workspace · Synthetic procurement corpus</span>
-        <span>
-          Every document here is generated for demonstration. Prices, suppliers and certificates are invented and labelled
-          as such on ingest; no real commercial data is present.
-        </span>
+      {/* The screen opens on the corpus, then the question. A reviewer should
+          not have to open another page to learn what they are asking against. */}
+      <header className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4 border-b border-white/[0.07] pb-5">
+        <div className="min-w-0">
+          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-subtle">Ask</p>
+          <h1 className="mt-2 text-[26px] font-semibold leading-[1.15] tracking-tight sm:text-[30px]">
+            Put a question to the contracts
+          </h1>
+          <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
+            Answers are assembled from cited passages and then checked against them. When the corpus does not hold
+            the fact, the answer says so instead of estimating.
+          </p>
+        </div>
+        <dl className="flex flex-wrap gap-x-8 gap-y-3">
+          {[
+            { label: "Suppliers", value: filters.data?.suppliers.length },
+            { label: "Contracts", value: filters.data?.contracts.length },
+            { label: "Document types", value: filters.data?.document_types.length },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <dt className="text-[10px] font-medium uppercase tracking-[0.14em] text-subtle">{stat.label}</dt>
+              <dd className="tnum mt-1 text-xl font-semibold leading-none">
+                {stat.value === undefined ? "—" : stat.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </header>
+
+      <p className="text-[11px] leading-relaxed text-subtle">
+        Passages marked <span className="font-medium text-muted-foreground">demo corpus</span> come from files
+        uploaded with that label; unlabelled passages are the imported public notices. Each citation carries its own
+        label.
       </p>
 
       <div className="grid gap-5 xl:grid-cols-[236px_minmax(0,1fr)_minmax(320px,380px)]">
         {/* Question history: real conversations persisted by the API */}
         <aside aria-label="Question history" className="min-w-0">
           <div className="flex items-center justify-between gap-2">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Questions</h2>
+            <h2 className="text-[10px] font-medium uppercase tracking-[0.16em] text-subtle">
+              Recent questions{messageCount > 0 ? <span className="tnum ml-1.5 text-muted-foreground">{messageCount}</span> : null}
+            </h2>
             <Button variant="ghost" size="sm" className="gap-1.5 px-2" onClick={startNewQuestion}>
               <MessageSquarePlus className="h-3.5 w-3.5" aria-hidden="true" />
               New
@@ -194,11 +221,18 @@ export function AskPage() {
               event.preventDefault();
               void run();
             }}
-            className="rounded-lg border bg-card p-3"
+            className="group relative overflow-hidden rounded-2xl border border-white/[0.09] bg-card/80 p-4 transition-colors duration-300 focus-within:border-white/25 sm:p-5"
           >
-            <label htmlFor="ask-question" className="text-xs font-medium">
-              Ask about prices, amendments, clauses, compliance or contract terms
-            </label>
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+            />
+            <div className="flex items-baseline justify-between gap-3">
+              <label htmlFor="ask-question" className="text-[10px] font-medium uppercase tracking-[0.16em] text-subtle">
+                Your question
+              </label>
+              <span className="text-[10px] text-subtle">Prices · amendments · clauses · compliance · terms</span>
+            </div>
             <Textarea
               id="ask-question"
               ref={composerRef}
@@ -211,7 +245,7 @@ export function AskPage() {
                 }
               }}
               placeholder="What is the current unit price for the Industrial Laptop X200?"
-              className="mt-2 min-h-[92px] resize-y"
+              className="mt-2.5 min-h-[112px] resize-y border-white/[0.08] bg-transparent text-[15px] leading-relaxed"
             />
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <Button type="submit" disabled={streaming || !question.trim()}>
@@ -280,10 +314,13 @@ export function AskPage() {
           </form>
 
           {!answer && !streaming && events.length === 0 && !transcript.data ? (
-            <section aria-label="Example questions" className="rounded-lg border border-dashed p-4">
-              <h2 className="text-xs font-medium">Example questions for this corpus</h2>
-              <ul className="mt-2 space-y-1">
-                {EXAMPLE_QUESTIONS.map((example) => (
+            <section aria-label="Example questions" className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="text-[10px] font-medium uppercase tracking-[0.16em] text-subtle">Start from one</h2>
+                <span className="text-[10px] text-subtle">Replace the names with ones from Search</span>
+              </div>
+              <ul className="mt-3 grid gap-1 sm:grid-cols-2">
+                {EXAMPLE_QUESTIONS.map((example, index) => (
                   <li key={example}>
                     <button
                       type="button"
@@ -291,8 +328,11 @@ export function AskPage() {
                         setQuestion(example);
                         composerRef.current?.focus();
                       }}
-                      className="w-full rounded px-2 py-1.5 text-left text-xs text-muted-foreground transition-colors duration-micro hover:bg-accent hover:text-foreground"
+                      className="group/item flex w-full items-start gap-2.5 rounded-lg border border-transparent px-2.5 py-2 text-left text-[12px] leading-snug text-muted-foreground transition-colors duration-micro hover:border-white/10 hover:bg-white/[0.04] hover:text-foreground"
                     >
+                      <span className="tnum mt-px text-[10px] text-subtle group-hover/item:text-foreground/70">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
                       {example}
                     </button>
                   </li>
@@ -408,32 +448,29 @@ export function AskPage() {
               onDetailsOpenChange={setDetailsOpen}
             />
           ) : (
-            <div className="space-y-3 text-xs leading-relaxed text-muted-foreground">
-              <h2 className="text-xs font-semibold uppercase tracking-wide">Evidence panel</h2>
-              <p>
-                {microcopyPlain("readingDocuments")} For each answer this panel lists the cited passages with their
-                document, page, section and clause, the verification outcome, the retrieval steps that produced the
-                candidates, and how the question was read.
+            <div className="space-y-4 text-xs leading-relaxed text-muted-foreground">
+              <div>
+                <h2 className="text-[10px] font-medium uppercase tracking-[0.16em] text-subtle">Evidence</h2>
+                <p className="mt-2">{microcopyPlain("readingDocuments")}</p>
+              </div>
+              <ol className="space-y-3 border-t border-white/[0.07] pt-3">
+                {[
+                  { title: "Passages", body: "Each cited passage names its document, page, section and clause." },
+                  { title: "Verification", body: "Every claim is checked against those passages; unsupported text is withdrawn." },
+                  { title: "Retrieval steps", body: "The candidates each search contributed, and how the question was read." },
+                ].map((item, index) => (
+                  <li key={item.title} className="flex gap-2.5">
+                    <span className="tnum mt-px text-[10px] text-subtle">{String(index + 1).padStart(2, "0")}</span>
+                    <span>
+                      <span className="block font-medium text-foreground">{item.title}</span>
+                      {item.body}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <p className="border-t border-white/[0.07] pt-3">
+                Citations are links: opening one loads the viewer on the cited page with the passage highlighted.
               </p>
-              <p>
-                Citations are links: opening one loads the document viewer on the cited page with the passage highlighted.
-              </p>
-              {filters.data ? (
-                <dl className="space-y-1 border-t pt-3">
-                  <div className="flex justify-between gap-2">
-                    <dt>Suppliers available</dt>
-                    <dd className="tnum font-medium text-foreground">{filters.data.suppliers.length}</dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt>Document types</dt>
-                    <dd className="tnum font-medium text-foreground">{filters.data.document_types.length}</dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt>Contracts indexed</dt>
-                    <dd className="tnum font-medium text-foreground">{filters.data.contracts.length}</dd>
-                  </div>
-                </dl>
-              ) : null}
             </div>
           )}
         </aside>

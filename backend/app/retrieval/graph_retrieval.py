@@ -105,16 +105,24 @@ async def graph_lookup(
         return result
 
     price_pages = await _price_sources(session, principal, supplier_ids)
+    # The as-of date comes from the query plan, so the graph sees the same
+    # temporal interpretation as the structured and vector retrievers. Without
+    # one, traversal stays on the current state rather than inventing a date.
+    as_of = plan.as_of.isoformat() if plan.as_of else None
+    if as_of:
+        result.notes.append(f"Graph traversal filtered to relationships in force on {as_of}.")
     for supplier_id in supplier_ids[:4]:
         edges = await container.graph.traverse(
-            LABEL_SUPPLIER, supplier_id, max_hops=max_hops, tenant_id=principal.tenant_id
+            LABEL_SUPPLIER,
+            supplier_id,
+            max_hops=max_hops,
+            tenant_id=principal.tenant_id,
+            as_of=as_of,
         )
         # Post-query filter removed: tenant filtering now happens in the database.
         # Only filter for None tenant_id (system-level data) if needed.
         tenant_edges = [
-            edge
-            for edge in edges
-            if edge.properties.get("tenant_id") in {None, principal.tenant_id}
+            edge for edge in edges if edge.properties.get("tenant_id") in {None, principal.tenant_id}
         ]
         chain = _summarise_chain(tenant_edges)
         if not chain:
@@ -137,7 +145,7 @@ async def graph_lookup(
             break
 
     if plan.intent.value == "compliance_check":
-        certificates = await _compliance_paths(session, principal, supplier_ids)
+        certificates = await _compliance_paths(session, principal, supplier_ids, plan.as_of)
         for certificate in certificates:
             result.paths.append(
                 GraphPath(hops=2, description=certificate["description"], citations=certificate["citations"])
@@ -157,7 +165,7 @@ async def graph_lookup(
                 for citation in certificate["citations"]
             )
 
-    result.limits = {"max_hops": max_hops, "paths": len(result.paths)}
+    result.limits = {"max_hops": max_hops, "paths": len(result.paths), "as_of": as_of}
     if not result.paths:
         result.notes.append(
             "No graph path linked the requested entities; the answer relies on document and structured evidence."
@@ -299,7 +307,10 @@ def _edge_citation_payload(
 
 
 async def _compliance_paths(
-    session: AsyncSession, principal: Principal, supplier_ids: list[str]
+    session: AsyncSession,
+    principal: Principal,
+    supplier_ids: list[str],
+    as_of: date | None = None,
 ) -> list[dict[str, Any]]:
     rows = (
         await session.execute(
@@ -314,18 +325,27 @@ async def _compliance_paths(
         )
     ).all()
     from app.core.clock import today
-    as_of_date = today()
+
+    # Certificate validity is judged at the question's as-of date, so a historical
+    # question sees the state that held then rather than today's expiry status.
+    as_of_date = as_of or today()
     paths: list[dict[str, Any]] = []
     for certificate, supplier_name, title, filename in rows:
         in_force = certificate.status == "active" and not (
-            certificate.expiry_date and certificate.expiry_date < today
+            certificate.expiry_date and certificate.expiry_date < as_of_date
         )
         paths.append(
             {
                 "description": (
                     f"{supplier_name or 'Supplier'} COMPLIES_WITH {certificate.certificate_type}"
                     + (f" ({certificate.certificate_number})" if certificate.certificate_number else "")
-                    + (" — currently in force" if in_force else " — not in force")
+                    + (
+                        " — currently in force"
+                        if in_force and as_of is None
+                        else " — in force on the requested date"
+                        if in_force
+                        else " — not in force"
+                    )
                 ),
                 "citations": [
                     {

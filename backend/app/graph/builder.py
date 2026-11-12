@@ -11,6 +11,8 @@ graph can answer version-aware and multi-hop questions
 
 from __future__ import annotations
 
+import re
+from collections.abc import Iterable
 from typing import Any
 
 from app.db.models import ComplianceCertificate, Contract, Price, Product, Supplier
@@ -29,6 +31,21 @@ LABEL_COMPLIANCE = "ComplianceCertificate"
 LABEL_DOCUMENT = "Document"
 LABEL_CATEGORY = "Category"
 LABEL_CLAUSE = "Clause"
+LABEL_OBLIGATION = "Obligation"
+
+#: Modal verbs and undertakings that mark a contractual duty. This is a lexical
+#: signal, not legal interpretation: the node records the sentence so a reader
+#: can judge it, and the property says how it was found.
+OBLIGATION_RE = re.compile(
+    r"\b(?:shall|must|will|is required to|are required to|agrees? to|undertakes? to|is obliged to)\b",
+    re.IGNORECASE,
+)
+_SENTENCE_RE = re.compile(r"(?<=[.;:])\s+")
+
+#: Clause text kept on the node. Enough to recognise the clause in a citation,
+#: bounded so a whole section cannot be duplicated into the graph.
+CLAUSE_TEXT_LIMIT = 800
+OBLIGATION_TEXT_LIMIT = 600
 
 
 def _props(tenant_id: str, **values: Any) -> dict[str, Any]:
@@ -131,6 +148,71 @@ def document_node(
             tenant_id, name=title, document_type=document_type, version=version, document_id=document_id
         ),
     )
+
+
+def clause_node(
+    *,
+    tenant_id: str,
+    document_id: str,
+    clause: str,
+    text: str,
+    page: int | None,
+    section: str | None = None,
+    effective_date: Any = None,
+    expiry_date: Any = None,
+) -> GraphNode:
+    return GraphNode(
+        label=LABEL_CLAUSE,
+        key=f"{document_id}:{clause}",
+        properties=_props(
+            tenant_id,
+            name=clause,
+            clause=clause,
+            section=section,
+            text=text[:CLAUSE_TEXT_LIMIT],
+            source_page=page,
+            document_id=document_id,
+            effective_date=effective_date,
+            expiry_date=expiry_date,
+        ),
+    )
+
+
+def obligation_node(
+    *,
+    tenant_id: str,
+    document_id: str,
+    clause: str,
+    text: str,
+    page: int | None,
+) -> GraphNode:
+    return GraphNode(
+        label=LABEL_OBLIGATION,
+        key=f"{document_id}:{clause}:obligation",
+        properties=_props(
+            tenant_id,
+            name=f"Obligation in {clause}",
+            clause=clause,
+            text=text[:OBLIGATION_TEXT_LIMIT],
+            source_page=page,
+            document_id=document_id,
+            # How the node was found, so a reader is never told a lawyer decided it.
+            detection="modal_verb",
+        ),
+    )
+
+
+def _iso(value: Any) -> str | None:
+    return value.isoformat() if value is not None and hasattr(value, "isoformat") else None
+
+
+def _obligation_text(text: str) -> str | None:
+    """The sentences of a clause that impose a duty, or None if none do."""
+    sentences = [part.strip() for part in _SENTENCE_RE.split(text) if part.strip()]
+    duties = [sentence for sentence in sentences if OBLIGATION_RE.search(sentence)]
+    if not duties:
+        return None
+    return " ".join(duties)
 
 
 def edge(
@@ -352,6 +434,114 @@ class GraphBuilder:
         if edges:
             await self.graph.upsert_edges(edges)
 
+    async def link_clauses(
+        self,
+        *,
+        tenant_id: str,
+        document_id: str,
+        title: str,
+        document_type: str,
+        version: int,
+        chunks: Iterable[Any],
+    ) -> int:
+        """Write Clause and Obligation nodes for a document's clause chunks.
+
+        Chunks are grouped by their clause number, so a clause split across a page
+        boundary becomes one node rather than two. A clause with no modal verb
+        produces no Obligation node: the absence of a duty is meaningful, and
+        inventing one would be worse than leaving it out.
+        """
+        grouped: dict[str, dict[str, Any]] = {}
+        for chunk in chunks:
+            clause = (getattr(chunk, "clause", None) or "").strip()
+            if not clause:
+                continue
+            entry = grouped.setdefault(
+                clause,
+                {"texts": [], "page": None, "section": None, "effective": None, "expiry": None},
+            )
+            content = (getattr(chunk, "content", "") or "").strip()
+            if content:
+                entry["texts"].append(content)
+            if entry["page"] is None:
+                entry["page"] = getattr(chunk, "page_number", None)
+            entry["section"] = entry["section"] or getattr(chunk, "section", None)
+            entry["effective"] = entry["effective"] or _iso(getattr(chunk, "effective_date", None))
+            entry["expiry"] = entry["expiry"] or _iso(getattr(chunk, "expiry_date", None))
+
+        if not grouped:
+            return 0
+
+        document = document_node(
+            document_id=document_id,
+            tenant_id=tenant_id,
+            title=title,
+            document_type=document_type,
+            version=version,
+        )
+        nodes: list[GraphNode] = []
+        edges: list[GraphEdge] = []
+        for clause, entry in grouped.items():
+            text = " ".join(entry["texts"])
+            clause_n = clause_node(
+                tenant_id=tenant_id,
+                document_id=document_id,
+                clause=clause,
+                text=text,
+                page=entry["page"],
+                section=entry["section"],
+                effective_date=entry["effective"],
+                expiry_date=entry["expiry"],
+            )
+            nodes.append(clause_n)
+            edges.append(
+                edge(
+                    "CONTAINS",
+                    document,
+                    clause_n,
+                    tenant_id=tenant_id,
+                    document_id=document_id,
+                    source_page=entry["page"],
+                    effective_date=entry["effective"],
+                    expiry_date=entry["expiry"],
+                )
+            )
+            duty = _obligation_text(text)
+            if duty:
+                obligation_n = obligation_node(
+                    tenant_id=tenant_id,
+                    document_id=document_id,
+                    clause=clause,
+                    text=duty,
+                    page=entry["page"],
+                )
+                nodes.append(obligation_n)
+                edges.append(
+                    edge(
+                        "IMPOSES",
+                        clause_n,
+                        obligation_n,
+                        tenant_id=tenant_id,
+                        document_id=document_id,
+                        source_page=entry["page"],
+                    )
+                )
+                # Provenance in the same direction as other evidence edges.
+                edges.append(
+                    edge(
+                        "EVIDENCED_BY",
+                        obligation_n,
+                        document,
+                        tenant_id=tenant_id,
+                        document_id=document_id,
+                        source_page=entry["page"],
+                    )
+                )
+
+        await self.graph.upsert_nodes(nodes)
+        await self.graph.upsert_edges(edges)
+        return len(grouped)
+
     async def remove_document_entities(self, document_id: str) -> int:
         return await self.graph.delete_subgraph(document_id)
 
@@ -374,6 +564,7 @@ __all__ = [
     "LABEL_CATEGORY",
     "LABEL_CLAUSE",
     "LABEL_COMPLIANCE",
+    "LABEL_OBLIGATION",
     "LABEL_CONTRACT",
     "LABEL_DOCUMENT",
     "LABEL_PRICE",

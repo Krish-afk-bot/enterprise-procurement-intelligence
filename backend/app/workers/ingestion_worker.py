@@ -10,13 +10,22 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import signal
 from datetime import UTC, datetime
 
 from app.config.container import Container, get_container
 from app.config.settings import Settings, get_settings
 from app.db.models import Document, IngestionJob
 from app.db.session import dispose_engine, init_db, session_scope
-from app.ingestion.jobs import activate_candidate_version, claim_next_job, mark_job, requeue_stuck_jobs, ActivationError
+from app.ingestion.cleanup import purge_orphaned_derived_rows, sweep_abandoned_candidates
+from app.ingestion.jobs import (
+    ActivationError,
+    activate_candidate_version,
+    claim_next_job,
+    heartbeat_job,
+    mark_job,
+    requeue_stuck_jobs,
+)
 from app.ingestion.pipeline import IngestionPipeline
 from app.observability.logging import configure_logging, get_logger
 
@@ -33,6 +42,9 @@ class IngestionWorker:
         self._pipeline = IngestionPipeline(container, settings)
         self.processed = 0
         self.failed = 0
+        # Recovery (requeue + abandoned-candidate sweep) runs once per worker
+        # instance, not once per concurrency loop.
+        self._recovery_done = False
 
     # ------------------------------------------------------------------ lifecycle
     async def start(self) -> None:
@@ -78,11 +90,33 @@ class IngestionWorker:
             await self._run_job(job)
 
     async def _recover(self) -> None:
+        if self._recovery_done:
+            return
+        self._recovery_done = True
         try:
             async with session_scope() as session:
                 requeued = await requeue_stuck_jobs(session)
             if requeued:
                 logger.warning("ingestion_jobs_requeued", count=requeued)
+
+            # Candidate versions abandoned by a crash or a lost lease would
+            # otherwise block every future re-index of that document.
+            async with session_scope() as session:
+                swept = await sweep_abandoned_candidates(
+                    session,
+                    settings=self.settings,
+                    vector=getattr(self.container, "vector", None),
+                    stale_after_seconds=max(self.settings.worker_lease_seconds * 2, 3600),
+                )
+            if swept["documents_swept"]:
+                logger.info("worker_candidate_sweep_complete", **swept)
+
+            # Derived rows whose document was deleted before explicit cleanup
+            # existed (SQLite does not enforce ON DELETE CASCADE).
+            async with session_scope() as session:
+                purged = await purge_orphaned_derived_rows(session)
+            if any(purged.values()):
+                logger.info("worker_orphan_purge_complete", **purged)
 
             # Reconcile pending outbox tasks from previous worker crashes
             await self._recover_pending_outbox()
@@ -161,8 +195,41 @@ class IngestionWorker:
 
     async def _claim(self) -> str | None:
         async with session_scope() as session:
-            job = await claim_next_job(session)
+            job = await claim_next_job(
+                session, lease_seconds=self.settings.worker_lease_seconds
+            )
             return job.id if job else None
+
+    async def _heartbeat_loop(
+        self, job_id: str, lease_token: str, lost: asyncio.Event
+    ) -> None:
+        """Renew this worker's lease until the job ends or the lease is lost.
+
+        A failed renewal means recovery has taken the job back, so the caller
+        cancels the pipeline rather than writing results it no longer owns.
+        """
+        interval = max(1.0, self.settings.worker_lease_seconds / 3)
+        while not lost.is_set():
+            try:
+                await asyncio.wait_for(lost.wait(), timeout=interval)
+                return
+            except TimeoutError:
+                pass
+            try:
+                async with session_scope() as session:
+                    renewed = await heartbeat_job(
+                        session,
+                        job_id=job_id,
+                        lease_token=lease_token,
+                        lease_seconds=self.settings.worker_lease_seconds,
+                    )
+            except Exception as exc:  # noqa: BLE001 — retry on the next tick
+                logger.warning("ingestion_job_heartbeat_error", job_id=job_id, error=str(exc))
+                continue
+            if not renewed:
+                logger.warning("ingestion_job_lease_lost", job_id=job_id)
+                lost.set()
+                return
 
     async def _run_job(self, job_id: str) -> None:
         async with session_scope() as session:
@@ -170,6 +237,7 @@ class IngestionWorker:
             if job is None:
                 return
             document_id = job.document_id
+            lease_token = job.lease_token
             _tenant_id = job.tenant_id  # noqa: F841 — retained for future structured logging
         logger.info("ingestion_job_started", job_id=job_id, document_id=document_id)
 
@@ -192,13 +260,49 @@ class IngestionWorker:
                     checkpoint_metadata=checkpoint_metadata,
                 )
                 document = await session.get(Document, document_id)
-                if document is not None and document.status not in {"failed", "indexed"}:
+                if document is not None and document.status not in {
+                    "failed",
+                    "indexed",
+                    "needs_review",
+                    "cancelled",
+                }:
                     document.stage = stage
                     document.progress = fraction
 
-        outcome = await self._pipeline.process_document(
-            document_id, progress=progress, rebuild_graph=True, job_id=job_id
+        pipeline_task = asyncio.create_task(
+            self._pipeline.process_document(
+                document_id, progress=progress, rebuild_graph=True, job_id=job_id
+            )
         )
+        lease_lost = asyncio.Event()
+        heartbeat_task: asyncio.Task | None = None
+        if lease_token:
+            heartbeat_task = asyncio.create_task(
+                self._heartbeat_loop(job_id, lease_token, lease_lost)
+            )
+        try:
+            if heartbeat_task is None:
+                outcome = await pipeline_task
+            else:
+                done, _ = await asyncio.wait(
+                    {pipeline_task, heartbeat_task}, return_when=asyncio.FIRST_COMPLETED
+                )
+                if pipeline_task not in done:
+                    pipeline_task.cancel()
+                    with contextlib.suppress(asyncio.CancelledError):
+                        await pipeline_task
+                    logger.warning(
+                        "ingestion_job_abandoned_lease_lost",
+                        job_id=job_id,
+                        document_id=document_id,
+                    )
+                    return
+                outcome = pipeline_task.result()
+        finally:
+            if heartbeat_task is not None:
+                heartbeat_task.cancel()
+                with contextlib.suppress(asyncio.CancelledError):
+                    await heartbeat_task
         _is_candidate_ready: bool = False
         _indexing_version: int | None = None
         _tenant_id_for_activation: str | None = None
@@ -405,13 +509,33 @@ async def run_worker_forever() -> None:  # pragma: no cover - process entrypoint
     await container.startup()
     worker = IngestionWorker(settings, container)
     await worker.start()
+
+    # Render (and most schedulers) stop a worker with SIGTERM. Without a handler
+    # the process dies mid-ingestion and leaves the lease to expire; stopping
+    # through the worker lets it finish or abandon the current job cleanly and
+    # release its lease. Falls back to waiting forever where signals are not
+    # supported (Windows).
+    stop = asyncio.Event()
+    loop = asyncio.get_running_loop()
+    handlers = 0
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        try:
+            loop.add_signal_handler(sig, stop.set)
+            handlers += 1
+        except (NotImplementedError, RuntimeError):
+            break
     try:
-        while True:
-            await asyncio.sleep(3600)
+        if handlers:
+            await stop.wait()
+        else:
+            while True:
+                await asyncio.sleep(3600)
     finally:
+        logger.info("worker_shutdown_requested")
         await worker.stop()
         await container.shutdown()
         await dispose_engine()
+
 
 
 if __name__ == "__main__":  # pragma: no cover

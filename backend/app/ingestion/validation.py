@@ -11,6 +11,7 @@ from pathlib import Path
 
 from app.config.settings import Settings
 from app.core.errors import FileValidationError
+from app.ingestion.archive import OOXML_EXTENSIONS, ArchiveSummary, inspect_ooxml
 
 #: Magic-number prefixes per supported format.
 _SIGNATURES: tuple[tuple[bytes, str], ...] = (
@@ -31,6 +32,8 @@ _EXTENSION_MIME: dict[str, str] = {
     ".csv": "text/csv",
     ".txt": "text/plain",
     ".md": "text/markdown",
+    ".html": "text/html",
+    ".htm": "text/html",
     ".png": "image/png",
     ".jpg": "image/jpeg",
     ".jpeg": "image/jpeg",
@@ -50,6 +53,7 @@ class ValidatedUpload:
     size_bytes: int
     sha256: str
     content: bytes
+    archive: ArchiveSummary | None = None
 
     @property
     def is_image(self) -> bool:
@@ -117,6 +121,13 @@ def validate_upload(
                 details={"detected_mime": detected, "expected_mime": expected},
             )
 
+    # OOXML files are ZIP containers: check entry count, declared expansion,
+    # compression ratio, path safety and the marker part before any parser sees
+    # the bytes. Nothing is extracted here.
+    archive: ArchiveSummary | None = None
+    if extension in OOXML_EXTENSIONS:
+        archive = inspect_ooxml(content, extension=extension, settings=settings, filename=filename)
+
     return ValidatedUpload(
         filename=Path(filename).name,
         extension=extension,
@@ -125,4 +136,40 @@ def validate_upload(
         size_bytes=len(content),
         sha256=sha256_hex(content),
         content=content,
+        archive=archive,
     )
+
+
+#: Read size per chunk while streaming an upload. One megabyte keeps memory flat
+#: for large PDFs without turning the read into thousands of tiny calls.
+UPLOAD_CHUNK_BYTES = 1024 * 1024
+
+
+async def read_upload_bounded(
+    upload: object,
+    *,
+    settings: Settings,
+    chunk_bytes: int = UPLOAD_CHUNK_BYTES,
+) -> bytes:
+    """Stream an upload into memory, refusing it as soon as it exceeds the limit.
+
+    ``await upload.read()`` loads the whole body before any size check runs, so a
+    client could force an arbitrarily large allocation. This reads in bounded
+    chunks and raises ``FileValidationError`` on the chunk that crosses the
+    configured limit, before the remaining body is consumed.
+    """
+    limit_bytes = settings.max_upload_mb * 1024 * 1024
+    chunks: list[bytes] = []
+    total = 0
+    while True:
+        chunk = await upload.read(chunk_bytes)  # type: ignore[attr-defined]
+        if not chunk:
+            break
+        total += len(chunk)
+        if total > limit_bytes:
+            raise FileValidationError(
+                f"File is larger than the {settings.max_upload_mb} MB limit.",
+                details={"max_upload_mb": settings.max_upload_mb},
+            )
+        chunks.append(chunk)
+    return b"".join(chunks)

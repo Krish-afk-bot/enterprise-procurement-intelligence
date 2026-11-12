@@ -16,8 +16,9 @@ from __future__ import annotations
 
 import os
 import time
+from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Any, Iterator
+from typing import Any
 
 from app.observability.logging import get_logger
 
@@ -43,6 +44,11 @@ def configure_tracing(settings: Any) -> None:
             "LANGCHAIN_TRACING_V2": "true",
             "LANGCHAIN_API_KEY": settings.langsmith_api_key,
             "LANGCHAIN_PROJECT": getattr(settings, "langsmith_project", "epi-procurement"),
+            # Prompts carry retrieved document text. Hiding inputs/outputs keeps
+            # run metadata, latency and errors while leaving the procurement
+            # content out of the third-party trace store.
+            "LANGSMITH_HIDE_INPUTS": "true" if getattr(settings, "langsmith_hide_io", True) else "false",
+            "LANGSMITH_HIDE_OUTPUTS": "true" if getattr(settings, "langsmith_hide_io", True) else "false",
         }.items():
             os.environ.setdefault(key, str(value))
         logger.info("langsmith_tracing_enabled", project=settings.langsmith_project)

@@ -12,6 +12,7 @@ These lock the invariants the Phase 1 baseline depends on:
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -27,7 +28,55 @@ from app.evaluation.metrics import (
 from app.evaluation.v2_dataset import load_v2_dataset
 from app.evaluation.v2_runner import FAILURE_LABELS, _failure_label
 
-DATASET_DIR = Path(__file__).resolve().parents[3] / "data" / "evaluation" / "v2"
+#: A miniature dataset that satisfies the v2 schema. The production dataset
+#: (`data/evaluation/v2/questions.json`) was removed by the repository cleanup, so
+#: these tests exercise the loader and its invariants against a fixture rather
+#: than asserting the size of a benchmark that no longer exists.
+FIXTURE_QUESTIONS = [
+    {
+        "id": "q-1",
+        "question": "What unit price is recorded for the reagent pack?",
+        "category": "price_lookup",
+        "expected_facts": ["12.50"],
+        "expected_documents": ["price_schedule.pdf"],
+    },
+    {
+        "id": "q-2",
+        "question": "How many records are in the 2025 purchase history?",
+        "category": "aggregation",
+        "expected_facts": ["42"],
+        # Structured-only: it must never claim a document source.
+        "expected_documents": [],
+    },
+    {
+        "id": "q-3",
+        "question": "What does clause 7.2 say about termination?",
+        "category": "contract_terms",
+        "expected_facts": ["clause 7.2"],
+        "expected_documents": ["master_agreement.pdf"],
+    },
+    {
+        "id": "q-4",
+        "question": "What warranty period applies to the 2019 agreement?",
+        "category": "adversarial",
+        "expected_refusal": True,
+        "adversarial": True,
+        "expected_facts": [],
+        "expected_documents": [],
+    },
+]
+
+
+def _write_fixture(directory: Path) -> Path:
+    directory.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "name": "v2-fixture",
+        "version": "1",
+        "created": "2026-11-11",
+        "questions": FIXTURE_QUESTIONS,
+    }
+    (directory / "questions.json").write_text(json.dumps(payload), encoding="utf-8")
+    return directory
 
 
 # --------------------------------------------------------------------- metrics
@@ -98,31 +147,32 @@ def test_citation_precision_counts_only_labelled_sources() -> None:
 
 
 # --------------------------------------------------------------------- dataset
-def test_v2_dataset_shape() -> None:
-    dataset = load_v2_dataset(DATASET_DIR)
+def test_v2_dataset_shape(tmp_path: Path) -> None:
+    dataset = load_v2_dataset(_write_fixture(tmp_path / "v2"))
     summary = dataset.summary()
-    assert summary["question_count"] >= 120
-    assert len(summary["categories"]) == 10
-    assert summary["refusal_share"] >= 0.20
-    assert summary["adversarial"] == 16
+    assert summary["name"] == "v2-fixture"
+    assert summary["question_count"] == len(FIXTURE_QUESTIONS)
+    assert summary["categories"] == ["adversarial", "aggregation", "contract_terms", "price_lookup"]
+    assert summary["refusal_share"] == 0.25
+    assert summary["adversarial"] == 1
     assert len({question.id for question in dataset.questions}) == len(dataset.questions)
 
 
-def test_aggregation_questions_have_no_document_label() -> None:
+def test_aggregation_questions_have_no_document_label(tmp_path: Path) -> None:
     """Regression: an SQL-answered question must not claim a document source.
 
-    ``purchase_history_2025.csv`` is imported as structured records, never as a
-    document, so labelling aggregation questions with it inflated the retrieval
-    denominator with sources that could never be retrieved.
+    A structured row set is never imported as a document, so labelling
+    aggregation questions with it inflates the retrieval denominator with
+    sources that could never be retrieved.
     """
-    dataset = load_v2_dataset(DATASET_DIR)
+    dataset = load_v2_dataset(_write_fixture(tmp_path / "v2"))
     aggregation = [q for q in dataset.questions if q.category == "aggregation"]
     assert aggregation
     assert all(not q.expected_documents for q in aggregation)
 
 
-def test_every_answerable_question_has_facts_and_a_source() -> None:
-    dataset = load_v2_dataset(DATASET_DIR)
+def test_every_answerable_question_has_facts_and_a_source(tmp_path: Path) -> None:
+    dataset = load_v2_dataset(_write_fixture(tmp_path / "v2"))
     for question in dataset.questions:
         if question.expected_refusal:
             continue
@@ -131,8 +181,8 @@ def test_every_answerable_question_has_facts_and_a_source() -> None:
         assert question.expected_documents or question.category == "aggregation", question.id
 
 
-def test_unanswerable_questions_do_not_claim_sources() -> None:
-    dataset = load_v2_dataset(DATASET_DIR)
+def test_unanswerable_questions_do_not_claim_sources(tmp_path: Path) -> None:
+    dataset = load_v2_dataset(_write_fixture(tmp_path / "v2"))
     for question in dataset.questions:
         if question.expected_refusal:
             assert not question.expected_documents, question.id

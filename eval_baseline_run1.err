@@ -1,5 +1,0 @@
-usage: eval_v2.py [-h] [--mode {current,oracle,both}] [--limit LIMIT]
-                  [--categories [CATEGORIES ...]] [--top-k TOP_K]
-                  [--strategy STRATEGY] [--write-taxonomy] [--label LABEL]
-                  [--dataset {full,dev,held-out}]
-eval_v2.py: error: argument --mode: invalid choice: 'dev' (choose from current, oracle, both)

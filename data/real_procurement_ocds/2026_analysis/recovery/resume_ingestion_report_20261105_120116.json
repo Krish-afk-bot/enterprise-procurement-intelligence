@@ -1,0 +1,17 @@
+{
+  "start_time": "2026-11-05T12:01:14.249565",
+  "total_releases_processed": 0,
+  "releases_skipped_existing": 0,
+  "releases_inserted_new": 0,
+  "procurement_records_created": 0,
+  "suppliers_created": 0,
+  "errors": [],
+  "duplicate_ocids_encountered": [],
+  "non_gbp_records": [],
+  "checkpoint_lines_processed": 0,
+  "end_time": "2026-11-05T12:01:16.131190",
+  "total_lines_in_file": 68473,
+  "existing_ocids_at_start": 51051,
+  "existing_ocids_at_end": 51051,
+  "new_ocids_added": 0
+}

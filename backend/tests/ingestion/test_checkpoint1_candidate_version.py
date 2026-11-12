@@ -308,7 +308,12 @@ class TestCandidateChunkPersistence:
             is_synthetic=False,
         )
 
-        with patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)):
+        with (
+            patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)),
+            # The pipeline binds session_scope at import time, so patching only
+            # app.db.session leaves it writing to the real database.
+            patch("app.ingestion.pipeline.session_scope", _patched_scope_factory(factory)),
+        ):
             await pipeline._persist_chunks(
                 [draft],
                 tenant_id=tenant_id,
@@ -393,7 +398,12 @@ class TestActiveSafetyInvariant:
             is_synthetic=False,
         )
 
-        with patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)):
+        with (
+            patch.object(db_session_module, "session_scope", _patched_scope_factory(factory)),
+            # The pipeline binds session_scope at import time, so patching only
+            # app.db.session leaves it writing to the real database.
+            patch("app.ingestion.pipeline.session_scope", _patched_scope_factory(factory)),
+        ):
             await pipeline._persist_chunks(
                 [draft],
                 tenant_id=tenant_id,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 
 import { EmptyState, ErrorState, LoadingRows } from "@/components/common/States";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -10,16 +10,26 @@ import { Input, Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { api } from "@/lib/api";
+import { PAGE_SIZE, offsetFor, pageLabel } from "@/lib/pagination";
 import { titleCase } from "@/lib/utils";
 
 export function SuppliersPage() {
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  // The API pages with limit/offset, so the page index is part of the query key:
+  // a new page is a new request, not a re-slice of a truncated list.
   const suppliers = useQuery({
-    queryKey: ["suppliers", search],
-    queryFn: () => api.suppliers({ search: search || undefined, limit: 100 }),
+    queryKey: ["suppliers", search, page],
+    queryFn: () =>
+      api.suppliers({
+        search: search || undefined,
+        limit: PAGE_SIZE,
+        offset: offsetFor(page),
+      }),
   });
 
   const items = suppliers.data?.items ?? [];
+  const total = suppliers.data?.total ?? 0;
 
   return (
     <div className="space-y-5">
@@ -36,14 +46,17 @@ export function SuppliersPage() {
             <Input
               id="supplier-search"
               value={search}
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) => {
+                setSearch(event.target.value);
+                setPage(0);
+              }}
               placeholder="Supplier name"
               className="pl-8"
             />
           </div>
         </div>
-        <p className="pb-2 text-xs text-muted-foreground">
-          {suppliers.data ? `${suppliers.data.total} supplier(s)` : "loading"}
+        <p className="pb-2 text-xs text-muted-foreground" aria-live="polite">
+          {suppliers.data ? `${total} supplier(s)` : "loading"}
         </p>
       </div>
 
@@ -119,6 +132,34 @@ export function SuppliersPage() {
                 })}
               </TableBody>
             </Table>
+            {total > PAGE_SIZE ? (
+              <nav
+                aria-label="Supplier pages"
+                className="flex flex-wrap items-center justify-between gap-2 border-t px-3 py-2"
+              >
+                <p className="text-xs text-muted-foreground">{pageLabel(page, total)}</p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page === 0}
+                    onClick={() => setPage((current) => Math.max(0, current - 1))}
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={offsetFor(page) + items.length >= total}
+                    onClick={() => setPage((current) => current + 1)}
+                  >
+                    Next
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Button>
+                </div>
+              </nav>
+            ) : null}
           </div>
         )
       ) : null}

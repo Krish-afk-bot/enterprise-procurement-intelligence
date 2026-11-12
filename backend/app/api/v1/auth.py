@@ -101,6 +101,58 @@ def _read_refresh_token(request: Request, settings: Settings, payload: RefreshRe
     raise AuthenticationError("No refresh token was provided.")
 
 
+async def _create_workspace(session: AsyncSession) -> Tenant:
+    """A self-registered account gets its own workspace.
+
+    Joining an existing tenant implicitly would give anyone who can reach the
+    registration endpoint read access to that tenant's documents. Without an
+    explicit ``tenant_slug`` (an invitation to a known workspace), a new
+    account starts in a workspace it owns.
+    """
+    import secrets
+
+    tenant = Tenant(name="Personal workspace", slug=f"workspace-{secrets.token_hex(8)}")
+    session.add(tenant)
+    await session.flush()
+    return tenant
+
+
+async def _resolve_login_tenant(
+    session: AsyncSession, settings: Settings, slug: str | None, email: str
+) -> Tenant:
+    """Resolve which workspace a login belongs to.
+
+    An explicit slug scopes the login to that workspace. Without one, a unique
+    email identifies its workspace, so someone who registered into their own
+    workspace can still sign in. An email that exists in more than one
+    workspace is ambiguous and must name the workspace.
+    """
+    from sqlalchemy import select
+
+    from app.db.models import User
+
+    if slug:
+        return await _resolve_tenant(session, settings, slug)
+
+    users = list(
+        (
+            await session.execute(
+                select(User).where(User.email == email, User.is_active.is_(True))
+            )
+        ).scalars()
+    )
+    tenant_ids = {user.tenant_id for user in users}
+    if len(tenant_ids) > 1:
+        raise AuthenticationError(
+            "This email belongs to more than one workspace; provide tenant_slug."
+        )
+    if len(tenant_ids) == 1:
+        tenant = await session.get(Tenant, next(iter(tenant_ids)))
+        if tenant is not None:
+            return tenant
+    return await _resolve_tenant(session, settings, None)
+
+
 async def _resolve_tenant(session: AsyncSession, settings: Settings, slug: str | None) -> Tenant:
     from sqlalchemy import select
 
@@ -124,7 +176,7 @@ async def login(
     session: AsyncSession = Depends(get_db),
     settings: Settings = Depends(get_settings),
 ) -> TokenResponse:
-    tenant = await _resolve_tenant(session, settings, payload.tenant_slug)
+    tenant = await _resolve_login_tenant(session, settings, payload.tenant_slug, payload.email)
     try:
         user = await auth_service.authenticate(
             session, tenant_id=tenant.id, email=payload.email, password=payload.password
@@ -166,14 +218,19 @@ async def register(
 ) -> TokenResponse:
     if not settings.allow_self_registration:
         raise AuthorizationError("Self-registration is disabled. Ask an administrator for an account.")
-    tenant = await _resolve_tenant(session, settings, payload.tenant_slug)
+    if payload.tenant_slug:
+        tenant = await _resolve_tenant(session, settings, payload.tenant_slug)
+        role = "buyer"
+    else:
+        tenant = await _create_workspace(session)
+        role = "admin"
     user = await auth_service.create_user(
         session,
         tenant_id=tenant.id,
         email=payload.email,
         password=payload.password,
         full_name=payload.full_name,
-        role="buyer",
+        role=role,
     )
     await audit.record_audit(
         session,

@@ -1,0 +1,2498 @@
+{
+  "start_time": "2026-11-05T11:55:21.857902",
+  "total_releases_processed": 16205,
+  "releases_skipped_existing": 12926,
+  "releases_inserted_new": 3279,
+  "procurement_records_created": 0,
+  "suppliers_created": 0,
+  "errors": [
+    {
+      "lines": "5-104",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "105-204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "205-304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "305-404",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "405-504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "505-604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "605-704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "705-804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "805-904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "905-1004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1005-1104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1105-1204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1205-1304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1305-1404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1405-1504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1505-1604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1605-1704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1705-1804",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "1805-1904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "1905-2004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2005-2104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2105-2204",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "2205-2304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2305-2404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2405-2504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2505-2604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2605-2704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2705-2804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2805-2904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "2905-3004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3005-3104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3105-3204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3205-3304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3305-3404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3405-3504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3505-3604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3605-3704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3705-3804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "3805-3904",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "3905-4004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4005-4104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4105-4204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4205-4304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4305-4404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4405-4504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4505-4604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4605-4704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4705-4804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4805-4904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "4905-5004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5005-5104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5105-5204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5205-5304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5305-5404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5405-5504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5505-5604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5605-5704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5705-5804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5805-5904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "5905-6004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6005-6104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6105-6204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6205-6304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6305-6404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6405-6504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6505-6604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6605-6704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6705-6804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6805-6904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "6905-7004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7005-7104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7105-7204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7205-7304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7305-7404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7405-7504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7505-7604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7605-7704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7705-7804",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "7805-7904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "7905-8004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8005-8104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8105-8204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8205-8304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8305-8404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8405-8504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8505-8604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8605-8704",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "8705-8804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8805-8904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "8905-9004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9005-9104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9105-9204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9205-9304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9305-9404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9405-9504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9505-9604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9605-9704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9705-9804",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "9805-9904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "9905-10004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10005-10104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10105-10204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10205-10304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10305-10404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10405-10504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10505-10604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10605-10704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10705-10804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10805-10904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "10905-11004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11005-11104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11105-11204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11205-11304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11305-11404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11405-11504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11505-11604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11605-11704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11705-11804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "11805-11904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12005-12104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12205-12304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12405-12504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12505-12604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12705-12804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12805-12904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "12905-13004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13005-13104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13105-13204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13305-13404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13505-13604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13605-13704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13805-13904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "13905-14004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14105-14204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14205-14304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14305-14404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14405-14504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14505-14604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14605-14704",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "14705-14804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "14805-14904",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "15005-15104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15105-15204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15205-15304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15305-15404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15405-15504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15705-15804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15805-15904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "15905-16004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16005-16104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16105-16204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16205-16304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16305-16404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16505-16604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16605-16704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16805-16904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "16905-17004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17005-17104",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "17105-17204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17205-17304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17405-17504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17505-17604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17605-17704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17705-17804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "17905-18004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18005-18104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18205-18304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18305-18404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18405-18504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18505-18604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18605-18704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18705-18804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "18805-18904",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "18905-19004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19005-19104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19105-19204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19205-19304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19305-19404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19705-19804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19805-19904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "19905-20004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20105-20204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20205-20304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20305-20404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20405-20504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20505-20604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20605-20704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20705-20804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20805-20904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "20905-21004",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "21105-21204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "21305-21404",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "21405-21504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "21505-21604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "21605-21704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "21705-21804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "21805-21904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "21905-22004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "22005-22104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "22105-22204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "22305-22404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "22505-22604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "22905-23004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "23005-23104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "23105-23204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "23305-23404",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "23405-23504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "23505-23604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "23605-23704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "23705-23804",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "23905-24004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "24105-24204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "24405-24504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "24705-24804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "24905-25004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "25005-25104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "25105-25204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "25205-25304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "25705-25804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "25805-25904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "25905-26004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26105-26204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26205-26304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26305-26404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26405-26504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26705-26804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26805-26904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "26905-27004",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "27205-27304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "27405-27504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "27505-27604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "27605-27704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "27705-27804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "27805-27904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "27905-28004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "28005-28104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "28105-28204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "28205-28304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "28605-28704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "29105-29204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "29305-29404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "29405-29504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "29505-29604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "29805-29904",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "29905-30004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30005-30104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30105-30204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30205-30304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30305-30404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30405-30504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30605-30704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30705-30804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "30905-31004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "31005-31104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "31105-31204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "31205-31304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "31305-31404",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "31505-31604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "31805-31904",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "32005-32104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "32105-32204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "32205-32304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "32305-32404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "32405-32504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "32505-32604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "32605-32704",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "32705-32804",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "32805-32904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33005-33104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33105-33204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33305-33404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33405-33504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33505-33604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33705-33804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "33805-33904",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "33905-34004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34005-34104",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "34105-34204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34205-34304",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "34305-34404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34405-34504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34505-34604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34605-34704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34705-34804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34805-34904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "34905-35004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35005-35104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35105-35204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35305-35404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35405-35504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35505-35604",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "35605-35704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35705-35804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35805-35904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "35905-36004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "36005-36104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "36105-36204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "36205-36304",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "36305-36404",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "36405-36504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "36505-36604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "36605-36704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "36705-36804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "36805-36904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "36905-37004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "37005-37104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "37105-37204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "37205-37304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "37305-37404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "37405-37504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "37505-37604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "37605-37704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "37705-37804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "37805-37904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "37905-38004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "38005-38104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "38105-38204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "38205-38304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "38305-38404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "38405-38504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "38505-38604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "38605-38704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "38705-38804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "38805-38904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "38905-39004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39005-39104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39105-39204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39205-39304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "39305-39404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39405-39504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "39505-39604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39605-39704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "39705-39804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39805-39904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "39905-40004",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "40005-40104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "40105-40204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "40205-40304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "40305-40404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "40405-40504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "40505-40604",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "40605-40704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "40705-40804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "40805-40904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "40905-41004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "41005-41104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "41105-41204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "41205-41304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "41305-41404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "41405-41504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "41505-41604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "41605-41704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "41705-41804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "41805-41904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "41905-42004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "42005-42104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "42105-42204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "42205-42304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "42305-42404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "42405-42504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "42505-42604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "42605-42704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "42705-42804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "42805-42904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "42905-43004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "43005-43104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "43105-43204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "43205-43304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "43305-43404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "43405-43504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "43505-43604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "43605-43704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "43705-43804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "43805-43904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "43905-44004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "44005-44104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "44105-44204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "44205-44304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "44305-44404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "44405-44504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "44505-44604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "44605-44704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "44705-44804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "44805-44904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "44905-45004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45005-45104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45105-45204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45205-45304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45305-45404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45405-45504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "45505-45604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "45605-45704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45705-45804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "45805-45904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "45905-46004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "46005-46104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "46105-46204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "46205-46304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "46305-46404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "46405-46504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "46505-46604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "46605-46704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "46705-46804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "46805-46904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "46905-47004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "47005-47104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "47105-47204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "47205-47304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "47305-47404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "47405-47504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "47505-47604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "47605-47704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "47705-47804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "47805-47904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "47905-48004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "48005-48104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "48105-48204",
+      "error": "Error binding parameter 12: type 'dict' is not supported"
+    },
+    {
+      "lines": "48205-48304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "48305-48404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "48405-48504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "48505-48604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "48605-48704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "48705-48804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "48805-48904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "48905-49004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "49005-49104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "49105-49204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49205-49304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49305-49404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49405-49504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49505-49604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49605-49704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49705-49804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "49805-49904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "49905-50004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "50005-50104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "50105-50204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "50205-50304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "50305-50404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "50405-50504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "50505-50604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "50605-50704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "50705-50804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "50805-50904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "50905-51004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51005-51104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51105-51204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51205-51304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51305-51404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51405-51504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "51505-51604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51605-51704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "51705-51804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "51805-51904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "51905-52004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52005-52104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52105-52204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52205-52304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52305-52404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "52405-52504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52505-52604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52605-52704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52705-52804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "52805-52904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "52905-53004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53005-53104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53105-53204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53205-53304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53305-53404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53405-53504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "53505-53604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "53605-53704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53705-53804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53805-53904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "53905-54004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "54005-54104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "54105-54204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "54205-54304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "54305-54404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "54405-54504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "54505-54604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "54605-54704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "54705-54804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "54805-54904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "54905-55004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "55005-55104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "55105-55204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "55205-55304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "55305-55404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "55405-55504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "55505-55604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "55605-55704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "55705-55804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "55805-55904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "55905-56004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56005-56104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56105-56204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "56205-56304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "56305-56404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56405-56504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56505-56604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56605-56704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56705-56804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "56805-56904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "56905-57004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "57005-57104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "57105-57204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "57205-57304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "57305-57404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "57405-57504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "57505-57604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "57605-57704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "57705-57804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "57805-57904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "57905-58004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "58005-58104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58105-58204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "58205-58304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58305-58404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58405-58504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58505-58604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58605-58704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "58705-58804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58805-58904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "58905-59004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "59005-59104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "59105-59204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "59205-59304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "59305-59404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "59405-59504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "59505-59604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "59605-59704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "59705-59804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "59805-59904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "59905-60004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "60005-60104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "60105-60204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "60205-60304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "60305-60404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "60405-60504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "60505-60604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "60605-60704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "60705-60804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "60805-60904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "60905-61004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "61005-61104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "61105-61204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "61205-61304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "61305-61404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "61405-61504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "61505-61604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "61605-61704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "61705-61804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "61805-61904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "61905-62004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "62005-62104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "62105-62204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "62205-62304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "62305-62404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "62405-62504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "62505-62604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "62605-62704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "62705-62804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "62805-62904",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "62905-63004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "63005-63104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "63105-63204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "63205-63304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "63305-63404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "63405-63504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "63505-63604",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "63605-63704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "63705-63804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "63805-63904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "63905-64004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "64005-64104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "64105-64204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "64205-64304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "64305-64404",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "64405-64504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "64505-64604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "64605-64704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "64705-64804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "64805-64904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "64905-65004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "65005-65104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "65105-65204",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "65205-65304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "65305-65404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "65405-65504",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "65505-65604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "65605-65704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "65705-65804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "65805-65904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "65905-66004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "66005-66104",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "66105-66204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "66205-66304",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "66305-66404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "66405-66504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "66505-66604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "66605-66704",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "66705-66804",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "66805-66904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "66905-67004",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67005-67104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "67105-67204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67205-67304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67305-67404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67405-67504",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67505-67604",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67605-67704",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67705-67804",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67805-67904",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "67905-68004",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "68005-68104",
+      "error": "NOT NULL constraint failed: suppliers.id"
+    },
+    {
+      "lines": "68105-68204",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "68205-68304",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "68305-68404",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    },
+    {
+      "lines": "68405-68473",
+      "error": "NOT NULL constraint failed: procurement_records.id"
+    }
+  ],
+  "duplicate_ocids_encountered": [],
+  "non_gbp_records": [],
+  "checkpoint_lines_processed": 35304,
+  "end_time": "2026-11-05T11:55:30.379471",
+  "total_lines_in_file": 68473,
+  "existing_ocids_at_start": 28447,
+  "existing_ocids_at_end": 32346,
+  "new_ocids_added": 3899
+}

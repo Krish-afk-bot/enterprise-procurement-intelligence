@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import func, select, update
+from sqlalchemy import and_, func, or_, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import VersionConflictError
+from app.core.ids import new_id
 from app.db.models import Chunk, ComplianceCertificate, Document, IngestionJob, Price
 from app.observability.logging import get_logger
 
@@ -149,23 +150,94 @@ async def create_job(
     return job
 
 
-async def claim_next_job(session: AsyncSession) -> IngestionJob | None:
-    """Atomically claim the oldest queued job."""
-    statement = (
-        select(IngestionJob)
-        .where(IngestionJob.status == "queued")
-        .order_by(IngestionJob.created_at.asc())
-        .limit(1)
+#: Number of candidate rows inspected per claim pass. A pass can lose every
+#: candidate to another worker, so the claim retries a bounded number of times.
+_CLAIM_BATCH = 8
+_CLAIM_PASSES = 3
+
+
+async def claim_next_job(
+    session: AsyncSession, *, lease_seconds: int = 120
+) -> IngestionJob | None:
+    """Atomically claim the oldest queued job.
+
+    The claim is a conditional UPDATE, not a read followed by a Python-side
+    mutation: a row moves from ``queued`` to ``running`` only for the worker
+    whose ``WHERE id = ? AND status = 'queued'`` guard still matches at write
+    time. A worker that loses the race sees ``rowcount == 0`` and moves to the
+    next candidate, so two loops (or two processes) can never process the same
+    job twice.
+
+    ``attempts`` is incremented in the same statement, so a crash between claim
+    and start cannot lose the attempt count.
+    """
+    claimed_at = datetime.now(UTC)
+    lease_token = new_id("lse")
+    lease_expires_at = claimed_at + timedelta(seconds=lease_seconds)
+    for _ in range(_CLAIM_PASSES):
+        candidate_ids = list(
+            (
+                await session.execute(
+                    select(IngestionJob.id)
+                    .where(IngestionJob.status == "queued")
+                    .order_by(IngestionJob.created_at.asc(), IngestionJob.id.asc())
+                    .limit(_CLAIM_BATCH)
+                )
+            ).scalars()
+        )
+        if not candidate_ids:
+            return None
+
+        for job_id in candidate_ids:
+            result = await session.execute(
+                update(IngestionJob)
+                .where(IngestionJob.id == job_id, IngestionJob.status == "queued")
+                .values(
+                    status="running",
+                    stage="starting",
+                    started_at=claimed_at,
+                    attempts=IngestionJob.attempts + 1,
+                    lease_token=lease_token,
+                    lease_expires_at=lease_expires_at,
+                )
+            )
+            if result.rowcount != 1:
+                # Another worker claimed this row between our SELECT and UPDATE.
+                continue
+            job = await session.get(IngestionJob, job_id, populate_existing=True)
+            if job is None:  # deleted between claim and re-read
+                continue
+            logger.info("ingestion_job_claimed", job_id=job.id, attempts=job.attempts)
+            return job
+
+    # Every candidate was taken by another worker; the caller polls again.
+    return None
+
+
+async def heartbeat_job(
+    session: AsyncSession,
+    *,
+    job_id: str,
+    lease_token: str,
+    lease_seconds: int = 120,
+) -> bool:
+    """Renew the lease for a job this worker still owns.
+
+    Returns ``False`` when the guard no longer matches, which means the lease
+    expired and recovery has requeued (or failed) the job. The worker must then
+    abandon its run instead of writing results for a job it no longer owns.
+    """
+    now = datetime.now(UTC)
+    result = await session.execute(
+        update(IngestionJob)
+        .where(
+            IngestionJob.id == job_id,
+            IngestionJob.status == "running",
+            IngestionJob.lease_token == lease_token,
+        )
+        .values(lease_expires_at=now + timedelta(seconds=lease_seconds))
     )
-    job = (await session.execute(statement)).scalar_one_or_none()
-    if job is None:
-        return None
-    job.status = "running"
-    job.started_at = datetime.now(UTC)
-    job.attempts += 1
-    job.stage = "starting"
-    await session.flush()
-    return job
+    return result.rowcount == 1
 
 
 async def mark_job(
@@ -196,6 +268,9 @@ async def mark_job(
         job.checkpoint_metadata = {**(job.checkpoint_metadata or {}), **checkpoint_metadata}
     if status in {"succeeded", "failed", "cancelled"}:
         job.finished_at = datetime.now(UTC)
+        # A finished job holds no lease; recovery must not requeue it.
+        job.lease_token = None
+        job.lease_expires_at = None
     await session.flush()
 
 
@@ -212,27 +287,50 @@ async def latest_job_for_document(session: AsyncSession, document_id: str) -> In
 async def requeue_stuck_jobs(session: AsyncSession, *, older_than_seconds: int = 1800) -> int:
     """Return jobs orphaned by a crash to the queue (bounded by max_attempts).
 
+    Two conditions count as orphaned:
+
+    * the job holds a lease that has expired — the worker stopped renewing it,
+      so the process is gone or wedged;
+    * the job predates leases (``lease_expires_at IS NULL``) and started longer
+      ago than ``older_than_seconds``.
+
+    A running job with a *valid* lease is never touched, no matter how long it
+    has been running. That is the difference from the previous behaviour, which
+    used the start time alone and could requeue a healthy long ingestion.
+
     This is a system-level operation that spans all tenants. The background worker
     has system privileges to reset jobs across the entire database.
     """
-    from datetime import timedelta
-
-    cutoff = datetime.now(UTC) - timedelta(seconds=older_than_seconds)
-    # System-level query: no tenant filter. The worker operates with elevated privileges.
+    now = datetime.now(UTC)
+    legacy_cutoff = now - timedelta(seconds=older_than_seconds)
     jobs = list(
         (
             await session.execute(
-                select(IngestionJob).where(IngestionJob.status == "running", IngestionJob.started_at < cutoff)
+                select(IngestionJob).where(
+                    IngestionJob.status == "running",
+                    or_(
+                        and_(
+                            IngestionJob.lease_expires_at.is_not(None),
+                            IngestionJob.lease_expires_at < now,
+                        ),
+                        and_(
+                            IngestionJob.lease_expires_at.is_(None),
+                            IngestionJob.started_at < legacy_cutoff,
+                        ),
+                    ),
+                )
             )
         ).scalars()
     )
     requeued = 0
     for job in jobs:
+        job.lease_token = None
+        job.lease_expires_at = None
         if job.attempts >= job.max_attempts:
             job.status = "failed"
             job.stage = "abandoned"
-            job.error_message = "Job exceeded its attempt limit after a worker restart."
-            job.finished_at = datetime.now(UTC)
+            job.error_message = "Job exceeded its attempt limit after its worker stopped renewing the lease."
+            job.finished_at = now
             document = await session.get(Document, job.document_id)
             if document is not None:
                 document.status = "failed"
@@ -339,13 +437,17 @@ async def activate_candidate_version(
     if job_id is not None:
         job = await session.get(IngestionJob, job_id)
         if job is None:
-            raise ActivationError(f"Job {job_id!r} not found for activation.")
-        if job.tenant_id != tenant_id or job.document_id != document_id:
+            # The job row is bookkeeping: it carries the checkpoint and the
+            # prepared version. A prepared candidate must still be activatable
+            # when that row has been cleaned up, otherwise a finished ingestion
+            # is stranded forever. Absence is recorded, not fatal.
+            logger.warning("activation_job_row_missing", job_id=job_id, document_id=document_id)
+        elif job.tenant_id != tenant_id or job.document_id != document_id:
             raise ActivationError(
                 f"Job {job_id!r} tenant/document mismatch: job has "
                 f"({job.tenant_id!r}, {job.document_id!r}), expected ({tenant_id!r}, {document_id!r})."
             )
-        if job.indexing_version != expected_candidate_version:
+        elif job.indexing_version != expected_candidate_version:
             raise ActivationError(
                 f"Job {job_id!r} indexing_version={job.indexing_version!r} does not match "
                 f"expected candidate version {expected_candidate_version!r}."

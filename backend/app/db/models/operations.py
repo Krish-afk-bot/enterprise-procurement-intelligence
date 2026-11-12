@@ -45,6 +45,15 @@ class IngestionJob(Base, TenantScopedMixin, TimestampMixin):
         comment="Stage-specific recovery state (e.g., last uploaded vector batch)"
     )
 
+    # Worker leases: a running job stays owned only while its lease is valid.
+    # The worker renews it from a heartbeat task; recovery only requeues jobs
+    # whose lease has actually expired, so a long ingestion is never stolen
+    # from a healthy worker.
+    lease_token: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    lease_expires_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
+
 
 class AuditLog(Base, TenantScopedMixin, TimestampMixin):
     __tablename__ = "audit_logs"

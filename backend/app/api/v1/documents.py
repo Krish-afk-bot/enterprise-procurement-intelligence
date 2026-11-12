@@ -19,7 +19,7 @@ from app.config.settings import Settings, get_settings
 from app.core.errors import FileValidationError, NotFoundError, ValidationError
 from app.db.models import DOCUMENT_TYPES, Document
 from app.db.session import get_db
-from app.ingestion.validation import SUPPORTED_MIME_TYPES, validate_upload
+from app.ingestion.validation import SUPPORTED_MIME_TYPES, read_upload_bounded, validate_upload
 from app.schemas.common import Page as PageSchema
 from app.schemas.documents import (
     ChunkOut,
@@ -98,7 +98,7 @@ async def upload_document(
             f"'{document_type}' is not a document type this workspace records.",
             details={"allowed_document_types": list(DOCUMENT_TYPES)},
         )
-    content = await file.read()
+    content = await read_upload_bounded(file, settings=settings)
     upload = validate_upload(
         filename=file.filename or "upload",
         content=content,
@@ -325,6 +325,35 @@ async def reindex_document(
         session,
         principal,
         action=audit.ACTION_DOCUMENT_REINDEX,
+        resource_type="document",
+        resource_id=document_id,
+        ip_address=get_client_ip(request),
+    )
+    return IngestionJobOut.model_validate(job)
+
+
+@router.post(
+    "/{document_id}/cancel",
+    response_model=IngestionJobOut,
+    summary="Cancel the document's queued or running ingestion job",
+)
+async def cancel_document_ingestion(
+    document_id: str,
+    request: Request,
+    session: AsyncSession = Depends(get_db),
+    principal: Principal = Depends(get_principal),
+) -> IngestionJobOut:
+    """Cancel ingestion for this document.
+
+    A queued job stops immediately. A running job is cancelled cooperatively:
+    its lease is cleared, so the worker abandons the run at its next heartbeat
+    rather than writing results for a cancelled job.
+    """
+    job = await document_service.cancel_document_job(session, principal, document_id)
+    await audit.record_principal_action(
+        session,
+        principal,
+        action=audit.ACTION_DOCUMENT_CANCEL,
         resource_type="document",
         resource_id=document_id,
         ip_address=get_client_ip(request),

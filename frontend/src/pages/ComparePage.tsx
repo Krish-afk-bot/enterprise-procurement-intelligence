@@ -146,7 +146,7 @@ export function ComparePage() {
               {supplierRows.map((supplier) => {
                 const active = selected.includes(supplier.id);
                 return (
-                  <li key={supplier.id}>
+                  <li key={supplier.id} className="min-w-0">
                     <button
                       type="button"
                       onClick={() => toggle(supplier.id)}

@@ -32,4 +32,13 @@ export default tseslint.config(
       "@typescript-eslint/no-empty-object-type": "warn",
     },
   },
+
+  // Measurement scripts and Playwright specs run in Node but also evaluate
+  // browser code, so they legitimately see both global sets.
+  {
+    files: ["scripts/**/*.{js,mjs,ts}", "e2e/**/*.ts"],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser },
+    },
+  },
 );

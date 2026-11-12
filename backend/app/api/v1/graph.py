@@ -8,6 +8,8 @@ rather than returning an empty picture.
 
 from __future__ import annotations
 
+from datetime import date
+
 from fastapi import APIRouter, Query
 
 from app.api.deps import ContainerDep, PrincipalDep
@@ -107,12 +109,19 @@ async def paths(
     label: str,
     key: str,
     max_hops: int = 2,
+    as_of: date | None = Query(
+        None, description="Only traverse versions in force on this date (YYYY-MM-DD)"
+    ),
     principal: Principal = PrincipalDep,
     container=ContainerDep,
 ) -> dict:
     principal.require(PERM_GRAPH_READ)
     edges = await container.graph.traverse(
-        label, key, max_hops=min(max(max_hops, 1), 4), tenant_id=principal.tenant_id
+        label,
+        key,
+        max_hops=min(max(max_hops, 1), 4),
+        tenant_id=principal.tenant_id,
+        as_of=as_of.isoformat() if as_of else None,
     )
     nodes = sorted(
         {(edge.start_label, edge.start_key) for edge in edges}
@@ -120,6 +129,7 @@ async def paths(
     )
     return {
         "root": {"label": label, "key": key},
+        "as_of": as_of.isoformat() if as_of else None,
         "hops": min(max(max_hops, 1), 4),
         "nodes": [{"label": node_label, "key": node_key} for node_label, node_key in nodes],
         "edges": [

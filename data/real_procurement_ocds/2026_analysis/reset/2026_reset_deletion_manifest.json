@@ -1,0 +1,56 @@
+{
+  "dry_run": true,
+  "timestamp": "2026-11-05T04:06:08.340216",
+  "deletion_plan": {
+    "step1": {
+      "action": "DELETE FROM procurement_records WHERE is_synthetic = FALSE",
+      "count": 0,
+      "ids": []
+    },
+    "step2": {
+      "action": "DELETE FROM contracts WHERE is_synthetic = FALSE",
+      "count": 0,
+      "ids": []
+    },
+    "step3": {
+      "action": "DELETE FROM suppliers WHERE is_synthetic = FALSE",
+      "count": 0,
+      "ids": []
+    },
+    "step4": {
+      "action": "DELETE FROM documents WHERE is_synthetic = FALSE",
+      "count": 0,
+      "ids": [],
+      "files_to_remove": []
+    }
+  },
+  "protected": {
+    "synthetic_documents": 9,
+    "incident_backups": 0,
+    "source_files": {
+      "jsonl": {
+        "exists": true,
+        "path": "2026.jsonl",
+        "size": 455193785,
+        "sha256": "3e16e08e77c3bd84594084efab6977f41791d4e96ff506bf8a95083327952d19"
+      },
+      "xlsx_root": {
+        "exists": true,
+        "path": "united_kingdom_fts_2026.xlsx",
+        "size": 110726324,
+        "sha256": "83ef24cecf08d03c8d5550d7576bba2906d91de0556d96ed16277c0d4b2e5a5c"
+      },
+      "xlsx_data": {
+        "exists": true,
+        "path": "data\\real_procurement_ocds\\uk_fts_2026.xlsx",
+        "size": 110726324,
+        "sha256": "83ef24cecf08d03c8d5550d7576bba2906d91de0556d96ed16277c0d4b2e5a5c"
+      },
+      "csv_directory": {
+        "exists": true,
+        "path": "2026",
+        "file_count": 68
+      }
+    }
+  }
+}

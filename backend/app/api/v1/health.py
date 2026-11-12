@@ -6,7 +6,7 @@ configured the response says so; it never invents data.
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -60,7 +60,7 @@ async def health(
     try:
         # Get all providers to check
         provider_tasks = {}
-        for kind, provider in container._providers.items():
+        for kind, provider in container.provider_map().items():
             async def check_provider(p=provider, k=kind):
                 try:
                     return k, await asyncio.wait_for(p.status(), timeout=3.0)
@@ -158,8 +158,14 @@ async def health(
     )
 
 
-@router.get("/ready", response_model=ReadyResponse, summary="Whether the service can serve traffic")
+@router.get(
+    "/ready",
+    response_model=ReadyResponse,
+    summary="Whether the service can serve traffic",
+    responses={503: {"model": ReadyResponse, "description": "Not ready to serve traffic"}},
+)
 async def ready(
+    response: Response,
     container: Container = Depends(container_dep),
     session: AsyncSession = Depends(get_db),
 ) -> ReadyResponse:
@@ -191,8 +197,9 @@ async def ready(
     critical_providers = {"vector", "embedding"}
     try:
         provider_tasks = {}
+        available = container.provider_map()
         for kind in critical_providers:
-            provider = container._providers.get(kind)
+            provider = available.get(kind)
             if provider is None:
                 blocking.append(kind)
                 continue
@@ -242,4 +249,9 @@ async def ready(
         logger.error("readiness_check_failed", error=str(exc))
         blocking.extend(["vector", "embedding", "error"])
 
+    # A load balancer or platform health check gates on the status code, not the
+    # JSON body. Returning 200 while ``ready: false`` would route traffic to an
+    # instance that cannot serve it, so the readiness failure is a 503.
+    if blocking:
+        response.status_code = 503
     return ReadyResponse(ready=not blocking, database=database, blocking=blocking)

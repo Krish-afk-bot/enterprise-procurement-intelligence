@@ -1,0 +1,41 @@
+{
+  "acquisition_metadata": {
+    "source": "UK Find a Tender Service (FTS)",
+    "publisher": "Cabinet Office (UK Government)",
+    "license": "Open Government Licence v3.0",
+    "data_standard": "OCDS 1.1",
+    "bulk_download_url": "https://data.open-contracting.org/en/publication/41/download?name=2026.jsonl.gz",
+    "acquisition_date": "2026-11-05T03:28:32.095831"
+  },
+  "statistics": {
+    "bulk_download_start": null,
+    "bulk_download_end": null,
+    "bulk_file_size_bytes": 75364416,
+    "bulk_file_sha256": "0df69b96bdcc8b976a1c99d93aae7954263b2dcef813377ef02e65a742cfbea2",
+    "releases_total": 0,
+    "releases_with_documents": 0,
+    "document_urls_found": 0,
+    "document_urls_unique": 0,
+    "documents_attempted": 0,
+    "documents_downloaded": 0,
+    "documents_failed": 0,
+    "http_status_counts": {},
+    "content_type_counts": {}
+  },
+  "provenance": {
+    "data_source": "Official OCDS bulk file from Open Contracting Partnership Data Registry",
+    "data_registry": "https://data.open-contracting.org/en/publication/41/",
+    "api_documentation": "https://www.find-tender.service.gov.uk/Developer/Documentation",
+    "verification_method": "SHA-256 checksum of bulk file",
+    "data_authenticity": "Direct download from UK government data registry"
+  },
+  "file_paths": {
+    "bulk_file_compressed": "data\\real_procurement\\uk_fts\\bulk\\uk_fts_2026.jsonl.gz",
+    "bulk_file_extracted": "data\\real_procurement\\uk_fts\\bulk\\uk_fts_2026.jsonl",
+    "releases_manifest": "data\\real_procurement\\uk_fts\\manifests\\releases_manifest.jsonl",
+    "document_urls": "data\\real_procurement\\uk_fts\\manifests\\document_urls.jsonl",
+    "documents_directory": "data\\real_procurement\\uk_fts\\documents",
+    "success_manifest": "data\\real_procurement\\uk_fts\\manifests\\document_downloads_success.jsonl",
+    "failure_manifest": "data\\real_procurement\\uk_fts\\manifests\\document_downloads_failures.jsonl"
+  }
+}

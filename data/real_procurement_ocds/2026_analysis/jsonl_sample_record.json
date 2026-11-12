@@ -1,0 +1,430 @@
+{
+  "id": "ocds-h6vhtk-028e6c-2026-01-29T14:53:39Z",
+  "tag": [
+    "compiled"
+  ],
+  "date": "2026-01-29T14:53:39Z",
+  "ocid": "ocds-h6vhtk-028e6c",
+  "buyer": {
+    "id": "GB-FTS-3636",
+    "name": "Procurement and Logistics Service"
+  },
+  "links": [
+    {
+      "rel": "canonical",
+      "href": "https://www.hscni.net/"
+    }
+  ],
+  "awards": [
+    {
+      "id": "029319-2024-3525889-1",
+      "title": "Provision of a Genetic Analyser to the Northern Ireland Regional Molecular Diagnostic Service",
+      "status": "active",
+      "suppliers": [
+        {
+          "id": "GB-FTS-64724",
+          "name": "Life Technologies Limited"
+        }
+      ],
+      "relatedLots": [
+        "1"
+      ]
+    },
+    {
+      "id": "029321-2024-5211687-1",
+      "title": "The Provision of a Cytogenetic Analyser to the Northern Ireland Regional Molecular Diagnostic Service",
+      "status": "active",
+      "suppliers": [
+        {
+          "id": "GB-FTS-124178",
+          "name": "Applied Spectral Imaging Ltd"
+        }
+      ],
+      "relatedLots": [
+        "1"
+      ]
+    }
+  ],
+  "tender": {
+    "id": "ocds-h6vhtk-028e6c",
+    "lots": [
+      {
+        "id": "1",
+        "value": {
+          "amount": 28000000.0,
+          "currency": "GBP"
+        },
+        "status": "active",
+        "options": {
+          "description": "The Contracting Authority reserve the option to extend the DPS for any period of time."
+        },
+        "hasOptions": false,
+        "hasRenewal": false,
+        "description": "This tender will lead to the award of a Contract for the Provision of Cytogenetic Analysers to the Northern Ireland Regional Molecular Diagnostic Service, which is established under Lot 7 of the Dynamic Purchasing System (DPS) 3350705 for Molecular Diagnostics, Post Analytic Cytogenetic (semi-automated image analysis system for high throughput slide scanning and image capture; software for capture of banded cytogenetic preps; rapid karyotype analysis; dedicated FISH microscope - semi automated scanning of FISH slides; reagents and consumables to process DNA samples for SNP array analysis). Additional information: This Procurement is being complete under a DPS Agreement",
+        "awardCriteria": {
+          "criteria": [
+            {
+              "name": "Overall Quality",
+              "type": "quality",
+              "description": "70"
+            },
+            {
+              "type": "price",
+              "description": "30"
+            }
+          ]
+        },
+        "contractPeriod": {
+          "durationInDays": 1800
+        },
+        "submissionTerms": {
+          "variantPolicy": "notAllowed"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "1",
+        "relatedLot": "1",
+        "deliveryAddresses": [
+          {
+            "region": "UKN"
+          },
+          {
+            "region": "UKN"
+          },
+          {
+            "region": "UKN"
+          }
+        ],
+        "additionalClassifications": [
+          {
+            "id": "33000000",
+            "scheme": "CPV",
+            "description": "Medical equipments, pharmaceuticals and personal care products"
+          }
+        ]
+      }
+    ],
+    "title": "Molecular Diagnostics DPS [3350705]",
+    "value": {
+      "amount": 28000000.0,
+      "currency": "GBP"
+    },
+    "status": "complete",
+    "coveredBy": [
+      "GPA"
+    ],
+    "documents": [
+      {
+        "id": "economic",
+        "documentType": "economicSelectionCriteria"
+      },
+      {
+        "id": "technical",
+        "documentType": "technicalSelectionCriteria"
+      }
+    ],
+    "amendments": [
+      {
+        "id": "1",
+        "description": "This DPS has been extended to 23 February 2029 in line with the updated regulations under\nProcurement Act 2023.",
+        "unstructuredChanges": [
+          {
+            "where": {
+              "section": "IV.2.2)"
+            },
+            "newValue": {
+              "date": "2029-02-23"
+            },
+            "oldValue": {
+              "date": "2026-01-30"
+            }
+          }
+        ]
+      }
+    ],
+    "legalBasis": {
+      "id": "32014L0024",
+      "scheme": "CELEX"
+    },
+    "techniques": {
+      "hasDynamicPurchasingSystem": true
+    },
+    "description": "Molecular Diagnostics DPS [3350705]",
+    "tenderPeriod": {
+      "endDate": "2026-01-30T00:00:00Z"
+    },
+    "hasRecurrence": false,
+    "classification": {
+      "id": "33100000",
+      "scheme": "CPV",
+      "description": "Medical equipments"
+    },
+    "submissionTerms": {
+      "languages": [
+        "en"
+      ]
+    },
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "procurementMethod": "limited",
+    "mainProcurementCategory": "goods",
+    "submissionMethodDetails": "https://etendersni.gov.uk/epps",
+    "procurementMethodDetails": "Award procedure without prior publication of a call for competition",
+    "procurementMethodRationale": "The Tender was completed as a Supplementary Request for Tender under a Dynamic Purchasing System for Molecular Diagnostics. This notice is being used to publish the outcome of the competition.",
+    "procurementMethodRationaleClassifications": [
+      {
+        "id": "D_OUTSIDE_SCOPE",
+        "scheme": "TED_PT_AWARD_CONTRACT_WITHOUT_CALL",
+        "description": "The procurement falls outside the scope of application of the directive"
+      }
+    ]
+  },
+  "parties": [
+    {
+      "id": "GB-FTS-3636",
+      "name": "Procurement and Logistics Service",
+      "roles": [
+        "buyer"
+      ],
+      "address": {
+        "region": "UK",
+        "locality": "Londonderry",
+        "postalCode": "BT47 6YZ",
+        "countryName": "United Kingdom",
+        "streetAddress": "Supplies Centre, Gransha Hospital, Clooney Road"
+      },
+      "details": {
+        "url": "https://etendersni.gov.uk/epps",
+        "buyerProfile": "https://etendersni.gov.uk/epps",
+        "classifications": [
+          {
+            "id": "BODY_PUBLIC",
+            "scheme": "TED_CA_TYPE",
+            "description": "Body governed by public law"
+          },
+          {
+            "id": "07",
+            "scheme": "COFOG",
+            "description": "Health"
+          }
+        ]
+      },
+      "identifier": {
+        "legalName": "Procurement and Logistics Service"
+      },
+      "contactPoint": {
+        "url": "https://etendersni.gov.uk/epps",
+        "email": "palsgransha.sourcing@hscni.net"
+      }
+    },
+    {
+      "id": "GB-FTS-183",
+      "name": "Business Services Organisation, PaLS",
+      "roles": [
+        "reviewBody"
+      ],
+      "address": {
+        "locality": "Belfast",
+        "postalCode": "BT12 6HU",
+        "countryName": "United Kingdom",
+        "streetAddress": "77 Boucher Crescent"
+      },
+      "identifier": {
+        "legalName": "Business Services Organisation, PaLS"
+      }
+    },
+    {
+      "id": "GB-FTS-124174",
+      "name": "Business Services Organisation, Procurement and Logistics Service",
+      "roles": [
+        "buyer"
+      ],
+      "address": {
+        "region": "UK",
+        "locality": "Belfast",
+        "postalCode": "BT12 6HU",
+        "countryName": "United Kingdom",
+        "streetAddress": "77 Boucher Crescent,BT12 6HU."
+      },
+      "details": {
+        "url": "https://etendersni.gov.uk/epps",
+        "buyerProfile": "https://etendersni.gov.uk/epps",
+        "classifications": [
+          {
+            "id": "BODY_PUBLIC",
+            "scheme": "TED_CA_TYPE",
+            "description": "Body governed by public law"
+          },
+          {
+            "id": "07",
+            "scheme": "COFOG",
+            "description": "Health"
+          }
+        ]
+      },
+      "identifier": {
+        "legalName": "Business Services Organisation, Procurement and Logistics Service"
+      },
+      "contactPoint": {
+        "email": "smc.sourcing@hscni.net"
+      }
+    },
+    {
+      "id": "GB-FTS-64724",
+      "name": "Life Technologies Limited",
+      "roles": [
+        "supplier"
+      ],
+      "address": {
+        "region": "UK",
+        "locality": "Paisley",
+        "postalCode": "PA4 9RF",
+        "countryName": "United Kingdom",
+        "streetAddress": "3 Fountain Drive, Inchinnan Business Park,"
+      },
+      "details": {
+        "url": "https://www.thermofisher.com",
+        "scale": "sme"
+      },
+      "identifier": {
+        "legalName": "Life Technologies Limited"
+      },
+      "contactPoint": {
+        "email": "ukorders.lifesci@thermofisher.com"
+      }
+    },
+    {
+      "id": "GB-FTS-124175",
+      "name": "BSO Procurement and Logistics Service",
+      "roles": [
+        "reviewBody"
+      ],
+      "address": {
+        "locality": "Derry",
+        "postalCode": "BT47 6YZ",
+        "countryName": "United Kingdom",
+        "streetAddress": "Gransha Hospital"
+      },
+      "details": {
+        "url": "https://bso.hscni.net/directorates/operations/procurement-and-logistics-service/procurement/"
+      },
+      "identifier": {
+        "legalName": "BSO Procurement and Logistics Service"
+      },
+      "contactPoint": {
+        "email": "smc.sourcing@hscni.net"
+      }
+    },
+    {
+      "id": "GB-FTS-124177",
+      "name": "Business Services Organisation, Procurement and Logistics Service",
+      "roles": [
+        "buyer"
+      ],
+      "address": {
+        "region": "UK",
+        "locality": "Belfast",
+        "postalCode": "BT12 6HU.",
+        "countryName": "United Kingdom",
+        "streetAddress": "77 Boucher Crescent"
+      },
+      "details": {
+        "url": "https://etendersni.gov.uk/epps",
+        "buyerProfile": "https://etendersni.gov.uk/epps",
+        "classifications": [
+          {
+            "id": "BODY_PUBLIC",
+            "scheme": "TED_CA_TYPE",
+            "description": "Body governed by public law"
+          },
+          {
+            "id": "07",
+            "scheme": "COFOG",
+            "description": "Health"
+          }
+        ]
+      },
+      "identifier": {
+        "legalName": "Business Services Organisation, Procurement and Logistics Service"
+      },
+      "contactPoint": {
+        "email": "smc.sourcing@hscni.net"
+      }
+    },
+    {
+      "id": "GB-FTS-124178",
+      "name": "Applied Spectral Imaging Ltd",
+      "roles": [
+        "supplier"
+      ],
+      "address": {
+        "region": "IL",
+        "locality": "Yokneam",
+        "countryName": "Israel",
+        "streetAddress": "Yokneam High Tech Park Alon Building Entrance B HaCarmel Street 2"
+      },
+      "details": {
+        "url": "https://spectral-imaging.com",
+        "scale": "sme"
+      },
+      "identifier": {
+        "legalName": "Applied Spectral Imaging Ltd"
+      },
+      "contactPoint": {
+        "email": "sales@spectral-imaging.com"
+      }
+    },
+    {
+      "id": "GB-FTS-124179",
+      "name": "Business Service Organisation, Procurement and Logistics Service",
+      "roles": [
+        "reviewBody"
+      ],
+      "address": {
+        "locality": "Belfast",
+        "postalCode": "BT12 6HU",
+        "countryName": "United Kingdom",
+        "streetAddress": "77 Boucher Crescent"
+      },
+      "details": {
+        "url": "https://bso.hscni.net/directorates/operations/procurement-and-logistics-service/procurement/"
+      },
+      "identifier": {
+        "legalName": "Business Service Organisation, Procurement and Logistics Service"
+      },
+      "contactPoint": {
+        "email": "smc.sourcing@hscni.net"
+      }
+    }
+  ],
+  "language": "en",
+  "contracts": [
+    {
+      "id": "029319-2024-3525889-1",
+      "title": "Provision of a Genetic Analyser to the Northern Ireland Regional Molecular Diagnostic Service",
+      "value": {
+        "amount": 1957624.93,
+        "currency": "GBP"
+      },
+      "status": "active",
+      "awardID": "029319-2024-3525889-1",
+      "dateSigned": "2023-11-14T00:00:00Z"
+    },
+    {
+      "id": "029321-2024-5211687-1",
+      "title": "The Provision of a Cytogenetic Analyser to the Northern Ireland Regional Molecular Diagnostic Service",
+      "value": {
+        "amount": 1094677.0,
+        "currency": "GBP"
+      },
+      "status": "active",
+      "awardID": "029321-2024-5211687-1",
+      "dateSigned": "2024-08-16T00:00:00+01:00"
+    }
+  ],
+  "description": "In section 1.2 it is stated that this procurement is a joint procedure and contract award is by a Central Purchasing Body. This contract is not a joint contract, it is a Central Purchasing Body Contract operated by BSO PaLS on behalf of the participants listed in section 1.1.",
+  "initiationType": "tender"
+}

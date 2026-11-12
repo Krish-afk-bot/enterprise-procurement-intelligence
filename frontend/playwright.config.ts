@@ -13,6 +13,9 @@ import { defineConfig, devices } from "@playwright/test";
  *
  * Run tests with:
  *   cd frontend && npm run e2e
+ *
+ * Set EPI_BASE_URL to point the suite at another origin (a built preview, for
+ * example) without editing this file.
  */
 export default defineConfig({
   testDir: "./e2e",
@@ -22,7 +25,7 @@ export default defineConfig({
   workers: 1,
   reporter: [["list"], ["json", { outputFile: "e2e/results/results.json" }]],
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: process.env.EPI_BASE_URL ?? "http://localhost:5173",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "off",

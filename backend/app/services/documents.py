@@ -418,6 +418,35 @@ async def delete_document(
             await container.storage.delete(document.storage_key)
         except Exception as exc:  # noqa: BLE001
             logger.warning("storage_delete_failed", document_id=document.id, error=str(exc))
+
+    # Delete derived rows explicitly. Relying on ``ON DELETE CASCADE`` is not
+    # safe here: SQLite does not enforce foreign keys unless PRAGMA
+    # foreign_keys=ON is set on every connection, so documents deleted on the
+    # default local setup left their chunks, prices and certificates behind.
+    from sqlalchemy import delete as sql_delete
+
+    from app.db.models import (
+        Chunk,
+        ComplianceCertificate,
+        DocumentPage,
+        IngestionJob,
+        Price,
+        TableRecord,
+    )
+
+    derived: tuple[tuple[object, object], ...] = (
+        (Chunk, Chunk.document_id),
+        (DocumentPage, DocumentPage.document_id),
+        (TableRecord, TableRecord.document_id),
+        (Price, Price.source_document_id),
+        (ComplianceCertificate, ComplianceCertificate.source_document_id),
+        (IngestionJob, IngestionJob.document_id),
+    )
+    for model, column in derived:
+        await session.execute(
+            sql_delete(model).where(column == document.id, model.tenant_id == principal.tenant_id)
+        )
+
     await session.delete(document)
 
 
@@ -429,6 +458,53 @@ async def requeue_document(session: AsyncSession, principal: Principal, document
     document.progress = 0.0
     document.error_message = None
     job = await create_job(session, tenant_id=principal.tenant_id, document_id=document.id)
+    return job
+
+
+async def cancel_document_job(
+    session: AsyncSession, principal: Principal, document_id: str
+) -> IngestionJob:
+    """Cancel this document's queued or running ingestion job.
+
+    Cancellation is cooperative for a running job: the row is marked cancelled
+    and its lease cleared, so the worker's next heartbeat fails and it abandons
+    the run instead of writing results. A candidate version reserved by that job
+    is released immediately, because no activation will follow.
+    """
+    from datetime import UTC, datetime
+
+    from app.core.errors import NotFoundError
+    from app.db.models import IngestionJob
+    from app.ingestion.jobs import mark_job
+
+    document = await get_document(session, principal, document_id)
+    principal.require(PERM_DOCUMENTS_WRITE)
+    job = (
+        await session.execute(
+            select(IngestionJob)
+            .where(
+                IngestionJob.document_id == document.id,
+                IngestionJob.tenant_id == principal.tenant_id,
+                IngestionJob.status.in_(["queued", "running"]),
+            )
+            .order_by(IngestionJob.created_at.desc())
+            .limit(1)
+        )
+    ).scalar_one_or_none()
+    if job is None:
+        raise NotFoundError("This document has no queued or running ingestion job.")
+
+    await mark_job(session, job, status="cancelled", stage="cancelled")
+    job.lease_token = None
+    job.lease_expires_at = None
+    job.finished_at = datetime.now(UTC)
+
+    if job.indexing_version is not None and document.candidate_indexing_version == job.indexing_version:
+        document.candidate_indexing_version = None
+    document.stage = "cancelled"
+    if document.status in {"queued", "processing"}:
+        document.status = "uploaded"
+        document.progress = 0.0
     return job
 
 

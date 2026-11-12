@@ -123,8 +123,15 @@ def chunk_document(
             )
             continue
 
-        # Keep short, meaning-critical clause groups intact when possible.
-        groups = _clause_groups(unit) if unit.keep_together else [unit.lines]
+        # Keep short, meaning-critical clause groups intact when possible, and
+        # always split a unit that spans several clauses. Without this, every
+        # piece of a multi-clause section inherited the first clause's label,
+        # which made the clause graph wrong rather than merely incomplete.
+        groups = (
+            _clause_groups(unit)
+            if unit.keep_together or _distinct_clauses(unit) > 1
+            else [unit.lines]
+        )
         if unit.keep_together:
             drafts.append(
                 ChunkDraft(
@@ -204,6 +211,10 @@ def _build_units(structure: DocumentStructure) -> list[_Unit]:
         current.append(line)
     flush()
     return units
+
+
+def _distinct_clauses(unit: _Unit) -> int:
+    return len({line.clause for line in unit.lines if line.clause})
 
 
 def _clause_groups(unit: _Unit) -> list[list[StructureLine]]:

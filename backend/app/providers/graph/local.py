@@ -21,6 +21,7 @@ import aiosqlite
 from app.core.errors import UnsupportedQueryError
 from app.observability.logging import get_logger
 from app.providers.graph.cypher_subset import ReadQueryPlan, parse_read_query
+from app.providers.graph.temporal import edge_valid_at, normalise_as_of
 from app.providers.types import GraphEdge, GraphNode, ProviderStatus
 
 logger = get_logger(__name__)
@@ -217,7 +218,9 @@ class LocalGraphStore:
         max_hops: int = 2,
         edge_types: Sequence[str] | None = None,
         tenant_id: str | None = None,
+        as_of: str | None = None,
     ) -> list[GraphEdge]:
+        day = normalise_as_of(as_of)
         seen: set[str] = set()
         collected: list[GraphEdge] = []
         frontier: deque[tuple[str, str, int]] = deque([(start_label, start_key, 0)])
@@ -228,6 +231,10 @@ class LocalGraphStore:
                 continue
             for edge in await self.neighbors(label, key, edge_types=edge_types, direction="both"):
                 if tenant_id and edge.properties.get("tenant_id") not in {None, tenant_id}:
+                    continue
+                # A superseded version must not seed further hops either, so the
+                # filter applies before the frontier expands.
+                if not edge_valid_at(edge.properties, day):
                     continue
                 edge_key = f"{edge.type}|{edge.start_label}|{edge.start_key}|{edge.end_label}|{edge.end_key}"
                 if edge_key not in seen:
@@ -399,11 +406,19 @@ class LocalGraphStore:
             labels = await (
                 await connection.execute("SELECT label, COUNT(*) AS c FROM graph_nodes GROUP BY label")
             ).fetchall()
+            types = await (
+                await connection.execute("SELECT type, COUNT(*) AS c FROM graph_edges GROUP BY type")
+            ).fetchall()
         finally:
             await connection.close()
         result = {"nodes": int(nodes[0]) if nodes else 0, "edges": int(edges[0]) if edges else 0}
         for row in labels:
             result[f"nodes:{row['label']}"] = int(row["c"])
+        # The explorer reports a breakdown per relationship type. Counting only
+        # nodes here left ``edges_total`` populated while every type was absent,
+        # so the overview contradicted itself.
+        for row in types:
+            result[f"edges:{row['type']}"] = int(row["c"])
         return result
 
     async def status(self) -> ProviderStatus:

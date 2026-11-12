@@ -179,12 +179,39 @@ def normalise_entity_name(value: Any) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+_NAME_STOPWORDS = {"and", "the", "for", "with", "from", "service", "services"}
+
+
+def _name_tokens(value: str) -> set[str]:
+    """Words of a name, singularised, without connective noise."""
+    tokens = {token for token in re.split(r"[^a-z0-9]+", value.lower()) if len(token) >= 3}
+    stemmed = {token[:-1] if len(token) > 4 and token.endswith("s") else token for token in tokens}
+    return stemmed - {"and", "the", "for", "with", "from"}
+
+
 def _mentions(text: str, needle: Any) -> bool:
-    """Whether ``text`` mentions ``needle`` under entity-name normalisation."""
+    """Whether ``text`` mentions ``needle`` under entity-name normalisation.
+
+    A multi-word name also counts when every one of its words appears in the
+    text. Documents write the same thing with different connective words and
+    inflections — "Master Vendor Contingent Workforce Recruitment and Management
+    Services" for "master vendor contingent workforce recruitment service" — and
+    requiring the literal phrase refused questions whose evidence was present.
+    Single-word names still require the word itself, so an entity the corpus
+    never mentions stays unsatisfied.
+    """
     name = normalise_entity_name(needle)
     if len(name) < 3:
         return False
-    return name in normalise_entity_name(text)
+    haystack = normalise_entity_name(text)
+    if name in haystack:
+        return True
+    if len(name.split()) < 2:
+        return False
+    wanted = _name_tokens(name)
+    if len(wanted) < 2:
+        return False
+    return wanted <= _name_tokens(haystack)
 
 
 def _name_matches(candidate: Any, name: Any) -> bool:

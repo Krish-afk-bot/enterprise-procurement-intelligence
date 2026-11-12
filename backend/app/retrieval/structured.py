@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
 
-from sqlalchemy import func, select
+from sqlalchemy import String, cast, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models import (
@@ -193,6 +193,20 @@ async def structured_lookup(
             )
         result.facts = in_period
 
+    # A point-in-time question with no explicit range is evaluated at its as-of
+    # date, using the same validity rule as the range case so the two cannot
+    # disagree about which price row was in force.
+    if plan.as_of is not None and plan.date_from is None and plan.date_to is None:
+        in_force = [
+            fact for fact in result.facts if fact_valid_in_period(fact, plan.as_of, plan.as_of)
+        ]
+        dropped = [fact for fact in result.facts if fact not in in_force]
+        if dropped:
+            result.notes.append(
+                f"{len(dropped)} price row(s) were not in force on {plan.as_of.isoformat()} and are excluded from the answer."
+            )
+        result.facts = in_force
+
     if result.facts:
         result.conflicts = detect_price_conflicts(result.facts)
         result.citations.extend(
@@ -326,14 +340,19 @@ async def _aggregate(
         )
 
     # -- procurement records by year (Layer B structured dataset)
+    # The award feed stores an empty string instead of NULL for missing dates in
+    # some rows. Selecting the raw DATE column makes SQLAlchemy's date processor
+    # raise on those rows, so read it as text and parse tolerantly below.
     statement = select(
-        ProcurementRecord.award_date, ProcurementRecord.value, ProcurementRecord.supplier_id
+        cast(ProcurementRecord.award_date, String),
+        ProcurementRecord.value,
+        ProcurementRecord.supplier_id,
     ).where(ProcurementRecord.tenant_id == tenant_id)
     if plan.supplier_ids:
         statement = statement.where(ProcurementRecord.supplier_id.in_(plan.supplier_ids))
     records = (await session.execute(statement.limit(5000))).all()
     if records and plan.year:
-        matching = [row for row in records if row[0] is not None and row[0].year == plan.year]
+        matching = [row for row in records if str(row[0] or "")[:4] == str(plan.year)]
         # A year with no rows is reported as "no data for that year", never as a
         # zero total: an absent row is not a recorded value of zero.
         if matching:
@@ -503,7 +522,8 @@ async def _contract_overview(
     rows = (await session.execute(statement.limit(50))).all()
     overviews: list[dict[str, Any]] = []
     from app.core.clock import today
-    as_of_date = today()
+
+    as_of_date = plan.as_of or today()
     for contract, supplier_name in rows:
         document_ids = [
             row[0]
@@ -524,7 +544,7 @@ async def _contract_overview(
                 "version": contract.version,
                 "effective_date": contract.effective_date.isoformat() if contract.effective_date else None,
                 "expiry_date": contract.expiry_date.isoformat() if contract.expiry_date else None,
-                "is_expired": bool(contract.expiry_date and contract.expiry_date < today),
+                "is_expired": bool(contract.expiry_date and contract.expiry_date < as_of_date),
                 "currency": contract.currency,
                 "total_value": contract.total_value,
                 "document_ids": document_ids,
@@ -560,8 +580,11 @@ async def _compliance_overview(
             "issued_date": certificate.issued_date.isoformat() if certificate.issued_date else None,
             "expiry_date": certificate.expiry_date.isoformat() if certificate.expiry_date else None,
             "status": certificate.status,
-            "is_expired": bool(certificate.expiry_date and certificate.expiry_date < as_of_date),
-            "source_document_id": certificate.source_document_id,
+                            "is_expired": bool(
+                    certificate.expiry_date
+                    and certificate.expiry_date < (plan.as_of or as_of_date)
+                ),
+                "source_document_id": certificate.source_document_id,
             "source_document_name": document_title or document_filename,
             "source_page": certificate.source_page,
         }

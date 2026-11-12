@@ -1,0 +1,302 @@
+{
+  "timestamp": "2026-11-05T06:23:09.105625",
+  "database_counts": {
+    "documents_total": 9,
+    "documents_synthetic": 9,
+    "documents_real": 0,
+    "procurement_records_total": 57913,
+    "procurement_records_synthetic": 48,
+    "procurement_records_real": 57865,
+    "procurement_records_uk_fts": 57865,
+    "suppliers_total": 55611,
+    "suppliers_synthetic": 3,
+    "suppliers_uk_fts": 55608,
+    "contracts_total": 3,
+    "contracts_synthetic": 3
+  },
+  "synthetic_verification": {
+    "documents": {
+      "count": 9,
+      "expected": 9,
+      "match": true,
+      "details": [
+        {
+          "id": "doc_9edd3b4502254f15b1f03f4bb6d7de28",
+          "filename": "pricing_schedule_2026.xlsx",
+          "size_bytes": 5934,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_600ffeb39a804484a7b2493cd786d73d",
+          "filename": "security_fixture_injection.pdf",
+          "size_bytes": 2175,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_64f7b3d685144e20b932e407d3ef720e",
+          "filename": "supplier_a_amendment_1_NS-2024-001.pdf",
+          "size_bytes": 2829,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_705d9cf1185c4b16910b0e1065ad30bb",
+          "filename": "supplier_a_amendment_2_NS-2024-001.pdf",
+          "size_bytes": 7510,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_f37cb8453c2e4200ad46993e9c4b4003",
+          "filename": "supplier_a_compliance_certificate.pdf",
+          "size_bytes": 2748,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_3d189e44d5b8429996c2a389920a0d87",
+          "filename": "supplier_a_master_contract_NS-2024-001.pdf",
+          "size_bytes": 25979,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_75fe8333214642709ebbe3d4cbf65ac2",
+          "filename": "supplier_a_scanned_signature_page.pdf",
+          "size_bytes": 6529402,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_650a00da1d98403abb8d3b4e2e91566b",
+          "filename": "supplier_b_supply_agreement_HTP-2024-014.pdf",
+          "size_bytes": 15091,
+          "is_synthetic": true
+        },
+        {
+          "id": "doc_8d5e025773204bf0b4c7698923aa797b",
+          "filename": "supplier_c_expired_contract_ORC-2021-777.pdf",
+          "size_bytes": 2686,
+          "is_synthetic": true
+        }
+      ]
+    }
+  },
+  "uk_fts_2026_data": {
+    "unique_ocids": 28447,
+    "procurement_records": 57865,
+    "suppliers": 55608,
+    "currency_distribution": {
+      "AED": 1,
+      "BDT": 1,
+      "CHF": 1,
+      "EUR": 42,
+      "GBP": 57763,
+      "GIP": 1,
+      "KES": 1,
+      "NOK": 1,
+      "PKR": 17,
+      "RSD": 1,
+      "RWF": 1,
+      "TZS": 1,
+      "USD": 33,
+      "ZMW": 1
+    },
+    "value_statistics": {
+      "total_records": 57865,
+      "records_with_value": 13480,
+      "min_value": 0.0,
+      "max_value": 120000000000.0,
+      "avg_value": 163944884.083181,
+      "total_value": 2209977037441.28
+    },
+    "date_range": {
+      "min_date": "2023-02-24T00:00:00Z",
+      "max_date": "2026-10-29T00:00:00Z"
+    }
+  },
+  "ocid_analysis": {
+    "unique_count": 28447,
+    "first_10": [
+      "ocds-h6vhtk-02874b",
+      "ocds-h6vhtk-02874c",
+      "ocds-h6vhtk-02874d",
+      "ocds-h6vhtk-02875c",
+      "ocds-h6vhtk-02886c",
+      "ocds-h6vhtk-028a16",
+      "ocds-h6vhtk-028a27",
+      "ocds-h6vhtk-028b7e",
+      "ocds-h6vhtk-028be2",
+      "ocds-h6vhtk-028d9b"
+    ],
+    "last_10": [
+      "ocds-h6vhtk-069be3",
+      "ocds-h6vhtk-069bdf",
+      "ocds-h6vhtk-069bde",
+      "ocds-h6vhtk-069bd5",
+      "ocds-h6vhtk-069bd3",
+      "ocds-h6vhtk-069bd0",
+      "ocds-h6vhtk-069bcf",
+      "ocds-h6vhtk-069bce",
+      "ocds-h6vhtk-069bc9",
+      "ocds-h6vhtk-069bc7"
+    ],
+    "ocid_list_sample": [
+      "ocds-h6vhtk-058ee2",
+      "ocds-h6vhtk-04ec3b",
+      "ocds-h6vhtk-066867",
+      "ocds-h6vhtk-06028f",
+      "ocds-h6vhtk-065bfc",
+      "ocds-h6vhtk-068e45",
+      "ocds-h6vhtk-0605d2",
+      "ocds-h6vhtk-06645f",
+      "ocds-h6vhtk-068a3e",
+      "ocds-h6vhtk-0665fc",
+      "ocds-h6vhtk-05ed12",
+      "ocds-h6vhtk-06577f",
+      "ocds-h6vhtk-067c7b",
+      "ocds-h6vhtk-068935",
+      "ocds-h6vhtk-0649c4",
+      "ocds-h6vhtk-04b2f2",
+      "ocds-h6vhtk-06562d",
+      "ocds-h6vhtk-065587",
+      "ocds-h6vhtk-0658c5",
+      "ocds-h6vhtk-06963f",
+      "ocds-h6vhtk-06856b",
+      "ocds-h6vhtk-068484",
+      "ocds-h6vhtk-0604af",
+      "ocds-h6vhtk-0688a9",
+      "ocds-h6vhtk-068b62",
+      "ocds-h6vhtk-067571",
+      "ocds-h6vhtk-06820f",
+      "ocds-h6vhtk-064673",
+      "ocds-h6vhtk-0646ac",
+      "ocds-h6vhtk-0603db",
+      "ocds-h6vhtk-05f7de",
+      "ocds-h6vhtk-0695f0",
+      "ocds-h6vhtk-06912c",
+      "ocds-h6vhtk-04e2c7",
+      "ocds-h6vhtk-0602b6",
+      "ocds-h6vhtk-065d5c",
+      "ocds-h6vhtk-05a5a9",
+      "ocds-h6vhtk-0557dd",
+      "ocds-h6vhtk-067925",
+      "ocds-h6vhtk-0677a4",
+      "ocds-h6vhtk-04c7ea",
+      "ocds-h6vhtk-05f034",
+      "ocds-h6vhtk-066857",
+      "ocds-h6vhtk-0685d2",
+      "ocds-h6vhtk-05a9b0",
+      "ocds-h6vhtk-059e55",
+      "ocds-h6vhtk-060c74",
+      "ocds-h6vhtk-06047d",
+      "ocds-h6vhtk-05cfb5",
+      "ocds-h6vhtk-064c28",
+      "ocds-h6vhtk-0668e8",
+      "ocds-h6vhtk-04e637",
+      "ocds-h6vhtk-06110c",
+      "ocds-h6vhtk-05e8a0",
+      "ocds-h6vhtk-06616c",
+      "ocds-h6vhtk-06534e",
+      "ocds-h6vhtk-061199",
+      "ocds-h6vhtk-065e80",
+      "ocds-h6vhtk-05a716",
+      "ocds-h6vhtk-069698",
+      "ocds-h6vhtk-04021a",
+      "ocds-h6vhtk-05fafd",
+      "ocds-h6vhtk-067c62",
+      "ocds-h6vhtk-0655da",
+      "ocds-h6vhtk-06663a",
+      "ocds-h6vhtk-06925d",
+      "ocds-h6vhtk-0609cd",
+      "ocds-h6vhtk-061498",
+      "ocds-h6vhtk-06687e",
+      "ocds-h6vhtk-068699",
+      "ocds-h6vhtk-067e50",
+      "ocds-h6vhtk-066c00",
+      "ocds-h6vhtk-066a40",
+      "ocds-h6vhtk-05d7e1",
+      "ocds-h6vhtk-06558c",
+      "ocds-h6vhtk-04f96b",
+      "ocds-h6vhtk-0584f4",
+      "ocds-h6vhtk-068afa",
+      "ocds-h6vhtk-065695",
+      "ocds-h6vhtk-05a86e",
+      "ocds-h6vhtk-060590",
+      "ocds-h6vhtk-059522",
+      "ocds-h6vhtk-06617b",
+      "ocds-h6vhtk-067261",
+      "ocds-h6vhtk-065ddd",
+      "ocds-h6vhtk-0606b2",
+      "ocds-h6vhtk-05ef88",
+      "ocds-h6vhtk-05295b",
+      "ocds-h6vhtk-066690",
+      "ocds-h6vhtk-052226",
+      "ocds-h6vhtk-068c0b",
+      "ocds-h6vhtk-067253",
+      "ocds-h6vhtk-064b74",
+      "ocds-h6vhtk-061011",
+      "ocds-h6vhtk-054483",
+      "ocds-h6vhtk-052a8c",
+      "ocds-h6vhtk-06763f",
+      "ocds-h6vhtk-068d77",
+      "ocds-h6vhtk-05ffee",
+      "ocds-h6vhtk-064bfe"
+    ]
+  },
+  "integrity_checks": {
+    "orphaned_procurement_records": 0,
+    "duplicate_ocids": 10,
+    "duplicate_ocid_examples": [
+      [
+        "ocds-h6vhtk-02874b",
+        588
+      ],
+      [
+        "ocds-h6vhtk-02874c",
+        306
+      ],
+      [
+        "ocds-h6vhtk-02874d",
+        136
+      ],
+      [
+        "ocds-h6vhtk-02875c",
+        546
+      ],
+      [
+        "ocds-h6vhtk-02886c",
+        4
+      ]
+    ],
+    "non_gbp_currency_count": 75,
+    "all_checks_passed": false
+  },
+  "resume_point": {
+    "total_source_releases": 68473,
+    "ingested_releases": 28447,
+    "last_processed_line": 3,
+    "resume_from_line": 4,
+    "remaining_releases": 40026,
+    "progress_percent": 41.544842492661346
+  },
+  "awards_analysis": {
+    "total_unique_ocids": 28447,
+    "total_awards": 57865,
+    "avg_awards_per_release": 2.0341336520546984,
+    "awards_distribution": {
+      "1": 24475,
+      "2": 1955,
+      "3": 561,
+      "4": 362,
+      "5": 219,
+      "6": 160,
+      "8": 107,
+      "7": 98,
+      "9": 66,
+      "10": 58
+    }
+  },
+  "summary": {
+    "ingestion_status": "PARTIAL",
+    "database_ready": true,
+    "synthetic_data_intact": true,
+    "can_resume": true,
+    "recommended_action": "RESUME_FROM_CHECKPOINT"
+  }
+}

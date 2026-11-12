@@ -29,10 +29,19 @@ def container_dep() -> Container:
 ContainerDep = Depends(container_dep)
 
 
-def get_client_ip(request: Request) -> str | None:
-    forwarded = request.headers.get("x-forwarded-for")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
+def get_client_ip(request: Request, settings: Settings | None = None) -> str | None:
+    """Client address for audit and rate-limit scoping.
+
+    ``X-Forwarded-For`` is self-asserted unless a proxy overwrites it, so it is
+    only honoured when ``trust_forwarded_for`` is enabled. Trusting it by default
+    lets a caller rotate the header and sidestep unauthenticated rate limits
+    (login and upload) with a fresh bucket per request.
+    """
+    resolved = settings or get_settings()
+    if resolved.trust_forwarded_for:
+        forwarded = request.headers.get("x-forwarded-for")
+        if forwarded:
+            return forwarded.split(",")[0].strip()
     return request.client.host if request.client else None
 
 
@@ -123,12 +132,9 @@ def rate_limit(bucket: str, limit_attr: str) -> Callable[..., Awaitable[None]]:
         if principal is not None:
             scope = f"{principal.tenant_id}:{principal.user_id}"
         else:
-            # Unauthenticated: use client IP (first address in X-Forwarded-For if present)
-            scope = request.headers.get("x-forwarded-for", "") or (
-                request.client.host if request.client else "anonymous"
-            )
-            if "," in scope:
-                scope = scope.split(",")[0].strip()
+            # Unauthenticated limits are per client address. The forwarded header
+            # is only used when a trusted proxy is configured.
+            scope = get_client_ip(request, settings) or "anonymous"
         allowed, _remaining, retry_after = await container.rate_limiter.check(bucket, scope, limit)
         if not allowed:
             raise RateLimitError(

@@ -1,16 +1,76 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EPI — Enterprise Procurement Intelligence, powered by evidence</title>
     <meta
       name="description"
-      content="Procurement intelligence workspace: search supplier agreements, pricing schedules, amendments and compliance documents with page-level evidence you can verify."
+      content="Search procurement records, supplier agreements, pricing schedules, amendments and compliance documents, then open the exact page each answer was built from."
     />
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f8fafc" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Procurement Intelligence</title>
+
+    <!-- Social cards. The image is a screenshot of this build's own header, not
+         a stock illustration or a mocked interface. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EPI" />
+    <meta property="og:title" content="EPI — Enterprise Procurement Intelligence, powered by evidence" />
+    <meta
+      property="og:description"
+      content="One intelligence layer over procurement records and the documents behind them, with page-level citations you can verify."
+    />
+    <meta property="og:image" content="/og-epi.png" />
+    <meta property="og:image:alt" content="The EPI workspace overview showing document, contract and supplier totals." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EPI — Enterprise Procurement Intelligence" />
+    <meta
+      name="twitter:description"
+      content="Search procurement records and documents, then open the exact page each answer came from."
+    />
+    <meta name="twitter:image" content="/og-epi.png" />
+
+    <!--
+      Structured data is limited to facts about the software in this repository.
+      No ratings, offers, customer counts or certifications are asserted, because
+      none exist to assert.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "EPI — Enterprise Procurement Intelligence",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Procurement intelligence workspace that searches structured procurement records and the documents behind them, and returns answers with page-level citations.",
+        "featureList": [
+          "Procurement record and document search",
+          "Document ingestion with page-level extraction",
+          "Evidence-based retrieval with citation verification",
+          "Supplier, contract, amendment and award relationships",
+          "Coverage and activity reporting from the workspace database"
+        ]
+      }
+    </script>
+
+    <!--
+      No remote stylesheet is requested. The type stack asks for Inter first (so
+      it is used when installed locally or served by a deployment), then falls
+      back to the platform UI face. A third-party font request delayed the
+      largest contentful paint by ~11s in the offline build and would fail on an
+      air-gapped deployment, so it is deliberately absent.
+    -->
+    <style>
+      /* Painted before any JavaScript runs, so the first frame is the product's
+         own ground rather than a white flash. */
+      html,
+      body {
+        background-color: #050505;
+        color: #ffffff;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

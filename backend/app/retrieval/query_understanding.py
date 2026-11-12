@@ -31,6 +31,7 @@ from app.db.models import Contract, Document, Product, Supplier
 from app.observability.logging import get_logger
 from app.providers.router import ModelRouter, Task
 from app.providers.types import LLMMessage
+from app.retrieval.temporal import derive_as_of
 
 logger = get_logger(__name__)
 
@@ -71,6 +72,11 @@ class QueryPlan(BaseModel):
     date_from: date | None = None
     date_to: date | None = None
     year: int | None = None
+    #: The date at which the question should be evaluated, derived from the text.
+    #: None means "no temporal filter", which is the current-state default.
+    as_of: date | None = None
+    temporal_intent: str | None = None
+    temporal_notes: list[str] = Field(default_factory=list)
     requires_comparison: bool = False
     requires_temporal: bool = False
     requires_structured: bool = False
@@ -479,6 +485,20 @@ def understand_query_rule_based(
     )
     plan.requires_vision = requires_vision
     plan.complexity = _complexity(plan)
+
+    # ----------------------------------------------------- temporal resolution
+    # A single as-of date is derived once, here, so SQL, vector ordering and
+    # graph traversal all read the same interpretation instead of each guessing.
+    resolution = derive_as_of(
+        text,
+        date_from=plan.date_from,
+        date_to=plan.date_to,
+        year=plan.year,
+        requires_temporal=requires_temporal,
+    )
+    plan.as_of = resolution.as_of
+    plan.temporal_intent = resolution.intent.value
+    plan.temporal_notes.extend(resolution.notes)
 
     # ------------------------------------------------------- decomposition
     plan.sub_queries = _decompose(text, plan, max_sub_queries=max_sub_queries)

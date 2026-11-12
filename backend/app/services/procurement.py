@@ -459,7 +459,7 @@ def _contract_payload(
         "original_id": contract.original_id,
         "retrieved_at": contract.retrieved_at,
         "metadata_json": contract.metadata_json or {},
-        "is_expired": bool(contract.expiry_date and contract.expiry_date < today),
+        "is_expired": bool(contract.expiry_date and contract.expiry_date < today()),
         "access_level": access_level,
     }
 

@@ -3,98 +3,78 @@
 @tailwind utilities;
 
 /*
- * Design tokens.
+ * Design tokens — monochrome, dark-first.
  *
- * Light-first, neutral base, one restrained accent. Every value here is a
- * deliberate choice: no decorative gradients, no glow, no second brand colour.
+ * The product has one material: near-black surfaces separated by 1px hairlines,
+ * with white type carrying the hierarchy. Colour is reserved for the small set
+ * of states an operator must not misread (verified, warning, failure). Nothing
+ * here introduces a second brand colour, a purple gradient or a neon accent.
+ *
+ * Values are HSL triples so Tailwind can compose alpha (`bg-card/60`).
  */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 30% 12%;
+    /* Surfaces, lightest text on the darkest ground. */
+    --background: 0 0% 2%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 30% 12%;
+    /* #0A0A0A — used for the app frame behind panels. */
+    --secondary: 0 0% 4%;
+    --secondary-foreground: 0 0% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 30% 12%;
+    /* #111111 — every card and panel. */
+    --card: 0 0% 6.7%;
+    --card-foreground: 0 0% 100%;
 
-    /* The single brand accent: a deep, calm blue. */
-    --primary: 217 71% 38%;
-    --primary-foreground: 210 40% 99%;
+    /* #171717 — a surface raised above a card (dialogs, popovers). */
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 100%;
 
-    --secondary: 220 16% 96%;
-    --secondary-foreground: 222 30% 12%;
+    /* The action colour is white: a filled white control, black label. */
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 4%;
 
-    --muted: 220 16% 96.5%;
-    --muted-foreground: 220 9% 44%;
+    --muted: 0 0% 9%;
+    /* #A1A1AA — secondary text. */
+    --muted-foreground: 240 5% 65%;
+    /* Labels and metadata below body copy. Deliberately lighter than the
+       reference's #71717A: at 11–12px that value falls under the 4.5:1 text
+       contrast threshold on #050505, so the tier is lifted until it passes. */
+    --subtle: 240 5% 58%;
 
-    --accent: 220 16% 96%;
-    --accent-foreground: 222 30% 12%;
+    --accent: 0 0% 11%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 66% 44%;
+    /* Semantics, desaturated so they read as status, not decoration. */
+    --destructive: 0 58% 60%;
     --destructive-foreground: 0 0% 100%;
+    --success: 145 40% 56%;
+    --warning: 38 64% 60%;
+    --info: 210 46% 66%;
 
-    --success: 145 58% 31%;
-    --warning: 32 84% 36%;
-    --info: 213 74% 42%;
+    /* Kept for the optional 3D world, which is off by default. */
+    --warm: 42 60% 66%;
+    --warm-foreground: 30 60% 12%;
+    --coral: 12 55% 66%;
+    --coral-foreground: 8 60% 12%;
+    --paper: 40 16% 88%;
 
-    /*
-     * Playful accents. Warm yellow and coral are for the three-dimensional world
-     * and for small emphasis; they are deliberately NOT the primary action colour,
-     * and they are never used for a verified or success state — green and cyan
-     * stay reserved for that.
-     */
-    --warm: 42 92% 55%;
-    --warm-foreground: 30 60% 18%;
-    --coral: 12 84% 62%;
-    --coral-foreground: 8 60% 20%;
-    --paper: 40 44% 97%;
+    /* rgba(255,255,255,0.10) composited over #050505. */
+    --border: 0 0% 13%;
+    --input: 0 0% 16%;
+    --ring: 0 0% 100%;
 
-    --border: 220 15% 90%;
-    --input: 220 15% 87%;
-    --ring: 217 71% 45%;
+    --radius: 0.75rem;
 
-    --radius: 0.5rem;
+    /* Glass surface recipe, shared by every translucent panel. */
+    --glass-top: 255 255 255;
+    --glass-border: 255 255 255;
   }
 
+  /* The application is dark in every state; the class exists so a component can
+     opt into the same tokens explicitly without inventing a light variant. */
   .dark {
-    --background: 222 32% 8%;
-    --foreground: 210 24% 94%;
-
-    --card: 222 30% 11%;
-    --card-foreground: 210 24% 94%;
-
-    --popover: 222 30% 11%;
-    --popover-foreground: 210 24% 94%;
-
-    --primary: 214 84% 62%;
-    --primary-foreground: 222 32% 9%;
-
-    --secondary: 220 18% 17%;
-    --secondary-foreground: 210 24% 94%;
-
-    --muted: 220 18% 16%;
-    --muted-foreground: 218 12% 66%;
-
-    --accent: 220 18% 17%;
-    --accent-foreground: 210 24% 94%;
-
-    --destructive: 0 62% 56%;
-    --destructive-foreground: 0 0% 100%;
-
-    --success: 145 48% 52%;
-    --warning: 36 84% 58%;
-    --info: 213 78% 62%;
-    --warm: 42 92% 60%;
-    --warm-foreground: 30 60% 14%;
-    --coral: 12 80% 64%;
-    --coral-foreground: 8 60% 14%;
-    --paper: 40 20% 90%;
-
-    --border: 220 16% 20%;
-    --input: 220 16% 22%;
-    --ring: 214 84% 62%;
+    color-scheme: dark;
   }
 
   * {
@@ -103,14 +83,28 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
+    scroll-behavior: smooth;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family:
-      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      "Inter var", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.55;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Display type: tight tracking, generous size. */
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+    text-wrap: balance;
   }
 
   /* Numeric columns line up; identifiers are monospaced. */
@@ -127,11 +121,14 @@
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 3px;
   }
 
   /* Nothing should move for someone who asked for no motion. */
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
     *,
     *::before,
     *::after {
@@ -140,30 +137,127 @@
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
     }
+    /* Scroll-reveals must not leave content invisible when motion is off. */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 
   ::selection {
-    background: hsl(var(--primary) / 0.16);
+    background: hsl(0 0% 100% / 0.16);
+    color: hsl(0 0% 100%);
   }
 }
 
 @layer components {
-  /* A quiet, full-width section rule used instead of nested cards. */
+  /* A hairline used instead of nested cards. */
   .hairline {
-    @apply border-b border-border/80;
+    @apply border-b border-white/10;
   }
 
   .skip-link {
-    @apply absolute left-3 top-3 z-50 -translate-y-16 rounded-md border bg-background px-3 py-2 text-sm font-medium shadow-sm transition-transform focus:translate-y-0;
+    @apply absolute left-3 top-3 z-50 -translate-y-16 rounded-md border border-white/15 bg-card px-3 py-2 text-sm font-medium shadow-lg transition-transform focus:translate-y-0;
   }
 
   .surface-muted {
-    background: hsl(var(--muted) / 0.5);
+    background: hsl(var(--muted) / 0.6);
+  }
+
+  /*
+   * Glass: a translucent panel with a hairline and a soft top light. Used for
+   * cards on the landing page and for overlays in the workspace. It degrades to
+   * a solid surface when the browser cannot blur.
+   */
+  .glass {
+    background:
+      linear-gradient(180deg, rgb(var(--glass-top) / 0.055), rgb(var(--glass-top) / 0.012)),
+      hsl(var(--card) / 0.72);
+    border: 1px solid rgb(var(--glass-border) / 0.10);
+    backdrop-filter: blur(14px) saturate(115%);
+    -webkit-backdrop-filter: blur(14px) saturate(115%);
+  }
+
+  .glass-strong {
+    background:
+      linear-gradient(180deg, rgb(var(--glass-top) / 0.075), rgb(var(--glass-top) / 0.02)),
+      hsl(var(--card) / 0.9);
+    border: 1px solid rgb(var(--glass-border) / 0.14);
+    backdrop-filter: blur(18px) saturate(120%);
+    -webkit-backdrop-filter: blur(18px) saturate(120%);
+  }
+
+  /* A card that lifts and illuminates its edge on hover. Transform only. */
+  .card-interactive {
+    @apply transition-[transform,border-color,box-shadow] duration-300 ease-out;
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    border-color: rgb(255 255 255 / 0.2);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.06) inset,
+      0 24px 48px -32px rgb(0 0 0 / 0.9),
+      0 0 0 1px rgb(255 255 255 / 0.02);
+  }
+
+  /* A light sweep across a surface. Purely decorative, runs once on hover. */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: -60% -20%;
+    z-index: -1;
+    background: linear-gradient(
+      115deg,
+      transparent 40%,
+      rgb(255 255 255 / 0.08) 50%,
+      transparent 60%
+    );
+    transform: translateX(-60%);
+    transition: transform 900ms cubic-bezier(0.2, 0, 0, 1);
+    pointer-events: none;
+  }
+
+  .sheen:hover::after {
+    transform: translateX(60%);
+  }
+
+  /* The soft white halo behind the hero engine and CTA. */
+  .halo {
+    background: radial-gradient(
+      closest-side,
+      rgb(255 255 255 / 0.16),
+      rgb(255 255 255 / 0.05) 45%,
+      transparent 72%
+    );
+    filter: blur(18px);
+  }
+
+  /* Faint engineering grid; fades out at the edges so it never competes with copy. */
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 25%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 25%, transparent 78%);
+  }
+
+  /* A hairline that fades at both ends. */
+  .rule-fade {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.16), transparent);
   }
 
   /* Marks the passage a citation pointed at. */
   .cited-passage {
-    @apply border-l-2 border-l-primary bg-primary/5 pl-3;
+    @apply border-l-2 border-l-white/70 bg-white/[0.06] pl-3;
   }
 
   /*
@@ -197,16 +291,53 @@
     opacity: 0.4;
   }
 
-  /* The sheet currently governing sits in front and slightly proud of the pile. */
   .stack-layers-current::before,
   .stack-layers-current::after {
-    border-color: hsl(var(--primary) / 0.35);
+    border-color: rgb(255 255 255 / 0.28);
   }
 
   /* A page of a document, given one restrained elevation step. */
   .page-sheet {
-    @apply rounded-lg border bg-card;
-    box-shadow: 0 10px 26px -22px rgb(15 23 42 / 0.35);
+    @apply rounded-xl border border-white/10 bg-card;
+    box-shadow: 0 24px 60px -48px rgb(0 0 0 / 0.9);
+  }
+
+  /* ---------------------------------------------------------------- motion
+   *
+   * Scroll reveals are class-driven: a small IntersectionObserver adds
+   * `is-visible` once. Everything animates opacity and transform only, so the
+   * compositor handles it and no layout is recalculated.
+   */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* A shorter, faster variant for dense workspace content. */
+  .reveal-sm {
+    transform: translateY(8px);
+    transition-duration: 380ms;
+  }
+
+  /* ------------------------------------------------------------------ 3D
+   *
+   * The hero canvas sits behind the copy. These layers keep it from ever
+   * competing with the text: a vertical scrim, a vignette, and a horizon glow.
+   */
+  .hero-scrim {
+    background:
+      radial-gradient(ellipse 58% 46% at 50% 46%, rgb(5 5 5 / 0.55) 0%, rgb(5 5 5 / 0.72) 62%, #050505 100%),
+      linear-gradient(180deg, #050505 0%, rgb(5 5 5 / 0.35) 26%, rgb(5 5 5 / 0.55) 60%, #050505 100%);
   }
 }
 
@@ -221,11 +352,15 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply rounded-full border-2 border-transparent bg-border bg-clip-content;
+    @apply rounded-full border-2 border-transparent bg-white/15 bg-clip-content;
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  .text-balance {
+    text-wrap: balance;
   }
 
   .animate-fade-in {
@@ -241,28 +376,33 @@
     animation: page-in 320ms cubic-bezier(0.2, 0, 0, 1) both;
   }
 
-  /* Evidence → answer: the cited passage settles into place as the answer
-     appears. Short, one pass, no bounce. */
   .animate-cite {
     animation: cite-focus 420ms cubic-bezier(0.2, 0, 0, 1) both;
   }
 
-  /* Cards that lift when chosen. Transform only, so nothing reflows. */
   .lift-selected {
-    @apply -translate-y-0.5 shadow-[0_10px_24px_-16px_rgb(15_23_42_/_0.35)];
+    @apply -translate-y-0.5 shadow-[0_18px_40px_-32px_rgb(0_0_0_/_0.9)];
   }
 
-  /*
-   * Evidence → answer. A soft, slow pulse on the connector dots, on an ambient
-   * loop well outside the UI durations because nothing depends on it. The
-   * reduced-motion rule in the base layer stops it entirely.
-   */
   .flow-dot {
     animation: flow-pulse 4.8s ease-in-out infinite;
   }
 
   .flow-dot:nth-of-type(2) {
     animation-delay: 0.6s;
+  }
+
+  /* Landing page ambience: slow, ambient loops well outside UI durations. */
+  .animate-float-slow {
+    animation: float-slow 9s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 5.5s ease-in-out infinite;
+  }
+
+  .animate-drift {
+    animation: drift 26s linear infinite;
   }
 }
 
@@ -313,11 +453,40 @@
   0% {
     opacity: 0;
     transform: translateY(3px);
-    background-color: hsl(var(--primary) / 0.14);
+    background-color: rgb(255 255 255 / 0.14);
   }
   100% {
     opacity: 1;
     transform: none;
-    background-color: hsl(var(--primary) / 0.05);
+    background-color: rgb(255 255 255 / 0.06);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
   }
 }

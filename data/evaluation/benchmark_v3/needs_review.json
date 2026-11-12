@@ -1,0 +1,505 @@
+{
+  "dataset": "epi-benchmark-120",
+  "bucket": "needs_review",
+  "count": 15,
+  "questions": [
+    {
+      "id": "AMEND-008",
+      "question": "Which revision label is recorded for the document '065b20_tender_6.pdf'?",
+      "category": "amendments",
+      "source_document_id": "doc_f08adf4442f446949c2d3b1e2a3545c2",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "Amendment S",
+      "expected_facts": [
+        "Amendment S"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [],
+      "supporting_section": "documents.revision_label",
+      "evidence_quote": "Amendment S",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "documents.revision_label",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "The revision label is stored metadata; the review is whether it is a true amendment of this document.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "source_uri": "https://www.find-tender.service.gov.uk/Notice/Attachment/A-12551",
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-001",
+      "question": "Which supplier is recorded against 'City of London Academies Trust Catering Tender' for buyer ' City of London Academies Trust Catering Tender'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "Aspens Services Limited",
+      "expected_facts": [
+        "Aspens Services Limited"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": " City of London Academies Trust Catering Tender | Aspens Services Limited | City of London Academies Trust Catering Tender",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-04a5a9"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-002",
+      "question": "Which supplier is recorded against 'TEN-2526-033(PA2023)- Strategic Communications services' for buyer '1'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "Bradshaw  Advisory",
+      "expected_facts": [
+        "Bradshaw  Advisory"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "1 | Bradshaw  Advisory | TEN-2526-033(PA2023)- Strategic Communications services",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-05f24a"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-003",
+      "question": "Which supplier is recorded against 'TEN-2526-031(PA23)   Brand fundamentals' for buyer '1'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "The Clearing Consultancy Ltd",
+      "expected_facts": [
+        "The Clearing Consultancy Ltd"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "1 | The Clearing Consultancy Ltd | TEN-2526-031(PA23)   Brand fundamentals",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-05fec2"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-004",
+      "question": "Which supplier is recorded against 'Insurance and related services associated with Terrorism and/or Political Violence (Non Pool-Re) for Accent Group Ltd' for buyer 'ACCENT HOUSING LIMITED'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "Advisory insurance brokers",
+      "expected_facts": [
+        "Advisory insurance brokers"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "ACCENT HOUSING LIMITED | Advisory insurance brokers | Insurance and related services associated with Terrorism and/or Political Violence (Non Pool-Re) for Accent Group Ltd",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-05d123"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-005",
+      "question": "Which supplier is recorded against 'Insurance and related services for Property, legal liability and other general (non-life) insurable risks, as required by Accent Group Ltd.' for buyer 'ACCENT HOUSING LIMITED'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "Arthur J. Gallagher Insurance Brokers Ltd",
+      "expected_facts": [
+        "Arthur J. Gallagher Insurance Brokers Ltd"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "ACCENT HOUSING LIMITED | Arthur J. Gallagher Insurance Brokers Ltd | Insurance and related services for Property, legal liability and other general (non-life) insurable risks, as required by Accent Group Ltd.",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-05d123"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-006",
+      "question": "Which supplier is recorded against 'Replacement of Windows, Doors &  Associated Works - GU16 Postcode area, Camberley, Surrey' for buyer 'ACCENT HOUSING LIMITED'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "D R JONES YEOVIL LTD.",
+      "expected_facts": [
+        "D R JONES YEOVIL LTD."
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "ACCENT HOUSING LIMITED | D R JONES YEOVIL LTD. | Replacement of Windows, Doors &  Associated Works - GU16 Postcode area, Camberley, Surrey",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-069837"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-007",
+      "question": "Which supplier is recorded against 'Insurance and related services associated with Directors and Officers Liability and Professional Indemnity as required by Accent Group Ltd' for buyer 'ACCENT HOUSING LIMITED'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "Jensten",
+      "expected_facts": [
+        "Jensten"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "ACCENT HOUSING LIMITED | Jensten | Insurance and related services associated with Directors and Officers Liability and Professional Indemnity as required by Accent Group Ltd",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-05d123"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "REL-008",
+      "question": "Which supplier is recorded against 'Replacement of Windows, Doors & Associated Works - Moss Side C, Leyland, Preston' for buyer 'ACCENT HOUSING LIMITED'?",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "Martin Collins Joinery & Glazing Ltd",
+      "expected_facts": [
+        "Martin Collins Joinery & Glazing Ltd"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "procurement_records",
+      "evidence_quote": "ACCENT HOUSING LIMITED | Martin Collins Joinery & Glazing Ltd | Replacement of Windows, Doors & Associated Works - Moss Side C, Leyland, Preston",
+      "evidence_verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Derived from an OCDS award record; there is no notice page carrying this award text, so a human should confirm the label.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "uk-fts-2026 (Find a Tender OCDS)",
+        "source": "uk-fts-2026",
+        "source_url": "https://www.find-tender.service.gov.uk/Notice/ocds-h6vhtk-058b2f"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "GRAPH-001",
+      "question": "Which compliance certificates are linked to the supplier associated with the contracting authorities?",
+      "category": "graph_multi_hop",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "GDPR, ISO 27001, ISO 9001",
+      "expected_facts": [
+        "GDPR",
+        "ISO 27001",
+        "ISO 9001"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "compliance_certificates + documents",
+      "evidence_quote": "GDPR; ISO 27001; ISO 9001",
+      "evidence_verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Two-hop label: document -> supplier -> certificate. The graph store holds only nodes, so the join is verified in SQL.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "graph store",
+        "source": "document_extraction"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "GRAPH-002",
+      "question": "Which compliance certificates are linked to the supplier associated with any other party?",
+      "category": "graph_multi_hop",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "GDPR, Modern Slavery Act",
+      "expected_facts": [
+        "GDPR",
+        "Modern Slavery Act"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "compliance_certificates + documents",
+      "evidence_quote": "GDPR; Modern Slavery Act",
+      "evidence_verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Two-hop label: document -> supplier -> certificate. The graph store holds only nodes, so the join is verified in SQL.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "graph store",
+        "source": "document_extraction"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "GRAPH-003",
+      "question": "Which compliance certificates are linked to the supplier associated with doc_e0e03bdb91e24325be7cec4ecda21306?",
+      "category": "graph_multi_hop",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "REACH",
+      "expected_facts": [
+        "REACH"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [],
+      "supporting_section": "compliance_certificates + documents",
+      "evidence_quote": "REACH",
+      "evidence_verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Two-hop label: document -> supplier -> certificate. The graph store holds only nodes, so the join is verified in SQL.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "graph store",
+        "source": "document_extraction"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "GRAPH-004",
+      "question": "Which contract number is linked to the tender document '0685ae_tender_3.html'?",
+      "category": "graph_multi_hop",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "source_document": "0685ae_tender_3.html",
+      "expected_answer": "POW-FTS-62602",
+      "expected_facts": [
+        "POW-FTS-62602"
+      ],
+      "expected_documents": [
+        "0685ae_tender_3.html"
+      ],
+      "expected_pages": [],
+      "supporting_section": "contracts + documents",
+      "evidence_quote": "POW-FTS-62602",
+      "evidence_verification": {
+        "method": "graph_store",
+        "checked_against": "contracts joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Document -> contract edge is stored on the document row; confirm the contract number in the source PDF.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "graph store",
+        "source": "document_extraction"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "GRAPH-005",
+      "question": "How many compliance certificates are linked to the supplier evidenced by '06093e_tender_20.html'?",
+      "category": "graph_multi_hop",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "3",
+      "expected_facts": [
+        "3"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [],
+      "supporting_section": "compliance_certificates + documents",
+      "evidence_quote": "3 active certificates",
+      "evidence_verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Two-hop count: document -> supplier -> certificate.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "graph store",
+        "source": "document_extraction"
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "GRAPH-006",
+      "question": "How many documents are linked to the supplier 'the contracting authorities'?",
+      "category": "graph_multi_hop",
+      "source_document_id": null,
+      "source_document": null,
+      "expected_answer": "3",
+      "expected_facts": [
+        "3"
+      ],
+      "expected_documents": [],
+      "expected_pages": [],
+      "supporting_section": "suppliers + documents",
+      "evidence_quote": "the contracting authorities: 3 documents",
+      "evidence_verification": {
+        "method": "graph_store",
+        "checked_against": "suppliers joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      },
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "reviewer": null,
+      "adjudication_notes": "Supplier name came from an extraction artefact ('the contracting authorities'), so this label needs human review.",
+      "expected_refusal": false,
+      "temporal": null,
+      "provenance": {
+        "dataset": "graph store"
+      },
+      "difficulty": "medium"
+    }
+  ]
+}

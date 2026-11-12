@@ -26,7 +26,13 @@ const Separator = React.forwardRef<
 Separator.displayName = SeparatorPrimitive.Root.displayName;
 
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("animate-pulse rounded-md bg-muted", className)} {...props} />;
+  return  <div
+    className={cn(
+      "animate-pulse rounded-md bg-gradient-to-r from-white/[0.04] via-white/[0.09] to-white/[0.04] bg-[length:200%_100%] animate-shimmer",
+      className,
+    )}
+    {...props}
+  />;
 }
 
 const Switch = React.forwardRef<
@@ -36,12 +42,12 @@ const Switch = React.forwardRef<
   <SwitchPrimitive.Root
     ref={ref}
     className={cn(
-      "peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      "peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border border-white/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-white data-[state=unchecked]:bg-white/10",
       className,
     )}
     {...props}
   >
-    <SwitchPrimitive.Thumb className="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0" />
+    <SwitchPrimitive.Thumb className="pointer-events-none block h-4 w-4 rounded-full bg-ink shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=checked]:bg-ink data-[state=unchecked]:translate-x-0 data-[state=unchecked]:bg-white" />
   </SwitchPrimitive.Root>
 ));
 Switch.displayName = SwitchPrimitive.Root.displayName;
@@ -56,7 +62,7 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+      "flex h-10 w-full items-center justify-between rounded-lg border border-white/12 bg-white/[0.035] px-3 py-2 text-sm text-foreground transition-colors hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50",
       className,
     )}
     {...props}
@@ -78,7 +84,7 @@ const SelectContent = React.forwardRef<
       ref={ref}
       position={position}
       className={cn(
-        "relative z-50 max-h-72 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+        "relative z-50 max-h-72 min-w-[8rem] overflow-hidden rounded-xl border border-white/12 bg-popover text-popover-foreground shadow-overlay",
         position === "popper" && "data-[side=bottom]:translate-y-1",
         className,
       )}
@@ -125,7 +131,7 @@ const TooltipContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 max-w-sm overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md",
+        "z-50 max-w-sm overflow-hidden rounded-lg border border-white/12 bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-overlay",
         className,
       )}
       {...props}

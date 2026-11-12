@@ -68,7 +68,20 @@ PAGE_VISION_PROMPT = (
 CHUNK_COLLECTION = "procurement_chunks"
 
 
-@dataclass
+def is_candidate_version(candidate_version: int | None, active_version: int | None) -> bool:
+    """Whether this run prepares a candidate version rather than the active one.
+
+    First ingestion stamps both the job and the document with version 1. That is
+    not a candidate: activation refuses to promote a candidate equal to the
+    active version, so treating it as one left the document at status
+    ``processing`` with no way forward.
+    """
+    if candidate_version is None:
+        return False
+    return candidate_version != (active_version or 1)
+
+
+@dataclass(slots=True)
 class IngestionOutcome:
     document_id: str
     status: str
@@ -166,11 +179,21 @@ class IngestionPipeline:
                 # A chunk is inactive only when it belongs to a version that is
                 # strictly newer than the current active (i.e. a candidate).
                 chunk_is_active = write_version == active_version
+                # First ingestion also carries a job indexing_version (1) but is
+                # not a candidate: activation is an idempotent no-op when the
+                # candidate equals the active version, which used to leave the
+                # document stuck at status "processing" forever.
+                is_candidate_run = is_candidate_version(candidate_version, active_version)
+                outcome.metrics["candidate_run"] = is_candidate_run
 
                 outcome.metrics["write_version"] = write_version
                 outcome.metrics["chunk_is_active"] = chunk_is_active
 
-                document.status = "processing"
+                # A candidate run must not downgrade the live document: the active
+                # version keeps serving queries, and its status, until activation
+                # succeeds. Only a first ingestion moves the document to processing.
+                if not is_candidate_run:
+                    document.status = "processing"
                 document.stage = "load"
                 document.progress = 0.02
                 tenant_id = document.tenant_id
@@ -394,7 +417,7 @@ class IngestionPipeline:
             async with session_scope() as session:
                 document = await session.get(Document, document_id)
                 assert document is not None
-                if candidate_version is not None:
+                if is_candidate_run:
                     # In candidate preparation mode (Checkpoints 1 & 2), the candidate
                     # is now fully prepared in PostgreSQL, vector store, and graph.
                     # We DO NOT activate it yet (activation belongs to Checkpoint 3).
@@ -430,7 +453,7 @@ class IngestionPipeline:
                 if document is not None:
                     # In candidate re-indexing, failure of candidate preparation must NOT
                     # fail or deactivate the active document!
-                    if candidate_version is not None:
+                    if is_candidate_run:
                         document.candidate_indexing_version = None
                         logger.warning(
                             "candidate_preparation_failed_active_preserved",
@@ -516,11 +539,27 @@ class IngestionPipeline:
             return
         applied = 0
         for page in targets:
-            response = await self.container.router.vision(
-                page.image_bytes or b"",
-                PAGE_VISION_PROMPT.format(page=page.page_number),
-                mime_type=page.image_mime,
-            )
+            try:
+                response = await self.container.router.vision(
+                    page.image_bytes or b"",
+                    PAGE_VISION_PROMPT.format(page=page.page_number),
+                    mime_type=page.image_mime,
+                )
+            except Exception as exc:  # noqa: BLE001 - an unreachable VLM must not lose the document
+                # Vision escalation is an enhancement. When the endpoint is down
+                # the parsed text and OCR output are still valid evidence, so the
+                # page is kept with its existing extraction instead of failing
+                # the whole ingestion.
+                logger.warning(
+                    "vision_escalation_failed",
+                    page=page.page_number,
+                    error=f"{type(exc).__name__}: {exc}",
+                )
+                outcome.warnings.append(
+                    f"Vision escalation failed for page {page.page_number} "
+                    f"({type(exc).__name__}); the page kept its text/OCR extraction."
+                )
+                continue
             if response.mode == "unavailable" or not response.text:
                 outcome.warnings.append(f"VLM returned no usable output for page {page.page_number}.")
                 continue
@@ -900,9 +939,22 @@ class IngestionPipeline:
         if not points:
             return 0
         dimension = len(points[0].vector)
-        await self.container.vector.ensure_collection(CHUNK_COLLECTION, dimension)
-
-        indexed = await self.container.vector.upsert(CHUNK_COLLECTION, points)
+        
+        try:
+            await self.container.vector.ensure_collection(CHUNK_COLLECTION, dimension)
+            indexed = await self.container.vector.upsert(CHUNK_COLLECTION, points)
+        except Exception as exc:  # noqa: BLE001
+            # Qdrant or vector provider failure must fail the document indexing.
+            # Preserve the original exception and raise it so that process_document's
+            # outer try/except marks the document as failed and prevents false-positive success.
+            logger.error(
+                "vector_indexing_failed",
+                document_id=document_id,
+                error=str(exc),
+                exc_info=True,
+            )
+            outcome.metrics["vector_index_error"] = f"{type(exc).__name__}: {exc}"
+            raise
 
         if indexed_ids:
             async with session_scope() as session:
@@ -1210,6 +1262,33 @@ class IngestionPipeline:
                     supplier=supplier,
                     contract=contract,
                 )
+                # Clause and obligation nodes come from the chunks that actually
+                # carry a clause number. A candidate version is never linked: its
+                # chunks are inactive, and the graph must keep serving the live
+                # version until activation succeeds.
+                if not is_candidate:
+                    clause_chunks = list(
+                        (
+                            await session.execute(
+                                select(Chunk)
+                                .where(
+                                    Chunk.document_id == document_id,
+                                    Chunk.tenant_id == tenant_id,
+                                    Chunk.is_active == True,  # noqa: E712
+                                    Chunk.clause.is_not(None),
+                                )
+                                .limit(500)
+                            )
+                        ).scalars()
+                    )
+                    await self.graph_builder.link_clauses(
+                        tenant_id=tenant_id,
+                        document_id=document_id,
+                        title=document.title if document else "",
+                        document_type=document.document_type if document else "other",
+                        version=document.version if document else 1,
+                        chunks=clause_chunks,
+                    )
             return True
         except Exception as exc:  # noqa: BLE001
             logger.warning("graph_update_failed", document_id=document_id, error=str(exc))

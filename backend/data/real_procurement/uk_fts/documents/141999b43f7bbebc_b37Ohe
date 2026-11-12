@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width">
+	<title>Mail a Big File from Peak District National Park Authority - Your File</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<link rel="stylesheet" type="text/css" media="all" href="/css/multi_menu_mbfs.css" />
+	<link rel="stylesheet" href="/css/responsive.css" type="text/css" />
+	<link rel="stylesheet" media="all" href="/css/branded/admin_page.css" type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Open+Sans:400,600|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+
+	 <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+	<!--[if lt IE 7.]>
+	<script defer type="text/javascript" src="/js/pngfix.js"></script>
+	<![endif]-->
+
+
+	<style type="text/css">
+
+		div#repro_peakdistrict-send {
+			margin-top: 0px;
+		}
+
+		div#repro_peakdistrict-send a:link, div#repro_peakdistrict-send a:visited {
+			color: #003366;
+
+		}
+
+		.percentUpload {
+			color: #003366;
+		}
+
+		p#form_intro {
+			border: 2px solid #003366;
+			width: 65%;
+			padding: 10px;
+			background-color: #d9e0e8;
+			margin-bottom: 5px;
+			color: #000000;
+		}
+
+		body {
+
+							background-color: #ffffff !important;
+						color: #000000;
+
+			
+		}
+
+		img.button {
+			visibility: visible;
+		}
+
+		label {
+			color: #000000;
+		}
+
+		h2 {
+			color: #000000;
+		}
+
+		h3 {
+			color: #000000;
+		}
+
+		p {
+			color: #000000;
+		}
+
+		a:link, a:visited {
+			color: #003366;
+		}
+
+		.formHint {
+			color: #000000;
+			/*font-size: 0.8em;*/
+		}
+
+		.secureHint {
+			color: #000000;
+		}
+
+		.mbfFooterText {
+			color: #000000;
+		}
+
+		.mbfText {
+			color: #000000;
+		}
+
+		table#history_table {
+			border: 1px solid #cccccc;
+		}
+
+		table#history_table {
+			margin: 0;
+			padding: 0;
+			border-collapse: collapse;
+			background: #fff;
+								}
+
+		table#folder_table, #folder_table.responsive-table {
+								}
+
+		table#history_table tr {
+			margin: 0;
+			padding: 0;
+			border-bottom: 1px solid #cccccc;
+		}
+
+		table#history_table tr:nth-child(even) {
+			background: #ffeaf8
+		}
+
+		table#history_table th {
+			margin: 0;
+			padding: 5px;
+			text-align: left;
+			border-right: 1px solid #cccccc;
+		}
+
+		table#history_table tr td {
+			border-bottom: 1px solid #cccccc;
+		}
+
+		table#history_table tr td {
+			margin: 0;
+			padding: 4px;
+			border-right: 1px solid #cccccc;
+			font-size: 14px;
+		}
+
+		table#history_table tr th.center, table#history_table tr td.center {
+			text-align: center;
+		}
+
+		form#timezone {
+			margin: 0 0 5px 0;
+		}
+
+		input#fileInput {
+			font-size: 18px;
+			margin: 5px 30px 20px 60px;
+			padding: 0;
+			color: #000000;
+		}
+
+		
+		
+		
+		
+		
+</style>
+
+
+
+		
+	<script language="JavaScript">
+	<!--
+	var time = null
+	function move() {
+		self.location.reload(true);
+	}
+	//-->
+	</script>
+
+</head>
+
+
+<body id="list_file" class="admin-page">
+
+    <div class="body_container">
+        
+<div id="repro_peakdistrict-send">
+
+	
+		
+						<div class="nounderline banner-image">
+								<a href="http://www.peakdistrict.gov.uk" target="_blank"><img
+										src="https://d1q6e4ajxdm2fa.cloudfront.net/repro/repro_images/peakdistrict16021128_peakdistrict.jpg"
+										alt="Mail a Big File from Peak District National Park Authority"
+								/></a>
+						</div>
+					
+	
+			            	<div id="transfer_method">
+				<p>
+														<span class="secureHint">In <strong>Secure Mode</strong></span> <img src="https://d1q6e4ajxdm2fa.cloudfront.net/images/icons/lock.png" alt="Secure" width="14" height="16" /> <a href="http://www.mailbigfile.com/peakdistrict-send" title="Send file over normal transfer">Normal Mode</a>
+													</p>
+                </div>
+			
+
+
+</div>        <div class="main-content fullwidth cf">
+
+            <div class="cleanbox header">
+                <h1>File is not available</h1>
+            </div>
+
+            <div class="cleanbox businessform cf">
+
+                <div id="repro_peakdistrict-send">
+
+                
+                    <div class="whitebox fullwidth business-download">
+                        <p>Unfortunately, the file is no longer available. It may have expired or may have been downloaded more than the maximum number of times.</p>
+                        <p>Please contact the sender of the file.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        	<div id="footer">
+		<p class="footer" style="text-align:center;">
+						<a href="http://www.dessol.com/" title="Web design, development, ecommerce and hosting">Developed &amp; Hosted by Dessol | &copy;2005 - 2026 </a><a href="http://www.mailbigfile.com" title="">| Powered By MailBigFile.com</a>
+											</p>
+				<p style="font-size:10px; text-align:center;">MailBigFile &reg; registered trademark of MailBigFile Ltd</p>
+			</div>
+
+<script>
+  document.querySelectorAll('a[target=_blank]').forEach(function (elm, idx) {
+    elm.setAttribute('rel', 'noopener noreferrer')
+  })
+
+  </script>
+
+
+        </div>
+
+    </div>
+
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a558c9899c971672',t:'MTc5Mzg0OTUwNA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a558c9899c971672',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>

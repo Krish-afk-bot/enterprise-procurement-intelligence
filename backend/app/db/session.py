@@ -90,6 +90,60 @@ async def init_db(create_schema: bool = True) -> None:
         await conn.run_sync(Base.metadata.create_all)
 
 
+def _alembic_head() -> str:
+    """The revision this code expects, read from the migration scripts."""
+    from alembic.config import Config
+    from alembic.script import ScriptDirectory
+
+    from app.config.settings import BACKEND_DIR
+
+    script = ScriptDirectory.from_config(Config(str(BACKEND_DIR / "alembic.ini")))
+    head = script.get_current_head()
+    if head is None:
+        raise RuntimeError("No Alembic head revision could be resolved.")
+    return head
+
+
+async def assert_schema_current(
+    engine: AsyncEngine | None = None, *, expected_head: str | None = None
+) -> str:
+    """Refuse to serve when the database schema is missing or behind the code.
+
+    ``AUTO_CREATE_SCHEMA=false`` is the production setting, so nothing creates
+    tables on startup. Without this gate a deployment that forgot
+    ``alembic upgrade head`` starts cleanly and then fails on the first request
+    with an opaque operational error. Raising at startup makes the real cause
+    visible in the first line of the log instead.
+    """
+    from sqlalchemy import inspect, text
+
+    target = engine or get_engine()
+    head = expected_head or _alembic_head()
+
+    async with target.connect() as connection:
+
+        def _read_version(sync_connection) -> str | None:
+            if "alembic_version" not in inspect(sync_connection).get_table_names():
+                return None
+            return sync_connection.execute(
+                text("SELECT version_num FROM alembic_version")
+            ).scalar_one_or_none()
+
+        current = await connection.run_sync(_read_version)
+
+    if current is None:
+        raise RuntimeError(
+            "Database schema is not initialised (no alembic_version table). "
+            "Run `alembic upgrade head` before starting the API."
+        )
+    if current != head:
+        raise RuntimeError(
+            f"Database schema is at revision {current}, but this build expects {head}. "
+            "Run `alembic upgrade head` before starting the API."
+        )
+    return current
+
+
 async def dispose_engine() -> None:
     global _engine, _session_factory
     if _engine is not None:

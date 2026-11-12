@@ -1,0 +1,273 @@
+{
+  "last_line_processed": 68472,
+  "last_ocid": "ocds-h6vhtk-079362",
+  "timestamp": "2026-11-05T12:01:05.126196",
+  "stats": {
+    "start_time": "2026-11-05T12:00:11.190102",
+    "total_releases_processed": 0,
+    "releases_skipped_existing": 45,
+    "releases_inserted_new": 32624,
+    "procurement_records_created": 25852,
+    "suppliers_created": 9794,
+    "errors": [],
+    "duplicate_ocids_encountered": [],
+    "non_gbp_records": [
+      {
+        "ocid": "ocds-h6vhtk-069d9b",
+        "currency": "EUR",
+        "amount": 979800.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06a262",
+        "currency": "QAR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06a66e",
+        "currency": "USD",
+        "amount": 1091200.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06a66f",
+        "currency": "USD",
+        "amount": 1091200.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06a69b",
+        "currency": "EUR",
+        "amount": 48375.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06a756",
+        "currency": "USD",
+        "amount": 829031.58
+      },
+      {
+        "ocid": "ocds-h6vhtk-06aa87",
+        "currency": "EUR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06a915",
+        "currency": "USD",
+        "amount": 53100.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06aca8",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06acb6",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06ad80",
+        "currency": "EUR",
+        "amount": 423000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b36e",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b12f",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b284",
+        "currency": "EUR",
+        "amount": 143745.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b39b",
+        "currency": "USD",
+        "amount": 561291.85
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b39b",
+        "currency": "USD",
+        "amount": 674314.8
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b501",
+        "currency": "EUR",
+        "amount": 449910.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b566",
+        "currency": "EUR",
+        "amount": 216925.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06b81e",
+        "currency": "EUR",
+        "amount": 66000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06bc36",
+        "currency": "BZD",
+        "amount": 243401.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06c1a7",
+        "currency": "EUR",
+        "amount": 361000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06c519",
+        "currency": "EUR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06ca7d",
+        "currency": "EUR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06ca7e",
+        "currency": "EUR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06cbf5",
+        "currency": "EUR",
+        "amount": 288232.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06d2df",
+        "currency": "EUR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06d5e4",
+        "currency": "USD",
+        "amount": 43381.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06da17",
+        "currency": "USD",
+        "amount": 6948600.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06e0b3",
+        "currency": "EUR",
+        "amount": 325000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06e1fa",
+        "currency": "EUR",
+        "amount": 87911.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06ecf0",
+        "currency": "USD",
+        "amount": 7560000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06f36c",
+        "currency": "EUR",
+        "amount": 655000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06f3c0",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06f41c",
+        "currency": "PHP",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-06f4a5",
+        "currency": "EUR",
+        "amount": 300000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-0774ce",
+        "currency": "USD",
+        "amount": 273500.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-077500",
+        "currency": "EUR",
+        "amount": 542000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-0773be",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-0775ed",
+        "currency": "USD",
+        "amount": 289500.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-077713",
+        "currency": "USD",
+        "amount": 424640.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-07773f",
+        "currency": "EUR",
+        "amount": 96438.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-07783a",
+        "currency": "EUR",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-0781b6",
+        "currency": "USD",
+        "amount": 240000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078307",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-0782d5",
+        "currency": "EUR",
+        "amount": 6400000.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078557",
+        "currency": "EUR",
+        "amount": 145957.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078765",
+        "currency": "USD",
+        "amount": 67284.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078bf4",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078bf6",
+        "currency": "USD",
+        "amount": 0.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078edc",
+        "currency": "USD",
+        "amount": 778944.0
+      },
+      {
+        "ocid": "ocds-h6vhtk-078fa8",
+        "currency": "CAD",
+        "amount": 555004.98
+      }
+    ],
+    "checkpoint_lines_processed": 68404
+  }
+}

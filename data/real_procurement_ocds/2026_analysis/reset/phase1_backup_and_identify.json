@@ -1,0 +1,183 @@
+{
+  "timestamp": "2026-11-05T04:05:52.402915",
+  "phase": "backup_and_identify",
+  "backup": {
+    "source": "backend\\var\\epi.db",
+    "backup_path": "backups\\pre_2026_reset\\epi_db_20261105_040552.db",
+    "backup_created": true,
+    "source_size_bytes": 16138240,
+    "backup_size_bytes": 16138240,
+    "source_sha256": "d4449c9149969dade293d489a929fa01747c0c3d9e3ed0063ed111ff9026f683",
+    "backup_sha256": "d4449c9149969dade293d489a929fa01747c0c3d9e3ed0063ed111ff9026f683"
+  },
+  "existing_data": {
+    "counts": {
+      "documents": 9,
+      "documents_synthetic": 9,
+      "documents_real": 0,
+      "procurement_records": 48,
+      "procurement_records_synthetic": 48,
+      "procurement_records_real": 0,
+      "suppliers": 3,
+      "suppliers_synthetic": 3,
+      "suppliers_real": 0,
+      "contracts": 3,
+      "contracts_synthetic": 3,
+      "contracts_real": 0,
+      "products": 7,
+      "prices": 69,
+      "compliance_certificates": 137,
+      "data_sources": 0
+    }
+  },
+  "protected_data": {
+    "synthetic_documents": {
+      "count": 9,
+      "ids": [
+        "doc_9edd3b4502254f15b1f03f4bb6d7de28",
+        "doc_600ffeb39a804484a7b2493cd786d73d",
+        "doc_64f7b3d685144e20b932e407d3ef720e",
+        "doc_705d9cf1185c4b16910b0e1065ad30bb",
+        "doc_f37cb8453c2e4200ad46993e9c4b4003",
+        "doc_3d189e44d5b8429996c2a389920a0d87",
+        "doc_75fe8333214642709ebbe3d4cbf65ac2",
+        "doc_650a00da1d98403abb8d3b4e2e91566b",
+        "doc_8d5e025773204bf0b4c7698923aa797b"
+      ],
+      "details": [
+        {
+          "id": "doc_9edd3b4502254f15b1f03f4bb6d7de28",
+          "filename": "pricing_schedule_2026.xlsx",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_9edd3b4502254f15b1f03f4bb6d7de28/original.xlsx",
+          "size_bytes": 5934,
+          "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:10.250639"
+        },
+        {
+          "id": "doc_600ffeb39a804484a7b2493cd786d73d",
+          "filename": "security_fixture_injection.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_600ffeb39a804484a7b2493cd786d73d/original.pdf",
+          "size_bytes": 2175,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:26.052116"
+        },
+        {
+          "id": "doc_64f7b3d685144e20b932e407d3ef720e",
+          "filename": "supplier_a_amendment_1_NS-2024-001.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_64f7b3d685144e20b932e407d3ef720e/original.pdf",
+          "size_bytes": 2829,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:26.393718"
+        },
+        {
+          "id": "doc_705d9cf1185c4b16910b0e1065ad30bb",
+          "filename": "supplier_a_amendment_2_NS-2024-001.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_705d9cf1185c4b16910b0e1065ad30bb/original.pdf",
+          "size_bytes": 7510,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:26.624519"
+        },
+        {
+          "id": "doc_f37cb8453c2e4200ad46993e9c4b4003",
+          "filename": "supplier_a_compliance_certificate.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_f37cb8453c2e4200ad46993e9c4b4003/original.pdf",
+          "size_bytes": 2748,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:26.899155"
+        },
+        {
+          "id": "doc_3d189e44d5b8429996c2a389920a0d87",
+          "filename": "supplier_a_master_contract_NS-2024-001.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_3d189e44d5b8429996c2a389920a0d87/original.pdf",
+          "size_bytes": 25979,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:27.172824"
+        },
+        {
+          "id": "doc_75fe8333214642709ebbe3d4cbf65ac2",
+          "filename": "supplier_a_scanned_signature_page.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_75fe8333214642709ebbe3d4cbf65ac2/original.pdf",
+          "size_bytes": 6529402,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:38:27.825377"
+        },
+        {
+          "id": "doc_650a00da1d98403abb8d3b4e2e91566b",
+          "filename": "supplier_b_supply_agreement_HTP-2024-014.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_650a00da1d98403abb8d3b4e2e91566b/original.pdf",
+          "size_bytes": 15091,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:39:15.241501"
+        },
+        {
+          "id": "doc_8d5e025773204bf0b4c7698923aa797b",
+          "filename": "supplier_c_expired_contract_ORC-2021-777.pdf",
+          "storage_key": "ten_e429fecae1234589ac7c999af5b3eb70/documents/doc_8d5e025773204bf0b4c7698923aa797b/original.pdf",
+          "size_bytes": 2686,
+          "mime_type": "application/pdf",
+          "is_synthetic": true,
+          "created_at": "2026-09-28 05:39:15.962536"
+        }
+      ]
+    },
+    "incident_backups": {
+      "count": 0,
+      "backups": []
+    },
+    "source_files_2026": {
+      "jsonl": {
+        "exists": true,
+        "path": "2026.jsonl",
+        "size": 455193785,
+        "sha256": "3e16e08e77c3bd84594084efab6977f41791d4e96ff506bf8a95083327952d19"
+      },
+      "xlsx_root": {
+        "exists": true,
+        "path": "united_kingdom_fts_2026.xlsx",
+        "size": 110726324,
+        "sha256": "83ef24cecf08d03c8d5550d7576bba2906d91de0556d96ed16277c0d4b2e5a5c"
+      },
+      "xlsx_data": {
+        "exists": true,
+        "path": "data\\real_procurement_ocds\\uk_fts_2026.xlsx",
+        "size": 110726324,
+        "sha256": "83ef24cecf08d03c8d5550d7576bba2906d91de0556d96ed16277c0d4b2e5a5c"
+      },
+      "csv_directory": {
+        "exists": true,
+        "path": "2026",
+        "file_count": 68
+      }
+    }
+  },
+  "deletion_manifest": {
+    "procurement_records": {
+      "count": 0,
+      "ids": [],
+      "by_source": {}
+    },
+    "suppliers": {
+      "count": 0,
+      "ids": []
+    },
+    "contracts": {
+      "count": 0,
+      "ids": []
+    },
+    "documents": {
+      "count": 0,
+      "ids": [],
+      "file_paths": []
+    }
+  },
+  "deletion_results": {},
+  "verification": {}
+}

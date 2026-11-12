@@ -88,10 +88,12 @@ export function PrivacyPage() {
         />
       </DocSection>
 
-      <DocSection id="demo" title="Demo corpus">
+      <DocSection id="demo" title="Bundled corpus">
         <p>
-          The corpus bundled with this build is a labelled synthetic dataset used for demonstration and evaluation.
-          Treat a shared instance as a demo environment and do not upload confidential documents to it.
+          The corpus bundled with this build is 20 public procurement notices from the UK Find a Tender Service (OCDS),
+          imported through the API under the Open Government Licence (OGL-UK-3.0). Each document records its source
+          URL, licence and original notice identifier. Documents you upload and mark as demo content are labelled as
+          such. Treat a shared instance as a demo environment and do not upload confidential documents to it.
         </p>
       </DocSection>
 

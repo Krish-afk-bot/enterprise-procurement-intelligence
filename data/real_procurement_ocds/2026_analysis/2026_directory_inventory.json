@@ -1,0 +1,4126 @@
+{
+  "analysis_date": "2026-11-05T03:49:54.514468",
+  "dataset": "2026 UK Find a Tender Service",
+  "files": {
+    "2026.jsonl": {
+      "path": "2026.jsonl",
+      "size_bytes": 455193785,
+      "format": "jsonl",
+      "encoding": "utf-8"
+    }
+  },
+  "jsonl": {
+    "total_releases": 68473,
+    "unique_ocids": 68473,
+    "date_range": {
+      "min": "2026-01-02T09:42:01Z",
+      "max": "2026-10-29T21:48:29Z"
+    },
+    "buyers": 5437,
+    "has_tender": 68473,
+    "has_awards": 51985,
+    "has_contracts": 43873,
+    "has_planning": 13862,
+    "document_urls": 112653,
+    "parties": 79949,
+    "release_tags": {
+      "compiled": 68473
+    },
+    "procurement_methods": {
+      "limited": 14901,
+      "open": 19822,
+      "selective": 5108,
+      "direct": 17416
+    },
+    "tender_statuses": {
+      "complete": 50941,
+      "active": 8476,
+      "cancelled": 348,
+      "planned": 3969,
+      "unsuccessful": 59,
+      "withdrawn": 164,
+      "planning": 4115
+    },
+    "award_statuses": {
+      "active": 75823,
+      "unsuccessful": 1472,
+      "cancelled": 1090,
+      "pending": 6106
+    },
+    "contract_statuses": {
+      "active": 69590,
+      "cancelled": 228,
+      "terminated": 620
+    }
+  },
+  "csv_summary": {
+    "total_files": 68,
+    "total_rows": 1959036,
+    "total_size_bytes": 416439051
+  },
+  "csv_files": {
+    "awards": {
+      "path": "2026\\awards.csv",
+      "filename": "awards.csv",
+      "size_bytes": 16129750,
+      "format": "csv",
+      "row_count": 84491,
+      "columns": [
+        "id",
+        "status",
+        "relatedLots",
+        "main_ocid",
+        "main_id",
+        "title",
+        "statusDetails",
+        "hasSubcontracting",
+        "subcontracting_description",
+        "subcontracting_value_amount",
+        "subcontracting_value_currency",
+        "subcontracting_maximumPercentage",
+        "subcontracting_minimumPercentage",
+        "date",
+        "assessmentSummariesDateSent",
+        "aboveThreshold",
+        "mainProcurementCategory",
+        "hasRenewal",
+        "value_amount",
+        "value_currency",
+        "value_amountGross",
+        "renewal_description",
+        "contractPeriod_endDate",
+        "contractPeriod_startDate",
+        "contractPeriod_maxExtentDate",
+        "standstillPeriod_endDate",
+        "hasOptions",
+        "options_description",
+        "finalStatusDate",
+        "additionalProcurementCategories",
+        "valueCalculationMethod"
+      ],
+      "column_count": 31,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "000294-2021-PHW-STA-429-1",
+          "status": "active",
+          "relatedLots": "1",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "title": "",
+          "statusDetails": "",
+          "hasSubcontracting": "",
+          "subcontracting_description": "",
+          "subcontracting_value_amount": "",
+          "subcontracting_value_currency": "",
+          "subcontracting_maximumPercentage": "",
+          "subcontracting_minimumPercentage": "",
+          "date": "",
+          "assessmentSummariesDateSent": "",
+          "aboveThreshold": "",
+          "mainProcurementCategory": "",
+          "hasRenewal": "",
+          "value_amount": "",
+          "value_currency": "",
+          "value_amountGross": "",
+          "renewal_description": "",
+          "contractPeriod_endDate": "",
+          "contractPeriod_startDate": "",
+          "contractPeriod_maxExtentDate": "",
+          "standstillPeriod_endDate": "",
+          "hasOptions": "",
+          "options_description": "",
+          "finalStatusDate": "",
+          "additionalProcurementCategories": "",
+          "valueCalculationMethod": ""
+        },
+        {
+          "id": "034102-2026-PHW-STA-429-1",
+          "status": "active",
+          "relatedLots": "1",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "title": "",
+          "statusDetails": "",
+          "hasSubcontracting": "",
+          "subcontracting_description": "",
+          "subcontracting_value_amount": "",
+          "subcontracting_value_currency": "",
+          "subcontracting_maximumPercentage": "",
+          "subcontracting_minimumPercentage": "",
+          "date": "",
+          "assessmentSummariesDateSent": "",
+          "aboveThreshold": "",
+          "mainProcurementCategory": "",
+          "hasRenewal": "",
+          "value_amount": "",
+          "value_currency": "",
+          "value_amountGross": "",
+          "renewal_description": "",
+          "contractPeriod_endDate": "",
+          "contractPeriod_startDate": "",
+          "contractPeriod_maxExtentDate": "",
+          "standstillPeriod_endDate": "",
+          "hasOptions": "",
+          "options_description": "",
+          "finalStatusDate": "",
+          "additionalProcurementCategories": "",
+          "valueCalculationMethod": ""
+        },
+        {
+          "id": "026800-2021-537308-1",
+          "status": "active",
+          "relatedLots": "1",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "title": "",
+          "statusDetails": "",
+          "hasSubcontracting": "",
+          "subcontracting_description": "",
+          "subcontracting_value_amount": "",
+          "subcontracting_value_currency": "",
+          "subcontracting_maximumPercentage": "",
+          "subcontracting_minimumPercentage": "",
+          "date": "",
+          "assessmentSummariesDateSent": "",
+          "aboveThreshold": "",
+          "mainProcurementCategory": "",
+          "hasRenewal": "",
+          "value_amount": "",
+          "value_currency": "",
+          "value_amountGross": "",
+          "renewal_description": "",
+          "contractPeriod_endDate": "",
+          "contractPeriod_startDate": "",
+          "contractPeriod_maxExtentDate": "",
+          "standstillPeriod_endDate": "",
+          "hasOptions": "",
+          "options_description": "",
+          "finalStatusDate": "",
+          "additionalProcurementCategories": "",
+          "valueCalculationMethod": ""
+        }
+      ]
+    },
+    "awards_amendments": {
+      "path": "2026\\awards_amendments.csv",
+      "filename": "awards_amendments.csv",
+      "size_bytes": 1046295,
+      "format": "csv",
+      "row_count": 11492,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "awards_id",
+        "description"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "013869-2025",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "awards_id": "1",
+          "description": ""
+        },
+        {
+          "id": "041204-2025",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "awards_id": "1",
+          "description": ""
+        },
+        {
+          "id": "041205-2025",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "awards_id": "1",
+          "description": ""
+        }
+      ]
+    },
+    "awards_documents": {
+      "path": "2026\\awards_documents.csv",
+      "filename": "awards_documents.csv",
+      "size_bytes": 5844743,
+      "format": "csv",
+      "row_count": 26116,
+      "columns": [
+        "id",
+        "url",
+        "format",
+        "noticeType",
+        "description",
+        "documentType",
+        "datePublished",
+        "main_ocid",
+        "main_id",
+        "awards_id"
+      ],
+      "column_count": 10,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "001673-2026",
+          "url": "https://www.find-tender.service.gov.uk/Notice/001673-2026",
+          "format": "text/html",
+          "noticeType": "UK6",
+          "description": "Contract award notice on Find a Tender",
+          "documentType": "awardNotice",
+          "datePublished": "2026-01-09T08:35:13Z",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "085727-2025",
+          "url": "https://www.find-tender.service.gov.uk/Notice/085727-2025",
+          "format": "text/html",
+          "noticeType": "UK6",
+          "description": "Contract award notice on Find a Tender",
+          "documentType": "awardNotice",
+          "datePublished": "2025-12-23T11:04:01Z",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "024032-2026",
+          "url": "https://www.find-tender.service.gov.uk/Notice/024032-2026",
+          "format": "text/html",
+          "noticeType": "UK6",
+          "description": "Contract award notice on Find a Tender",
+          "documentType": "awardNotice",
+          "datePublished": "2026-03-17T13:03:51Z",
+          "main_ocid": "ocds-h6vhtk-04ea18",
+          "main_id": "ocds-h6vhtk-04ea18-2026-04-13T14:28:46+01:00",
+          "awards_id": "1"
+        }
+      ]
+    },
+    "awards_items": {
+      "path": "2026\\awards_items.csv",
+      "filename": "awards_items.csv",
+      "size_bytes": 3531526,
+      "format": "csv",
+      "row_count": 50776,
+      "columns": [
+        "id",
+        "relatedLot",
+        "main_ocid",
+        "main_id",
+        "awards_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "765091",
+          "relatedLot": "765091",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "2",
+          "relatedLot": "2",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "awards_id": "1"
+        }
+      ]
+    },
+    "awards_items_additionalClassifications": {
+      "path": "2026\\awards_items_additionalClassifications.csv",
+      "filename": "awards_items_additionalClassifications.csv",
+      "size_bytes": 9288689,
+      "format": "csv",
+      "row_count": 81537,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "awards_id",
+        "awards_items_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "92610000",
+          "scheme": "CPV",
+          "description": "Sports facilities operation services",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1",
+          "awards_items_id": "765091"
+        },
+        {
+          "id": "92610000",
+          "scheme": "CPV",
+          "description": "Sports facilities operation services",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1",
+          "awards_items_id": "2"
+        },
+        {
+          "id": "98351110",
+          "scheme": "CPV",
+          "description": "Parking enforcement services",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "awards_id": "1",
+          "awards_items_id": "1"
+        }
+      ]
+    },
+    "awards_items_deliveryAddresses": {
+      "path": "2026\\awards_items_deliveryAddresses.csv",
+      "filename": "awards_items_deliveryAddresses.csv",
+      "size_bytes": 7778492,
+      "format": "csv",
+      "row_count": 87097,
+      "columns": [
+        "region",
+        "country",
+        "countryName",
+        "main_ocid",
+        "main_id",
+        "awards_id",
+        "awards_items_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "region": "UKD1",
+          "country": "GB",
+          "countryName": "United Kingdom",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1",
+          "awards_items_id": "765091"
+        },
+        {
+          "region": "UKD1",
+          "country": "GB",
+          "countryName": "United Kingdom",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1",
+          "awards_items_id": "765091"
+        },
+        {
+          "region": "UKD1",
+          "country": "GB",
+          "countryName": "United Kingdom",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1",
+          "awards_items_id": "2"
+        }
+      ]
+    },
+    "awards_milestones": {
+      "path": "2026\\awards_milestones.csv",
+      "filename": "awards_milestones.csv",
+      "size_bytes": 2630674,
+      "format": "csv",
+      "row_count": 21603,
+      "columns": [
+        "id",
+        "type",
+        "status",
+        "dueDate",
+        "main_ocid",
+        "main_id",
+        "awards_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "type": "futureSignatureDate",
+          "status": "scheduled",
+          "dueDate": "2026-01-30T23:59:59Z",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "1",
+          "type": "futureSignatureDate",
+          "status": "scheduled",
+          "dueDate": "2026-01-08T23:59:59Z",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "1",
+          "type": "futureSignatureDate",
+          "status": "scheduled",
+          "dueDate": "2026-03-30T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-04ea18",
+          "main_id": "ocds-h6vhtk-04ea18-2026-04-13T14:28:46+01:00",
+          "awards_id": "1"
+        }
+      ]
+    },
+    "awards_standstillPeriod": {
+      "path": "2026\\awards_standstillPeriod.csv",
+      "filename": "awards_standstillPeriod.csv",
+      "size_bytes": 404,
+      "format": "csv",
+      "row_count": 4,
+      "columns": [
+        "endDate",
+        "main_ocid",
+        "main_id",
+        "awards_id"
+      ],
+      "column_count": 4,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "endDate": "2026-04-02T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-059848",
+          "main_id": "ocds-h6vhtk-059848-2026-04-09T15:25:57+01:00",
+          "awards_id": "1"
+        },
+        {
+          "endDate": "2026-03-20T23:59:59+00:00",
+          "main_ocid": "ocds-h6vhtk-059848",
+          "main_id": "ocds-h6vhtk-059848-2026-04-09T15:25:57+01:00",
+          "awards_id": "1"
+        },
+        {
+          "endDate": "2026-09-16T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-06ae1f",
+          "main_id": "ocds-h6vhtk-06ae1f-2026-09-30T14:40:48+01:00",
+          "awards_id": "1"
+        }
+      ]
+    },
+    "awards_subcontracting_subcontracts": {
+      "path": "2026\\awards_subcontracting_subcontracts.csv",
+      "filename": "awards_subcontracting_subcontracts.csv",
+      "size_bytes": 149460,
+      "format": "csv",
+      "row_count": 689,
+      "columns": [
+        "id",
+        "description",
+        "main_ocid",
+        "main_id",
+        "awards_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "description": "None",
+          "main_ocid": "ocds-h6vhtk-04ea3a",
+          "main_id": "ocds-h6vhtk-04ea3a-2026-04-01T16:09:53+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "1",
+          "description": "n/a",
+          "main_ocid": "ocds-h6vhtk-04ea87",
+          "main_id": "ocds-h6vhtk-04ea87-2026-10-23T10:33:15+01:00",
+          "awards_id": "1"
+        },
+        {
+          "id": "1",
+          "description": "GUTTERIDGE HASKINS & DAVEY LIMITED - Companies House number Number 05528602 - Registered office address Nexus Building Floor 10, 25 Farringdon Street, London EC4A 4AB",
+          "main_ocid": "ocds-h6vhtk-04eefd",
+          "main_id": "ocds-h6vhtk-04eefd-2026-02-27T11:45:23Z",
+          "awards_id": "4"
+        }
+      ]
+    },
+    "awards_subcontracting_subcontracts_mainContractors": {
+      "path": "2026\\awards_subcontracting_subcontracts_mainContractors.csv",
+      "filename": "awards_subcontracting_subcontracts_mainContractors.csv",
+      "size_bytes": 71831,
+      "format": "csv",
+      "row_count": 690,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "awards_id",
+        "awards_subcontracting_subcontracts_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-COH-OC303675",
+          "name": "Deloitte LLP Primary",
+          "main_ocid": "ocds-h6vhtk-04ea3a",
+          "main_id": "ocds-h6vhtk-04ea3a-2026-04-01T16:09:53+01:00",
+          "awards_id": "1",
+          "awards_subcontracting_subcontracts_id": "1"
+        },
+        {
+          "id": "GB-PPON-PZQL-4953-GDLG",
+          "name": "Eckert and Ziegler",
+          "main_ocid": "ocds-h6vhtk-04ea87",
+          "main_id": "ocds-h6vhtk-04ea87-2026-10-23T10:33:15+01:00",
+          "awards_id": "1",
+          "awards_subcontracting_subcontracts_id": "1"
+        },
+        {
+          "id": "GB-COH-02472080",
+          "name": "GALLIFORD TRY CONSTRUCTION LIMITED",
+          "main_ocid": "ocds-h6vhtk-04eefd",
+          "main_id": "ocds-h6vhtk-04eefd-2026-02-27T11:45:23Z",
+          "awards_id": "4",
+          "awards_subcontracting_subcontracts_id": "1"
+        }
+      ]
+    },
+    "awards_suppliers": {
+      "path": "2026\\awards_suppliers.csv",
+      "filename": "awards_suppliers.csv",
+      "size_bytes": 17293111,
+      "format": "csv",
+      "row_count": 153817,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "awards_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-FTS-738",
+          "name": "The Doctors Laboratory",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "awards_id": "000294-2021-PHW-STA-429-1"
+        },
+        {
+          "id": "GB-FTS-180024",
+          "name": "HSL Pathology",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "awards_id": "034102-2026-PHW-STA-429-1"
+        },
+        {
+          "id": "GB-FTS-32801",
+          "name": "Arcadis",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "awards_id": "026800-2021-537308-1"
+        }
+      ]
+    },
+    "bids_details": {
+      "path": "2026\\bids_details.csv",
+      "filename": "bids_details.csv",
+      "size_bytes": 1812549,
+      "format": "csv",
+      "row_count": 23188,
+      "columns": [
+        "id",
+        "status",
+        "relatedLots",
+        "main_ocid",
+        "main_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "status": "valid",
+          "relatedLots": "1",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00"
+        },
+        {
+          "id": "2",
+          "status": "valid",
+          "relatedLots": "1",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00"
+        },
+        {
+          "id": "1",
+          "status": "valid",
+          "relatedLots": "1,2,3,4",
+          "main_ocid": "ocds-h6vhtk-04ea18",
+          "main_id": "ocds-h6vhtk-04ea18-2026-04-13T14:28:46+01:00"
+        }
+      ]
+    },
+    "bids_details_tenderers": {
+      "path": "2026\\bids_details_tenderers.csv",
+      "filename": "bids_details_tenderers.csv",
+      "size_bytes": 2688352,
+      "format": "csv",
+      "row_count": 24284,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "bids_details_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-COH-04305487",
+          "name": "MARSTON (HOLDINGS) LIMITED",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "bids_details_id": "1"
+        },
+        {
+          "id": "GB-COH-02572947",
+          "name": "APCOA PARKING (UK) LIMITED",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "bids_details_id": "2"
+        },
+        {
+          "id": "GB-COH-06957841",
+          "name": "KENNFORD TARMACADAM LTD.",
+          "main_ocid": "ocds-h6vhtk-04ea18",
+          "main_id": "ocds-h6vhtk-04ea18-2026-04-13T14:28:46+01:00",
+          "bids_details_id": "1"
+        }
+      ]
+    },
+    "bids_statistics": {
+      "path": "2026\\bids_statistics.csv",
+      "filename": "bids_statistics.csv",
+      "size_bytes": 9871416,
+      "format": "csv",
+      "row_count": 117709,
+      "columns": [
+        "id",
+        "value",
+        "measure",
+        "relatedLot",
+        "main_ocid",
+        "main_id",
+        "currency"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "value": "1",
+          "measure": "bids",
+          "relatedLot": "1",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "currency": ""
+        },
+        {
+          "id": "2",
+          "value": "1",
+          "measure": "smeBids",
+          "relatedLot": "1",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "currency": ""
+        },
+        {
+          "id": "3",
+          "value": "1",
+          "measure": "foreignBidsFromEU",
+          "relatedLot": "1",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "currency": ""
+        }
+      ]
+    },
+    "contracts": {
+      "path": "2026\\contracts.csv",
+      "filename": "contracts.csv",
+      "size_bytes": 16656196,
+      "format": "csv",
+      "row_count": 70470,
+      "columns": [
+        "id",
+        "dateSigned",
+        "status",
+        "awardID",
+        "value_amount",
+        "value_currency",
+        "main_ocid",
+        "main_id",
+        "title",
+        "period_endDate",
+        "period_startDate",
+        "period_durationInDays",
+        "periodRationale",
+        "aboveThreshold",
+        "hasRenewal",
+        "noAgreedMetricsRationale",
+        "value_amountGross",
+        "period_maxExtentDate",
+        "renewal_description",
+        "hasOptions",
+        "options_description",
+        "implementation_endDate",
+        "implementation_finalValue_amount",
+        "implementation_finalValue_currency",
+        "implementation_finalValue_amountGross",
+        "statusDetails",
+        "terminationRationaleClassification_id",
+        "finalStatusDate",
+        "terminationRationaleClassifications_id"
+      ],
+      "column_count": 29,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "000294-2021-PHW-STA-429-1",
+          "dateSigned": "2020-12-04T00:00:00Z",
+          "status": "active",
+          "awardID": "000294-2021-PHW-STA-429-1",
+          "value_amount": "1394400",
+          "value_currency": "GBP",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "title": "",
+          "period_endDate": "",
+          "period_startDate": "",
+          "period_durationInDays": "",
+          "periodRationale": "",
+          "aboveThreshold": "",
+          "hasRenewal": "",
+          "noAgreedMetricsRationale": "",
+          "value_amountGross": "",
+          "period_maxExtentDate": "",
+          "renewal_description": "",
+          "hasOptions": "",
+          "options_description": "",
+          "implementation_endDate": "",
+          "implementation_finalValue_amount": "",
+          "implementation_finalValue_currency": "",
+          "implementation_finalValue_amountGross": "",
+          "statusDetails": "",
+          "terminationRationaleClassification_id": "",
+          "finalStatusDate": "",
+          "terminationRationaleClassifications_id": ""
+        },
+        {
+          "id": "034102-2026-PHW-STA-429-1",
+          "dateSigned": "2020-12-04T00:00:00Z",
+          "status": "active",
+          "awardID": "034102-2026-PHW-STA-429-1",
+          "value_amount": "1394400",
+          "value_currency": "GBP",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "title": "",
+          "period_endDate": "",
+          "period_startDate": "",
+          "period_durationInDays": "",
+          "periodRationale": "",
+          "aboveThreshold": "",
+          "hasRenewal": "",
+          "noAgreedMetricsRationale": "",
+          "value_amountGross": "",
+          "period_maxExtentDate": "",
+          "renewal_description": "",
+          "hasOptions": "",
+          "options_description": "",
+          "implementation_endDate": "",
+          "implementation_finalValue_amount": "",
+          "implementation_finalValue_currency": "",
+          "implementation_finalValue_amountGross": "",
+          "statusDetails": "",
+          "terminationRationaleClassification_id": "",
+          "finalStatusDate": "",
+          "terminationRationaleClassifications_id": ""
+        },
+        {
+          "id": "026800-2021-537308-1",
+          "dateSigned": "2021-08-23T00:00:00+01:00",
+          "status": "active",
+          "awardID": "026800-2021-537308-1",
+          "value_amount": "700000",
+          "value_currency": "GBP",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "title": "",
+          "period_endDate": "",
+          "period_startDate": "",
+          "period_durationInDays": "",
+          "periodRationale": "",
+          "aboveThreshold": "",
+          "hasRenewal": "",
+          "noAgreedMetricsRationale": "",
+          "value_amountGross": "",
+          "period_maxExtentDate": "",
+          "renewal_description": "",
+          "hasOptions": "",
+          "options_description": "",
+          "implementation_endDate": "",
+          "implementation_finalValue_amount": "",
+          "implementation_finalValue_currency": "",
+          "implementation_finalValue_amountGross": "",
+          "statusDetails": "",
+          "terminationRationaleClassification_id": "",
+          "finalStatusDate": "",
+          "terminationRationaleClassifications_id": ""
+        }
+      ]
+    },
+    "contracts_agreedMetrics": {
+      "path": "2026\\contracts_agreedMetrics.csv",
+      "filename": "contracts_agreedMetrics.csv",
+      "size_bytes": 2028670,
+      "format": "csv",
+      "row_count": 11063,
+      "columns": [
+        "id",
+        "title",
+        "description",
+        "main_ocid",
+        "main_id",
+        "contracts_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "title": "Officer Coverage",
+          "description": "•\tTfL sets road categories within the TLRN and defines minimum enforcement frequencies (e.g. Cat 1 - 2 officers, twice daily).\n•\tSupplier must deploy officers to meet these minimums.\n•\tTfL assesses the Supplier's coverage (rather than the supplier reporting on it) using 'mystery shopper' style audits of supplier deployment at key locations.",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "2",
+          "title": "Deployed Officer Hours",
+          "description": "•\tSupplier submits yearly, monthly, and weekly deployment plans detailing officer numbers and total deployed hours to meet TfL's enforcement frequencies; TfL approves these in advance.\n•\tSupplier measures and reports actual officer numbers and deployed hours against the plans each period using roster data, GPS, etc.",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "3",
+          "title": "PCN Error Rate",
+          "description": "TfL sets a threshold for the number or % of PCNs cancelled due to officer error or insufficient information each period. Supplier must ensure the threshold is not breached.",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1"
+        }
+      ]
+    },
+    "contracts_agreedMetrics_observations": {
+      "path": "2026\\contracts_agreedMetrics_observations.csv",
+      "filename": "contracts_agreedMetrics_observations.csv",
+      "size_bytes": 574969,
+      "format": "csv",
+      "row_count": 7121,
+      "columns": [
+        "id",
+        "period_durationInMonths",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_agreedMetrics_id",
+        "period_durationInDays"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "frequency",
+          "period_durationInMonths": "12",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1",
+          "contracts_agreedMetrics_id": "1",
+          "period_durationInDays": ""
+        },
+        {
+          "id": "frequency",
+          "period_durationInMonths": "12",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1",
+          "contracts_agreedMetrics_id": "2",
+          "period_durationInDays": ""
+        },
+        {
+          "id": "frequency",
+          "period_durationInMonths": "12",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1",
+          "contracts_agreedMetrics_id": "3",
+          "period_durationInDays": ""
+        }
+      ]
+    },
+    "contracts_amendments": {
+      "path": "2026\\contracts_amendments.csv",
+      "filename": "contracts_amendments.csv",
+      "size_bytes": 1434130,
+      "format": "csv",
+      "row_count": 1997,
+      "columns": [
+        "id",
+        "rationale",
+        "description",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "date"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "rationale": "Need for additional works, services or supplies by the original contractor/concessionaire: The existing Service Provider has a detailed technical understanding of this programme, including familiarity with the programme objectives, data sets, internal governance and stakeholder landscape.\nThe initial tender procedure only produced a single compliant bid, which indicates limited market capacity or appetite to deliver this specialist work.\nSecuring a technically comparable supplier at this stage is unlikely without incurring additional cost, delay, and programme risk. Were one to be identified they would then require a significant mobilisation period in order to to review historic work, reconstruct the analytical approach, recreate project baselines, and re establish stakeholder and governance alignment. These activities would largely duplicate work already completed and paid for under the existing contract. As a result, a change of contractor at this point would result in significant inconvenience and material duplication of cost without delivering additional value.",
+          "description": "Several areas of the plan are to be reviewed and updated following the initial activation of the plan and having received updated advice. The Service Provider will liaise with all relevant stakeholders to produce a new plan which aligns with the updated requirements.",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "contracts_id": "031250-2026-537308-1",
+          "date": ""
+        },
+        {
+          "id": "1",
+          "rationale": "Need for additional works, services or supplies by the original contractor/concessionaire: The extension is required whilst the authority conducts a re-procurement exercise",
+          "description": "This modification relates to the term and value of the framework and is applicable to all lots.",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "contracts_id": "101580-2026-1-1",
+          "date": ""
+        },
+        {
+          "id": "5",
+          "rationale": "Need for modification brought about by circumstances which a diligent contracting authority/entity could not foresee: Reg.72(1)(c): Unforeseeable circumstances (diligent CA could not foresee) £≤50% (Modification notice required)",
+          "description": "Contract Extension of Six Months",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00",
+          "contracts_id": "020772-2025-C229345-1",
+          "date": ""
+        }
+      ]
+    },
+    "contracts_amendments_rationaleClassifications": {
+      "path": "2026\\contracts_amendments_rationaleClassifications.csv",
+      "filename": "contracts_amendments_rationaleClassifications.csv",
+      "size_bytes": 18695,
+      "format": "csv",
+      "row_count": 185,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_amendments_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "additionalGoodsServicesWorks",
+          "main_ocid": "ocds-h6vhtk-04e88b",
+          "main_id": "ocds-h6vhtk-04e88b-2026-08-24T14:52:17+01:00",
+          "contracts_id": "1",
+          "contracts_amendments_id": "063656-2026"
+        },
+        {
+          "id": "belowThresholdNotSubstantial",
+          "main_ocid": "ocds-h6vhtk-04e88b",
+          "main_id": "ocds-h6vhtk-04e88b-2026-08-24T14:52:17+01:00",
+          "contracts_id": "1",
+          "contracts_amendments_id": "063656-2026"
+        },
+        {
+          "id": "additionalGoodsServicesWorks",
+          "main_ocid": "ocds-h6vhtk-04ea87",
+          "main_id": "ocds-h6vhtk-04ea87-2026-10-23T10:33:15+01:00",
+          "contracts_id": "2",
+          "contracts_amendments_id": "079411-2026"
+        }
+      ]
+    },
+    "contracts_amendments_suppliersRemoved": {
+      "path": "2026\\contracts_amendments_suppliersRemoved.csv",
+      "filename": "contracts_amendments_suppliersRemoved.csv",
+      "size_bytes": 2558,
+      "format": "csv",
+      "row_count": 20,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_amendments_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-COH-01107210",
+          "name": "PATTERSONS (BRISTOL) LIMITED",
+          "main_ocid": "ocds-h6vhtk-05076d",
+          "main_id": "ocds-h6vhtk-05076d-2026-10-27T13:32:18Z",
+          "contracts_id": "10",
+          "contracts_amendments_id": "101561-2026"
+        },
+        {
+          "id": "GB-COH-01107210",
+          "name": "PATTERSONS (BRISTOL) LIMITED",
+          "main_ocid": "ocds-h6vhtk-05076d",
+          "main_id": "ocds-h6vhtk-05076d-2026-10-27T13:32:18Z",
+          "contracts_id": "11",
+          "contracts_amendments_id": "101561-2026"
+        },
+        {
+          "id": "GB-COH-NI634046",
+          "name": "PATIENT DISCHARGE SERVICE LIMITED",
+          "main_ocid": "ocds-h6vhtk-05d9d0",
+          "main_id": "ocds-h6vhtk-05d9d0-2026-10-19T14:35:51+01:00",
+          "contracts_id": "1",
+          "contracts_amendments_id": "098544-2026"
+        }
+      ]
+    },
+    "contracts_documents": {
+      "path": "2026\\contracts_documents.csv",
+      "filename": "contracts_documents.csv",
+      "size_bytes": 10107641,
+      "format": "csv",
+      "row_count": 44264,
+      "columns": [
+        "id",
+        "url",
+        "format",
+        "noticeType",
+        "description",
+        "documentType",
+        "datePublished",
+        "main_ocid",
+        "main_id",
+        "contracts_id"
+      ],
+      "column_count": 10,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "040710-2026",
+          "url": "https://www.find-tender.service.gov.uk/Notice/040710-2026",
+          "format": "text/html",
+          "noticeType": "UK7",
+          "description": "Contract details notice on Find a Tender",
+          "documentType": "contractNotice",
+          "datePublished": "2026-05-01T16:33:37+01:00",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "A-15279",
+          "url": "https://www.find-tender.service.gov.uk/Notice/Attachment/A-15279",
+          "format": "application/pdf",
+          "noticeType": "",
+          "description": "Contract",
+          "documentType": "contractSigned",
+          "datePublished": "",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "037795-2026",
+          "url": "https://www.find-tender.service.gov.uk/Notice/037795-2026",
+          "format": "text/html",
+          "noticeType": "UK7",
+          "description": "Contract details notice on Find a Tender",
+          "documentType": "contractNotice",
+          "datePublished": "2026-04-24T20:50:02+01:00",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "contracts_id": "1"
+        }
+      ]
+    },
+    "contracts_implementation_metrics": {
+      "path": "2026\\contracts_implementation_metrics.csv",
+      "filename": "contracts_implementation_metrics.csv",
+      "size_bytes": 42691,
+      "format": "csv",
+      "row_count": 142,
+      "columns": [
+        "id",
+        "title",
+        "description",
+        "main_ocid",
+        "main_id",
+        "contracts_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "title": "Provide Annual Service Plan which aligns to SCC Strategic Objectives. To submit quarterly updates",
+          "description": "Annual Service Plan to be provided and update report produced quarterly",
+          "main_ocid": "ocds-h6vhtk-04f8d4",
+          "main_id": "ocds-h6vhtk-04f8d4-2026-09-15T11:17:38+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "2",
+          "title": "Provide quarterly update on customer satisfaction surveys",
+          "description": "Provided within monthly performance report within required timescales",
+          "main_ocid": "ocds-h6vhtk-04f8d4",
+          "main_id": "ocds-h6vhtk-04f8d4-2026-09-15T11:17:38+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "3",
+          "title": "Provide number of customers per site against agreed targets",
+          "description": "Targets set against demographic profiles and reported within required timescales",
+          "main_ocid": "ocds-h6vhtk-04f8d4",
+          "main_id": "ocds-h6vhtk-04f8d4-2026-09-15T11:17:38+01:00",
+          "contracts_id": "1"
+        }
+      ]
+    },
+    "contracts_implementation_metrics_observations": {
+      "path": "2026\\contracts_implementation_metrics_observations.csv",
+      "filename": "contracts_implementation_metrics_observations.csv",
+      "size_bytes": 36719,
+      "format": "csv",
+      "row_count": 161,
+      "columns": [
+        "id",
+        "period_endDate",
+        "period_startDate",
+        "measureClassification_id",
+        "measureClassification_description",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_implementation_metrics_id",
+        "measure",
+        "notes"
+      ],
+      "column_count": 11,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "087203-2026",
+          "period_endDate": "2026-06-30T23:59:59+01:00",
+          "period_startDate": "2026-04-01T00:00:00+01:00",
+          "measureClassification_id": "met",
+          "measureClassification_description": "Good - performance is meeting or exceeding the KPI",
+          "main_ocid": "ocds-h6vhtk-04f8d4",
+          "main_id": "ocds-h6vhtk-04f8d4-2026-09-15T11:17:38+01:00",
+          "contracts_id": "1",
+          "contracts_implementation_metrics_id": "1",
+          "measure": "",
+          "notes": ""
+        },
+        {
+          "id": "087203-2026",
+          "period_endDate": "2026-06-30T23:59:59+01:00",
+          "period_startDate": "2026-04-01T00:00:00+01:00",
+          "measureClassification_id": "met",
+          "measureClassification_description": "Good - performance is meeting or exceeding the KPI",
+          "main_ocid": "ocds-h6vhtk-04f8d4",
+          "main_id": "ocds-h6vhtk-04f8d4-2026-09-15T11:17:38+01:00",
+          "contracts_id": "1",
+          "contracts_implementation_metrics_id": "2",
+          "measure": "",
+          "notes": ""
+        },
+        {
+          "id": "087203-2026",
+          "period_endDate": "2026-06-30T23:59:59+01:00",
+          "period_startDate": "2026-04-01T00:00:00+01:00",
+          "measureClassification_id": "met",
+          "measureClassification_description": "Good - performance is meeting or exceeding the KPI",
+          "main_ocid": "ocds-h6vhtk-04f8d4",
+          "main_id": "ocds-h6vhtk-04f8d4-2026-09-15T11:17:38+01:00",
+          "contracts_id": "1",
+          "contracts_implementation_metrics_id": "3",
+          "measure": "",
+          "notes": ""
+        }
+      ]
+    },
+    "contracts_implementation_performanceFailures": {
+      "path": "2026\\contracts_implementation_performanceFailures.csv",
+      "filename": "contracts_implementation_performanceFailures.csv",
+      "size_bytes": 5314,
+      "format": "csv",
+      "row_count": 7,
+      "columns": [
+        "id",
+        "requirement",
+        "category",
+        "penaltyTypeEntered",
+        "description",
+        "penaltyDate",
+        "period_startDate",
+        "penaltyValue_amount",
+        "penaltyValue_currency",
+        "penaltyValue_amountGross",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "period_endDate",
+        "penaltyType"
+      ],
+      "column_count": 15,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "requirement": "Maximum Framework Prices",
+          "category": "Breach of contract",
+          "penaltyTypeEntered": "The Council is not imposing a penalty.",
+          "description": "The Supplier requested a pricing increase outside the scope of the contractual pricing provisions. The Contract permits only an annual price adjustment on each anniversary of the commencement date, calculated in accordance with the Consumer Prices Index (CPI). As no alternative pricing variation mechanism is provided for within the Contract, the requested increase could not be accommodated.",
+          "penaltyDate": "2026-09-01T00:00:00+01:00",
+          "period_startDate": "2026-07-02T00:00:00+01:00",
+          "penaltyValue_amount": "0",
+          "penaltyValue_currency": "GBP",
+          "penaltyValue_amountGross": "0",
+          "main_ocid": "ocds-h6vhtk-04ee09",
+          "main_id": "ocds-h6vhtk-04ee09-2026-10-29T14:28:58Z",
+          "contracts_id": "3",
+          "period_endDate": "",
+          "penaltyType": ""
+        },
+        {
+          "id": "1",
+          "requirement": "The provider had given warranties under 7.1 of the framework and under 7.2 the Provider also needed to inform the council if anything changed or if these warranties could no longer be repeated as true. It became apparent to the council that these warranties were not true at the time they were give and could no longer be relied upon. The council therefore decided to terminate the framework agreement with the supplier with immediate effect utilising the termination for breach provisions clause 15 of the framework terms.",
+          "category": "Breach of contract",
+          "penaltyTypeEntered": "",
+          "description": "The provider had given warranties under 7.1 of the framework and under 7.2 the Provider also needed to inform the council if anything changed or if these warranties could no longer be repeated as true. It became apparent to the council that these warranties were not true at the time they were give and could no longer be relied upon. The council therefore decided to terminate the framework agreement with the supplier with immediate effect utilising the termination for breach provisions clause 15 of the framework terms.",
+          "penaltyDate": "2026-03-12T00:00:00Z",
+          "period_startDate": "2026-03-12T00:00:00Z",
+          "penaltyValue_amount": "",
+          "penaltyValue_currency": "",
+          "penaltyValue_amountGross": "",
+          "main_ocid": "ocds-h6vhtk-051734",
+          "main_id": "ocds-h6vhtk-051734-2026-07-28T17:31:19+01:00",
+          "contracts_id": "2",
+          "period_endDate": "",
+          "penaltyType": ""
+        },
+        {
+          "id": "1",
+          "requirement": "Confidentiality ",
+          "category": "Breach of contract",
+          "penaltyTypeEntered": "",
+          "description": "Ofgem has terminated this contract due to a material breach of confidentiality obligations within the Contract. The supplier acknowledged and apologised for the breach but it was not considered sufficient by Ofgem, which chose to exercise its right to terminate the contract.",
+          "penaltyDate": "2026-06-08T00:00:00+01:00",
+          "period_startDate": "2026-04-01T00:00:00+01:00",
+          "penaltyValue_amount": "",
+          "penaltyValue_currency": "",
+          "penaltyValue_amountGross": "",
+          "main_ocid": "ocds-h6vhtk-0590b9",
+          "main_id": "ocds-h6vhtk-0590b9-2026-07-02T13:51:20+01:00",
+          "contracts_id": "1",
+          "period_endDate": "2026-04-17T23:59:59+01:00",
+          "penaltyType": ""
+        }
+      ]
+    },
+    "contracts_implementation_performanceFailures_suppliers": {
+      "path": "2026\\contracts_implementation_performanceFailures_suppliers.csv",
+      "filename": "contracts_implementation_performanceFailures_suppliers.csv",
+      "size_bytes": 872,
+      "format": "csv",
+      "row_count": 7,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_implementation_performanceFailures_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-COH-12764917",
+          "name": "EFFICIENT ENERGY SERVICES LTD",
+          "main_ocid": "ocds-h6vhtk-04ee09",
+          "main_id": "ocds-h6vhtk-04ee09-2026-10-29T14:28:58Z",
+          "contracts_id": "3",
+          "contracts_implementation_performanceFailures_id": "1"
+        },
+        {
+          "id": "GB-COH-15136899",
+          "name": "JRAPHA CARE LIMITED",
+          "main_ocid": "ocds-h6vhtk-051734",
+          "main_id": "ocds-h6vhtk-051734-2026-07-28T17:31:19+01:00",
+          "contracts_id": "2",
+          "contracts_implementation_performanceFailures_id": "1"
+        },
+        {
+          "id": "GB-PPON-PYNQ-4671-CMRT",
+          "name": "Cavendish Consulting Ltd",
+          "main_ocid": "ocds-h6vhtk-0590b9",
+          "main_id": "ocds-h6vhtk-0590b9-2026-07-02T13:51:20+01:00",
+          "contracts_id": "1",
+          "contracts_implementation_performanceFailures_id": "1"
+        }
+      ]
+    },
+    "contracts_items": {
+      "path": "2026\\contracts_items.csv",
+      "filename": "contracts_items.csv",
+      "size_bytes": 203307,
+      "format": "csv",
+      "row_count": 1328,
+      "columns": [
+        "id",
+        "relatedLot",
+        "classification_id",
+        "classification_scheme",
+        "classification_description",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "title",
+        "deliveryLocation_description"
+      ],
+      "column_count": 10,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "classification_id": "79421000",
+          "classification_scheme": "CPV",
+          "classification_description": "Project-management services other than for construction work",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "contracts_id": "031250-2026-537308-1",
+          "title": "",
+          "deliveryLocation_description": ""
+        },
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "classification_id": "45000000",
+          "classification_scheme": "CPV",
+          "classification_description": "Construction work",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "contracts_id": "101580-2026-1-1",
+          "title": "",
+          "deliveryLocation_description": ""
+        },
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "classification_id": "79310000",
+          "classification_scheme": "CPV",
+          "classification_description": "Market research services",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00",
+          "contracts_id": "020772-2025-C229345-1",
+          "title": "",
+          "deliveryLocation_description": ""
+        }
+      ]
+    },
+    "contracts_items_additionalClassifications": {
+      "path": "2026\\contracts_items_additionalClassifications.csv",
+      "filename": "contracts_items_additionalClassifications.csv",
+      "size_bytes": 87206,
+      "format": "csv",
+      "row_count": 628,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_items_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "79420000",
+          "scheme": "CPV",
+          "description": "Management-related services",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "contracts_id": "031250-2026-537308-1",
+          "contracts_items_id": "1"
+        },
+        {
+          "id": "45200000",
+          "scheme": "CPV",
+          "description": "Works for complete or part construction and civil engineering work",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "contracts_id": "101580-2026-1-1",
+          "contracts_items_id": "1"
+        },
+        {
+          "id": "85111000",
+          "scheme": "CPV",
+          "description": "Hospital services",
+          "main_ocid": "ocds-h6vhtk-02b066",
+          "main_id": "ocds-h6vhtk-02b066-2026-07-30T09:40:07+01:00",
+          "contracts_id": "072007-2026-SF053004-1",
+          "contracts_items_id": "1"
+        }
+      ]
+    },
+    "contracts_items_deliveryAddresses": {
+      "path": "2026\\contracts_items_deliveryAddresses.csv",
+      "filename": "contracts_items_deliveryAddresses.csv",
+      "size_bytes": 150273,
+      "format": "csv",
+      "row_count": 1558,
+      "columns": [
+        "region",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_items_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "region": "UKM",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "contracts_id": "031250-2026-537308-1",
+          "contracts_items_id": "1"
+        },
+        {
+          "region": "UKL",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "contracts_id": "101580-2026-1-1",
+          "contracts_items_id": "1"
+        },
+        {
+          "region": "UK",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00",
+          "contracts_id": "020772-2025-C229345-1",
+          "contracts_items_id": "1"
+        }
+      ]
+    },
+    "contracts_proposedAmendments": {
+      "path": "2026\\contracts_proposedAmendments.csv",
+      "filename": "contracts_proposedAmendments.csv",
+      "size_bytes": 101685,
+      "format": "csv",
+      "row_count": 198,
+      "columns": [
+        "id",
+        "date",
+        "aboveThreshold",
+        "value_amount",
+        "value_currency",
+        "value_amountGross",
+        "period_endDate",
+        "period_startDate",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "standstill",
+        "rationale",
+        "hasRenewal",
+        "period_maxExtentDate"
+      ],
+      "column_count": 15,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "024429-2026",
+          "date": "2026-03-18T23:59:59+00:00",
+          "aboveThreshold": "false",
+          "value_amount": "20720",
+          "value_currency": "GBP",
+          "value_amountGross": "24864",
+          "period_endDate": "2026-05-31T23:59:59+01:00",
+          "period_startDate": "2026-03-18T23:59:59+00:00",
+          "main_ocid": "ocds-h6vhtk-04f975",
+          "main_id": "ocds-h6vhtk-04f975-2026-03-18T10:21:52Z",
+          "contracts_id": "1",
+          "standstill": "",
+          "rationale": "",
+          "hasRenewal": "",
+          "period_maxExtentDate": ""
+        },
+        {
+          "id": "078199-2026",
+          "date": "2026-09-01T23:59:59+01:00",
+          "aboveThreshold": "true",
+          "value_amount": "863057.88",
+          "value_currency": "GBP",
+          "value_amountGross": "1035669.4",
+          "period_endDate": "",
+          "period_startDate": "2026-09-01T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-0504ea",
+          "main_id": "ocds-h6vhtk-0504ea-2026-08-17T15:21:15+01:00",
+          "contracts_id": "3",
+          "standstill": "true",
+          "rationale": "Additional requirement for the delivery of Cyber Security support which was not for seen at the time of the tender.",
+          "hasRenewal": "",
+          "period_maxExtentDate": ""
+        },
+        {
+          "id": "068765-2026",
+          "date": "2026-08-24T23:59:59+01:00",
+          "aboveThreshold": "true",
+          "value_amount": "5950000",
+          "value_currency": "GBP",
+          "value_amountGross": "7140000",
+          "period_endDate": "",
+          "period_startDate": "2026-09-01T00:00:00+01:00",
+          "main_ocid": "ocds-h6vhtk-050ce5",
+          "main_id": "ocds-h6vhtk-050ce5-2026-07-21T14:45:18+01:00",
+          "contracts_id": "2",
+          "standstill": "true",
+          "rationale": "The contract modification equates to less than 10% of the original contract value",
+          "hasRenewal": "",
+          "period_maxExtentDate": ""
+        }
+      ]
+    },
+    "contracts_proposedAmendments_rationaleClassifications": {
+      "path": "2026\\contracts_proposedAmendments_rationaleClassifications.csv",
+      "filename": "contracts_proposedAmendments_rationaleClassifications.csv",
+      "size_bytes": 17593,
+      "format": "csv",
+      "row_count": 169,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_proposedAmendments_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "additionalGoodsServicesWorks",
+          "main_ocid": "ocds-h6vhtk-0504ea",
+          "main_id": "ocds-h6vhtk-0504ea-2026-08-17T15:21:15+01:00",
+          "contracts_id": "3",
+          "contracts_proposedAmendments_id": "078199-2026"
+        },
+        {
+          "id": "belowThresholdNotSubstantial",
+          "main_ocid": "ocds-h6vhtk-050ce5",
+          "main_id": "ocds-h6vhtk-050ce5-2026-07-21T14:45:18+01:00",
+          "contracts_id": "2",
+          "contracts_proposedAmendments_id": "068765-2026"
+        },
+        {
+          "id": "transferCorporateRestructuring",
+          "main_ocid": "ocds-h6vhtk-051023",
+          "main_id": "ocds-h6vhtk-051023-2026-09-09T11:31:25+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "085309-2026"
+        }
+      ]
+    },
+    "contracts_proposedAmendments_suppliersAdded": {
+      "path": "2026\\contracts_proposedAmendments_suppliersAdded.csv",
+      "filename": "contracts_proposedAmendments_suppliersAdded.csv",
+      "size_bytes": 1866,
+      "format": "csv",
+      "row_count": 15,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_proposedAmendments_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-COH-08847781",
+          "name": "INDUSTRIA ENERGY UK LIMITED",
+          "main_ocid": "ocds-h6vhtk-051023",
+          "main_id": "ocds-h6vhtk-051023-2026-09-09T11:31:25+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "085309-2026"
+        },
+        {
+          "id": "GB-COH-00943935",
+          "name": "CAPGEMINI UK PLC",
+          "main_ocid": "ocds-h6vhtk-05503a",
+          "main_id": "ocds-h6vhtk-05503a-2026-09-07T15:28:12+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "084527-2026"
+        },
+        {
+          "id": "GB-COH-01362615",
+          "name": "BIFFA LANDFILL SOLUTIONS LIMITED",
+          "main_ocid": "ocds-h6vhtk-05ea9b",
+          "main_id": "ocds-h6vhtk-05ea9b-2026-09-14T16:50:38+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "087046-2026"
+        }
+      ]
+    },
+    "contracts_proposedAmendments_suppliersRemoved": {
+      "path": "2026\\contracts_proposedAmendments_suppliersRemoved.csv",
+      "filename": "contracts_proposedAmendments_suppliersRemoved.csv",
+      "size_bytes": 2401,
+      "format": "csv",
+      "row_count": 19,
+      "columns": [
+        "id",
+        "name",
+        "main_ocid",
+        "main_id",
+        "contracts_id",
+        "contracts_proposedAmendments_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-COH-08573848",
+          "name": "INDUSTRIA SYSTEMS UK LIMITED",
+          "main_ocid": "ocds-h6vhtk-051023",
+          "main_id": "ocds-h6vhtk-051023-2026-09-09T11:31:25+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "085309-2026"
+        },
+        {
+          "id": "GB-COH-03974936",
+          "name": "23red",
+          "main_ocid": "ocds-h6vhtk-05503a",
+          "main_id": "ocds-h6vhtk-05503a-2026-09-07T15:28:12+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "084527-2026"
+        },
+        {
+          "id": "GB-PPON-PRQC-5121-CMBL",
+          "name": "Biffa Waste Services Limited",
+          "main_ocid": "ocds-h6vhtk-05ea9b",
+          "main_id": "ocds-h6vhtk-05ea9b-2026-09-14T16:50:38+01:00",
+          "contracts_id": "1",
+          "contracts_proposedAmendments_id": "087046-2026"
+        }
+      ]
+    },
+    "contracts_terminationRationaleClassifications": {
+      "path": "2026\\contracts_terminationRationaleClassifications.csv",
+      "filename": "contracts_terminationRationaleClassifications.csv",
+      "size_bytes": 42971,
+      "format": "csv",
+      "row_count": 526,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "contracts_id"
+      ],
+      "column_count": 4,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "contractCompleted",
+          "main_ocid": "ocds-h6vhtk-04e9ee",
+          "main_id": "ocds-h6vhtk-04e9ee-2026-02-18T08:48:34Z",
+          "contracts_id": "1"
+        },
+        {
+          "id": "contractCompleted",
+          "main_ocid": "ocds-h6vhtk-04ea6d",
+          "main_id": "ocds-h6vhtk-04ea6d-2026-04-22T10:23:57+01:00",
+          "contracts_id": "1"
+        },
+        {
+          "id": "breachOfContract",
+          "main_ocid": "ocds-h6vhtk-04ee09",
+          "main_id": "ocds-h6vhtk-04ee09-2026-10-29T14:28:58Z",
+          "contracts_id": "3"
+        }
+      ]
+    },
+    "links": {
+      "path": "2026\\links.csv",
+      "filename": "links.csv",
+      "size_bytes": 530080,
+      "format": "csv",
+      "row_count": 3666,
+      "columns": [
+        "rel",
+        "href",
+        "main_ocid",
+        "main_id"
+      ],
+      "column_count": 4,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "rel": "canonical",
+          "href": "https://api.publiccontractsscotland.gov.uk/v1/Notice?id=ocds-r6ebe6-0000671410",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00"
+        },
+        {
+          "rel": "prev",
+          "href": "https://ted.europa.eu/udl?uri=TED:NOTICE:101997-2017:TEXT:EN:HTML",
+          "main_ocid": "ocds-h6vhtk-0299da",
+          "main_id": "ocds-h6vhtk-0299da-2026-01-20T12:42:57Z"
+        },
+        {
+          "rel": "canonical",
+          "href": "https://www.find-tender.service.gov.uk/Notice/093749-2026",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00"
+        }
+      ]
+    },
+    "main": {
+      "path": "2026\\main.csv",
+      "filename": "main.csv",
+      "size_bytes": 96090014,
+      "format": "csv",
+      "row_count": 68473,
+      "columns": [
+        "id",
+        "tag",
+        "language",
+        "date",
+        "ocid",
+        "description",
+        "initiationType",
+        "buyer_id",
+        "buyer_name",
+        "tender_id",
+        "tender_procurementMethodDetails",
+        "tender_procurementMethodRationale",
+        "tender_title",
+        "tender_status",
+        "tender_coveredBy",
+        "tender_mainProcurementCategory",
+        "tender_description",
+        "tender_reviewDetails",
+        "tender_procurementMethod",
+        "tender_legalBasis_id",
+        "tender_legalBasis_scheme",
+        "tender_classification_id",
+        "tender_classification_scheme",
+        "tender_classification_description",
+        "tender_submissionMethodDetails",
+        "tender_submissionMethod",
+        "tender_hasRecurrence",
+        "tender_value_amount",
+        "tender_value_currency",
+        "tender_recurrence_description",
+        "tender_secondStage_invitationDate",
+        "tender_tenderPeriod_endDate",
+        "tender_contractTerms_performanceTerms",
+        "tender_contractTerms_hasElectronicPayment",
+        "tender_contractTerms_electronicInvoicingPolicy",
+        "tender_submissionTerms_languages",
+        "tender_submissionTerms_bidValidityPeriod_durationInDays",
+        "tender_otherRequirements_requiresStaffNamesAndQualifications",
+        "tender_techniques_hasFrameworkAgreement",
+        "tender_techniques_hasElectronicAuction",
+        "tender_techniques_electronicAuction_description",
+        "tender_contractTerms_hasElectronicOrdering",
+        "tender_otherRequirements_qualificationSystemMethods",
+        "tender_otherRequirements_qualificationSystemConditions",
+        "tender_lotDetails_awardCriteriaDetails",
+        "tender_lotDetails_maximumLotsBidPerSupplier",
+        "tender_techniques_frameworkAgreement_maximumParticipants",
+        "tender_communication_atypicalToolUrl",
+        "tender_communication_futureNoticeDate",
+        "tender_bidOpening_date",
+        "tender_techniques_hasDynamicPurchasingSystem",
+        "tender_awardPeriod_startDate",
+        "tender_lotDetails_maximumLotsAwardedPerSupplier",
+        "tender_submissionTerms_bidValidityPeriod_endDate",
+        "tender_crossBorderLaw",
+        "tender_techniques_frameworkAgreement_periodRationale",
+        "tender_techniques_dynamicPurchasingSystem_type",
+        "tender_procedure_isAccelerated",
+        "tender_procedure_acceleratedRationale",
+        "tender_bidOpening_description",
+        "tender_bidOpening_address_streetAddress",
+        "tender_techniques_dynamicPurchasingSystem_status",
+        "tender_awardCriteriaDetails",
+        "tender_secondStage_noNegotiationNecessary",
+        "tender_suitability_sme",
+        "tender_suitability_vcse",
+        "tender_tenderPeriod_startDate",
+        "tender_contractPeriod_endDate",
+        "tender_contractPeriod_startDate",
+        "tender_otherRequirements_reductionCriteria",
+        "tender_secondStage_successiveReduction",
+        "tender_procedure_features",
+        "tender_hasRenewal",
+        "tender_minValue_amount",
+        "tender_minValue_currency",
+        "tender_techniques_frameworkAgreement_minimumParticipants",
+        "tender_techniques_frameworkAgreement_value_amount",
+        "tender_techniques_frameworkAgreement_value_currency",
+        "tender_techniques_frameworkAgreement_period_durationInDays",
+        "tender_techniques_frameworkAgreement_minimumValue_amount",
+        "tender_techniques_frameworkAgreement_minimumValue_currency",
+        "tender_secondStage_maximumCandidates",
+        "tender_secondStage_minimumCandidates",
+        "tender_contractTerms_financialTerms",
+        "tender_contractTerms_tendererLegalForm",
+        "tender_subcontracting_description",
+        "tender_submissionTerms_variantPolicy",
+        "tender_submissionTerms_depositsGuarantees",
+        "tender_selectionCriteria_description",
+        "tender_contractTerms_reservedExecution",
+        "tender_renewal_description",
+        "tender_specialRegime",
+        "tender_legalBasis_uri",
+        "tender_techniques_frameworkAgreement_type",
+        "tender_techniques_frameworkAgreement_buyerCategories",
+        "tender_techniques_frameworkAgreement_period_startDate",
+        "tender_tenderPeriod_durationInDays",
+        "tender_communication_futureNoticeRecipients",
+        "tender_submissionTerms_electronicSubmissionPolicy",
+        "tender_expressionOfInterestDeadline",
+        "tender_aboveThreshold",
+        "tender_riskDetails",
+        "tender_value_amountGross",
+        "tender_awardPeriod_endDate",
+        "tender_enquiryPeriod_endDate",
+        "tender_techniques_frameworkAgreement_method",
+        "tender_techniques_frameworkAgreement_description",
+        "tender_techniques_frameworkAgreement_isOpenFrameworkScheme",
+        "tender_techniques_frameworkAgreement_openFrameworkSchemeEndDate",
+        "tender_otherRequirements_reservedParticipation",
+        "tender_otherRequirements_reservedParticipationLocation_description",
+        "tender_otherRequirements_reservedParticipationLocation_gazetteer_scheme",
+        "tender_otherRequirements_reservedParticipationLocation_gazetteer_identifiers",
+        "tender_lotDetails_noLotsDivisionRationale",
+        "tender_additionalProcurementCategories",
+        "planning_noEngagementNoticeRationale",
+        "tender_lotDetails_awardCriteria_description",
+        "tender_competitive",
+        "tender_techniques_frameworkAgreement_period_endDate",
+        "tender_finalStatusDate",
+        "tender_statusDetails",
+        "tender_procurementMethodRationaleLegalBasis_id",
+        "tender_procurementMethodRationaleLegalBasis_description",
+        "tender_hasOptions",
+        "tender_options_description",
+        "tender_contractTerms_otherTerms",
+        "tender_contractPeriod_durationInDays",
+        "tender_valueCalculationMethod",
+        "tender_designContest_followUpContracts",
+        "tender_designContest_hasPrizes",
+        "tender_designContest_bindingJuryDecision",
+        "tender_designContest_rewardsDetails",
+        "tender_designContest_prizes_description",
+        "tender_communication_documentAvailabilityPeriod_endDate"
+      ],
+      "column_count": 134,
+      "has_ocid": true,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tag": "compiled",
+          "language": "en",
+          "date": "2026-04-15T11:31:08+01:00",
+          "ocid": "ocds-h6vhtk-02886c",
+          "description": "(WA Ref:164075)",
+          "initiationType": "tender",
+          "buyer_id": "GB-FTS-109",
+          "buyer_name": "NHS Wales Shared Services Partnership-Procurement Services (hosted by Velindre University NHS Trust)",
+          "tender_id": "PHW-STA-429",
+          "tender_procurementMethodDetails": "Award procedure without prior publication of a call for competition",
+          "tender_procurementMethodRationale": "NHS Wales Shared Service Partnership on behalf of Public Health Wales NHS Trust wish to inform the market that due to the Covid-19, global pandemic they are awarding a contract for the provision of Sexually Transmitted Infection testing kits, postal envelopes and any other associated consumables to continue an online service for self-sampling.",
+          "tender_title": "Contract for the supply of STSTI CT/GC testing along with HIV/HBV/HCV and Syphilis testing",
+          "tender_status": "complete",
+          "tender_coveredBy": "GPA",
+          "tender_mainProcurementCategory": "services",
+          "tender_description": "NHS Wales Shared Service Partnership on behalf of Public Health Wales NHS Trust wish to inform the market that due to the Covid-19, global pandemic they are awarding a contract for the provision of Sexually Transmitted Infection testing kits, postal envelopes and any other associated consumables to continue an online service for self-sampling.\nNHS Wales Trust have been running an online service for self-sampling for STI’s since 2018 and will eventually expand to an All Wales Agreement.\nPublic Health Wales laboratories previously supported the expansion which has been agreed by Welsh Government. However, during the first wave of the Covid-19 pandemic, Public Health Wales laboratories were suspended for the use of STI sampling to support the national testing campaign.\nTherefore in order to enable the provision of STI testing and to continue the patient online service for self-sampling, Public Health Wales awarded a contract to HSL Pathology Lab to continue the testing in private laboratories during the height of the pandemic.\nHowever, now that the cases associated with the Covid-19 pandemic are rising further and the Public Health Wales laboratories are overwhelmed with Covid-19 testing, the service are awarding an extension contract to HSL Pathology Lab. The external provider are currently able to deal with 15000 requests a week between now and end of March 2021 in order to ensure continuation of sexual health testing.",
+          "tender_reviewDetails": "Review Procedure:\nPrecise information on deadline(s) for review procedures:\nNHS Wales Shared Services Partnership on behalf of Public Health Wales Trust will allow a minimum 10 calendar day standstill period between notifying the award decision and awarding the contract.\nShould additional information be required it should be requested of the addressee in section I.1. Aggrieved parties who have been harmed or are at risk of harm by breach of the procurement rules have the right to take action in the High Court (England and Wales). Any such action is subject to strict time limits in accordance with the Public Contracts (Amendments).",
+          "tender_procurementMethod": "limited",
+          "tender_legalBasis_id": "32014L0024",
+          "tender_legalBasis_scheme": "CELEX",
+          "tender_classification_id": "85111800",
+          "tender_classification_scheme": "CPV",
+          "tender_classification_description": "Pathology services",
+          "tender_submissionMethodDetails": "",
+          "tender_submissionMethod": "",
+          "tender_hasRecurrence": "",
+          "tender_value_amount": "",
+          "tender_value_currency": "",
+          "tender_recurrence_description": "",
+          "tender_secondStage_invitationDate": "",
+          "tender_tenderPeriod_endDate": "",
+          "tender_contractTerms_performanceTerms": "",
+          "tender_contractTerms_hasElectronicPayment": "",
+          "tender_contractTerms_electronicInvoicingPolicy": "",
+          "tender_submissionTerms_languages": "",
+          "tender_submissionTerms_bidValidityPeriod_durationInDays": "",
+          "tender_otherRequirements_requiresStaffNamesAndQualifications": "",
+          "tender_techniques_hasFrameworkAgreement": "",
+          "tender_techniques_hasElectronicAuction": "",
+          "tender_techniques_electronicAuction_description": "",
+          "tender_contractTerms_hasElectronicOrdering": "",
+          "tender_otherRequirements_qualificationSystemMethods": "",
+          "tender_otherRequirements_qualificationSystemConditions": "",
+          "tender_lotDetails_awardCriteriaDetails": "",
+          "tender_lotDetails_maximumLotsBidPerSupplier": "",
+          "tender_techniques_frameworkAgreement_maximumParticipants": "",
+          "tender_communication_atypicalToolUrl": "",
+          "tender_communication_futureNoticeDate": "",
+          "tender_bidOpening_date": "",
+          "tender_techniques_hasDynamicPurchasingSystem": "",
+          "tender_awardPeriod_startDate": "",
+          "tender_lotDetails_maximumLotsAwardedPerSupplier": "",
+          "tender_submissionTerms_bidValidityPeriod_endDate": "",
+          "tender_crossBorderLaw": "",
+          "tender_techniques_frameworkAgreement_periodRationale": "",
+          "tender_techniques_dynamicPurchasingSystem_type": "",
+          "tender_procedure_isAccelerated": "",
+          "tender_procedure_acceleratedRationale": "",
+          "tender_bidOpening_description": "",
+          "tender_bidOpening_address_streetAddress": "",
+          "tender_techniques_dynamicPurchasingSystem_status": "",
+          "tender_awardCriteriaDetails": "",
+          "tender_secondStage_noNegotiationNecessary": "",
+          "tender_suitability_sme": "",
+          "tender_suitability_vcse": "",
+          "tender_tenderPeriod_startDate": "",
+          "tender_contractPeriod_endDate": "",
+          "tender_contractPeriod_startDate": "",
+          "tender_otherRequirements_reductionCriteria": "",
+          "tender_secondStage_successiveReduction": "",
+          "tender_procedure_features": "",
+          "tender_hasRenewal": "",
+          "tender_minValue_amount": "",
+          "tender_minValue_currency": "",
+          "tender_techniques_frameworkAgreement_minimumParticipants": "",
+          "tender_techniques_frameworkAgreement_value_amount": "",
+          "tender_techniques_frameworkAgreement_value_currency": "",
+          "tender_techniques_frameworkAgreement_period_durationInDays": "",
+          "tender_techniques_frameworkAgreement_minimumValue_amount": "",
+          "tender_techniques_frameworkAgreement_minimumValue_currency": "",
+          "tender_secondStage_maximumCandidates": "",
+          "tender_secondStage_minimumCandidates": "",
+          "tender_contractTerms_financialTerms": "",
+          "tender_contractTerms_tendererLegalForm": "",
+          "tender_subcontracting_description": "",
+          "tender_submissionTerms_variantPolicy": "",
+          "tender_submissionTerms_depositsGuarantees": "",
+          "tender_selectionCriteria_description": "",
+          "tender_contractTerms_reservedExecution": "",
+          "tender_renewal_description": "",
+          "tender_specialRegime": "",
+          "tender_legalBasis_uri": "",
+          "tender_techniques_frameworkAgreement_type": "",
+          "tender_techniques_frameworkAgreement_buyerCategories": "",
+          "tender_techniques_frameworkAgreement_period_startDate": "",
+          "tender_tenderPeriod_durationInDays": "",
+          "tender_communication_futureNoticeRecipients": "",
+          "tender_submissionTerms_electronicSubmissionPolicy": "",
+          "tender_expressionOfInterestDeadline": "",
+          "tender_aboveThreshold": "",
+          "tender_riskDetails": "",
+          "tender_value_amountGross": "",
+          "tender_awardPeriod_endDate": "",
+          "tender_enquiryPeriod_endDate": "",
+          "tender_techniques_frameworkAgreement_method": "",
+          "tender_techniques_frameworkAgreement_description": "",
+          "tender_techniques_frameworkAgreement_isOpenFrameworkScheme": "",
+          "tender_techniques_frameworkAgreement_openFrameworkSchemeEndDate": "",
+          "tender_otherRequirements_reservedParticipation": "",
+          "tender_otherRequirements_reservedParticipationLocation_description": "",
+          "tender_otherRequirements_reservedParticipationLocation_gazetteer_scheme": "",
+          "tender_otherRequirements_reservedParticipationLocation_gazetteer_identifiers": "",
+          "tender_lotDetails_noLotsDivisionRationale": "",
+          "tender_additionalProcurementCategories": "",
+          "planning_noEngagementNoticeRationale": "",
+          "tender_lotDetails_awardCriteria_description": "",
+          "tender_competitive": "",
+          "tender_techniques_frameworkAgreement_period_endDate": "",
+          "tender_finalStatusDate": "",
+          "tender_statusDetails": "",
+          "tender_procurementMethodRationaleLegalBasis_id": "",
+          "tender_procurementMethodRationaleLegalBasis_description": "",
+          "tender_hasOptions": "",
+          "tender_options_description": "",
+          "tender_contractTerms_otherTerms": "",
+          "tender_contractPeriod_durationInDays": "",
+          "tender_valueCalculationMethod": "",
+          "tender_designContest_followUpContracts": "",
+          "tender_designContest_hasPrizes": "",
+          "tender_designContest_bindingJuryDecision": "",
+          "tender_designContest_rewardsDetails": "",
+          "tender_designContest_prizes_description": "",
+          "tender_communication_documentAvailabilityPeriod_endDate": ""
+        },
+        {
+          "id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tag": "compiled",
+          "language": "en",
+          "date": "2026-04-07T08:59:38+01:00",
+          "ocid": "ocds-h6vhtk-028d9b",
+          "description": "(SC Ref:826735)",
+          "initiationType": "tender",
+          "buyer_id": "GB-FTS-6067",
+          "buyer_name": "Scottish Government",
+          "tender_id": "537308",
+          "tender_procurementMethodDetails": "Restricted procedure",
+          "tender_procurementMethodRationale": "",
+          "tender_title": "Ceremonial Event Planning and Management",
+          "tender_status": "complete",
+          "tender_coveredBy": "GPA",
+          "tender_mainProcurementCategory": "services",
+          "tender_description": "The Scottish Government required the provision of a one-stop professional project management service in respect of the maintenance of an existing set of plans for state and ceremonial matters within Scotland. The successful Service Provider will be responsible for the delivery of an existing comprehensive programme of works which will include reinstatement works and which will assist the Purchaser and its stakeholders in providing seamless, high quality programme and project management for ceremonial events to be provided on a contingency basis, as the requirement could be activated at any time during the lifetime of the contract.",
+          "tender_reviewDetails": "",
+          "tender_procurementMethod": "selective",
+          "tender_legalBasis_id": "32014L0024",
+          "tender_legalBasis_scheme": "CELEX",
+          "tender_classification_id": "79421000",
+          "tender_classification_scheme": "CPV",
+          "tender_classification_description": "Project-management services other than for construction work",
+          "tender_submissionMethodDetails": "https://www.publictendersscotland.publiccontractsscotland.gov.uk",
+          "tender_submissionMethod": "electronicSubmission",
+          "tender_hasRecurrence": "true",
+          "tender_value_amount": "700000",
+          "tender_value_currency": "GBP",
+          "tender_recurrence_description": "In readiness for the anticipated contract end date of 22nd August 2026 or the extension period end date of 22nd August 2028, i.e early 2026 or 2028.",
+          "tender_secondStage_invitationDate": "2021-03-19T00:00:00Z",
+          "tender_tenderPeriod_endDate": "2021-03-05T12:00:00Z",
+          "tender_contractTerms_performanceTerms": "If a bidder comprises a consortium which will establish a special purpose vehicle (SPV) to deliver the contract, that bidder will not be\nrequired to form an SPV at this stage, but will be required to do so prior to the award of any contract. In this circumstance the consortium,\nacting through consortium members, will be required to provide appropriate guarantees in respect of the performance of the SPV of that\nbidder’s obligations under the contract.",
+          "tender_contractTerms_hasElectronicPayment": "true",
+          "tender_contractTerms_electronicInvoicingPolicy": "allowed",
+          "tender_submissionTerms_languages": "en",
+          "tender_submissionTerms_bidValidityPeriod_durationInDays": "180",
+          "tender_otherRequirements_requiresStaffNamesAndQualifications": "true",
+          "tender_techniques_hasFrameworkAgreement": "",
+          "tender_techniques_hasElectronicAuction": "",
+          "tender_techniques_electronicAuction_description": "",
+          "tender_contractTerms_hasElectronicOrdering": "",
+          "tender_otherRequirements_qualificationSystemMethods": "",
+          "tender_otherRequirements_qualificationSystemConditions": "",
+          "tender_lotDetails_awardCriteriaDetails": "",
+          "tender_lotDetails_maximumLotsBidPerSupplier": "",
+          "tender_techniques_frameworkAgreement_maximumParticipants": "",
+          "tender_communication_atypicalToolUrl": "",
+          "tender_communication_futureNoticeDate": "",
+          "tender_bidOpening_date": "",
+          "tender_techniques_hasDynamicPurchasingSystem": "",
+          "tender_awardPeriod_startDate": "",
+          "tender_lotDetails_maximumLotsAwardedPerSupplier": "",
+          "tender_submissionTerms_bidValidityPeriod_endDate": "",
+          "tender_crossBorderLaw": "",
+          "tender_techniques_frameworkAgreement_periodRationale": "",
+          "tender_techniques_dynamicPurchasingSystem_type": "",
+          "tender_procedure_isAccelerated": "",
+          "tender_procedure_acceleratedRationale": "",
+          "tender_bidOpening_description": "",
+          "tender_bidOpening_address_streetAddress": "",
+          "tender_techniques_dynamicPurchasingSystem_status": "",
+          "tender_awardCriteriaDetails": "",
+          "tender_secondStage_noNegotiationNecessary": "",
+          "tender_suitability_sme": "",
+          "tender_suitability_vcse": "",
+          "tender_tenderPeriod_startDate": "",
+          "tender_contractPeriod_endDate": "",
+          "tender_contractPeriod_startDate": "",
+          "tender_otherRequirements_reductionCriteria": "",
+          "tender_secondStage_successiveReduction": "",
+          "tender_procedure_features": "",
+          "tender_hasRenewal": "",
+          "tender_minValue_amount": "",
+          "tender_minValue_currency": "",
+          "tender_techniques_frameworkAgreement_minimumParticipants": "",
+          "tender_techniques_frameworkAgreement_value_amount": "",
+          "tender_techniques_frameworkAgreement_value_currency": "",
+          "tender_techniques_frameworkAgreement_period_durationInDays": "",
+          "tender_techniques_frameworkAgreement_minimumValue_amount": "",
+          "tender_techniques_frameworkAgreement_minimumValue_currency": "",
+          "tender_secondStage_maximumCandidates": "",
+          "tender_secondStage_minimumCandidates": "",
+          "tender_contractTerms_financialTerms": "",
+          "tender_contractTerms_tendererLegalForm": "",
+          "tender_subcontracting_description": "",
+          "tender_submissionTerms_variantPolicy": "",
+          "tender_submissionTerms_depositsGuarantees": "",
+          "tender_selectionCriteria_description": "",
+          "tender_contractTerms_reservedExecution": "",
+          "tender_renewal_description": "",
+          "tender_specialRegime": "",
+          "tender_legalBasis_uri": "",
+          "tender_techniques_frameworkAgreement_type": "",
+          "tender_techniques_frameworkAgreement_buyerCategories": "",
+          "tender_techniques_frameworkAgreement_period_startDate": "",
+          "tender_tenderPeriod_durationInDays": "",
+          "tender_communication_futureNoticeRecipients": "",
+          "tender_submissionTerms_electronicSubmissionPolicy": "",
+          "tender_expressionOfInterestDeadline": "",
+          "tender_aboveThreshold": "",
+          "tender_riskDetails": "",
+          "tender_value_amountGross": "",
+          "tender_awardPeriod_endDate": "",
+          "tender_enquiryPeriod_endDate": "",
+          "tender_techniques_frameworkAgreement_method": "",
+          "tender_techniques_frameworkAgreement_description": "",
+          "tender_techniques_frameworkAgreement_isOpenFrameworkScheme": "",
+          "tender_techniques_frameworkAgreement_openFrameworkSchemeEndDate": "",
+          "tender_otherRequirements_reservedParticipation": "",
+          "tender_otherRequirements_reservedParticipationLocation_description": "",
+          "tender_otherRequirements_reservedParticipationLocation_gazetteer_scheme": "",
+          "tender_otherRequirements_reservedParticipationLocation_gazetteer_identifiers": "",
+          "tender_lotDetails_noLotsDivisionRationale": "",
+          "tender_additionalProcurementCategories": "",
+          "planning_noEngagementNoticeRationale": "",
+          "tender_lotDetails_awardCriteria_description": "",
+          "tender_competitive": "",
+          "tender_techniques_frameworkAgreement_period_endDate": "",
+          "tender_finalStatusDate": "",
+          "tender_statusDetails": "",
+          "tender_procurementMethodRationaleLegalBasis_id": "",
+          "tender_procurementMethodRationaleLegalBasis_description": "",
+          "tender_hasOptions": "",
+          "tender_options_description": "",
+          "tender_contractTerms_otherTerms": "",
+          "tender_contractPeriod_durationInDays": "",
+          "tender_valueCalculationMethod": "",
+          "tender_designContest_followUpContracts": "",
+          "tender_designContest_hasPrizes": "",
+          "tender_designContest_bindingJuryDecision": "",
+          "tender_designContest_rewardsDetails": "",
+          "tender_designContest_prizes_description": "",
+          "tender_communication_documentAvailabilityPeriod_endDate": ""
+        },
+        {
+          "id": "ocds-h6vhtk-028ecc-2026-10-09T20:21:17+01:00",
+          "tag": "compiled",
+          "language": "en",
+          "date": "2026-10-09T20:21:17+01:00",
+          "ocid": "ocds-h6vhtk-028ecc",
+          "description": "A further publication concerning this procedure is Notice reference: 2024/S 000-015079",
+          "initiationType": "tender",
+          "buyer_id": "GB-FTS-86667",
+          "buyer_name": "Wessex Water Services Limited",
+          "tender_id": "WORKS001-2024",
+          "tender_procurementMethodDetails": "Negotiated procedure with prior call for competition",
+          "tender_procurementMethodRationale": "",
+          "tender_title": "Civils Contractors (Minor Works) Framework Agreement",
+          "tender_status": "complete",
+          "tender_coveredBy": "GPA",
+          "tender_mainProcurementCategory": "works",
+          "tender_description": "Minor civils works to support the delivery of the capital investment program. The Framework Agreement is divided into two Lots to cater to the varied needs across the potable and wastewater infrastructure, including, new works, refurbishments replacements and maintenance works.\nLot 1 - Civils - Treatment (Potable and Waste Water) (this has the option to include principal contractor appointment)\nLot 2 - Civils - Networks (Potable and Waste Water) (this has the option to include principal contractor appointment and deep dig pipe work)",
+          "tender_reviewDetails": "Wessex Water Services Limited commenced standstill period at the point information on the award was communicated to tenderers. The notification provided full information on the award decision. The standstill period of a minimum of 10 calendar days, provided time for unsuccessful tenderers to challenge the decision before the contract is entered into.\nThe Utilities Regulations 2016 (SI 2016 No 274) provides for aggrieved parties who have been harmed or are at risk of harm by a breach of the rules to take action in the High Court (England) within 30 days of knowledge or constructive knowledge of a breach.",
+          "tender_procurementMethod": "selective",
+          "tender_legalBasis_id": "32014L0025",
+          "tender_legalBasis_scheme": "CELEX",
+          "tender_classification_id": "45231300",
+          "tender_classification_scheme": "CPV",
+          "tender_classification_description": "Construction work for water and sewage pipelines",
+          "tender_submissionMethodDetails": "https://wessexwater.bravosolution.co.uk",
+          "tender_submissionMethod": "electronicSubmission,written",
+          "tender_hasRecurrence": "",
+          "tender_value_amount": "",
+          "tender_value_currency": "",
+          "tender_recurrence_description": "",
+          "tender_secondStage_invitationDate": "",
+          "tender_tenderPeriod_endDate": "",
+          "tender_contractTerms_performanceTerms": "",
+          "tender_contractTerms_hasElectronicPayment": "true",
+          "tender_contractTerms_electronicInvoicingPolicy": "allowed",
+          "tender_submissionTerms_languages": "en",
+          "tender_submissionTerms_bidValidityPeriod_durationInDays": "",
+          "tender_otherRequirements_requiresStaffNamesAndQualifications": "",
+          "tender_techniques_hasFrameworkAgreement": "true",
+          "tender_techniques_hasElectronicAuction": "true",
+          "tender_techniques_electronicAuction_description": "Electronic auctions may be used and will be indicated in the tender documentation if this is applicable.",
+          "tender_contractTerms_hasElectronicOrdering": "true",
+          "tender_otherRequirements_qualificationSystemMethods": "\"Please see the Supplier Registration Requirements document on the Jaggaer login page for methods of verification.\nhttps://wessexwater.bravosolution.co.uk\"",
+          "tender_otherRequirements_qualificationSystemConditions": "\"Please see the Supplier Registration Requirements document on the Jaggaer login page for details of conditions to be fulfilled.\nhttps://wessexwater.bravosolution.co.uk\nOnly those suppliers with a status of 'Selectable for EOI, PQQ or Tender' or 'All Criteria Met' shall be eligible to be invited to participate in procurement activities.\"",
+          "tender_lotDetails_awardCriteriaDetails": "",
+          "tender_lotDetails_maximumLotsBidPerSupplier": "",
+          "tender_techniques_frameworkAgreement_maximumParticipants": "",
+          "tender_communication_atypicalToolUrl": "",
+          "tender_communication_futureNoticeDate": "",
+          "tender_bidOpening_date": "",
+          "tender_techniques_hasDynamicPurchasingSystem": "",
+          "tender_awardPeriod_startDate": "",
+          "tender_lotDetails_maximumLotsAwardedPerSupplier": "",
+          "tender_submissionTerms_bidValidityPeriod_endDate": "",
+          "tender_crossBorderLaw": "",
+          "tender_techniques_frameworkAgreement_periodRationale": "",
+          "tender_techniques_dynamicPurchasingSystem_type": "",
+          "tender_procedure_isAccelerated": "",
+          "tender_procedure_acceleratedRationale": "",
+          "tender_bidOpening_description": "",
+          "tender_bidOpening_address_streetAddress": "",
+          "tender_techniques_dynamicPurchasingSystem_status": "",
+          "tender_awardCriteriaDetails": "",
+          "tender_secondStage_noNegotiationNecessary": "",
+          "tender_suitability_sme": "",
+          "tender_suitability_vcse": "",
+          "tender_tenderPeriod_startDate": "",
+          "tender_contractPeriod_endDate": "",
+          "tender_contractPeriod_startDate": "",
+          "tender_otherRequirements_reductionCriteria": "",
+          "tender_secondStage_successiveReduction": "",
+          "tender_procedure_features": "",
+          "tender_hasRenewal": "",
+          "tender_minValue_amount": "",
+          "tender_minValue_currency": "",
+          "tender_techniques_frameworkAgreement_minimumParticipants": "",
+          "tender_techniques_frameworkAgreement_value_amount": "",
+          "tender_techniques_frameworkAgreement_value_currency": "",
+          "tender_techniques_frameworkAgreement_period_durationInDays": "",
+          "tender_techniques_frameworkAgreement_minimumValue_amount": "",
+          "tender_techniques_frameworkAgreement_minimumValue_currency": "",
+          "tender_secondStage_maximumCandidates": "",
+          "tender_secondStage_minimumCandidates": "",
+          "tender_contractTerms_financialTerms": "",
+          "tender_contractTerms_tendererLegalForm": "",
+          "tender_subcontracting_description": "",
+          "tender_submissionTerms_variantPolicy": "",
+          "tender_submissionTerms_depositsGuarantees": "",
+          "tender_selectionCriteria_description": "",
+          "tender_contractTerms_reservedExecution": "",
+          "tender_renewal_description": "",
+          "tender_specialRegime": "",
+          "tender_legalBasis_uri": "",
+          "tender_techniques_frameworkAgreement_type": "",
+          "tender_techniques_frameworkAgreement_buyerCategories": "",
+          "tender_techniques_frameworkAgreement_period_startDate": "",
+          "tender_tenderPeriod_durationInDays": "",
+          "tender_communication_futureNoticeRecipients": "",
+          "tender_submissionTerms_electronicSubmissionPolicy": "",
+          "tender_expressionOfInterestDeadline": "",
+          "tender_aboveThreshold": "",
+          "tender_riskDetails": "",
+          "tender_value_amountGross": "",
+          "tender_awardPeriod_endDate": "",
+          "tender_enquiryPeriod_endDate": "",
+          "tender_techniques_frameworkAgreement_method": "",
+          "tender_techniques_frameworkAgreement_description": "",
+          "tender_techniques_frameworkAgreement_isOpenFrameworkScheme": "",
+          "tender_techniques_frameworkAgreement_openFrameworkSchemeEndDate": "",
+          "tender_otherRequirements_reservedParticipation": "",
+          "tender_otherRequirements_reservedParticipationLocation_description": "",
+          "tender_otherRequirements_reservedParticipationLocation_gazetteer_scheme": "",
+          "tender_otherRequirements_reservedParticipationLocation_gazetteer_identifiers": "",
+          "tender_lotDetails_noLotsDivisionRationale": "",
+          "tender_additionalProcurementCategories": "",
+          "planning_noEngagementNoticeRationale": "",
+          "tender_lotDetails_awardCriteria_description": "",
+          "tender_competitive": "",
+          "tender_techniques_frameworkAgreement_period_endDate": "",
+          "tender_finalStatusDate": "",
+          "tender_statusDetails": "",
+          "tender_procurementMethodRationaleLegalBasis_id": "",
+          "tender_procurementMethodRationaleLegalBasis_description": "",
+          "tender_hasOptions": "",
+          "tender_options_description": "",
+          "tender_contractTerms_otherTerms": "",
+          "tender_contractPeriod_durationInDays": "",
+          "tender_valueCalculationMethod": "",
+          "tender_designContest_followUpContracts": "",
+          "tender_designContest_hasPrizes": "",
+          "tender_designContest_bindingJuryDecision": "",
+          "tender_designContest_rewardsDetails": "",
+          "tender_designContest_prizes_description": "",
+          "tender_communication_documentAvailabilityPeriod_endDate": ""
+        }
+      ],
+      "unique_ocids": 68473
+    },
+    "parties": {
+      "path": "2026\\parties.csv",
+      "filename": "parties.csv",
+      "size_bytes": 55408464,
+      "format": "csv",
+      "row_count": 198747,
+      "columns": [
+        "id",
+        "name",
+        "roles",
+        "address_region",
+        "address_locality",
+        "address_postalCode",
+        "address_countryName",
+        "address_streetAddress",
+        "details_url",
+        "details_buyerProfile",
+        "identifier_legalName",
+        "contactPoint_email",
+        "contactPoint_telephone",
+        "main_ocid",
+        "main_id",
+        "details_scale",
+        "contactPoint_faxNumber",
+        "contactPoint_url",
+        "contactPoint_name",
+        "identifier_id",
+        "identifier_noIdentifierRationale",
+        "identifier_scheme",
+        "identifier_schemeEntered",
+        "address_countryCode",
+        "address_country",
+        "roleDetails",
+        "details_vcse",
+        "details_shelteredWorkshop",
+        "details_publicServiceMissionOrganization",
+        "control_description"
+      ],
+      "column_count": 30,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "GB-FTS-109",
+          "name": "NHS Wales Shared Services Partnership-Procurement Services (hosted by Velindre University NHS Trust)",
+          "roles": "buyer",
+          "address_region": "UK",
+          "address_locality": "Cardiff",
+          "address_postalCode": "CF15 7QZ",
+          "address_countryName": "United Kingdom",
+          "address_streetAddress": "4-5 Charnwood Court,, Heol Billingsley, Parc Nantgarw",
+          "details_url": "http://www.procurement.wales.nhs.uk",
+          "details_buyerProfile": "http://www.procurement.wales.nhs.uk",
+          "identifier_legalName": "NHS Wales Shared Services Partnership-Procurement Services (hosted by Velindre University NHS Trust)",
+          "contactPoint_email": "shannon.mason@wales.nhs.uk",
+          "contactPoint_telephone": "+44 1443848585",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "details_scale": "",
+          "contactPoint_faxNumber": "",
+          "contactPoint_url": "",
+          "contactPoint_name": "",
+          "identifier_id": "",
+          "identifier_noIdentifierRationale": "",
+          "identifier_scheme": "",
+          "identifier_schemeEntered": "",
+          "address_countryCode": "",
+          "address_country": "",
+          "roleDetails": "",
+          "details_vcse": "",
+          "details_shelteredWorkshop": "",
+          "details_publicServiceMissionOrganization": "",
+          "control_description": ""
+        },
+        {
+          "id": "GB-FTS-738",
+          "name": "The Doctors Laboratory",
+          "roles": "supplier",
+          "address_region": "UK",
+          "address_locality": "London",
+          "address_postalCode": "W1T4EU",
+          "address_countryName": "United Kingdom",
+          "address_streetAddress": "60 Whitfield Street",
+          "details_url": "",
+          "details_buyerProfile": "",
+          "identifier_legalName": "The Doctors Laboratory",
+          "contactPoint_email": "tdl@tdlpathology.com",
+          "contactPoint_telephone": "+44 2073077373",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "details_scale": "large",
+          "contactPoint_faxNumber": "+44 2073077373",
+          "contactPoint_url": "",
+          "contactPoint_name": "",
+          "identifier_id": "",
+          "identifier_noIdentifierRationale": "",
+          "identifier_scheme": "",
+          "identifier_schemeEntered": "",
+          "address_countryCode": "",
+          "address_country": "",
+          "roleDetails": "",
+          "details_vcse": "",
+          "details_shelteredWorkshop": "",
+          "details_publicServiceMissionOrganization": "",
+          "control_description": ""
+        },
+        {
+          "id": "GB-FTS-111",
+          "name": "High Court",
+          "roles": "reviewBody",
+          "address_region": "",
+          "address_locality": "London",
+          "address_postalCode": "WC2A 2LL",
+          "address_countryName": "United Kingdom",
+          "address_streetAddress": "Royal Courts of Justice, The Strand",
+          "details_url": "",
+          "details_buyerProfile": "",
+          "identifier_legalName": "High Court",
+          "contactPoint_email": "",
+          "contactPoint_telephone": "+44 2079477501",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "details_scale": "",
+          "contactPoint_faxNumber": "",
+          "contactPoint_url": "",
+          "contactPoint_name": "",
+          "identifier_id": "",
+          "identifier_noIdentifierRationale": "",
+          "identifier_scheme": "",
+          "identifier_schemeEntered": "",
+          "address_countryCode": "",
+          "address_country": "",
+          "roleDetails": "",
+          "details_vcse": "",
+          "details_shelteredWorkshop": "",
+          "details_publicServiceMissionOrganization": "",
+          "control_description": ""
+        }
+      ]
+    },
+    "parties_additionalContactPoints": {
+      "path": "2026\\parties_additionalContactPoints.csv",
+      "filename": "parties_additionalContactPoints.csv",
+      "size_bytes": 31373,
+      "format": "csv",
+      "row_count": 295,
+      "columns": [
+        "telephone",
+        "main_ocid",
+        "main_id",
+        "parties_id",
+        "email",
+        "name",
+        "faxNumber"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "telephone": "+44 000000",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "parties_id": "GB-FTS-86108",
+          "email": "",
+          "name": "",
+          "faxNumber": ""
+        },
+        {
+          "telephone": "+44 000000",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "parties_id": "GB-FTS-42551",
+          "email": "",
+          "name": "",
+          "faxNumber": ""
+        },
+        {
+          "telephone": "+44 000000",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "parties_id": "GB-FTS-187888",
+          "email": "",
+          "name": "",
+          "faxNumber": ""
+        }
+      ]
+    },
+    "parties_additionalIdentifiers": {
+      "path": "2026\\parties_additionalIdentifiers.csv",
+      "filename": "parties_additionalIdentifiers.csv",
+      "size_bytes": 4117651,
+      "format": "csv",
+      "row_count": 40586,
+      "columns": [
+        "id",
+        "scheme",
+        "main_ocid",
+        "main_id",
+        "parties_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "PMRZ-1695-VBDV",
+          "scheme": "GB-PPON",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "parties_id": "GB-COH-02546950"
+        },
+        {
+          "id": "PNHM-3269-DNNL",
+          "scheme": "GB-PPON",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "parties_id": "GB-COH-10080864"
+        },
+        {
+          "id": "PQQD-9198-RDHP",
+          "scheme": "GB-PPON",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "parties_id": "GB-COH-02366665"
+        }
+      ]
+    },
+    "parties_details_classifications": {
+      "path": "2026\\parties_details_classifications.csv",
+      "filename": "parties_details_classifications.csv",
+      "size_bytes": 13804193,
+      "format": "csv",
+      "row_count": 90600,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "parties_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "BODY_PUBLIC",
+          "scheme": "TED_CA_TYPE",
+          "description": "Body governed by public law",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "parties_id": "GB-FTS-109"
+        },
+        {
+          "id": "07",
+          "scheme": "COFOG",
+          "description": "Health",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "parties_id": "GB-FTS-109"
+        },
+        {
+          "id": "MINISTRY",
+          "scheme": "TED_CA_TYPE",
+          "description": "Ministry or any other national or federal authority, including their regional or local subdivisions",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "parties_id": "GB-FTS-3354"
+        }
+      ]
+    },
+    "planning_budget_finance": {
+      "path": "2026\\planning_budget_finance.csv",
+      "filename": "planning_budget_finance.csv",
+      "size_bytes": 7395,
+      "format": "csv",
+      "row_count": 43,
+      "columns": [
+        "id",
+        "description",
+        "relatedLots",
+        "financingParty_id",
+        "financingParty_name",
+        "main_ocid",
+        "main_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "description": "Projects awarded via the DPS may include an element of European Union funds this will be confirmed at call-off stage.",
+          "relatedLots": "01,02,03,04,05,06",
+          "financingParty_id": "GB-FTS-172",
+          "financingParty_name": "European Union",
+          "main_ocid": "ocds-h6vhtk-02d320",
+          "main_id": "ocds-h6vhtk-02d320-2026-09-23T20:47:48+01:00"
+        },
+        {
+          "id": "1",
+          "description": "Alternative Provision",
+          "relatedLots": "1",
+          "financingParty_id": "GB-FTS-172",
+          "financingParty_name": "European Union",
+          "main_ocid": "ocds-h6vhtk-0402cd",
+          "main_id": "ocds-h6vhtk-0402cd-2026-10-12T18:22:00+01:00"
+        },
+        {
+          "id": "1",
+          "description": "This framework may be used by the institutions to make appointments for schemes that are fully or part-funded by European Union funds or Programme.",
+          "relatedLots": "A,B,C,D",
+          "financingParty_id": "GB-FTS-172",
+          "financingParty_name": "European Union",
+          "main_ocid": "ocds-h6vhtk-04564b",
+          "main_id": "ocds-h6vhtk-04564b-2026-04-02T14:27:48+01:00"
+        }
+      ]
+    },
+    "planning_documents": {
+      "path": "2026\\planning_documents.csv",
+      "filename": "planning_documents.csv",
+      "size_bytes": 4486140,
+      "format": "csv",
+      "row_count": 18478,
+      "columns": [
+        "id",
+        "url",
+        "format",
+        "noticeType",
+        "description",
+        "documentType",
+        "datePublished",
+        "main_ocid",
+        "main_id"
+      ],
+      "column_count": 9,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "007724-2025",
+          "url": "https://www.find-tender.service.gov.uk/Notice/007724-2025",
+          "format": "text/html",
+          "noticeType": "UK2",
+          "description": "Preliminary market engagement notice on Find a Tender",
+          "documentType": "marketEngagementNotice",
+          "datePublished": "2025-03-03T17:22:21Z",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00"
+        },
+        {
+          "id": "007804-2025",
+          "url": "https://www.find-tender.service.gov.uk/Notice/007804-2025",
+          "format": "text/html",
+          "noticeType": "UK2",
+          "description": "Preliminary market engagement notice on Find a Tender",
+          "documentType": "marketEngagementNotice",
+          "datePublished": "2025-03-04T11:39:43Z",
+          "main_ocid": "ocds-h6vhtk-04e943",
+          "main_id": "ocds-h6vhtk-04e943-2026-08-04T14:47:35+01:00"
+        },
+        {
+          "id": "007862-2025",
+          "url": "https://www.find-tender.service.gov.uk/Notice/007862-2025",
+          "format": "text/html",
+          "noticeType": "UK2",
+          "description": "Preliminary market engagement notice on Find a Tender",
+          "documentType": "marketEngagementNotice",
+          "datePublished": "2025-03-04T14:22:21Z",
+          "main_ocid": "ocds-h6vhtk-04e943",
+          "main_id": "ocds-h6vhtk-04e943-2026-08-04T14:47:35+01:00"
+        }
+      ]
+    },
+    "planning_milestones": {
+      "path": "2026\\planning_milestones.csv",
+      "filename": "planning_milestones.csv",
+      "size_bytes": 9781634,
+      "format": "csv",
+      "row_count": 8725,
+      "columns": [
+        "id",
+        "type",
+        "status",
+        "dueDate",
+        "description",
+        "main_ocid",
+        "main_id",
+        "dateMet"
+      ],
+      "column_count": 8,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "engagement",
+          "type": "engagement",
+          "status": "scheduled",
+          "dueDate": "2025-03-14T23:59:59Z",
+          "description": "Background information:\nIn shaping a healthier and more active future for our residents. It is now necessary for the Council to procure an Operating Partner to operate the Council owned Facilities within the former Copeland and Allerdale Borough Council areas with effect from the 1st of April 2026. It is intended that the procurement and resultant contract will be procured in such a way to allow flexibility over the term of the contract, for instance building in the possibility to include the Carlisle contract when it ends in December 2032.\nThe Facilities in scope include:\nFormer Allerdale Area – contract ends 31st March 2026\n• Workington Leisure Centre;\n• Cockermouth Leisure Centre;\n• Keswick Leisure Centre (only the gym is open / pool is closed); and\n• The Wave, Maryport.\nFormer Copeland Area – contract ends 31st March 2026\n• Whitehaven Leisure Centre;\n• Copeland Pool and fitness centre; and\n• Cleator Moor Activity Centre.\nIn addition to the above facilities, the Council is due to commence construction of a new Facility in Millom in 2025. This facility will also form part of the Facilities that will be included in the scope of the Leisure Operating Contract.\nFor clarity, the Council owned Facilities operated by Better Leisure within the Carlisle leisure contract are not in scope from the commencement in April 2026 but could be become integrated at the end of the current contract period, include:- Former Carlisle Area - contract ends 6th December 2032\n• The Sands Centre;\n• The Sheepmount; and\n• Bitts Park Tennis Courts.\nSupplier engagement:\nThe Council will be carrying out an online session on Monday 10th March at 10am to further outline the opportunity. This will be available for all prospective partners. To book a place on this session, please see the details on the chest DN764109 - Leisure Services Operating Contract - Soft Market Testing (questionnaire & online session) to respond. Closing date 7th March 5pm.\nA prospectus with a questionnaire is also on the above chest opportunity to be responded by 5pm Friday 14th March.\nPlease note this notice is not a call for competition. Participation in the supplier engagement event is voluntary and not a requirement for the subsequent procurement process",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "dateMet": ""
+        },
+        {
+          "id": "engagement",
+          "type": "engagement",
+          "status": "scheduled",
+          "dueDate": "2026-10-01T23:59:59+01:00",
+          "description": "The Engagement Deadline above is the date that we intend to conclude this phase of market engagement.\nSuppliers who would like to discuss and show us their approach to appointment booking and management, are asked to request a Teams meeting, by emailing Bridget Phillips, Category Manager (Procurement) - bphillips@dsfire.gov.uk\nThere are eight Teams meeting slots available and they will be allocated on a first come, first serve basis. Each meeting is up to 45 minutes:\n1) 9.30am on Tuesday 15th September\n2) 11am on Tuesday 15th September\n3) 2pm on Tuesday 22nd September\n4) 9.30am on Thursday 24th September\n5) 11am on Thursday 24th September\n6) 9.30am on Thursday 1st October\n7) 11am on Thursday 1st October\n8) 2pm on Thursday 1st October\nThe number of supplier attendee's is capped at three.\nNo other topics shall be discussed at the meetings.",
+          "main_ocid": "ocds-h6vhtk-04e943",
+          "main_id": "ocds-h6vhtk-04e943-2026-08-04T14:47:35+01:00",
+          "dateMet": "2025-04-30T00:00:00+01:00"
+        },
+        {
+          "id": "engagement",
+          "type": "engagement",
+          "status": "scheduled",
+          "dueDate": "2025-04-15T23:59:59+01:00",
+          "description": "TfL invites suppliers to participate in this Preliminary Market Engagement exercise to help shape an upcoming procurement opportunity. This is a valuable chance to engage with us early, gain insight into our requirements, and contribute your expertise.\nThe engagement process consists of three key steps:\n1. Registering Interest - Suppliers who wish to participate should express their interest by emailing MichaelWilliams1@tfl.gov.uk . The deadline for registering interest is Friday 14th March 2025.\n2. Information Sharing - Once the registration window closes, we will issue a concise, one-page requirements document to all interested suppliers. This will outline key details of the procurement and may include specific questions to help us understand market capabilities and potential approaches.\n3. Follow-Up 1:1s - Based on the responses received, we will identify suppliers who align with the requirement, which includes provision of workforce for on-street parking enforcement patrols.\nThe supplier must have experience of providing on-street parking enforcement services in a metropolitan area. We are not interested in a technology-only solution which does not provide on-street parking enforcement patrols.\nUp to three suppliers will be invited to a 1:1 one-hour MS Teams meeting planned to take place between Monday 17th to Friday 28th March 2025. The discussions will provide an opportunity for TfL to explore the market in greater depth, discuss your responses to TfL's questions, and consider the approach to overall market. Please note that generic feedback on the 1:1s will be issued to all interested suppliers.\nWe are exploring various options including a single contract or multiple contracts covering separate areas of London.\nSummary\nWe encourage all interested suppliers, regardless of size, to take part in this process. Your insights and expertise will be invaluable in shaping our approach.\nIf you have any questions about the process, please don't hesitate to get in touch with MichaelWilliams1@tfl.gov.uk. We look forward to hearing from you.",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "dateMet": ""
+        }
+      ]
+    },
+    "relatedProcesses": {
+      "path": "2026\\relatedProcesses.csv",
+      "filename": "relatedProcesses.csv",
+      "size_bytes": 392950,
+      "format": "csv",
+      "row_count": 2018,
+      "columns": [
+        "id",
+        "uri",
+        "title",
+        "scheme",
+        "identifier",
+        "relationship",
+        "main_ocid",
+        "main_id",
+        "relatedLots"
+      ],
+      "column_count": 9,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "prior",
+          "uri": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages/ocds-h6vhtk-03eb8e",
+          "title": "Provision of Civil Service Jobs Platform and Applicant Tracking System",
+          "scheme": "ocid",
+          "identifier": "ocds-h6vhtk-03eb8e",
+          "relationship": "prior,reprocurementDifferentScope",
+          "main_ocid": "ocds-h6vhtk-03eb8d",
+          "main_id": "ocds-h6vhtk-03eb8d-2026-01-07T15:18:54Z",
+          "relatedLots": ""
+        },
+        {
+          "id": "1",
+          "uri": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages/022111-2023",
+          "title": "",
+          "scheme": "uk-fts",
+          "identifier": "2023/S 000-022111",
+          "relationship": "",
+          "main_ocid": "ocds-h6vhtk-03eb8d",
+          "main_id": "ocds-h6vhtk-03eb8d-2026-01-07T15:18:54Z",
+          "relatedLots": ""
+        },
+        {
+          "id": "framework",
+          "uri": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages/ocds-h6vhtk-04eac3",
+          "title": "",
+          "scheme": "ocid",
+          "identifier": "ocds-h6vhtk-04eac3",
+          "relationship": "framework",
+          "main_ocid": "ocds-h6vhtk-050bca",
+          "main_id": "ocds-h6vhtk-050bca-2026-07-31T14:38:59+01:00",
+          "relatedLots": "6"
+        }
+      ]
+    },
+    "tender_additionalClassifications": {
+      "path": "2026\\tender_additionalClassifications.csv",
+      "filename": "tender_additionalClassifications.csv",
+      "size_bytes": 32582,
+      "format": "csv",
+      "row_count": 244,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "3",
+          "scheme": "TED_SERVICE_CATEGORY_DEFENCE",
+          "description": "Defence services, military defence services and civil defence services",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453"
+        },
+        {
+          "id": "3",
+          "scheme": "TED_SERVICE_CATEGORY_DEFENCE",
+          "description": "Defence services, military defence services and civil defence services",
+          "main_ocid": "ocds-h6vhtk-04a680",
+          "main_id": "ocds-h6vhtk-04a680-2026-04-21T10:58:30+01:00",
+          "tender_id": "712795451"
+        },
+        {
+          "id": "3",
+          "scheme": "TED_SERVICE_CATEGORY_DEFENCE",
+          "description": "Defence services, military defence services and civil defence services",
+          "main_ocid": "ocds-h6vhtk-04a683",
+          "main_id": "ocds-h6vhtk-04a683-2026-04-21T11:16:06+01:00",
+          "tender_id": "712797450"
+        }
+      ]
+    },
+    "tender_amendments": {
+      "path": "2026\\tender_amendments.csv",
+      "filename": "tender_amendments.csv",
+      "size_bytes": 2582446,
+      "format": "csv",
+      "row_count": 9193,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "description",
+        "date"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "main_ocid": "ocds-h6vhtk-02875c",
+          "main_id": "ocds-h6vhtk-02875c-2026-05-13T12:27:34+01:00",
+          "tender_id": "VEL-DCO (25-26) 208",
+          "description": "",
+          "date": ""
+        },
+        {
+          "id": "1",
+          "main_ocid": "ocds-h6vhtk-029c75",
+          "main_id": "ocds-h6vhtk-029c75-2026-03-19T09:20:37Z",
+          "tender_id": "DAR/FW/002–VEAT 2026",
+          "description": "For clarity, the following documents have been amended and re-issued, the latest versions can be located in the documents section of CTM:\n1.\tITT (Restricted Procedure) Issue 2\n2.\tAppendix C – ITT Assessment Questions Issue 2\n3.     Selection Questionnaire Bidder Guidance document Issue 2.\n4.     Expression of Interest document V2.",
+          "date": ""
+        },
+        {
+          "id": "2",
+          "main_ocid": "ocds-h6vhtk-029c75",
+          "main_id": "ocds-h6vhtk-029c75-2026-03-19T09:20:37Z",
+          "tender_id": "DAR/FW/002–VEAT 2026",
+          "description": "Notice 2021-487784 extended the Selection Questionnaire (SQ) deadline date to 4th January 2022 @ 11:00hrs GMT.  This Notice further extends this to 17-Jan-2022 @ 11:00hrs GMT.",
+          "date": ""
+        }
+      ]
+    },
+    "tender_amendments_unstructuredChanges": {
+      "path": "2026\\tender_amendments_unstructuredChanges.csv",
+      "filename": "tender_amendments_unstructuredChanges.csv",
+      "size_bytes": 2021023,
+      "format": "csv",
+      "row_count": 2623,
+      "columns": [
+        "relatedLot",
+        "where_label",
+        "where_section",
+        "newValue_date",
+        "oldValue_date",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_amendments_id",
+        "newValue_text",
+        "oldValue_text"
+      ],
+      "column_count": 11,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "relatedLot": "1",
+          "where_label": "END DATE",
+          "where_section": "11.2.7",
+          "newValue_date": "2026-12-25",
+          "oldValue_date": "2027-12-25",
+          "main_ocid": "ocds-h6vhtk-02875c",
+          "main_id": "ocds-h6vhtk-02875c-2026-05-13T12:27:34+01:00",
+          "tender_id": "VEL-DCO (25-26) 208",
+          "tender_amendments_id": "1",
+          "newValue_text": "",
+          "oldValue_text": ""
+        },
+        {
+          "relatedLot": "2",
+          "where_label": "END DATE",
+          "where_section": "11.2.7",
+          "newValue_date": "2026-12-25",
+          "oldValue_date": "2027-12-25",
+          "main_ocid": "ocds-h6vhtk-02875c",
+          "main_id": "ocds-h6vhtk-02875c-2026-05-13T12:27:34+01:00",
+          "tender_id": "VEL-DCO (25-26) 208",
+          "tender_amendments_id": "1",
+          "newValue_text": "",
+          "oldValue_text": ""
+        },
+        {
+          "relatedLot": "4",
+          "where_label": "END DATE",
+          "where_section": "11.2.7",
+          "newValue_date": "2026-12-25",
+          "oldValue_date": "2027-12-25",
+          "main_ocid": "ocds-h6vhtk-02875c",
+          "main_id": "ocds-h6vhtk-02875c-2026-05-13T12:27:34+01:00",
+          "tender_id": "VEL-DCO (25-26) 208",
+          "tender_amendments_id": "1",
+          "newValue_text": "",
+          "oldValue_text": ""
+        }
+      ]
+    },
+    "tender_amendments_unstructuredChanges_newValue_classifications": {
+      "path": "2026\\tender_amendments_unstructuredChanges_newValue_classifications.csv",
+      "filename": "tender_amendments_unstructuredChanges_newValue_classifications.csv",
+      "size_bytes": 34939,
+      "format": "csv",
+      "row_count": 283,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_amendments_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "92400000",
+          "scheme": "CPV",
+          "description": "News-agency services",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00",
+          "tender_id": "CR_5542",
+          "tender_amendments_id": "1"
+        },
+        {
+          "id": "72310000",
+          "scheme": "CPV",
+          "description": "Data-processing services",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00",
+          "tender_id": "CR_5542",
+          "tender_amendments_id": "1"
+        },
+        {
+          "id": "22200000",
+          "scheme": "CPV",
+          "description": "Newspapers, journals, periodicals and magazines",
+          "main_ocid": "ocds-h6vhtk-029a8d",
+          "main_id": "ocds-h6vhtk-029a8d-2026-10-15T13:42:09+01:00",
+          "tender_id": "CR_5542",
+          "tender_amendments_id": "1"
+        }
+      ]
+    },
+    "tender_amendments_unstructuredChanges_oldValue_classifications": {
+      "path": "2026\\tender_amendments_unstructuredChanges_oldValue_classifications.csv",
+      "filename": "tender_amendments_unstructuredChanges_oldValue_classifications.csv",
+      "size_bytes": 15050,
+      "format": "csv",
+      "row_count": 117,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_amendments_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "85323000",
+          "scheme": "CPV",
+          "description": "Community health services",
+          "main_ocid": "ocds-h6vhtk-060cd0",
+          "main_id": "ocds-h6vhtk-060cd0-2026-05-12T08:59:16+01:00",
+          "tender_id": "CPH143",
+          "tender_amendments_id": "1"
+        },
+        {
+          "id": "80610000",
+          "scheme": "CPV",
+          "description": "Training and simulation in security equipment",
+          "main_ocid": "ocds-h6vhtk-064e69",
+          "main_id": "ocds-h6vhtk-064e69-2026-02-11T17:49:12Z",
+          "tender_id": "DN512850",
+          "tender_amendments_id": "1"
+        },
+        {
+          "id": "70000000",
+          "scheme": "CPV",
+          "description": "Real estate services",
+          "main_ocid": "ocds-h6vhtk-064e69",
+          "main_id": "ocds-h6vhtk-064e69-2026-02-11T17:49:12Z",
+          "tender_id": "DN512850",
+          "tender_amendments_id": "1"
+        }
+      ]
+    },
+    "tender_awardCriteria_criteria": {
+      "path": "2026\\tender_awardCriteria_criteria.csv",
+      "filename": "tender_awardCriteria_criteria.csv",
+      "size_bytes": 9571,
+      "format": "csv",
+      "row_count": 91,
+      "columns": [
+        "name",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "type"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "name": "Commercial Deliverables-Part A",
+          "description": "0",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453",
+          "type": ""
+        },
+        {
+          "name": "Commercial Deliverables-Part B",
+          "description": "5",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453",
+          "type": ""
+        },
+        {
+          "name": "Statement of Technical Requirements compliance",
+          "description": "0",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453",
+          "type": ""
+        }
+      ]
+    },
+    "tender_awardCriteria_criteria_numbers": {
+      "path": "2026\\tender_awardCriteria_criteria_numbers.csv",
+      "filename": "tender_awardCriteria_criteria_numbers.csv",
+      "size_bytes": 6420,
+      "format": "csv",
+      "row_count": 74,
+      "columns": [
+        "number",
+        "weight",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "number": "1",
+          "weight": "order",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453"
+        },
+        {
+          "number": "2",
+          "weight": "order",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453"
+        },
+        {
+          "number": "3",
+          "weight": "order",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453"
+        }
+      ]
+    },
+    "tender_designContest_juryMembers": {
+      "path": "2026\\tender_designContest_juryMembers.csv",
+      "filename": "tender_designContest_juryMembers.csv",
+      "size_bytes": 1885,
+      "format": "csv",
+      "row_count": 14,
+      "columns": [
+        "name",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 4,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "name": "Panel Chair/Representative of the Political Administration",
+          "main_ocid": "ocds-h6vhtk-06fa82",
+          "main_id": "ocds-h6vhtk-06fa82-2026-09-15T16:32:39+01:00",
+          "tender_id": "GCC006723CPU"
+        },
+        {
+          "name": "Design Expert 1 - a nationally recognised Architect not practicing within the GIA chapter area",
+          "main_ocid": "ocds-h6vhtk-06fa82",
+          "main_id": "ocds-h6vhtk-06fa82-2026-09-15T16:32:39+01:00",
+          "tender_id": "GCC006723CPU"
+        },
+        {
+          "name": "Local elected member",
+          "main_ocid": "ocds-h6vhtk-06fa82",
+          "main_id": "ocds-h6vhtk-06fa82-2026-09-15T16:32:39+01:00",
+          "tender_id": "GCC006723CPU"
+        }
+      ]
+    },
+    "tender_documents": {
+      "path": "2026\\tender_documents.csv",
+      "filename": "tender_documents.csv",
+      "size_bytes": 11789559,
+      "format": "csv",
+      "row_count": 57145,
+      "columns": [
+        "id",
+        "documentType",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "description",
+        "url",
+        "format",
+        "noticeType",
+        "datePublished",
+        "accessDetails"
+      ],
+      "column_count": 11,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "economic",
+          "documentType": "economicSelectionCriteria",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "tender_id": "ocds-h6vhtk-029434",
+          "description": "",
+          "url": "",
+          "format": "",
+          "noticeType": "",
+          "datePublished": "",
+          "accessDetails": ""
+        },
+        {
+          "id": "technical",
+          "documentType": "technicalSelectionCriteria",
+          "main_ocid": "ocds-h6vhtk-029434",
+          "main_id": "ocds-h6vhtk-029434-2026-10-27T14:03:42Z",
+          "tender_id": "ocds-h6vhtk-029434",
+          "description": "",
+          "url": "",
+          "format": "",
+          "noticeType": "",
+          "datePublished": "",
+          "accessDetails": ""
+        },
+        {
+          "id": "economic",
+          "documentType": "economicSelectionCriteria",
+          "main_ocid": "ocds-h6vhtk-029c75",
+          "main_id": "ocds-h6vhtk-029c75-2026-03-19T09:20:37Z",
+          "tender_id": "DAR/FW/002–VEAT 2026",
+          "description": "",
+          "url": "",
+          "format": "",
+          "noticeType": "",
+          "datePublished": "",
+          "accessDetails": ""
+        }
+      ]
+    },
+    "tender_items": {
+      "path": "2026\\tender_items.csv",
+      "filename": "tender_items.csv",
+      "size_bytes": 5114075,
+      "format": "csv",
+      "row_count": 56732,
+      "columns": [
+        "id",
+        "relatedLot",
+        "deliveryLocation_description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "classification_id",
+        "classification_scheme",
+        "classification_description"
+      ],
+      "column_count": 9,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "deliveryLocation_description": "United Kingdom",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429",
+          "classification_id": "",
+          "classification_scheme": "",
+          "classification_description": ""
+        },
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "deliveryLocation_description": "",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "classification_id": "",
+          "classification_scheme": "",
+          "classification_description": ""
+        },
+        {
+          "id": "1",
+          "relatedLot": "1",
+          "deliveryLocation_description": "",
+          "main_ocid": "ocds-h6vhtk-028ecc",
+          "main_id": "ocds-h6vhtk-028ecc-2026-10-09T20:21:17+01:00",
+          "tender_id": "WORKS001-2024",
+          "classification_id": "",
+          "classification_scheme": "",
+          "classification_description": ""
+        }
+      ]
+    },
+    "tender_items_additionalClassifications": {
+      "path": "2026\\tender_items_additionalClassifications.csv",
+      "filename": "tender_items_additionalClassifications.csv",
+      "size_bytes": 19243858,
+      "format": "csv",
+      "row_count": 154040,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_items_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "85111800",
+          "scheme": "CPV",
+          "description": "Pathology services",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429",
+          "tender_items_id": "1"
+        },
+        {
+          "id": "79420000",
+          "scheme": "CPV",
+          "description": "Management-related services",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "tender_items_id": "1"
+        },
+        {
+          "id": "45113000",
+          "scheme": "CPV",
+          "description": "Siteworks",
+          "main_ocid": "ocds-h6vhtk-028ecc",
+          "main_id": "ocds-h6vhtk-028ecc-2026-10-09T20:21:17+01:00",
+          "tender_id": "WORKS001-2024",
+          "tender_items_id": "1"
+        }
+      ]
+    },
+    "tender_items_deliveryAddresses": {
+      "path": "2026\\tender_items_deliveryAddresses.csv",
+      "filename": "tender_items_deliveryAddresses.csv",
+      "size_bytes": 13258129,
+      "format": "csv",
+      "row_count": 139525,
+      "columns": [
+        "region",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_items_id",
+        "country",
+        "countryName"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "region": "UK",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429",
+          "tender_items_id": "1",
+          "country": "",
+          "countryName": ""
+        },
+        {
+          "region": "UK",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429",
+          "tender_items_id": "1",
+          "country": "",
+          "countryName": ""
+        },
+        {
+          "region": "UKM",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "tender_items_id": "1",
+          "country": "",
+          "countryName": ""
+        }
+      ]
+    },
+    "tender_legislativeReferences": {
+      "path": "2026\\tender_legislativeReferences.csv",
+      "filename": "tender_legislativeReferences.csv",
+      "size_bytes": 230,
+      "format": "csv",
+      "row_count": 1,
+      "columns": [
+        "url",
+        "title",
+        "informationService_id",
+        "informationService_name",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "url": "https://www.gov.uk",
+          "title": "Tax legislation",
+          "informationService_id": "GB-FTS-72238",
+          "informationService_name": "Ministry Of Defence",
+          "main_ocid": "ocds-h6vhtk-039595",
+          "main_id": "ocds-h6vhtk-039595-2026-03-12T16:29:34Z",
+          "tender_id": "ocds-h6vhtk-039595"
+        }
+      ]
+    },
+    "tender_lots": {
+      "path": "2026\\tender_lots.csv",
+      "filename": "tender_lots.csv",
+      "size_bytes": 35829277,
+      "format": "csv",
+      "row_count": 87303,
+      "columns": [
+        "id",
+        "status",
+        "hasOptions",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "hasRenewal",
+        "value_amount",
+        "value_currency",
+        "renewal_description",
+        "secondStage_maximumCandidates",
+        "contractPeriod_endDate",
+        "contractPeriod_startDate",
+        "contractPeriod_durationInDays",
+        "submissionTerms_variantPolicy",
+        "selectionCriteria_description",
+        "title",
+        "options_description",
+        "secondStage_minimumCandidates",
+        "submissionTerms_electronicCataloguePolicy",
+        "value_amountGross",
+        "contractPeriod_maxExtentDate",
+        "suitability_sme",
+        "suitability_vcse",
+        "awardCriteria_description",
+        "awardCriteria_weightingDescription"
+      ],
+      "column_count": 27,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "status": "cancelled",
+          "hasOptions": "false",
+          "description": "NHS Wales Shared Service Partnership on behalf of Public Health Wales NHS Trust wish to inform the market that due to the Covid-19, global pandemic they are awarding a contract for the provision of Sexually Transmitted Infection testing kits, postal envelopes and any other associated consumables to continue an online service for self-sampling.\nNHS Wales Trust have been running an online service for self-sampling for STI’s since 2018 and will eventually expand to an All Wales Agreement.\nPublic Health Wales laboratories previously supported the expansion which has been agreed by Welsh Government. However, during the first wave of the Covid-19 pandemic, Public Health Wales laboratories were suspended for the use of STI sampling to support the national testing campaign.\nTherefore in order to enable the provision of STI testing and to continue the patient online service for self-sampling, Public Health Wales awarded a contract to HSL Pathology Lab to continue the testing in private laboratories during the height of the pandemic.\nHowever, now that the cases associated with the Covid-19 pandemic are rising further and the Public Health Wales laboratories are overwhelmed with Covid-19 testing, the service are awarding an extension contract to HSL Pathology Lab. The external provider are currently able to deal with 15000 requests a week between now and end of March 2021 in order to ensure continuation of sexual health testing.",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429",
+          "hasRenewal": "",
+          "value_amount": "",
+          "value_currency": "",
+          "renewal_description": "",
+          "secondStage_maximumCandidates": "",
+          "contractPeriod_endDate": "",
+          "contractPeriod_startDate": "",
+          "contractPeriod_durationInDays": "",
+          "submissionTerms_variantPolicy": "",
+          "selectionCriteria_description": "",
+          "title": "",
+          "options_description": "",
+          "secondStage_minimumCandidates": "",
+          "submissionTerms_electronicCataloguePolicy": "",
+          "value_amountGross": "",
+          "contractPeriod_maxExtentDate": "",
+          "suitability_sme": "",
+          "suitability_vcse": "",
+          "awardCriteria_description": "",
+          "awardCriteria_weightingDescription": ""
+        },
+        {
+          "id": "1",
+          "status": "cancelled",
+          "hasOptions": "false",
+          "description": "The services fall into 3 categories:\n- Overall project planning and management\n- Procurement, direct contracting and management of sub-contracted services/works.\n- Planning, management and operation of specific Ceremonial events where the programme is activated.\nThe Service Provider shall be required to:\n- Maintain the plans, updating them as required by the Purchaser;\n- Attend relevant meetings as and when required;\n- Proactively liaise with the Purchaser and other stakeholders to ensure plans are accurate;\n- Procure and manage a number of sub-contracts, as and when required;\n- Work with stakeholders to ensure tasks are carried out to accurate timings and best value, when plans are activated.\nThis programme would include processions, ceremonial events, a church service, specific and extraordinary transport requirements and an anticipated high level of crowds in the historic centre of Edinburgh, with the associated arrangements for media coverage. The plans are now largely in place and the role of the Service Provider will be to maintain these plans in conjunction with the Purchaser and other relevant stakeholders and to ensure that it delivers a successful, high profile series of events to the satisfaction of all parties.\nThe Service Provider shall act as the main contractor and shall be directly responsible for a number of sub-contracts in order to ensure efficient and effective service delivery. Services will include further development of the planning and design process, procurement, logistical and management services including financial control, budget responsibilities and the co-ordination of a wide range of ceremonial participants.",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "hasRenewal": "true",
+          "value_amount": "700000",
+          "value_currency": "GBP",
+          "renewal_description": "This Contract is for a period of 5 years, with the option at the sole discretion of the Scottish Ministers, to extend for a further two 12 month  periods.",
+          "secondStage_maximumCandidates": "5",
+          "contractPeriod_endDate": "2026-08-22T23:59:59+01:00",
+          "contractPeriod_startDate": "2021-08-23T00:00:00+01:00",
+          "contractPeriod_durationInDays": "1800",
+          "submissionTerms_variantPolicy": "notAllowed",
+          "selectionCriteria_description": "Applicants are required to complete the questions within the Single Procurement Document (Scotland) and applicants must meet the minimum requirements stated in the Qualification Envelope and Technical Envelope.\nBidders are required to confirm that they meet the Minimum Criteria.\nBidders will respond to Objective Criteria set out in the SPD, overall scores shall be marked out of 100 and ranked accordingly. A maximum of 5 applicants shall proceed to ITT stage.\n- Bidders Details - seeks background information about the bidder; this section is not normally evaluated, however the Authority may choose not to take forward bidders that cannot provide basic company information;\n- Information Regarding the Economic or Financial Standing of the bidding organisation;\n- Conflict of Interest questions;\n- Technical or Professional Capability – Weighting 60%;\n- Business Continuity and Disaster Recovery – Weighting 10%;\n- Quality Management – Weighting 20%;\n- Equal Opportunities – Pass/ Fail; and\n- Health and Safety – Weighting 10%",
+          "title": "",
+          "options_description": "",
+          "secondStage_minimumCandidates": "",
+          "submissionTerms_electronicCataloguePolicy": "",
+          "value_amountGross": "",
+          "contractPeriod_maxExtentDate": "",
+          "suitability_sme": "",
+          "suitability_vcse": "",
+          "awardCriteria_description": "",
+          "awardCriteria_weightingDescription": ""
+        },
+        {
+          "id": "1",
+          "status": "cancelled",
+          "hasOptions": "true",
+          "description": "Lot 1: Civils - Treatment (Potable and Waste Water)\na) Groundworks - excavation, dredging, filling, compaction, disposal and landscaping, including all temporary works in support of these activities\nb) Minor Concrete Works – including concrete plinths and slabs, thrust blocks, small concrete access paths and roads, including all temporary works in support of these activities\nc) Temporary Works (up to 3 meters below ground level) – provision, safe installation and removal of temporary works up to 3m below ground level\nd) Projects which are notifiable to the HSE under CDM2015, but where the Contractor is not required to act as Principal Contractor (this will be undertaken by others)\ne) The Contractor’s personnel working on potable water projects must hold National Water Hygiene cards and comply as a minimum with the requirements of Wessex Water OPSP014 Water Supply Hygiene Code of Practice",
+          "main_ocid": "ocds-h6vhtk-028ecc",
+          "main_id": "ocds-h6vhtk-028ecc-2026-10-09T20:21:17+01:00",
+          "tender_id": "WORKS001-2024",
+          "hasRenewal": "true",
+          "value_amount": "",
+          "value_currency": "",
+          "renewal_description": "",
+          "secondStage_maximumCandidates": "",
+          "contractPeriod_endDate": "",
+          "contractPeriod_startDate": "",
+          "contractPeriod_durationInDays": "",
+          "submissionTerms_variantPolicy": "",
+          "selectionCriteria_description": "",
+          "title": "Lot 1 - Civils - Treatment (Potable and Waste Water)",
+          "options_description": "The Agreement will be for an initial term of 5 (five) years and may be extended for a further 3 (three) years to a maximum term of 8 (eight) years in total.",
+          "secondStage_minimumCandidates": "",
+          "submissionTerms_electronicCataloguePolicy": "",
+          "value_amountGross": "",
+          "contractPeriod_maxExtentDate": "",
+          "suitability_sme": "",
+          "suitability_vcse": "",
+          "awardCriteria_description": "",
+          "awardCriteria_weightingDescription": ""
+        }
+      ]
+    },
+    "tender_lots_awardCriteria_criteria": {
+      "path": "2026\\tender_lots_awardCriteria_criteria.csv",
+      "filename": "tender_lots_awardCriteria_criteria.csv",
+      "size_bytes": 14582803,
+      "format": "csv",
+      "row_count": 103540,
+      "columns": [
+        "type",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_lots_id",
+        "name",
+        "description"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "type": "price",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429",
+          "tender_lots_id": "1",
+          "name": "",
+          "description": ""
+        },
+        {
+          "type": "quality",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "tender_lots_id": "1",
+          "name": "Technical",
+          "description": "60"
+        },
+        {
+          "type": "price",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "tender_lots_id": "1",
+          "name": "",
+          "description": "40"
+        }
+      ]
+    },
+    "tender_lots_awardCriteria_criteria_numbers": {
+      "path": "2026\\tender_lots_awardCriteria_criteria_numbers.csv",
+      "filename": "tender_lots_awardCriteria_criteria_numbers.csv",
+      "size_bytes": 5471281,
+      "format": "csv",
+      "row_count": 56585,
+      "columns": [
+        "number",
+        "weight",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_lots_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "number": "50",
+          "weight": "percentageExact",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "tender_id": "DN765091",
+          "tender_lots_id": "765091"
+        },
+        {
+          "number": "45",
+          "weight": "percentageExact",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "tender_id": "DN765091",
+          "tender_lots_id": "765091"
+        },
+        {
+          "number": "5",
+          "weight": "percentageExact",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "tender_id": "DN765091",
+          "tender_lots_id": "765091"
+        }
+      ]
+    },
+    "tender_lots_identifiers": {
+      "path": "2026\\tender_lots_identifiers.csv",
+      "filename": "tender_lots_identifiers.csv",
+      "size_bytes": 15941,
+      "format": "csv",
+      "row_count": 193,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_lots_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "tender_id": "DN765091",
+          "tender_lots_id": "765091"
+        },
+        {
+          "id": "1",
+          "main_ocid": "ocds-h6vhtk-04e88c",
+          "main_id": "ocds-h6vhtk-04e88c-2026-02-05T11:23:38Z",
+          "tender_id": "DN765460",
+          "tender_lots_id": "Lot 1 - Property, Lot 2 - Civils"
+        },
+        {
+          "id": "1",
+          "main_ocid": "ocds-h6vhtk-04ee09",
+          "main_id": "ocds-h6vhtk-04ee09-2026-10-29T14:28:58Z",
+          "tender_id": "PA0001-1",
+          "tender_lots_id": "LOT-0001"
+        }
+      ]
+    },
+    "tender_lots_selectionCriteria_criteria": {
+      "path": "2026\\tender_lots_selectionCriteria_criteria.csv",
+      "filename": "tender_lots_selectionCriteria_criteria.csv",
+      "size_bytes": 7047506,
+      "format": "csv",
+      "row_count": 17121,
+      "columns": [
+        "type",
+        "description",
+        "verificationMethod",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "tender_lots_id",
+        "forReduction"
+      ],
+      "column_count": 8,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "type": "economic",
+          "description": "We propose to have the following areas as conditions of membership\na. Completion of registration process including\ni. Completion of the question set\nii. Payment of fees\niii. Completion of the declaration section\nWhere necessary undertake an audit process as required by the participating contracting authorities",
+          "verificationMethod": "Registration to UVDB Powered by Achilles is the first stage of qualification. You can join via http://www.achilles.com/uvdb\nHaving completed the registration, you will be asked to pay your annual subscription to UVDB. The current subscription rates are available at the following URL: https://www.achilles.com/features/uvdb-membership-pricing-and-features/\nYour full pre-qualification questionnaire, once completed can be submitted for validation following payment of your subscription.\nValidation is undertaken against the responses populated in the UVDB Powered by Achilles questionnaire by registered suppliers to the community. 3rd party validation is undertaken by Achilles Information on behalf of the subscribing Contracting Authorities in order to confirm the quality of the data provided.\nMethods according to which each of those conditions will be verified: Vendors of products considered to be high risk may be required by individual subscribing utility entities to undergo an independent audit covering health, safety, environment and quality systems under the Verify scheme. Further information, including the types and costs of audit are available via: https://www.achilles.com/uvdb-verify-audit/\nIn appropriate circumstances some utility contracting entities will apply a minimum scoring mechanism. Verify is not independent and vendors must have a subscription to UVDB.\nSSE plc have an additional level of risk assessment via their own systems, which links directly to UVDB. http://sse.com/potential-suppliers/",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "tender_id": "UVDB Powered by Achilles",
+          "tender_lots_id": "1",
+          "forReduction": ""
+        },
+        {
+          "type": "technical",
+          "description": "We propose to have the following areas as conditions of membership\na. Completion of registration process including\ni. Completion of the question set\nii. Payment of fees\niii. Completion of the declaration section\nWhere necessary undertake an audit process as required by the participating contracting authorities",
+          "verificationMethod": "Registration to UVDB Powered by Achilles is the first stage of qualification. You can join via http://www.achilles.com/uvdb\nHaving completed the registration, you will be asked to pay your annual subscription to UVDB. The current subscription rates are available at the following URL: https://www.achilles.com/features/uvdb-membership-pricing-and-features/\nYour full pre-qualification questionnaire, once completed can be submitted for validation following payment of your subscription.\nValidation is undertaken against the responses populated in the UVDB Powered by Achilles questionnaire by registered suppliers to the community. 3rd party validation is undertaken by Achilles Information on behalf of the subscribing Contracting Authorities in order to confirm the quality of the data provided.\nMethods according to which each of those conditions will be verified: Vendors of products considered to be high risk may be required by individual subscribing utility entities to undergo an independent audit covering health, safety, environment and quality systems under the Verify scheme. Further information, including the types and costs of audit are available via: https://www.achilles.com/uvdb-verify-audit/\nIn appropriate circumstances some utility contracting entities will apply a minimum scoring mechanism. Verify is not independent and vendors must have a subscription to UVDB.\nSSE plc have an additional level of risk assessment via their own systems, which links directly to UVDB. http://sse.com/potential-suppliers/",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "tender_id": "UVDB Powered by Achilles",
+          "tender_lots_id": "1",
+          "forReduction": ""
+        },
+        {
+          "type": "economic",
+          "description": "Please see PSQ and associated documents",
+          "verificationMethod": "",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "tender_id": "DN765091",
+          "tender_lots_id": "765091",
+          "forReduction": ""
+        }
+      ]
+    },
+    "tender_milestones": {
+      "path": "2026\\tender_milestones.csv",
+      "filename": "tender_milestones.csv",
+      "size_bytes": 400,
+      "format": "csv",
+      "row_count": 3,
+      "columns": [
+        "id",
+        "type",
+        "dueDate",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "type": "securityClearanceDeadline",
+          "dueDate": "2026-03-31",
+          "main_ocid": "ocds-h6vhtk-04a66b",
+          "main_id": "ocds-h6vhtk-04a66b-2026-04-21T10:26:54+01:00",
+          "tender_id": "712775453"
+        },
+        {
+          "id": "1",
+          "type": "securityClearanceDeadline",
+          "dueDate": "2025-05-01",
+          "main_ocid": "ocds-h6vhtk-02c11f",
+          "main_id": "ocds-h6vhtk-02c11f-2026-07-22T09:45:07+01:00",
+          "tender_id": "2023/S 000-035211"
+        },
+        {
+          "id": "1",
+          "type": "securityClearanceDeadline",
+          "dueDate": "2026-05-22",
+          "main_ocid": "ocds-h6vhtk-04ad60",
+          "main_id": "ocds-h6vhtk-04ad60-2026-04-29T08:46:48+01:00",
+          "tender_id": "ocds-h6vhtk-04ad60"
+        }
+      ]
+    },
+    "tender_participationFees": {
+      "path": "2026\\tender_participationFees.csv",
+      "filename": "tender_participationFees.csv",
+      "size_bytes": 219909,
+      "format": "csv",
+      "row_count": 1067,
+      "columns": [
+        "id",
+        "type",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "description",
+        "relativeValue_proportion",
+        "relativeValue_monetaryValue"
+      ],
+      "column_count": 8,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "1",
+          "type": "document",
+          "main_ocid": "ocds-h6vhtk-02875c",
+          "main_id": "ocds-h6vhtk-02875c-2026-05-13T12:27:34+01:00",
+          "tender_id": "VEL-DCO (25-26) 208",
+          "description": "",
+          "relativeValue_proportion": "",
+          "relativeValue_monetaryValue": ""
+        },
+        {
+          "id": "1",
+          "type": "document",
+          "main_ocid": "ocds-h6vhtk-029c75",
+          "main_id": "ocds-h6vhtk-029c75-2026-03-19T09:20:37Z",
+          "tender_id": "DAR/FW/002–VEAT 2026",
+          "description": "",
+          "relativeValue_proportion": "",
+          "relativeValue_monetaryValue": ""
+        },
+        {
+          "id": "1",
+          "type": "document",
+          "main_ocid": "ocds-h6vhtk-02a31d",
+          "main_id": "ocds-h6vhtk-02a31d-2026-07-10T10:27:03+01:00",
+          "tender_id": "SC2425-0223",
+          "description": "",
+          "relativeValue_proportion": "",
+          "relativeValue_monetaryValue": ""
+        }
+      ]
+    },
+    "tender_procurementMethodRationaleClassifications": {
+      "path": "2026\\tender_procurementMethodRationaleClassifications.csv",
+      "filename": "tender_procurementMethodRationaleClassifications.csv",
+      "size_bytes": 2021242,
+      "format": "csv",
+      "row_count": 11478,
+      "columns": [
+        "id",
+        "scheme",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 6,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "D_OUTSIDE_SCOPE",
+          "scheme": "TED_PT_AWARD_CONTRACT_WITHOUT_CALL",
+          "description": "The procurement falls outside the scope of application of the directive",
+          "main_ocid": "ocds-h6vhtk-02886c",
+          "main_id": "ocds-h6vhtk-02886c-2026-04-15T11:31:08+01:00",
+          "tender_id": "PHW-STA-429"
+        },
+        {
+          "id": "D_OUTSIDE_SCOPE",
+          "scheme": "TED_PT_AWARD_CONTRACT_WITHOUT_CALL",
+          "description": "The procurement falls outside the scope of application of the directive",
+          "main_ocid": "ocds-h6vhtk-029c75",
+          "main_id": "ocds-h6vhtk-029c75-2026-03-19T09:20:37Z",
+          "tender_id": "DAR/FW/002–VEAT 2026"
+        },
+        {
+          "id": "D_TECHNICAL",
+          "scheme": "TED_PT_AWARD_CONTRACT_WITHOUT_CALL",
+          "description": "The works, supplies or services can be provided only by a particular economic operator due to absence of competition for technical reasons",
+          "main_ocid": "ocds-h6vhtk-02a5c9",
+          "main_id": "ocds-h6vhtk-02a5c9-2026-10-19T16:52:18+01:00",
+          "tender_id": "VEL-DCO(26-27) 118"
+        }
+      ]
+    },
+    "tender_recurrence_dates": {
+      "path": "2026\\tender_recurrence_dates.csv",
+      "filename": "tender_recurrence_dates.csv",
+      "size_bytes": 257182,
+      "format": "csv",
+      "row_count": 2601,
+      "columns": [
+        "startDate",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 4,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "startDate": "2035-04-01T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-04e91d",
+          "main_id": "ocds-h6vhtk-04e91d-2026-05-01T16:33:37+01:00",
+          "tender_id": "DN765091"
+        },
+        {
+          "startDate": "2035-05-01T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-04e972",
+          "main_id": "ocds-h6vhtk-04e972-2026-05-20T12:32:35+01:00",
+          "tender_id": "TfL_scp_002539"
+        },
+        {
+          "startDate": "2029-10-01T23:59:59+01:00",
+          "main_ocid": "ocds-h6vhtk-04ea18",
+          "main_id": "ocds-h6vhtk-04ea18-2026-04-13T14:28:46+01:00",
+          "tender_id": "CP2583-24"
+        }
+      ]
+    },
+    "tender_selectionCriteria_criteria": {
+      "path": "2026\\tender_selectionCriteria_criteria.csv",
+      "filename": "tender_selectionCriteria_criteria.csv",
+      "size_bytes": 2481775,
+      "format": "csv",
+      "row_count": 2903,
+      "columns": [
+        "type",
+        "appliesTo",
+        "description",
+        "main_ocid",
+        "main_id",
+        "tender_id",
+        "minimum"
+      ],
+      "column_count": 7,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "type": "suitability",
+          "appliesTo": "supplier",
+          "description": "N/A",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "minimum": ""
+        },
+        {
+          "type": "economic",
+          "appliesTo": "supplier",
+          "description": "There is no action required of tenderers at this stage. The Authority will make an assessment of the Economic & Financial Standing of each tenderer (and any consortia or reliance partners) using the Dun & Bradstreet (D&B) 'Failure Score' indicator and the following process:\nStep 1: A D&B 'Failure Score' of 50 or above will result in a PASS.\nStep 2: If the tenderer (or any consortium or reliance partner) scores below 50, then the audited financial accounts of the tenderer (or consortia or reliance partner) will be used to conduct an assessment of the risk of business failure. If this assessment identifies an unacceptable risk then the tenderer (or consortia or reliance partner) will fail this assessment\nFinancial Accounts For Question 4B6 of the SPD, bidders may elect to provide their audited financial accounts for the last three financial years. There must be no qualification or contra-indication from any evidence provided in support of the tenderer's Economic and Financial Standing.",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "minimum": "Refer to the process described above.\nMinimum Insurance Levels - . For question 4B5 of the SPD, it is a requirement of this contract that bidders hold, or can commit to obtain prior to the commencement of any subsequently awarded contract 1 million GBP public liability insurance, 1 million GBP Professional Indemnity Insurance and 5 million Employers Liability insurance (or other statutory minimum level set).\nIn the event that the tenderer (or consortia or reliance partner) does not initially meet the standard required, they may still be considered via some form of other assurance e.g. Parent Company Guarantee (providing that the guarantor does pass the EFS assessment) or a performance bond. Details of the D&B ”A Guide to Dun & Bradstreet’s Predictive Indicators” – can be found using the http address below: https://www.dnb.co.uk/about-us/our-analytics/predictors-scores-ratings/scores-ratings.html"
+        },
+        {
+          "type": "technical",
+          "appliesTo": "supplier",
+          "description": "- ISO/IEC 27001 or equivalent\n- Cyber Essentials Plus accreditation or recognised equivalent\n- BS EN 9001 or equivalent",
+          "main_ocid": "ocds-h6vhtk-028d9b",
+          "main_id": "ocds-h6vhtk-028d9b-2026-04-07T08:59:38+01:00",
+          "tender_id": "537308",
+          "minimum": "The bidder must:\n- have achieved, or be committed to achieving prior to contract award, ISO/IEC 27001 (Information Security Management Systems\nRequirements) or recognised equivalent.\n- have achieved, or be committed to achieving prior to contract award, Cyber Essentials Plus accreditation or recognised equivalent.\n- operate at all times a quality management system certificated by an accredited third party to IS09001 or equivalent."
+        }
+      ]
+    },
+    "tender_techniques_frameworkAgreement_buyerClassificationRestrictions": {
+      "path": "2026\\tender_techniques_frameworkAgreement_buyerClassificationRestrictions.csv",
+      "filename": "tender_techniques_frameworkAgreement_buyerClassificationRestrictions.csv",
+      "size_bytes": 2057,
+      "format": "csv",
+      "row_count": 23,
+      "columns": [
+        "id",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 4,
+      "has_ocid": false,
+      "has_id": true,
+      "sample_rows": [
+        {
+          "id": "utilities",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "tender_id": "UVDB Powered by Achilles"
+        },
+        {
+          "id": "utilities",
+          "main_ocid": "ocds-h6vhtk-05937d",
+          "main_id": "ocds-h6vhtk-05937d-2026-05-11T22:38:49+01:00",
+          "tender_id": "WS5328291640"
+        },
+        {
+          "id": "utilities",
+          "main_ocid": "ocds-h6vhtk-064aad",
+          "main_id": "ocds-h6vhtk-064aad-2026-02-06T18:00:25Z",
+          "tender_id": "PRO004981"
+        }
+      ]
+    },
+    "tender_techniques_frameworkAgreement_buyerLocationRestrictions": {
+      "path": "2026\\tender_techniques_frameworkAgreement_buyerLocationRestrictions.csv",
+      "filename": "tender_techniques_frameworkAgreement_buyerLocationRestrictions.csv",
+      "size_bytes": 96968,
+      "format": "csv",
+      "row_count": 1135,
+      "columns": [
+        "gazetteer_scheme",
+        "gazetteer_identifiers",
+        "main_ocid",
+        "main_id",
+        "tender_id"
+      ],
+      "column_count": 5,
+      "has_ocid": false,
+      "has_id": false,
+      "sample_rows": [
+        {
+          "gazetteer_scheme": "GB-ITL",
+          "gazetteer_identifiers": "UK",
+          "main_ocid": "ocds-h6vhtk-04e7a8",
+          "main_id": "ocds-h6vhtk-04e7a8-2026-08-19T16:14:18+01:00",
+          "tender_id": "UVDB Powered by Achilles"
+        },
+        {
+          "gazetteer_scheme": "GB-ITL",
+          "gazetteer_identifiers": "UKH1",
+          "main_ocid": "ocds-h6vhtk-04ee09",
+          "main_id": "ocds-h6vhtk-04ee09-2026-10-29T14:28:58Z",
+          "tender_id": "PA0001-1"
+        },
+        {
+          "gazetteer_scheme": "GB-ITL",
+          "gazetteer_identifiers": "UKH3",
+          "main_ocid": "ocds-h6vhtk-04ee09",
+          "main_id": "ocds-h6vhtk-04ee09-2026-10-29T14:28:58Z",
+          "tender_id": "PA0001-1"
+        }
+      ]
+    }
+  }
+}

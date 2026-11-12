@@ -1,33 +1,38 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 
 import { EmptyState, ErrorState, LoadingRows } from "@/components/common/States";
 import { PageHeader } from "@/components/common/PageHeader";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/misc";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { api } from "@/lib/api";
+import { PAGE_SIZE, offsetFor, pageLabel } from "@/lib/pagination";
 import { cn, formatDate, formatMoney, toneClasses } from "@/lib/utils";
 
 export function ContractsPage() {
   const [search, setSearch] = useState("");
   const [supplierId, setSupplierId] = useState("all");
+  const [page, setPage] = useState(0);
 
   const filters = useQuery({ queryKey: ["filters"], queryFn: api.filters });
   const contracts = useQuery({
-    queryKey: ["contracts", search, supplierId],
+    queryKey: ["contracts", search, supplierId, page],
     queryFn: () =>
       api.contracts({
         search: search || undefined,
         supplier_id: supplierId === "all" ? undefined : supplierId,
-        limit: 100,
+        limit: PAGE_SIZE,
+        offset: offsetFor(page),
       }),
   });
 
   const items = contracts.data?.items ?? [];
+  const total = contracts.data?.total ?? 0;
 
   return (
     <div className="space-y-5">
@@ -44,7 +49,10 @@ export function ContractsPage() {
             <Input
               id="contract-search"
               value={search}
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) => {
+                setSearch(event.target.value);
+                setPage(0);
+              }}
               placeholder="Contract number or title"
               className="pl-8"
             />
@@ -52,7 +60,13 @@ export function ContractsPage() {
         </div>
         <div className="space-y-1.5">
           <Label>Supplier</Label>
-          <Select value={supplierId} onValueChange={setSupplierId}>
+          <Select
+            value={supplierId}
+            onValueChange={(value) => {
+              setSupplierId(value);
+              setPage(0);
+            }}
+          >
             <SelectTrigger className="w-[220px]" aria-label="Filter by supplier">
               <SelectValue />
             </SelectTrigger>
@@ -66,8 +80,8 @@ export function ContractsPage() {
             </SelectContent>
           </Select>
         </div>
-        <p className="pb-2 text-xs text-muted-foreground">
-          {contracts.data ? `${contracts.data.total} contract(s)` : "loading"}
+        <p className="pb-2 text-xs text-muted-foreground" aria-live="polite">
+          {contracts.data ? `${total} contract(s)` : "loading"}
         </p>
       </div>
 
@@ -143,6 +157,34 @@ export function ContractsPage() {
                 ))}
               </TableBody>
             </Table>
+            {total > PAGE_SIZE ? (
+              <nav
+                aria-label="Contract pages"
+                className="flex flex-wrap items-center justify-between gap-2 border-t px-3 py-2"
+              >
+                <p className="text-xs text-muted-foreground">{pageLabel(page, total)}</p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page === 0}
+                    onClick={() => setPage((current) => Math.max(0, current - 1))}
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={offsetFor(page) + items.length >= total}
+                    onClick={() => setPage((current) => current + 1)}
+                  >
+                    Next
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Button>
+                </div>
+              </nav>
+            ) : null}
           </div>
         )
       ) : null}

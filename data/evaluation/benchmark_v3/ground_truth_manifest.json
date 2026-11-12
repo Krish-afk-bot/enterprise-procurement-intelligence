@@ -1,0 +1,2245 @@
+{
+  "dataset": "epi-benchmark-120",
+  "version": "3.0.0",
+  "created": "2026-11-12T19:41:42.236339+00:00",
+  "corpus": {
+    "documents": 20,
+    "indexed_documents": 19,
+    "pages": 42,
+    "chunks": 655,
+    "prices": 0,
+    "chunks_with_clause_number": 0,
+    "chunks_mentioning_payment_terms": 2,
+    "documents_with_revision_label": 1,
+    "procurement_records": 83724,
+    "records_with_supplier": 83243,
+    "records_with_value": 39339,
+    "suppliers": 65406
+  },
+  "counts": {
+    "document_metadata": 18,
+    "parties": 10,
+    "dates_and_duration": 18,
+    "payment_terms": 8,
+    "pricing_schedules": 8,
+    "clauses": 8,
+    "obligations": 8,
+    "amendments": 8,
+    "supplier_buyer_relationships": 8,
+    "graph_multi_hop": 6,
+    "historical_temporal": 10,
+    "unanswerable": 10
+  },
+  "by_answerability": {
+    "answerable": 66,
+    "unanswerable": 39,
+    "needs_review": 15
+  },
+  "by_review_status": {
+    "auto_verified": 66,
+    "pending_review": 54,
+    "human_reviewed": 0
+  },
+  "verification": {
+    "corpus_absence": 39,
+    "database_row": 9,
+    "graph_store": 6,
+    "verbatim_page_text": 20,
+    "verbatim_page_text+raw_html": 46
+  },
+  "documents": [
+    {
+      "document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "filename": "04f6f2_tender_10.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/010515-2025",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "filename": "0508f7_tender_5.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/030631-2025",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "filename": "0523fd_tender_11.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/057546-2025",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "filename": "05a7e4_tender_18.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/074135-2025",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "filename": "06093e_tender_20.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/014023-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_d815ee71154c42398552777057c66108",
+      "filename": "065308_tender_2.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/013050-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "filename": "066066_tender_12.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/079931-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "filename": "0679c4_tender_7.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/029908-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_371526f6059f4944ad27c413797bf687",
+      "filename": "0683f4_tender_14.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/034593-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "filename": "0685ae_tender_3.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/035358-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_96334b5beca447918d9e086b87a2aed4",
+      "filename": "069a8c_tender_15.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/050090-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_ce7916cb9a8844a893202377b1c17569",
+      "filename": "06d0c8_tender_17.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/069129-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_830dd910e9184935850f717098f90a40",
+      "filename": "06d2dd_tender_8.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/070094-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "buyer",
+        "category",
+        "contact_name",
+        "cpv",
+        "description",
+        "doc_version",
+        "document_id",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "published",
+        "region",
+        "source_uri",
+        "title"
+      ]
+    },
+    {
+      "document_id": "doc_96fd110ff2e442a6883a6470d6663c97",
+      "filename": "06da37_tender_9.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/073289-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "buyer",
+        "category",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    },
+    {
+      "document_id": "doc_f03a0f961d1f4b98a72c65794ddc295f",
+      "filename": "06e110_tender_4.html",
+      "source_uri": "https://www.find-tender.service.gov.uk/Notice/076123-2026",
+      "page_count": 1,
+      "parsed_fields": [
+        "award_decision",
+        "buyer",
+        "category",
+        "contact_name",
+        "contract_dates",
+        "contract_end",
+        "contract_start",
+        "cpv",
+        "deadline",
+        "description",
+        "doc_version",
+        "document_id",
+        "duration",
+        "enquiry_deadline",
+        "filename",
+        "notice_id",
+        "ocid",
+        "organisation_type",
+        "page_count",
+        "procedure",
+        "published",
+        "region",
+        "source_uri",
+        "title",
+        "value"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "META-001",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "META-002",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "META-003",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "META-004",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "META-005",
+      "category": "document_metadata",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "META-006",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "META-007",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "META-008",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "META-009",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "META-010",
+      "category": "document_metadata",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "META-011",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "META-012",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "META-013",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "META-014",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "META-015",
+      "category": "document_metadata",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "META-016",
+      "category": "document_metadata",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      }
+    },
+    {
+      "id": "META-017",
+      "category": "document_metadata",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      }
+    },
+    {
+      "id": "META-018",
+      "category": "document_metadata",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      }
+    },
+    {
+      "id": "PARTY-001",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "PARTY-002",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "PARTY-003",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "PARTY-004",
+      "category": "parties",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "PARTY-005",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "PARTY-006",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "PARTY-007",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "PARTY-008",
+      "category": "parties",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "PARTY-009",
+      "category": "parties",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "PARTY-010",
+      "category": "parties",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Contracting authority",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "DATE-001",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "DATE-002",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "DATE-003",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "DATE-004",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "DATE-005",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "0a968fc4ff828dea4ea03324b5db2f2dc3f2db39948a9ed9b8a223de29501178"
+      }
+    },
+    {
+      "id": "DATE-006",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "DATE-007",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "DATE-008",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "DATE-009",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "DATE-010",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "6f208abb0f3c9d598fd14a8f738fa233b6f10f9d794fd0cf45bd6a7ee4c53b4b"
+      }
+    },
+    {
+      "id": "DATE-011",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "DATE-012",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "DATE-013",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "DATE-014",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "d1d04731046cd7345f80115d6a122825b2ccd79e75c1bf1bdb987029a6aa95ba"
+      }
+    },
+    {
+      "id": "DATE-015",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      }
+    },
+    {
+      "id": "DATE-016",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      }
+    },
+    {
+      "id": "DATE-017",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "Submission",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "647abbe07e62553a825d82168e4cb501a2f841ccca8d319e416b4f65600a3dde"
+      }
+    },
+    {
+      "id": "DATE-018",
+      "category": "dates_and_duration",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "Scope",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text+raw_html",
+        "checked_against": "stored page text and original HTML file",
+        "quote_matched": true,
+        "raw_source_sha256": "e8e07ba61231eb67f6aed453b60886baa549d04f295be93397f04bfd752dfea3"
+      }
+    },
+    {
+      "id": "PAY-001",
+      "category": "payment_terms",
+      "source_document_id": "doc_f03a0f961d1f4b98a72c65794ddc295f",
+      "supporting_section": "Payment terms",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-002",
+      "category": "payment_terms",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "Payment terms",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-003",
+      "category": "payment_terms",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No payment terms are recorded: 2 of 655 chunks mention payment terms, the prices table has 0 rows and no payment_terms values.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-004",
+      "category": "payment_terms",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No payment terms are recorded: 2 of 655 chunks mention payment terms, the prices table has 0 rows and no payment_terms values.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-005",
+      "category": "payment_terms",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No payment terms are recorded: 2 of 655 chunks mention payment terms, the prices table has 0 rows and no payment_terms values.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-006",
+      "category": "payment_terms",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No payment terms are recorded: 2 of 655 chunks mention payment terms, the prices table has 0 rows and no payment_terms values.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-007",
+      "category": "payment_terms",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No payment terms are recorded: 2 of 655 chunks mention payment terms, the prices table has 0 rows and no payment_terms values.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PAY-008",
+      "category": "payment_terms",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No payment terms are recorded: 2 of 655 chunks mention payment terms, the prices table has 0 rows and no payment_terms values.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-001",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-002",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-003",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-004",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-005",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-006",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-007",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "PRICE-008",
+      "category": "pricing_schedules",
+      "source_document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No pricing schedule is recorded: the prices table has 0 rows and the notices are pre-award tender notices.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-001",
+      "category": "clauses",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-002",
+      "category": "clauses",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-003",
+      "category": "clauses",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-004",
+      "category": "clauses",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-005",
+      "category": "clauses",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-006",
+      "category": "clauses",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-007",
+      "category": "clauses",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "CLAUSE-008",
+      "category": "clauses",
+      "source_document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No clause numbering is recorded: 0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-001",
+      "category": "amendments",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-002",
+      "category": "amendments",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-003",
+      "category": "amendments",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-004",
+      "category": "amendments",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-005",
+      "category": "amendments",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-006",
+      "category": "amendments",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-007",
+      "category": "amendments",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No amendment records exist: 1 document carries a revision label and no document has a superseded_by_id.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "AMEND-008",
+      "category": "amendments",
+      "source_document_id": "doc_f08adf4442f446949c2d3b1e2a3545c2",
+      "supporting_section": "documents.revision_label",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "documents.revision_label",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-001",
+      "category": "obligations",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-002",
+      "category": "obligations",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-003",
+      "category": "obligations",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-004",
+      "category": "obligations",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-005",
+      "category": "obligations",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-006",
+      "category": "obligations",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-007",
+      "category": "obligations",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "OBL-008",
+      "category": "obligations",
+      "source_document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "supporting_section": "Description",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-001",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-002",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-003",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-004",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-005",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-006",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-007",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "REL-008",
+      "category": "supplier_buyer_relationships",
+      "source_document_id": null,
+      "supporting_section": "procurement_records",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "database_row",
+        "checked_against": "procurement_records",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "GRAPH-001",
+      "category": "graph_multi_hop",
+      "source_document_id": null,
+      "supporting_section": "compliance_certificates + documents",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "GRAPH-002",
+      "category": "graph_multi_hop",
+      "source_document_id": null,
+      "supporting_section": "compliance_certificates + documents",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "GRAPH-003",
+      "category": "graph_multi_hop",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "compliance_certificates + documents",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "GRAPH-004",
+      "category": "graph_multi_hop",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "supporting_section": "contracts + documents",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "graph_store",
+        "checked_against": "contracts joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "GRAPH-005",
+      "category": "graph_multi_hop",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "compliance_certificates + documents",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "graph_store",
+        "checked_against": "compliance_certificates joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "GRAPH-006",
+      "category": "graph_multi_hop",
+      "source_document_id": null,
+      "supporting_section": "suppliers + documents",
+      "answerability": "needs_review",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "graph_store",
+        "checked_against": "suppliers joined to documents",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-001",
+      "category": "historical_temporal",
+      "source_document_id": "doc_e9b6293072054a03aa42b543ec7a8522",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-002",
+      "category": "historical_temporal",
+      "source_document_id": "doc_a0fe1ba2442440df921c3a395b491c64",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-003",
+      "category": "historical_temporal",
+      "source_document_id": "doc_688152c7b31d4c679012a62d005f0bf8",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-004",
+      "category": "historical_temporal",
+      "source_document_id": "doc_576fa821cef340d89ada65db931f6838",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-005",
+      "category": "historical_temporal",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-006",
+      "category": "historical_temporal",
+      "source_document_id": "doc_d815ee71154c42398552777057c66108",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-007",
+      "category": "historical_temporal",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-008",
+      "category": "historical_temporal",
+      "source_document_id": "doc_e0e03bdb91e24325be7cec4ecda21306",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-009",
+      "category": "historical_temporal",
+      "source_document_id": "doc_371526f6059f4944ad27c413797bf687",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "TIME-010",
+      "category": "historical_temporal",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "supporting_section": "notice header",
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "verification": {
+        "method": "verbatim_page_text",
+        "checked_against": "stored page text",
+        "quote_matched": true,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-001",
+      "category": "unanswerable",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "All 10 compliance_certificates rows have certificate_number = null.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-002",
+      "category": "unanswerable",
+      "source_document_id": "doc_ae04116ab42247a6883d6a65fc98e982",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "All 10 compliance_certificates rows have expiry_date = null.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-003",
+      "category": "unanswerable",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "The contract row has total_value = null.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-004",
+      "category": "unanswerable",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "The contract row has effective_date = null; the notice's estimated dates are not a signed effective date.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-005",
+      "category": "unanswerable",
+      "source_document_id": "doc_d53dd84a852640e8b94bfda965227467",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "The single contract row has superseded_by_id = null and no successor contract exists.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-006",
+      "category": "unanswerable",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "No award result is recorded against any tender notice; procurement_records are a separate award feed.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-007",
+      "category": "unanswerable",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "The buyer's procurement_records rows all have value = null.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-008",
+      "category": "unanswerable",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "0 of 655 chunks carry a clause number.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-009",
+      "category": "unanswerable",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "The prices table is empty, so no unit price exists to quote.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    },
+    {
+      "id": "UNANS-010",
+      "category": "unanswerable",
+      "source_document_id": "doc_2e7398d365924f59a8834f56cef49ada",
+      "supporting_section": "corpus inspection",
+      "answerability": "unanswerable",
+      "review_status": "pending_review",
+      "verification": {
+        "method": "corpus_absence",
+        "checked_against": "database inspection",
+        "detail": "All 20 documents are tender notices; no award notice is stored.",
+        "quote_matched": null,
+        "raw_source_sha256": null
+      }
+    }
+  ]
+}

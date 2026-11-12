@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-GB" xml:lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="stylesheet" href="in-tend.css" type="text/css" media="screen"/>
+		<title>.: In-tend -  Oops!! :.</title>
+	</head>
+	<body>
+		<div id="logo-wrapper">
+			<div id="logo">
+				<div id="logo-strapline">
+                procurement solutions
+				</div>
+			</div>
+		</div>
+		<div id="menu-wrapper">
+		</div>
+		<div id="page">
+			<table id="tableContent">
+				<tr>
+					<th align="center" colspan="2" height="10%">
+						<h1>In-Tend - Oops!!</h1>
+						<br />
+					</th>
+				</tr>
+				<tr valign="top">
+					<td align="center">There was an issue with your request. Please try again.
+					</td>
+				</tr>
+				<tr valign="top">
+					<td align="center">If this problem persists contact our support team on
+					</td>
+				</tr>
+				<tr valign="top">
+					<td align="center">
+						<b>0844 272 8810</b> or at <a href="mailto:support@in-tend.co.uk">support@in-tend.co.uk</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="footer-line">
+		</div>
+		<div class="clearfloat">
+		</div>
+	</body>
+</html>

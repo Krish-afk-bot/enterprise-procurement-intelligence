@@ -14,6 +14,7 @@ from typing import Any
 
 from app.core.errors import UnsupportedQueryError
 from app.observability.logging import get_logger
+from app.providers.graph.temporal import edge_valid_at, normalise_as_of
 from app.providers.types import GraphEdge, GraphNode, ProviderStatus
 
 logger = get_logger(__name__)
@@ -143,6 +144,7 @@ class Neo4jGraphStore:
         max_hops: int = 2,
         edge_types: Sequence[str] | None = None,
         tenant_id: str | None = None,
+        as_of: str | None = None,
     ) -> list[GraphEdge]:
         label = _ident(start_label, "label")
         hops = max(1, min(int(max_hops), 5))
@@ -162,7 +164,11 @@ class Neo4jGraphStore:
             "labels(endNode(r))[0] AS end_label, endNode(r).key AS end_key, r.props_json AS props_json LIMIT 500",
             params,
         )
-        return [_row_to_edge(row) for row in rows]
+        day = normalise_as_of(as_of)
+        edges = [_row_to_edge(row) for row in rows]
+        # Temporal filtering happens after the fetch so the Cypher stays inside
+        # the documented read subset; the result set is already capped at 500.
+        return [edge for edge in edges if edge_valid_at(edge.properties, day)]
 
     async def find_nodes(
         self, label: str, *, name_contains: str | None = None, limit: int = 25, tenant_id: str | None = None
@@ -196,12 +202,17 @@ class Neo4jGraphStore:
         nodes = await self._run("MATCH (n) RETURN count(n) AS c")
         edges = await self._run("MATCH ()-[r]->() RETURN count(r) AS c")
         labels = await self._run("MATCH (n) RETURN labels(n)[0] AS label, count(*) AS c")
+        types = await self._run("MATCH ()-[r]->() RETURN type(r) AS type, count(*) AS c")
         result = {
             "nodes": int(nodes[0]["c"]) if nodes else 0,
             "edges": int(edges[0]["c"]) if edges else 0,
         }
         for row in labels:
             result[f"nodes:{row['label']}"] = int(row["c"])
+        # Same contract as the local provider: the explorer reads ``edges:<type>``
+        # keys, so a total without a breakdown makes the overview contradict itself.
+        for row in types:
+            result[f"edges:{row['type']}"] = int(row["c"])
         return result
 
     async def status(self) -> ProviderStatus:

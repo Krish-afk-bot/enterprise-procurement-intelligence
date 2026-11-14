@@ -3,7 +3,6 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AlertTriangle, ArrowRight, BadgeCheck, FileSearch, ShieldQuestion } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
-import { StaticWaveField } from "@/components/three/hero/LazyWaveHero";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -76,45 +75,59 @@ export function LoginPage() {
   return (
     <div className="relative grid min-h-screen overflow-x-clip bg-ink lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
       {/* ------------------------------------------------------------ narrative */}
-      <aside className="relative hidden overflow-hidden border-r border-white/[0.07] lg:flex lg:flex-col lg:justify-between lg:px-14 lg:py-12">
-        <div className="pointer-events-none absolute inset-0 opacity-70" aria-hidden="true">
-          <StaticWaveField />
+      <aside className="relative hidden overflow-hidden border-r border-white/[0.08] bg-[#070708] lg:flex lg:flex-col lg:justify-between lg:px-14 lg:py-12">
+        {/* Subtle orange atmospheric beam */}
+        <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-[#FF4D00]/20 via-[#FF7A1A]/5 to-transparent rounded-full blur-[100px]" />
+        
+        <div className="relative z-10 flex items-center justify-between">
+          <Link to="/" className="group flex items-center gap-2.5">
+            <span className="w-8 h-8 rounded-xl bg-[#FF4D00] flex items-center justify-center font-bold text-sm text-white shadow-lg shadow-[#FF4D00]/30 group-hover:scale-105 transition-transform">
+              E
+            </span>
+            <span className="font-semibold text-base text-white tracking-tight">EPI</span>
+          </Link>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider bg-white/5 border border-white/10 text-white/70">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D00]" />
+            Enterprise Edition
+          </span>
         </div>
-        <div
-          className="pointer-events-none absolute left-1/3 top-1/3 h-[520px] w-[620px] -translate-x-1/2 -translate-y-1/2 halo"
-          aria-hidden="true"
-        />
-        <div className="pointer-events-none absolute inset-0 grid-lines opacity-40" aria-hidden="true" />
 
-        <Link to="/" className="relative w-fit">
-          <Logo />
-          <span className="sr-only">— back to product overview</span>
-        </Link>
-
-        <div className="relative max-w-lg">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-subtle">The workspace</p>
-          <h2 className="mt-4 text-display-sm">
+        <div className="relative z-10 my-auto py-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-mono tracking-wider uppercase bg-[#FF4D00]/10 text-[#FF7A1A] border border-[#FF4D00]/20 mb-6">
+            EVIDENCE-GROUNDED REASONING
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-white mb-4 leading-tight">
             A procurement workspace built around evidence, not around a chat window.
           </h2>
-          <ul className="mt-9 space-y-6">
-            {PRINCIPLES.map((principle) => (
-              <li key={principle.title} className="flex gap-3.5">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05]">
-                  <principle.icon className="h-4 w-4 text-white/80" aria-hidden="true" />
-                </span>
-                <div>
-                  <p className="text-[13.5px] font-medium">{principle.title}</p>
-                  <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">{principle.body}</p>
+          <p className="text-sm text-white/60 leading-relaxed max-w-md mb-8">
+            Access contracts, tenders, rate cards, and supplier networks with strict tenant isolation and verifiable source citations.
+          </p>
+
+          <div className="flex flex-col gap-4">
+            {PRINCIPLES.map((principle) => {
+              const Icon = principle.icon;
+              return (
+                <div
+                  key={principle.title}
+                  className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-[#FF4D00] shrink-0 mt-0.5">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-semibold text-white tracking-wide">{principle.title}</h3>
+                    <p className="text-[11px] text-white/50 leading-relaxed mt-0.5">{principle.body}</p>
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
+              );
+            })}
+          </div>
         </div>
 
-        <p className="relative max-w-md text-[11px] leading-relaxed text-subtle">
-          Access is enforced by the API. Every answer is filtered by tenant and by the document access level of the
-          signed-in account.
-        </p>
+        <div className="relative z-10 pt-6 border-t border-white/[0.08] flex items-center justify-between text-xs text-white/40">
+          <span>Enterprise Tenant Isolation</span>
+          <span>Argon2id + JWT Bearer</span>
+        </div>
       </aside>
 
       {/* ----------------------------------------------------------------- form */}
@@ -129,9 +142,9 @@ export function LoginPage() {
             <span className="sr-only">— back to product overview</span>
           </Link>
 
-          <div className="glass-strong rounded-2xl p-7 shadow-card sm:p-8">
-            <h1 className="text-2xl font-semibold tracking-tight">{isSignIn ? "Sign in" : "Create an account"}</h1>
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
+          <div className="rounded-3xl bg-[#0B0B0C] border border-white/10 p-7 shadow-2xl sm:p-8 backdrop-blur-xl">
+            <h1 className="text-2xl font-bold tracking-tight text-white">{isSignIn ? "Sign in" : "Create an account"}</h1>
+            <p className="mt-1.5 text-xs leading-relaxed text-white/60">
               {isSignIn
                 ? "Use the account issued by the operator of this deployment."
                 : "Self-registration must be enabled on the deployment for this to succeed."}
@@ -140,7 +153,7 @@ export function LoginPage() {
             <div
               role="tablist"
               aria-label="Authentication mode"
-              className="mt-6 grid grid-cols-2 gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1"
+              className="mt-6 grid grid-cols-2 gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1"
             >
               {(["signin", "register"] as const).map((value) => (
                 <button
@@ -150,10 +163,10 @@ export function LoginPage() {
                   aria-selected={mode === value}
                   onClick={() => setMode(value)}
                   className={cn(
-                    "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors duration-control",
+                    "rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
                     mode === value
-                      ? "bg-white text-ink"
-                      : "text-muted-foreground hover:text-foreground",
+                      ? "bg-[#FF4D00] text-white shadow-md shadow-[#FF4D00]/30"
+                      : "text-white/60 hover:text-white",
                   )}
                 >
                   {value === "signin" ? "Sign in" : "Register"}
@@ -242,9 +255,9 @@ export function LoginPage() {
                 </p>
               ) : null}
 
-              <Button type="submit" variant="glow" className="w-full" disabled={busy}>
-                {busy ? (isSignIn ? "Signing in" : "Creating account") : isSignIn ? "Sign in" : "Create account"}
-                {busy ? null : <ArrowRight className="h-4 w-4" aria-hidden="true" />}
+              <Button type="submit" className="w-full bg-[#FF4D00] hover:bg-[#FF7A1A] text-white font-semibold rounded-xl py-3 shadow-lg shadow-[#FF4D00]/25 transition-all duration-200" disabled={busy}>
+                {busy ? (isSignIn ? "Signing in..." : "Creating account...") : isSignIn ? "Sign in to workspace" : "Create account"}
+                {busy ? null : <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />}
               </Button>
             </form>
           </div>

@@ -1,0 +1,290 @@
+{
+  "judge_model": "qwen2.5-coder:7b",
+  "independent": false,
+  "note": "Same model as the generator; only one model is installed locally.",
+  "sample": 40,
+  "correct": 13,
+  "rate": 0.325,
+  "verdicts": [
+    {
+      "id": "META-009",
+      "correct": true,
+      "reason": "The system answer is correct as it accurately identifies 'Services' as the main procurement category for 'Supporting Holocaust Survivor Testimony in Teaching'. All required facts are present and there is no contradiction with the reference answer.",
+      "expected": "Services",
+      "answer": "Answer\nThe main procurement category recorded for 'Supporting Holocaust Survivor Testimony in Teaching' is Services.\n\nEvidence\n- 0508f7_tender_5 | tender | page 1 | section: Main procurement category \u2014 Main procurement category: Services\n- 05a7e4_tender_18 | tender | page 1 | section: Main procurement category \u2014 Main procurement category: Works\n- 06d0c8_tender_17 | tender | page 1 | section: Main "
+    },
+    {
+      "id": "DATE-003",
+      "correct": false,
+      "reason": "The system answer includes a contract duration of 4 years, which is not present in the reference answer. The reference answer states '2 years, 26 days', which is not mentioned in the system answer.",
+      "expected": "2 years, 26 days",
+      "answer": "Answer\nThe contract duration for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' is estimated to be 4 years, starting from 1 October 2026 to 30 September 2030. This is supported by [1].\n\nVerification\nSupported by 1 document"
+    },
+    {
+      "id": "GRAPH-006",
+      "correct": false,
+      "reason": "The system answer states that the supplier 'the contracting authorities' is linked to 10 documents, but the required fact is that the number of documents linked to the supplier is 3.",
+      "expected": "3",
+      "answer": "Answer\nThe supplier 'the contracting authorities' is linked to 10 documents.\n\nEvidence\n- Source: 0523fd_tender_11 | tender | page 1 | section: Contracting authority Contracting authority\n- Source: 06093e_tender_20 | tender | page 1 | section: Contracting authority Contracting authority\n- Source: 069a8c_tender_15 | tender | page 1 | section: Contracting authority Contracting authority\n- Source: 06d"
+    },
+    {
+      "id": "TIME-005",
+      "correct": true,
+      "reason": "The system answer correctly states the publication date for 'ACE - Provision of Financial Management System' as 16 February 2026, which matches the required fact provided in the reference answer.",
+      "expected": "16 February 2026",
+      "answer": "Answer\nThe publication date for 'ACE - Provision of Financial Management System' was recorded as 16 February 2026.\n\nEvidence\n- 06093e_tender_20 \u2014 p.1: Published 16 February 2026, 4:52pm\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "REL-005",
+      "correct": false,
+      "reason": "The system answer is incorrect because it does not provide the required fact 'Arthur J. Gallagher Insurance Brokers Ltd'. The system's response indicates that it couldn't verify the information from the available procurement documents, which means it lacks the necessary evidence to answer the questi",
+      "expected": "Arthur J. Gallagher Insurance Brokers Ltd",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The corpus holds no evidence for the entities or period asked about (supplier=Accent Group Ltd. \u2014 no retrieved price row or passage is about Accent Group Ltd.; product=Insurance and related services for Property, legal liability and other general (non-life) insurable risks \u2014 no retrieved row or passage is about Insurance and re"
+    },
+    {
+      "id": "REL-008",
+      "correct": false,
+      "reason": "The system answer is incorrect because it does not provide the required fact 'Martin Collins Joinery & Glazing Ltd'. The system response indicates that it couldn't verify the information from the available procurement documents, which means it lacks the necessary evidence to support the reference an",
+      "expected": "Martin Collins Joinery & Glazing Ltd",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The corpus holds no evidence for the entities or period asked about (supplier=Moss Side C, Leyland, Preston \u2014 no retrieved price row or passage is about Moss Side C, Leyland, Preston; product=Replacement of Windows, Doors & Associated Works \u2014 no retrieved row or passage is about Replacement of Windows, Doors & Associated Works)"
+    },
+    {
+      "id": "V4-017",
+      "correct": true,
+      "reason": "The system answer correctly states the tender submission deadline for the Critical Ventilation contract as 18 May 2026 at midday, which matches the required fact provided in the reference answer.",
+      "expected": "18 May 2026, 12:00pm",
+      "answer": "Answer\nThe tender submission deadline for the Critical Ventilation contract is 18 May 2026 at midday.\n\nEvidence\n- 0685ae_tender_3 | tender | page 1 | section: Submission address and any special instructions \u2014 p.1: The tender closing date is 18th May 2026 at midday and any late submissions will not be considered.\n\nVerification\nSupported by 1 document"
+    },
+    {
+      "id": "META-017",
+      "correct": true,
+      "reason": "The system answer correctly identifies the OCID 'ocds-h6vhtk-05a7e4' for the procurement of 'NBI Energy Centre - Next Generation Infrastructure Programme'. The required fact is present and there is no contradiction with the reference answer.",
+      "expected": "ocds-h6vhtk-05a7e4",
+      "answer": "Answer\nThe OCID that identifies the procurement for 'NBI Energy Centre - Next Generation Infrastructure Programme' is ocds-h6vhtk-05a7e4.\n\nEvidence\n- 05a7e4_tender_18 | tender | page 1 | section: OCID: ocds-h6vhtk-05a7e4\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "REL-007",
+      "correct": false,
+      "reason": "The system answer is incorrect because it does not provide the required fact 'Jensten'. The system states it couldn't verify the information from the available procurement documents, which is true, but it fails to provide the correct supplier name as per the reference answer.",
+      "expected": "Jensten",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The corpus holds no evidence for the entities or period asked about (supplier=Accent Group Ltd \u2014 no retrieved price row or passage is about Accent Group Ltd; product=Insurance and related services associated with Directors and Officers Liability and Professional Indemnity \u2014 no retrieved row or passage is about Insurance and rel"
+    },
+    {
+      "id": "META-004",
+      "correct": false,
+      "reason": "The system answer is incorrect because it does not match the evidence provided. The evidence shows that the main procurement category for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' is 'Services', but the reference answer states it is 'Works'.",
+      "expected": "Services",
+      "answer": "Answer\nThe main procurement category recorded for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' is Services.\n\nEvidence\n- 0683f4_tender_14 \u2014 p.1: Main procurement category is Works\n- 069a8c_tender_15 \u2014 p.1: Main procurement category is Works\n- 05a7e4_tender_18 \u2014 p.1: Main procurement category is Works\n- 04f6f2_tender_10 \u2014 p.1: Main procurement category is Services\n- 0508f7_tender_5 \u2014 p.1"
+    },
+    {
+      "id": "OBL-008",
+      "correct": false,
+      "reason": "The system answer does not contain any of the required facts from the reference answer. The reference answer provides information about the British Business Bank (BBB), but the system answer states that it couldn't verify this from the available procurement documents.",
+      "expected": "The British Business Bank (BBB) is the UK\u2019s economic development bank, with a mission to make finance markets work better for smaller businesses. BBB typically operates on a wholesale basis,",
+      "answer": "I couldn't verify this from the available procurement documents."
+    },
+    {
+      "id": "V4-027",
+      "correct": false,
+      "reason": "The system answer is incorrect because it states that the evidence retrieved did not directly support the generated statements, which contradicts the reference answer provided.",
+      "expected": "31 August 2030",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements."
+    },
+    {
+      "id": "OBL-007",
+      "correct": false,
+      "reason": "The system answer does not include the required fact 'The London Borough of Camden are seeking to award concession contracts for'.",
+      "expected": "The London Borough of Camden are seeking to award concession contracts for the provision of Dockless Bike Hire Services. The contracts will be for a period of 5 years commencing",
+      "answer": "Answer\nThe 'Dockless bike hire concession services Lot 1 (contract 1)' notice does not specify exactly what the appointed supplier will deliver. The notice only states that the Council intends to appoint two operators to provide dockless bike hire (DBH) concession services in the London Borough of Camden. It does not detail the specific services or products that the appointed supplier will deliver"
+    },
+    {
+      "id": "V4-014",
+      "correct": false,
+      "reason": "The system answer indicates that it couldn't verify the information from the available procurement documents, which means it does not provide any evidence to support the generated statements. Therefore, the required facts are not present.",
+      "expected": "70% quality, 20% price, 10% social value",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements."
+    },
+    {
+      "id": "PARTY-002",
+      "correct": false,
+      "reason": "The system answer does not provide any information about the named contact for the 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' procurement. It only states 'Answer I couldn't verify this from the available procurement documents.'",
+      "expected": "Chloe Higgins",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "V4-019",
+      "correct": true,
+      "reason": "The system answer correctly states that the Dockless bike hire concession contract period ends on 31 May 2032. This information is supported by the reference answer and is present in the required facts.",
+      "expected": "31 May 2032",
+      "answer": "Answer\nThe Dockless bike hire concession contract period ends on 31 May 2032.\n\nEvidence\n- 066066_tender_12 | tender | page 1 | section: Contract dates (estimated) \u2014 p.1: The contracts will be for a period of 5 years commencing on 1st June 2027 with a break clause at the end of the second year of the contract or at any time thereafter, at the sole option of the Council. The estimated contract dates"
+    },
+    {
+      "id": "OBL-005",
+      "correct": false,
+      "reason": "The system answer does not include the required fact 'This tender opportunity has been issued by Academies for Character and Excellence'.",
+      "expected": "This tender opportunity has been issued by Academies for Character and Excellence (\u201cthe Trust\u201d) and Tenderers are invited to tender for the provision of Financial Management System. Full details of",
+      "answer": "Answer\nThe 'ACE - Provision of Financial Management System' notice states that the appointed supplier will deliver a fully integrated Finance System that enables compliant financial management in accordance with the Academies Trust Handbook (ATH), all ESFA reporting obligations, and the Trust\u2019s Finance Policy.\n\nVerification\nSupported by 1 document"
+    },
+    {
+      "id": "TIME-008",
+      "correct": false,
+      "reason": "The system answer indicates that it couldn't verify the information from the available procurement documents, which contradicts the reference answer provided.",
+      "expected": "31 March 2026",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements."
+    },
+    {
+      "id": "V4-003",
+      "correct": true,
+      "reason": "The system answer includes the required fact '2,000,000' and does not contradict the reference answer.",
+      "expected": "\u00a32,000,000",
+      "answer": "Answer\nThe total estimated value of the Supporting Holocaust Survivor Testimony contract including VAT is \u00a32,000,000.\n\nEvidence\n- 0508f7_tender_5 | tender | page 1 | section: Total value (estimated): \u00a32,000,000 including VAT\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "GRAPH-005",
+      "correct": false,
+      "reason": "The system answer is incorrect because it does not provide the required fact that there are 3 compliance certificates linked to the supplier evidenced by '06093e_tender_20.html'. The system's response indicates it couldn't verify this from the available procurement documents, which contradicts the r",
+      "expected": "3",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements."
+    },
+    {
+      "id": "AMEND-008",
+      "correct": false,
+      "reason": "The system answer is 'Answer' which is not a specific revision label. The reference answer requires a specific revision label, and the evidence does not provide a clear answer to the question.",
+      "expected": "Amendment S",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nEvidence\n- 065b20_tender_6.pdf \u2014 p.20: The document contains a table of amendments to the response documents, but it does not specify a revision label.\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "OBL-002",
+      "correct": false,
+      "reason": "The system answer does not include the required fact 'The Department for Education (the department) is looking for a provider to' and contradicts the reference answer by stating that the evidence could not be verified.",
+      "expected": "The Department for Education (the department) is looking for a provider to help schools with fulfilling the ambition for young people to hear recorded survivor testimony by enabling access to",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements."
+    },
+    {
+      "id": "DATE-007",
+      "correct": false,
+      "reason": "The system answer contradicts the reference answer. The reference answer states that the estimated contract period ends on 31 March 2026, while the system answer states it ends on 15 September 2031.",
+      "expected": "31 March 2026",
+      "answer": "Answer\nThe estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' ends on 15 September 2031.\n\nEvidence\n- 0679c4_tender_7 \u2014 p.1: Contract dates (estimated) 15 September 2026 to 15 September 2031\n- 06d2dd_tender_8 \u2014 p.1: Same for all parts Contract locations and contract dates are shown in the Scope section, because they are the same for all parts.\n\nVerification\nSupporte"
+    },
+    {
+      "id": "DATE-001",
+      "correct": false,
+      "reason": "The system answer does not provide the required fact '7 July 2025'. Instead, it states 'I couldn't verify this from the available procurement documents.' This indicates that the system could not find the information, rather than providing the correct answer.",
+      "expected": "7 July 2025",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "V4-022",
+      "correct": false,
+      "reason": "The system answer does not provide the specific required fact '120 days' as requested in the question. Instead, it provides a general overview of the tender process and requirements.",
+      "expected": "120 days",
+      "answer": "The evidence provided is a detailed document from a tender process for a procurement by UKRI. It includes sections on the ITT Documents, Conditions of Response, Conditions of Tendering, Contract, Contracting Bodies, Authority, Due Diligence Information, EIR, FOIA, FTS Contract Notice, Information, Lot, Mandatory, and ITT. The document also includes a table of terms and their meanings. The evidence"
+    },
+    {
+      "id": "REL-002",
+      "correct": false,
+      "reason": "The system answer indicates that it couldn't verify the information from the available procurement documents, which contradicts the reference answer provided.",
+      "expected": "Bradshaw  Advisory",
+      "answer": "I couldn't verify this from the available procurement documents."
+    },
+    {
+      "id": "V4-015",
+      "correct": true,
+      "reason": "The system answer correctly states the split between quality and price for the Fulwood Bridge Painting tender as 50% Quality and 50% Price, which matches the required fact provided in the reference answer.",
+      "expected": "50% quality, 50% price",
+      "answer": "Answer\nThe split between quality and price for the Fulwood Bridge Painting tender is 50% Quality and 50% Price.\n\nEvidence\n- 0683f4_tender_14 | tender | page 1: Award criteria Award criteria states \"50% Quality\" and \"50% Price\"\n\nVerification\nSupported by 1 document"
+    },
+    {
+      "id": "GRAPH-002",
+      "correct": false,
+      "reason": "The system answer does not provide any information about the compliance certificates linked to the supplier associated with any other party. It only states that it couldn't verify this from the available procurement documents, which does not address the question at all.",
+      "expected": "GDPR, Modern Slavery Act",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements."
+    },
+    {
+      "id": "TIME-002",
+      "correct": false,
+      "reason": "The system answer is correct only if every required fact is present. The required fact '6 June 2025' is not present in the system answer, which states 'I couldn't verify this from the available procurement documents.'",
+      "expected": "6 June 2025",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The corpus holds no evidence for the entities or period asked about (product=Supporting Holocaust Survivor Testimony in Teaching \u2014 no retrieved row or passage is about Supporting Holocaust Survivor Testimony in Teaching; period=2026-11-12 \u2014 no retrieved row or passage falls in 2026-11-12). Nothing is asserted because there is n"
+    },
+    {
+      "id": "PARTY-010",
+      "correct": false,
+      "reason": "The system answer is 'Answer' and it couldn't be verified from the available procurement documents. The required fact 'UKG13 - Warwickshire' is not present in the system answer.",
+      "expected": "UKG13 - Warwickshire",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "PAY-002",
+      "correct": false,
+      "reason": "The system answer includes additional payment terms (25% invoiced upon completion of the build, 25% following completion of testing, 25% following go live plus 1 month) that are not present in the reference answer.",
+      "expected": "25% invoiced upon Contract Signature",
+      "answer": "Answer\nThe '06093e_tender_20' notice requires the following payment profile for implementation costs:\n- 25% invoiced upon Contract Signature\n- 25% invoiced upon completion of the build\n- 25% following completion of testing\n- 25% following go live plus 1 month\n\nVerification\nSupported by 1 document"
+    },
+    {
+      "id": "PARTY-007",
+      "correct": false,
+      "reason": "The system answer is 'Answer' and it is not a specific region as required by the question. The reference answer 'UKI32 - Westminster' is not present in the system answer.",
+      "expected": "UKI32 - Westminster",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "V4-007",
+      "correct": true,
+      "reason": "The system answer correctly states the estimated value of the Castlewellan Peace Maze festivals procurement excluding VAT as \u00a321,790.39, which matches the required fact provided in the reference answer.",
+      "expected": "\u00a321,790.39",
+      "answer": "Answer\nThe estimated value of the Castlewellan Peace Maze festivals procurement excluding VAT is \u00a321,790.39.\n\nEvidence\n- 065308_tender_2 \u2014 p.1: Total value (estimated) \u00a321,790.39 excluding VAT\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "V4-024",
+      "correct": true,
+      "reason": "The system answer correctly states that 10% of the BGS waste management award is allocated to Social Value. All required facts are present and there is no contradiction with the reference answer.",
+      "expected": "10%",
+      "answer": "Answer\nThe percentage of the BGS waste management award allocated to Social Value is 10%.\n\nEvidence\n- [1] Source: 06d0c8_tender_17 | tender | page 1 | section: Award criteria Award criteria\nAward criteria Award criteria\n60% Technical, 30% Commercial, 10% Social Value\n- [2] Source: 065b20_tender_6 | tender | page 13\nTable 1 on page 13\n|  |  | Technical/Quality | 06.10 | Social Value | 10.00% |  |\n-"
+    },
+    {
+      "id": "DATE-010",
+      "correct": true,
+      "reason": "The system answer correctly states the estimated award decision date for 'Supporting Holocaust Survivor Testimony in Teaching' as 31 July 2025, which matches the reference answer and includes all required facts.",
+      "expected": "31 July 2025",
+      "answer": "Answer\nThe estimated award decision date for 'Supporting Holocaust Survivor Testimony in Teaching' is 31 July 2025.\n\nEvidence\n- 0508f7_tender_5 | tender | page 1 | section: Award decision date (estimated): Award decision date (estimated) 31 July 2025\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "META-016",
+      "correct": true,
+      "reason": "The system answer correctly identifies the notice identifier recorded for the tender 'NBI Energy Centre - Next Generation Infrastructure Programme' as '2025/S 000-074135', which is present in the required facts.",
+      "expected": "2025/S 000-074135",
+      "answer": "Answer\nThe notice identifier recorded for the tender 'NBI Energy Centre - Next Generation Infrastructure Programme' is 2025/S 000-074135.\n\nVerification\nSupported by 1 document"
+    },
+    {
+      "id": "PARTY-006",
+      "correct": false,
+      "reason": "The system answer is 'Answer' which is not a specific name and does not provide the required fact 'Anne Hardy'. The verification also indicates that the information could not be verified from the available procurement documents.",
+      "expected": "Anne Hardy",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated"
+    },
+    {
+      "id": "DATE-018",
+      "correct": false,
+      "reason": "The system answer states that the estimated contract period starts on 15 September 2026, but the reference answer states that it starts on 1 September 2026. The required fact '1 September 2026' is not present in the system answer.",
+      "expected": "1 September 2026",
+      "answer": "Answer\nThe estimated contract period for 'ACE - Provision of Financial Management System' starts on 15 September 2026.\n\nEvidence\n- Source: 0679c4_tender_7 | tender | page 1 | section: Contract dates (estimated) \u2014 p.1: Contract dates (estimated) 15 September 2026 to 15 September 2031\n- Source: 06093e_tender_20 | tender | page 1 | section: Contract dates (estimated) \u2014 p.1: Contract dates (estimated)"
+    },
+    {
+      "id": "PARTY-005",
+      "correct": true,
+      "reason": "The system answer correctly identifies the Department for Education as the contracting authority for 'Supporting Holocaust Survivor Testimony in Teaching'. All required facts are present and there is no contradiction with the reference answer.",
+      "expected": "Department for Education",
+      "answer": "Answer\nThe contracting authority for 'Supporting Holocaust Survivor Testimony in Teaching' is the Department for Education.\n\nEvidence\n- 0508f7_tender_5 | tender | page 1 | section: Description \u2014 The Department for Education (the department) is looking for a provider to help schools with fulfilling the ambition for young people to hear recorded survivor testimony.\n- 0508f7_tender_5 | tender | page "
+    },
+    {
+      "id": "V4-010",
+      "correct": true,
+      "reason": "The system answer includes the total estimated value of the robotic milking system maintenance contract including VAT, which is \u00a3288,000. This matches the required fact provided in the reference answer.",
+      "expected": "\u00a3288,000",
+      "answer": "Answer\nThe total estimated value of the robotic milking system maintenance contract including VAT is \u00a3288,000.\n\nEvidence\n- 06e110_tender_4 | tender | page 1 | section: Total value (estimated): \u00a3240,000 excluding VAT, \u00a3288,000 including VAT\n\nVerification\nSingle source, not corroborated"
+    }
+  ]
+}

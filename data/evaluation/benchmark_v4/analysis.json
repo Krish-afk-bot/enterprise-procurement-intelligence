@@ -1,0 +1,1760 @@
+{
+  "generated_from": {
+    "baseline_v3": 120,
+    "run_A": 150,
+    "run_B": 120
+  },
+  "baseline_v3": {
+    "questions": 120,
+    "retrieval": {
+      "questions": 70,
+      "recall_at_1": 0.75,
+      "recall_at_3": 0.8529,
+      "recall_at_5": 0.8676,
+      "recall_at_10": 0.8676,
+      "mrr": 0.779,
+      "ndcg_at_10": 0.7953,
+      "page_hit_rate": {
+        "rate": 0.9091,
+        "low": 0.8155,
+        "high": 0.9577,
+        "successes": 60,
+        "total": 66
+      }
+    },
+    "answer": {
+      "questions": 81,
+      "literal_correct": {
+        "rate": 0.3827,
+        "low": 0.2845,
+        "high": 0.4916,
+        "successes": 31,
+        "total": 81
+      },
+      "normalized_correct": {
+        "rate": 0.3827,
+        "low": 0.2845,
+        "high": 0.4916,
+        "successes": 31,
+        "total": 81
+      }
+    },
+    "refusal": {
+      "tp": 30,
+      "fp_false_refusal": 40,
+      "fn_false_answer": 9,
+      "tn": 41,
+      "precision": 0.4286,
+      "recall": 0.7692,
+      "accuracy": {
+        "rate": 0.5917,
+        "low": 0.5022,
+        "high": 0.6754,
+        "successes": 71,
+        "total": 120
+      },
+      "questions": 120
+    },
+    "faithfulness": {
+      "questions": 65,
+      "mean": 0.6938,
+      "unsupported_claim_rate": 0.3062
+    },
+    "citation": {
+      "questions": 43,
+      "precision": 0.774,
+      "recall": 0.5588,
+      "all_valid_rate": {
+        "rate": 1.0,
+        "low": 0.5101,
+        "high": 1,
+        "successes": 4,
+        "total": 4
+      }
+    },
+    "temporal": {
+      "rate": 0.7,
+      "low": 0.3968,
+      "high": 0.8922,
+      "successes": 7,
+      "total": 10
+    },
+    "latency_ms": {
+      "count": 120,
+      "p50": 9151,
+      "p95": 16279,
+      "p99": 30437,
+      "max": 32180,
+      "mean": 9744.8
+    },
+    "tokens": {
+      "prompt": 195964,
+      "completion": 7094
+    },
+    "failure_taxonomy": {
+      "none": 61,
+      "refusal_failure": 49,
+      "error": 3,
+      "generation_error": 3,
+      "wrong_context_selected": 2,
+      "verification_miss": 1,
+      "temporal_error": 1
+    },
+    "by_category": {
+      "amendments": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": 0.0,
+        "citation_precision": null,
+        "refusal_precision": 0.875,
+        "refusal_recall": 1.0,
+        "p50_ms": 12575
+      },
+      "clauses": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.75,
+        "p50_ms": 7054
+      },
+      "dates_and_duration": {
+        "questions": 18,
+        "answer_normalized": 0.3889,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.6148,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 8958
+      },
+      "document_metadata": {
+        "questions": 18,
+        "answer_normalized": 0.7222,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8988,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5639
+      },
+      "graph_multi_hop": {
+        "questions": 6,
+        "answer_normalized": 0.0,
+        "recall_at_10": 0.3333,
+        "citation_precision": 0.0,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 8359
+      },
+      "historical_temporal": {
+        "questions": 10,
+        "answer_normalized": 0.7,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.875,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 10784
+      },
+      "obligations": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": 0.875,
+        "citation_precision": 0.6389,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 11604
+      },
+      "parties": {
+        "questions": 10,
+        "answer_normalized": 0.3,
+        "recall_at_10": 0.5,
+        "citation_precision": 0.8333,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 4511
+      },
+      "payment_terms": {
+        "questions": 8,
+        "answer_normalized": 0.5,
+        "recall_at_10": 0.5,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.6667,
+        "refusal_recall": 0.3333,
+        "p50_ms": 7866
+      },
+      "pricing_schedules": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "p50_ms": 8853
+      },
+      "supplier_buyer_relationships": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 12781
+      },
+      "unanswerable": {
+        "questions": 10,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.7,
+        "p50_ms": 12685
+      }
+    },
+    "by_intent": {
+      "contract_terms": {
+        "questions": 42,
+        "answer_normalized": 0.2857,
+        "recall_at_10": 0.9286,
+        "citation_precision": 0.6479,
+        "refusal_precision": 0.3478,
+        "refusal_recall": 0.5714,
+        "p50_ms": 9225
+      },
+      "document_lookup": {
+        "questions": 18,
+        "answer_normalized": 0.7222,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8988,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5639
+      },
+      "general": {
+        "questions": 10,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.7,
+        "p50_ms": 12685
+      },
+      "price_lookup": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "p50_ms": 8853
+      },
+      "relationship": {
+        "questions": 24,
+        "answer_normalized": 0.125,
+        "recall_at_10": 0.4545,
+        "citation_precision": 0.6667,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 8815
+      },
+      "temporal_change": {
+        "questions": 18,
+        "answer_normalized": 0.6364,
+        "recall_at_10": 0.9091,
+        "citation_precision": 0.875,
+        "refusal_precision": 0.7,
+        "refusal_recall": 1.0,
+        "p50_ms": 10809
+      }
+    },
+    "scored_excluding_needs_review": {
+      "questions": 105,
+      "retrieval": {
+        "questions": 66,
+        "recall_at_1": 0.7969,
+        "recall_at_3": 0.9062,
+        "recall_at_5": 0.9062,
+        "recall_at_10": 0.9062,
+        "mrr": 0.8232,
+        "ndcg_at_10": 0.8377,
+        "page_hit_rate": {
+          "rate": 0.9091,
+          "low": 0.8155,
+          "high": 0.9577,
+          "successes": 60,
+          "total": 66
+        }
+      },
+      "answer": {
+        "questions": 66,
+        "literal_correct": {
+          "rate": 0.4697,
+          "low": 0.3543,
+          "high": 0.5884,
+          "successes": 31,
+          "total": 66
+        },
+        "normalized_correct": {
+          "rate": 0.4697,
+          "low": 0.3543,
+          "high": 0.5884,
+          "successes": 31,
+          "total": 66
+        }
+      },
+      "refusal": {
+        "tp": 30,
+        "fp_false_refusal": 26,
+        "fn_false_answer": 9,
+        "tn": 40,
+        "precision": 0.5357,
+        "recall": 0.7692,
+        "accuracy": {
+          "rate": 0.6667,
+          "low": 0.572,
+          "high": 0.7495,
+          "successes": 70,
+          "total": 105
+        },
+        "questions": 105
+      },
+      "faithfulness": {
+        "questions": 64,
+        "mean": 0.6969,
+        "unsupported_claim_rate": 0.3031
+      },
+      "citation": {
+        "questions": 42,
+        "precision": 0.7925,
+        "recall": 0.5938,
+        "all_valid_rate": {
+          "rate": 1.0,
+          "low": 0.5101,
+          "high": 1,
+          "successes": 4,
+          "total": 4
+        }
+      },
+      "temporal": {
+        "rate": 0.7,
+        "low": 0.3968,
+        "high": 0.8922,
+        "successes": 7,
+        "total": 10
+      },
+      "latency_ms": {
+        "count": 105,
+        "p50": 8994,
+        "p95": 15585,
+        "p99": 16812,
+        "max": 32180,
+        "mean": 9382.3
+      },
+      "tokens": {
+        "prompt": 175020,
+        "completion": 6839
+      },
+      "failure_taxonomy": {
+        "none": 61,
+        "refusal_failure": 35,
+        "error": 2,
+        "generation_error": 3,
+        "wrong_context_selected": 2,
+        "verification_miss": 1,
+        "temporal_error": 1
+      }
+    },
+    "by_origin": {
+      "v3": {
+        "questions": 120,
+        "answer_normalized": 0.3827,
+        "recall_at_10": 0.8676,
+        "citation_precision": 0.774,
+        "refusal_precision": 0.4286,
+        "refusal_recall": 0.7692,
+        "p50_ms": 9151
+      }
+    }
+  },
+  "run_A": {
+    "questions": 150,
+    "retrieval": {
+      "questions": 98,
+      "recall_at_1": 0.8163,
+      "recall_at_3": 0.9286,
+      "recall_at_5": 0.949,
+      "recall_at_10": 0.9796,
+      "mrr": 0.8778,
+      "ndcg_at_10": 0.9028,
+      "page_hit_rate": {
+        "rate": 0.9894,
+        "low": 0.9422,
+        "high": 0.9981,
+        "successes": 93,
+        "total": 94
+      }
+    },
+    "answer": {
+      "questions": 109,
+      "literal_correct": {
+        "rate": 0.4404,
+        "low": 0.3508,
+        "high": 0.534,
+        "successes": 48,
+        "total": 109
+      },
+      "normalized_correct": {
+        "rate": 0.4404,
+        "low": 0.3508,
+        "high": 0.534,
+        "successes": 48,
+        "total": 109
+      }
+    },
+    "refusal": {
+      "tp": 33,
+      "fp_false_refusal": 34,
+      "fn_false_answer": 8,
+      "tn": 75,
+      "precision": 0.4925,
+      "recall": 0.8049,
+      "accuracy": {
+        "rate": 0.72,
+        "low": 0.6433,
+        "high": 0.7857,
+        "successes": 108,
+        "total": 150
+      },
+      "questions": 150
+    },
+    "faithfulness": {
+      "questions": 99,
+      "mean": 0.6734,
+      "unsupported_claim_rate": 0.3266
+    },
+    "citation": {
+      "questions": 85,
+      "precision": 0.6957,
+      "recall": 0.7551,
+      "all_valid_rate": {
+        "rate": 1.0,
+        "low": 0.6756,
+        "high": 1,
+        "successes": 8,
+        "total": 8
+      }
+    },
+    "temporal": {
+      "rate": 0.7,
+      "low": 0.3968,
+      "high": 0.8922,
+      "successes": 7,
+      "total": 10
+    },
+    "latency_ms": {
+      "count": 150,
+      "p50": 9316,
+      "p95": 29479,
+      "p99": 46042,
+      "max": 48445,
+      "mean": 11903.0
+    },
+    "tokens": {
+      "prompt": 280736,
+      "completion": 11221
+    },
+    "failure_taxonomy": {
+      "none": 81,
+      "refusal_failure": 42,
+      "verification_miss": 7,
+      "wrong_context_selected": 8,
+      "generation_error": 11,
+      "temporal_error": 1
+    },
+    "by_category": {
+      "amendments": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.875,
+        "refusal_recall": 1.0,
+        "p50_ms": 8177
+      },
+      "award_criteria": {
+        "questions": 7,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.7083,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 11907
+      },
+      "clauses": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.875,
+        "p50_ms": 6100
+      },
+      "compliance_check": {
+        "questions": 1,
+        "answer_normalized": 1.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "refusal_recall": null,
+        "p50_ms": 13828
+      },
+      "contract_terms": {
+        "questions": 2,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 17767
+      },
+      "dates_and_duration": {
+        "questions": 23,
+        "answer_normalized": 0.5217,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.5703,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 8453
+      },
+      "document_metadata": {
+        "questions": 18,
+        "answer_normalized": 0.7778,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8115,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5566
+      },
+      "graph_multi_hop": {
+        "questions": 6,
+        "answer_normalized": 0.1667,
+        "recall_at_10": 0.6667,
+        "citation_precision": 0.0,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 16810
+      },
+      "historical_temporal": {
+        "questions": 10,
+        "answer_normalized": 0.7,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.875,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 10759
+      },
+      "obligations": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.9286,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 10180
+      },
+      "parties": {
+        "questions": 11,
+        "answer_normalized": 0.5455,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.606,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 9267
+      },
+      "payment_terms": {
+        "questions": 8,
+        "answer_normalized": 0.5,
+        "recall_at_10": 0.5,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.6667,
+        "refusal_recall": 0.3333,
+        "p50_ms": 6332
+      },
+      "pricing_schedules": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "p50_ms": 5855
+      },
+      "procurement_values": {
+        "questions": 10,
+        "answer_normalized": 0.5,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.5033,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 9509
+      },
+      "structured_data": {
+        "questions": 2,
+        "answer_normalized": 0.5,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 13791
+      },
+      "supplier_buyer_relationships": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 16286
+      },
+      "unanswerable": {
+        "questions": 10,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.7,
+        "p50_ms": 11364
+      },
+      "unanswerable_near_miss": {
+        "questions": 2,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "p50_ms": 8714
+      }
+    },
+    "by_intent": {
+      "aggregation": {
+        "questions": 2,
+        "answer_normalized": 0.5,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 13791
+      },
+      "comparison": {
+        "questions": 7,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.7083,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 11907
+      },
+      "contract_terms": {
+        "questions": 47,
+        "answer_normalized": 0.3939,
+        "recall_at_10": 0.9697,
+        "citation_precision": 0.6651,
+        "refusal_precision": 0.6429,
+        "refusal_recall": 0.6429,
+        "p50_ms": 7759
+      },
+      "document_lookup": {
+        "questions": 18,
+        "answer_normalized": 0.7778,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8115,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5566
+      },
+      "general": {
+        "questions": 15,
+        "answer_normalized": 0.3333,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.9,
+        "refusal_recall": 0.75,
+        "p50_ms": 13828
+      },
+      "price_lookup": {
+        "questions": 18,
+        "answer_normalized": 0.5,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.5033,
+        "refusal_precision": 0.8,
+        "refusal_recall": 1.0,
+        "p50_ms": 8699
+      },
+      "relationship": {
+        "questions": 25,
+        "answer_normalized": 0.28,
+        "recall_at_10": 0.9286,
+        "citation_precision": 0.5555,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 15060
+      },
+      "temporal_change": {
+        "questions": 18,
+        "answer_normalized": 0.6364,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8889,
+        "refusal_precision": 0.7,
+        "refusal_recall": 1.0,
+        "p50_ms": 9804
+      }
+    },
+    "scored_excluding_needs_review": {
+      "questions": 135,
+      "retrieval": {
+        "questions": 94,
+        "recall_at_1": 0.8404,
+        "recall_at_3": 0.9468,
+        "recall_at_5": 0.9574,
+        "recall_at_10": 0.9894,
+        "mrr": 0.8971,
+        "ndcg_at_10": 0.9198,
+        "page_hit_rate": {
+          "rate": 0.9894,
+          "low": 0.9422,
+          "high": 0.9981,
+          "successes": 93,
+          "total": 94
+        }
+      },
+      "answer": {
+        "questions": 94,
+        "literal_correct": {
+          "rate": 0.5,
+          "low": 0.4009,
+          "high": 0.5991,
+          "successes": 47,
+          "total": 94
+        },
+        "normalized_correct": {
+          "rate": 0.5,
+          "low": 0.4009,
+          "high": 0.5991,
+          "successes": 47,
+          "total": 94
+        }
+      },
+      "refusal": {
+        "tp": 33,
+        "fp_false_refusal": 21,
+        "fn_false_answer": 8,
+        "tn": 73,
+        "precision": 0.6111,
+        "recall": 0.8049,
+        "accuracy": {
+          "rate": 0.7852,
+          "low": 0.7085,
+          "high": 0.8461,
+          "successes": 106,
+          "total": 135
+        },
+        "questions": 135
+      },
+      "faithfulness": {
+        "questions": 92,
+        "mean": 0.6974,
+        "unsupported_claim_rate": 0.3026
+      },
+      "citation": {
+        "questions": 83,
+        "precision": 0.7004,
+        "recall": 0.7766,
+        "all_valid_rate": {
+          "rate": 1.0,
+          "low": 0.6756,
+          "high": 1,
+          "successes": 8,
+          "total": 8
+        }
+      },
+      "temporal": {
+        "rate": 0.7,
+        "low": 0.3968,
+        "high": 0.8922,
+        "successes": 7,
+        "total": 10
+      },
+      "latency_ms": {
+        "count": 135,
+        "p50": 8812,
+        "p95": 20666,
+        "p99": 35847,
+        "max": 39599,
+        "mean": 10389.8
+      },
+      "tokens": {
+        "prompt": 240654,
+        "completion": 10480
+      },
+      "failure_taxonomy": {
+        "none": 80,
+        "refusal_failure": 29,
+        "verification_miss": 7,
+        "wrong_context_selected": 8,
+        "generation_error": 10,
+        "temporal_error": 1
+      }
+    },
+    "by_origin": {
+      "v3": {
+        "questions": 120,
+        "answer_normalized": 0.4691,
+        "recall_at_10": 0.9714,
+        "citation_precision": 0.7099,
+        "refusal_precision": 0.5345,
+        "refusal_recall": 0.7949,
+        "p50_ms": 8117
+      },
+      "v4_new": {
+        "questions": 30,
+        "answer_normalized": 0.3571,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.6572,
+        "refusal_precision": 0.2222,
+        "refusal_recall": 1.0,
+        "p50_ms": 11907
+      }
+    }
+  },
+  "run_B": {
+    "questions": 120,
+    "retrieval": {
+      "questions": 70,
+      "recall_at_1": 0.8429,
+      "recall_at_3": 0.9143,
+      "recall_at_5": 0.9429,
+      "recall_at_10": 0.9714,
+      "mrr": 0.8864,
+      "ndcg_at_10": 0.907,
+      "page_hit_rate": {
+        "rate": 1.0,
+        "low": 0.945,
+        "high": 1,
+        "successes": 66,
+        "total": 66
+      }
+    },
+    "answer": {
+      "questions": 81,
+      "literal_correct": {
+        "rate": 0.4691,
+        "low": 0.3643,
+        "high": 0.5767,
+        "successes": 38,
+        "total": 81
+      },
+      "normalized_correct": {
+        "rate": 0.4691,
+        "low": 0.3643,
+        "high": 0.5767,
+        "successes": 38,
+        "total": 81
+      }
+    },
+    "refusal": {
+      "tp": 31,
+      "fp_false_refusal": 27,
+      "fn_false_answer": 8,
+      "tn": 54,
+      "precision": 0.5345,
+      "recall": 0.7949,
+      "accuracy": {
+        "rate": 0.7083,
+        "low": 0.6216,
+        "high": 0.7822,
+        "successes": 85,
+        "total": 120
+      },
+      "questions": 120
+    },
+    "faithfulness": {
+      "questions": 76,
+      "mean": 0.7411,
+      "unsupported_claim_rate": 0.2589
+    },
+    "citation": {
+      "questions": 61,
+      "precision": 0.7407,
+      "recall": 0.7857,
+      "all_valid_rate": {
+        "rate": 1.0,
+        "low": 0.5101,
+        "high": 1,
+        "successes": 4,
+        "total": 4
+      }
+    },
+    "temporal": {
+      "rate": 0.7,
+      "low": 0.3968,
+      "high": 0.8922,
+      "successes": 7,
+      "total": 10
+    },
+    "latency_ms": {
+      "count": 120,
+      "p50": 7812,
+      "p95": 33057,
+      "p99": 53552,
+      "max": 60849,
+      "mean": 11292.3
+    },
+    "tokens": {
+      "prompt": 231034,
+      "completion": 9382
+    },
+    "failure_taxonomy": {
+      "none": 69,
+      "refusal_failure": 35,
+      "verification_miss": 8,
+      "wrong_context_selected": 3,
+      "generation_error": 4,
+      "temporal_error": 1
+    },
+    "by_category": {
+      "amendments": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.875,
+        "refusal_recall": 1.0,
+        "p50_ms": 7812
+      },
+      "clauses": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.875,
+        "p50_ms": 6101
+      },
+      "dates_and_duration": {
+        "questions": 18,
+        "answer_normalized": 0.5556,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.5542,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5765
+      },
+      "document_metadata": {
+        "questions": 18,
+        "answer_normalized": 0.7778,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8115,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5543
+      },
+      "graph_multi_hop": {
+        "questions": 6,
+        "answer_normalized": 0.1667,
+        "recall_at_10": 0.6667,
+        "citation_precision": 0.0,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 20570
+      },
+      "historical_temporal": {
+        "questions": 10,
+        "answer_normalized": 0.7,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.875,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 10996
+      },
+      "obligations": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.9375,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 10390
+      },
+      "parties": {
+        "questions": 10,
+        "answer_normalized": 0.5,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.6833,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 7332
+      },
+      "payment_terms": {
+        "questions": 8,
+        "answer_normalized": 0.5,
+        "recall_at_10": 0.5,
+        "citation_precision": 1.0,
+        "refusal_precision": 0.6667,
+        "refusal_recall": 0.3333,
+        "p50_ms": 6410
+      },
+      "pricing_schedules": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "p50_ms": 5798
+      },
+      "supplier_buyer_relationships": {
+        "questions": 8,
+        "answer_normalized": 0.0,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 24347
+      },
+      "unanswerable": {
+        "questions": 10,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.7,
+        "p50_ms": 13355
+      }
+    },
+    "by_intent": {
+      "contract_terms": {
+        "questions": 42,
+        "answer_normalized": 0.3929,
+        "recall_at_10": 0.9643,
+        "citation_precision": 0.6947,
+        "refusal_precision": 0.6,
+        "refusal_recall": 0.6429,
+        "p50_ms": 6410
+      },
+      "document_lookup": {
+        "questions": 18,
+        "answer_normalized": 0.7778,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8115,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 5543
+      },
+      "general": {
+        "questions": 10,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 0.7,
+        "p50_ms": 13355
+      },
+      "price_lookup": {
+        "questions": 8,
+        "answer_normalized": null,
+        "recall_at_10": null,
+        "citation_precision": null,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "p50_ms": 5798
+      },
+      "relationship": {
+        "questions": 24,
+        "answer_normalized": 0.25,
+        "recall_at_10": 0.9231,
+        "citation_precision": 0.6212,
+        "refusal_precision": 0.0,
+        "refusal_recall": null,
+        "p50_ms": 11662
+      },
+      "temporal_change": {
+        "questions": 18,
+        "answer_normalized": 0.6364,
+        "recall_at_10": 1.0,
+        "citation_precision": 0.8889,
+        "refusal_precision": 0.7,
+        "refusal_recall": 1.0,
+        "p50_ms": 9608
+      }
+    },
+    "scored_excluding_needs_review": {
+      "questions": 105,
+      "retrieval": {
+        "questions": 66,
+        "recall_at_1": 0.8788,
+        "recall_at_3": 0.9394,
+        "recall_at_5": 0.9545,
+        "recall_at_10": 0.9848,
+        "mrr": 0.9144,
+        "ndcg_at_10": 0.9314,
+        "page_hit_rate": {
+          "rate": 1.0,
+          "low": 0.945,
+          "high": 1,
+          "successes": 66,
+          "total": 66
+        }
+      },
+      "answer": {
+        "questions": 66,
+        "literal_correct": {
+          "rate": 0.5606,
+          "low": 0.4408,
+          "high": 0.6737,
+          "successes": 37,
+          "total": 66
+        },
+        "normalized_correct": {
+          "rate": 0.5606,
+          "low": 0.4408,
+          "high": 0.6737,
+          "successes": 37,
+          "total": 66
+        }
+      },
+      "refusal": {
+        "tp": 31,
+        "fp_false_refusal": 14,
+        "fn_false_answer": 8,
+        "tn": 52,
+        "precision": 0.6889,
+        "recall": 0.7949,
+        "accuracy": {
+          "rate": 0.7905,
+          "low": 0.7031,
+          "high": 0.8574,
+          "successes": 83,
+          "total": 105
+        },
+        "questions": 105
+      },
+      "faithfulness": {
+        "questions": 69,
+        "mean": 0.774,
+        "unsupported_claim_rate": 0.226
+      },
+      "citation": {
+        "questions": 59,
+        "precision": 0.7489,
+        "recall": 0.8182,
+        "all_valid_rate": {
+          "rate": 1.0,
+          "low": 0.5101,
+          "high": 1,
+          "successes": 4,
+          "total": 4
+        }
+      },
+      "temporal": {
+        "rate": 0.7,
+        "low": 0.3968,
+        "high": 0.8922,
+        "successes": 7,
+        "total": 10
+      },
+      "latency_ms": {
+        "count": 105,
+        "p50": 7445,
+        "p95": 19392,
+        "p99": 33057,
+        "max": 42095,
+        "mean": 8895.3
+      },
+      "tokens": {
+        "prompt": 190952,
+        "completion": 8581
+      },
+      "failure_taxonomy": {
+        "none": 68,
+        "refusal_failure": 22,
+        "verification_miss": 8,
+        "wrong_context_selected": 3,
+        "generation_error": 3,
+        "temporal_error": 1
+      }
+    },
+    "by_origin": {
+      "v3": {
+        "questions": 120,
+        "answer_normalized": 0.4691,
+        "recall_at_10": 0.9714,
+        "citation_precision": 0.7407,
+        "refusal_precision": 0.5345,
+        "refusal_recall": 0.7949,
+        "p50_ms": 7812
+      }
+    }
+  },
+  "comparison_120": {
+    "questions": 120,
+    "baseline": {
+      "questions": 120,
+      "retrieval": {
+        "questions": 70,
+        "recall_at_1": 0.75,
+        "recall_at_3": 0.8529,
+        "recall_at_5": 0.8676,
+        "recall_at_10": 0.8676,
+        "mrr": 0.779,
+        "ndcg_at_10": 0.7953,
+        "page_hit_rate": {
+          "rate": 0.9091,
+          "low": 0.8155,
+          "high": 0.9577,
+          "successes": 60,
+          "total": 66
+        }
+      },
+      "answer": {
+        "questions": 81,
+        "literal_correct": {
+          "rate": 0.3827,
+          "low": 0.2845,
+          "high": 0.4916,
+          "successes": 31,
+          "total": 81
+        },
+        "normalized_correct": {
+          "rate": 0.3827,
+          "low": 0.2845,
+          "high": 0.4916,
+          "successes": 31,
+          "total": 81
+        }
+      },
+      "refusal": {
+        "tp": 30,
+        "fp_false_refusal": 40,
+        "fn_false_answer": 9,
+        "tn": 41,
+        "precision": 0.4286,
+        "recall": 0.7692,
+        "accuracy": {
+          "rate": 0.5917,
+          "low": 0.5022,
+          "high": 0.6754,
+          "successes": 71,
+          "total": 120
+        },
+        "questions": 120
+      },
+      "faithfulness": {
+        "questions": 65,
+        "mean": 0.6938,
+        "unsupported_claim_rate": 0.3062
+      },
+      "citation": {
+        "questions": 43,
+        "precision": 0.774,
+        "recall": 0.5588,
+        "all_valid_rate": {
+          "rate": 1.0,
+          "low": 0.5101,
+          "high": 1,
+          "successes": 4,
+          "total": 4
+        }
+      },
+      "temporal": {
+        "rate": 0.7,
+        "low": 0.3968,
+        "high": 0.8922,
+        "successes": 7,
+        "total": 10
+      },
+      "latency_ms": {
+        "count": 120,
+        "p50": 9151,
+        "p95": 16279,
+        "p99": 30437,
+        "max": 32180,
+        "mean": 9744.8
+      },
+      "tokens": {
+        "prompt": 195964,
+        "completion": 7094
+      },
+      "failure_taxonomy": {
+        "none": 61,
+        "refusal_failure": 49,
+        "error": 3,
+        "generation_error": 3,
+        "wrong_context_selected": 2,
+        "verification_miss": 1,
+        "temporal_error": 1
+      }
+    },
+    "run_B": {
+      "questions": 120,
+      "retrieval": {
+        "questions": 70,
+        "recall_at_1": 0.8429,
+        "recall_at_3": 0.9143,
+        "recall_at_5": 0.9429,
+        "recall_at_10": 0.9714,
+        "mrr": 0.8864,
+        "ndcg_at_10": 0.907,
+        "page_hit_rate": {
+          "rate": 1.0,
+          "low": 0.945,
+          "high": 1,
+          "successes": 66,
+          "total": 66
+        }
+      },
+      "answer": {
+        "questions": 81,
+        "literal_correct": {
+          "rate": 0.4691,
+          "low": 0.3643,
+          "high": 0.5767,
+          "successes": 38,
+          "total": 81
+        },
+        "normalized_correct": {
+          "rate": 0.4691,
+          "low": 0.3643,
+          "high": 0.5767,
+          "successes": 38,
+          "total": 81
+        }
+      },
+      "refusal": {
+        "tp": 31,
+        "fp_false_refusal": 27,
+        "fn_false_answer": 8,
+        "tn": 54,
+        "precision": 0.5345,
+        "recall": 0.7949,
+        "accuracy": {
+          "rate": 0.7083,
+          "low": 0.6216,
+          "high": 0.7822,
+          "successes": 85,
+          "total": 120
+        },
+        "questions": 120
+      },
+      "faithfulness": {
+        "questions": 76,
+        "mean": 0.7411,
+        "unsupported_claim_rate": 0.2589
+      },
+      "citation": {
+        "questions": 61,
+        "precision": 0.7407,
+        "recall": 0.7857,
+        "all_valid_rate": {
+          "rate": 1.0,
+          "low": 0.5101,
+          "high": 1,
+          "successes": 4,
+          "total": 4
+        }
+      },
+      "temporal": {
+        "rate": 0.7,
+        "low": 0.3968,
+        "high": 0.8922,
+        "successes": 7,
+        "total": 10
+      },
+      "latency_ms": {
+        "count": 120,
+        "p50": 7812,
+        "p95": 33057,
+        "p99": 53552,
+        "max": 60849,
+        "mean": 11292.3
+      },
+      "tokens": {
+        "prompt": 231034,
+        "completion": 9382
+      },
+      "failure_taxonomy": {
+        "none": 69,
+        "refusal_failure": 35,
+        "verification_miss": 8,
+        "wrong_context_selected": 3,
+        "generation_error": 4,
+        "temporal_error": 1
+      }
+    },
+    "delta": {
+      "answer_literal": 0.0864,
+      "answer_normalized": 0.0864,
+      "recall_at_10": 0.1038,
+      "mrr": 0.1074
+    }
+  },
+  "failures_top20": [
+    {
+      "id": "META-005",
+      "category": "document_metadata",
+      "question": "Which CPV code leads the classification list for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "expected": "79415200 - Design consultancy services",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "04f6f2_tender_10",
+        "0523fd_tender_11",
+        "0508f7_tender_5",
+        "0679c4_tender_7",
+        "05a7e4_tender_18",
+        "06093e_tender_20",
+        "06d2dd_tender_8"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "79415200"
+      ]
+    },
+    {
+      "id": "META-010",
+      "category": "document_metadata",
+      "question": "Which CPV code leads the classification list for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "expected": "80000000 - Education and training services",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements.",
+      "retrieved": [
+        "0508f7_tender_5",
+        "06d2dd_tender_8",
+        "0685ae_tender_3",
+        "065b20_tender_6"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "80000000"
+      ]
+    },
+    {
+      "id": "META-014",
+      "category": "document_metadata",
+      "question": "Which main procurement category is recorded for 'Provision of a Human Resource System & Duties Management System'?",
+      "expected": "Goods",
+      "answer": "Answer\nThe main procurement category recorded for 'Provision of a Human Resource System & Duties Management System' is Services.\n\nEvidence\n- [3] Source: 06da37_tender_9 | tender | page 1 | section: Main procurement category\n- [4] Source: 0679c4_tender_7 | tender | page 1 | section: Main procurement category\n\nVerification\nSupported by 2 documents",
+      "retrieved": [
+        "0523fd_tender_11",
+        "06da37_tender_9",
+        "0679c4_tender_7",
+        "06093e_tender_20"
+      ],
+      "label": "verification_miss",
+      "facts_missing": [
+        "Goods"
+      ]
+    },
+    {
+      "id": "META-015",
+      "category": "document_metadata",
+      "question": "Which CPV code leads the classification list for 'Provision of a Human Resource System & Duties Management System'?",
+      "expected": "48000000 - Software package and information systems",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements.",
+      "retrieved": [
+        "0523fd_tender_11"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "48000000"
+      ]
+    },
+    {
+      "id": "PARTY-002",
+      "category": "parties",
+      "question": "Who is the named contact for the 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' procurement?",
+      "expected": "Chloe Higgins",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "04f6f2_tender_10",
+        "05a7e4_tender_18",
+        "0683f4_tender_14",
+        "069a8c_tender_15",
+        "06d0c8_tender_17",
+        "065b20_tender_6"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "Chloe Higgins"
+      ]
+    },
+    {
+      "id": "PARTY-003",
+      "category": "parties",
+      "question": "Which region is recorded for the contracting authority of 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "expected": "UKI33 - Kensington & Chelsea and Hammersmith & Fulham",
+      "answer": "Answer\nThe region recorded for the contracting authority of 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' is London.\n\nEvidence\n- 04f6f2_tender_10 | tender | page 1 | section: Contract locations \u2014 p.1: The contract locations are listed as UKI - London.\n- 06d0c8_tender_17 | tender | page 1 | section: Submission address and any special instructions \u2014 p.1: The tendering portal 'Atamis' is u",
+      "retrieved": [
+        "04f6f2_tender_10",
+        "0683f4_tender_14",
+        "0508f7_tender_5",
+        "06d0c8_tender_17"
+      ],
+      "label": "verification_miss",
+      "facts_missing": [
+        "UKI33 - Kensington & Chelsea and Hammersmith & Fulham"
+      ]
+    },
+    {
+      "id": "PARTY-006",
+      "category": "parties",
+      "question": "Who is the named contact for the 'Supporting Holocaust Survivor Testimony in Teaching' procurement?",
+      "expected": "Anne Hardy",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "0508f7_tender_5",
+        "06093e_tender_20",
+        "06d0c8_tender_17",
+        "065308_tender_2",
+        "060827_tender_19"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "Anne Hardy"
+      ]
+    },
+    {
+      "id": "PARTY-007",
+      "category": "parties",
+      "question": "Which region is recorded for the contracting authority of 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "expected": "UKI32 - Westminster",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "0508f7_tender_5",
+        "06093e_tender_20",
+        "065308_tender_2",
+        "066066_tender_12",
+        "0679c4_tender_7"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "UKI32 - Westminster"
+      ]
+    },
+    {
+      "id": "PARTY-010",
+      "category": "parties",
+      "question": "Which region is recorded for the contracting authority of 'Provision of a Human Resource System & Duties Management System'?",
+      "expected": "UKG13 - Warwickshire",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "0523fd_tender_11",
+        "06d0c8_tender_17",
+        "06093e_tender_20"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "UKG13 - Warwickshire"
+      ]
+    },
+    {
+      "id": "DATE-001",
+      "category": "dates_and_duration",
+      "question": "When does the estimated contract period for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' start?",
+      "expected": "7 July 2025",
+      "answer": "Answer\nI couldn't verify this from the available procurement documents.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "04f6f2_tender_10",
+        "0679c4_tender_7",
+        "0523fd_tender_11",
+        "069a8c_tender_15",
+        "0683f4_tender_14",
+        "06d0c8_tender_17",
+        "066066_tender_12",
+        "06da37_tender_9"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "7 July 2025"
+      ]
+    },
+    {
+      "id": "DATE-002",
+      "category": "dates_and_duration",
+      "question": "When does the estimated contract period for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' end?",
+      "expected": "1 August 2027",
+      "answer": "I couldn't verify this from the available procurement documents.",
+      "retrieved": [
+        "04f6f2_tender_10",
+        "0679c4_tender_7",
+        "0523fd_tender_11",
+        "069a8c_tender_15",
+        "0683f4_tender_14",
+        "066066_tender_12",
+        "06d0c8_tender_17",
+        "06da37_tender_9"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "1 August 2027"
+      ]
+    },
+    {
+      "id": "DATE-003",
+      "category": "dates_and_duration",
+      "question": "What contract duration is estimated for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "expected": "2 years, 26 days",
+      "answer": "Answer\nThe contract duration for 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' is estimated to be 4 years, starting from 1 October 2026 to 30 September 2030. This is supported by [1].\n\nVerification\nSupported by 1 document",
+      "retrieved": [
+        "06da37_tender_9",
+        "066066_tender_12",
+        "04f6f2_tender_10",
+        "06d0c8_tender_17",
+        "0683f4_tender_14",
+        "0679c4_tender_7",
+        "069a8c_tender_15",
+        "065b20_tender_6"
+      ],
+      "label": "wrong_context_selected",
+      "facts_missing": [
+        "2 years, 26 days"
+      ]
+    },
+    {
+      "id": "DATE-006",
+      "category": "dates_and_duration",
+      "question": "When does the estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' start?",
+      "expected": "1 August 2025",
+      "answer": "Answer\nThe estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' starts on 1 September 2027.\n\nEvidence\n- 069a8c_tender_15 \u2014 p.1: The estimated contract period is 1 September 2027 to 1 September 2047.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "069a8c_tender_15",
+        "0508f7_tender_5",
+        "0679c4_tender_7",
+        "06d2dd_tender_8"
+      ],
+      "label": "wrong_context_selected",
+      "facts_missing": [
+        "1 August 2025"
+      ]
+    },
+    {
+      "id": "DATE-007",
+      "category": "dates_and_duration",
+      "question": "When does the estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' end?",
+      "expected": "31 March 2026",
+      "answer": "Answer\nThe estimated contract period for 'Supporting Holocaust Survivor Testimony in Teaching' ends on 15 September 2031.\n\nEvidence\n- 0679c4_tender_7 \u2014 p.1: Contract dates (estimated) 15 September 2026 to 15 September 2031\n- 06d2dd_tender_8 \u2014 p.1: Same for all parts Contract locations and contract dates are shown in the Scope section, because they are the same for all parts.\n\nVerification\nSupporte",
+      "retrieved": [
+        "0508f7_tender_5",
+        "069a8c_tender_15",
+        "0679c4_tender_7",
+        "06d2dd_tender_8"
+      ],
+      "label": "wrong_context_selected",
+      "facts_missing": [
+        "31 March 2026"
+      ]
+    },
+    {
+      "id": "DATE-012",
+      "category": "dates_and_duration",
+      "question": "When does the estimated contract period for 'Provision of a Human Resource System & Duties Management System' end?",
+      "expected": "31 July 2032",
+      "answer": "Answer\nThe estimated contract period for 'Provision of a Human Resource System & Duties Management System' ends on 1 August 2035.\n\nEvidence\n- 0523fd_tender_11 \u2014 p.1: The contract dates and extension dates provided in this notice are for guidance only based upon estimated timescales of an implementation period February 2026 to July 2027 with an anticipated Go live of systems 01 August 2027. The con",
+      "retrieved": [
+        "0523fd_tender_11",
+        "0679c4_tender_7"
+      ],
+      "label": "generation_error",
+      "facts_missing": [
+        "31 July 2032"
+      ]
+    },
+    {
+      "id": "DATE-016",
+      "category": "dates_and_duration",
+      "question": "When does the estimated contract period for 'NBI Energy Centre - Next Generation Infrastructure Programme' end?",
+      "expected": "11 January 2028",
+      "answer": "Answer\nThe estimated contract period for 'NBI Energy Centre - Next Generation Infrastructure Programme' ends on 15 September 2031, as per the tender notice [9] published on 14 November 2025. This date is derived from the tender document [10], which specifies the project as part of the Next Generation Infrastructure (NGI) Programme and outlines the procurement process for the NBI Energy Centre.\n\nVe",
+      "retrieved": [
+        "06e110_tender_4",
+        "06da37_tender_9",
+        "066066_tender_12",
+        "06093e_tender_20",
+        "0679c4_tender_7",
+        "0523fd_tender_11",
+        "0685ae_tender_3",
+        "05a7e4_tender_18"
+      ],
+      "label": "generation_error",
+      "facts_missing": [
+        "11 January 2028"
+      ]
+    },
+    {
+      "id": "DATE-017",
+      "category": "dates_and_duration",
+      "question": "What award decision date is estimated for 'NBI Energy Centre - Next Generation Infrastructure Programme'?",
+      "expected": "8 May 2026",
+      "answer": "Answer\nThe estimated award decision date for 'NBI Energy Centre - Next Generation Infrastructure Programme' is 15 September 2026.\n\nEvidence\n- 0679c4_tender_7 \u2014 p.1: Award decision date (estimated) 15 September 2026\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "05a7e4_tender_18",
+        "06093e_tender_20",
+        "0523fd_tender_11",
+        "069a8c_tender_15",
+        "0679c4_tender_7"
+      ],
+      "label": "wrong_context_selected",
+      "facts_missing": [
+        "8 May 2026"
+      ]
+    },
+    {
+      "id": "PAY-001",
+      "category": "payment_terms",
+      "question": "What payment term is stated in the '06e110_tender_4' notice?",
+      "expected": "30 Days",
+      "answer": "I couldn't verify this from the available procurement documents.\n\nWhy: The evidence retrieved did not directly support the generated statements.",
+      "retrieved": [
+        "06093e_tender_20",
+        "065308_tender_2",
+        "0679c4_tender_7",
+        "0683f4_tender_14",
+        "0523fd_tender_11",
+        "06d0c8_tender_17"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": [
+        "30 Days"
+      ]
+    },
+    {
+      "id": "PAY-003",
+      "category": "payment_terms",
+      "question": "What payment terms does the 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' notice specify?",
+      "expected": null,
+      "answer": "Answer\nThe payment terms specified in the 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer' notice are 30 Days.\n\nEvidence\n- 06e110_tender_4 \u2014 p.1: Payment terms are 30 Days.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "06e110_tender_4",
+        "04f6f2_tender_10",
+        "06093e_tender_20",
+        "069a8c_tender_15",
+        "065b20_tender_6"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": []
+    },
+    {
+      "id": "PAY-004",
+      "category": "payment_terms",
+      "question": "What payment terms does the 'Supporting Holocaust Survivor Testimony in Teaching' notice specify?",
+      "expected": null,
+      "answer": "Answer\nThe 'Supporting Holocaust Survivor Testimony in Teaching' notice specifies payment terms of 30 Days.\n\nEvidence\n- 06e110_tender_4 \u2014 p.1: Payment terms are 30 Days.\n\nVerification\nSingle source, not corroborated",
+      "retrieved": [
+        "06e110_tender_4",
+        "0508f7_tender_5",
+        "06093e_tender_20",
+        "06d0c8_tender_17",
+        "0685ae_tender_3",
+        "065b20_tender_6"
+      ],
+      "label": "refusal_failure",
+      "facts_missing": []
+    }
+  ]
+}

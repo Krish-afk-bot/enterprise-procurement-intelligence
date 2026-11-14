@@ -1,0 +1,42 @@
+{
+  "name": "epi-benchmark-v4",
+  "version": "4.0.0",
+  "path": "..\\data\\evaluation\\benchmark_v4\\questions.json",
+  "created": "2026-11-14T10:01:17.697273+00:00",
+  "question_count": 150,
+  "categories": {
+    "document_metadata": 18,
+    "parties": 11,
+    "dates_and_duration": 23,
+    "payment_terms": 8,
+    "pricing_schedules": 8,
+    "clauses": 8,
+    "amendments": 8,
+    "obligations": 8,
+    "supplier_buyer_relationships": 8,
+    "graph_multi_hop": 6,
+    "historical_temporal": 10,
+    "unanswerable": 10,
+    "procurement_values": 10,
+    "award_criteria": 7,
+    "contract_terms": 2,
+    "compliance_check": 1,
+    "structured_data": 2,
+    "unanswerable_near_miss": 2
+  },
+  "answerable": 94,
+  "unanswerable": 41,
+  "needs_review": 15,
+  "auto_verified": 96,
+  "pending_review": 54,
+  "human_reviewed": 0,
+  "verification_methods": {
+    "verbatim_page_text+raw_html": 46,
+    "verbatim_page_text": 20,
+    "corpus_absence": 41,
+    "database_row": 9,
+    "graph_store": 6,
+    "page_text_match": 28
+  },
+  "corpus": {}
+}

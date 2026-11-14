@@ -1,5 +1,32 @@
 # Engineering Changelog
 
+## Unreleased — 14 November 2026
+
+### Added
+
+- **Benchmark v4 and full corpus rebuild.** All 20 source documents were re-ingested through the production
+  pipeline (19 indexed, 1 empty portal page), yielding 42 pages and 655 chunks with 98.1% character coverage.
+  `data/evaluation/benchmark_v4/` holds the 150-question set (120 v3 + 30 page-verified new questions with a
+  frozen SHA-256), per-question traces for Run A (150), Run B (120, comparison) and two 50-question variance
+  repeats, a coverage audit, intent/routing/MCP reports and `REPORT.md`.
+
+### Fixed
+
+- **Chunk ids are deterministic.** `chunks.id` was a random UUID, so re-ingesting a document produced different
+  ids and could not be checked for idempotency. Ids now hash document, indexing version, page, ordinal, role and
+  text; a re-run of `064670_tender_1.html` produced identical ids and counts.
+- **Parent/leaf chunk id collision.** A short section's parent text can equal its leaf text; the role is now part
+  of the hash so the parent id cannot equal its child's.
+- **README benchmark numbers** now come from the v4 run; the old 120-question table was replaced rather than
+  extended, and the stale 39.7% roadmap target was corrected.
+
+### Known gaps (recorded, not fixed)
+
+- One DOCX (`069b28_tender_16.docx`, 119 KB) exposes only 409 characters of text; its tender body is in an
+  embedded object/image that the parser does not read.
+- Chunk rows carry document/page provenance but no character offsets or bounding boxes.
+- The 22-page UKRI PDF loses ~6% of page characters to stripped headers/footers that are not tagged as boilerplate.
+
 ## Unreleased — 12 November 2026
 
 ### Added

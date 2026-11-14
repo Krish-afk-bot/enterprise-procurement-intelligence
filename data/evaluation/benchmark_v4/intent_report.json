@@ -1,0 +1,316 @@
+{
+  "sample_size": 45,
+  "accuracy": 0.4,
+  "per_intent": {
+    "price_lookup": {
+      "correct": 2,
+      "total": 5,
+      "accuracy": 0.4
+    },
+    "contract_terms": {
+      "correct": 2,
+      "total": 5,
+      "accuracy": 0.4
+    },
+    "comparison": {
+      "correct": 2,
+      "total": 5,
+      "accuracy": 0.4
+    },
+    "temporal_change": {
+      "correct": 0,
+      "total": 5,
+      "accuracy": 0.0
+    },
+    "compliance_check": {
+      "correct": 4,
+      "total": 5,
+      "accuracy": 0.8
+    },
+    "aggregation": {
+      "correct": 2,
+      "total": 5,
+      "accuracy": 0.4
+    },
+    "relationship": {
+      "correct": 1,
+      "total": 5,
+      "accuracy": 0.2
+    },
+    "document_lookup": {
+      "correct": 1,
+      "total": 5,
+      "accuracy": 0.2
+    },
+    "general": {
+      "correct": 4,
+      "total": 5,
+      "accuracy": 0.8
+    }
+  },
+  "confusion": {
+    "price_lookup": {
+      "aggregation": 3,
+      "price_lookup": 2
+    },
+    "contract_terms": {
+      "contract_terms": 2,
+      "general": 3
+    },
+    "comparison": {
+      "general": 3,
+      "comparison": 2
+    },
+    "temporal_change": {
+      "general": 4,
+      "aggregation": 1
+    },
+    "compliance_check": {
+      "compliance_check": 4,
+      "general": 1
+    },
+    "aggregation": {
+      "general": 3,
+      "aggregation": 2
+    },
+    "relationship": {
+      "relationship": 1,
+      "general": 4
+    },
+    "document_lookup": {
+      "general": 4,
+      "document_lookup": 1
+    },
+    "general": {
+      "general": 4,
+      "comparison": 1
+    }
+  },
+  "rows": [
+    {
+      "query": "What is the estimated value of the Critical Ventilation contract?",
+      "expected": "price_lookup",
+      "predicted": "aggregation"
+    },
+    {
+      "query": "How much is the ACE financial management system worth?",
+      "expected": "price_lookup",
+      "predicted": "aggregation"
+    },
+    {
+      "query": "What price did the council budget for the Peace Maze festivals?",
+      "expected": "price_lookup",
+      "predicted": "price_lookup"
+    },
+    {
+      "query": "What is the total contract value including VAT for the bike hire concession?",
+      "expected": "price_lookup",
+      "predicted": "aggregation"
+    },
+    {
+      "query": "What does the BGS waste management contract cost per year?",
+      "expected": "price_lookup",
+      "predicted": "price_lookup"
+    },
+    {
+      "query": "What payment terms apply to the robotic milking system contract?",
+      "expected": "contract_terms",
+      "predicted": "contract_terms"
+    },
+    {
+      "query": "How long does the BGS waste management contract run initially?",
+      "expected": "contract_terms",
+      "predicted": "general"
+    },
+    {
+      "query": "What is the response validity period for the UKRI tender?",
+      "expected": "contract_terms",
+      "predicted": "general"
+    },
+    {
+      "query": "Which clause covers termination of the loan management contract?",
+      "expected": "contract_terms",
+      "predicted": "contract_terms"
+    },
+    {
+      "query": "What insurance cover must the supplier hold for the ACE contract?",
+      "expected": "contract_terms",
+      "predicted": "general"
+    },
+    {
+      "query": "Which tender has the higher estimated value, Gallery 33 or Critical Ventilation?",
+      "expected": "comparison",
+      "predicted": "general"
+    },
+    {
+      "query": "Compare the payment terms of the ACE and Aberystwyth contracts.",
+      "expected": "comparison",
+      "predicted": "comparison"
+    },
+    {
+      "query": "Is the Holocaust testimony contract longer than the Peace Maze contract?",
+      "expected": "comparison",
+      "predicted": "general"
+    },
+    {
+      "query": "Which procurement offers the higher quality weighting, NBI Energy Centre or Old Oak?",
+      "expected": "comparison",
+      "predicted": "general"
+    },
+    {
+      "query": "How does the Camden bike hire value compare with the Fulwood bridge painting value?",
+      "expected": "comparison",
+      "predicted": "comparison"
+    },
+    {
+      "query": "What did the second amendment to the Old Oak procurement change?",
+      "expected": "temporal_change",
+      "predicted": "general"
+    },
+    {
+      "query": "As of 1 January 2026, what was the recorded value of contract NS-2024-001?",
+      "expected": "temporal_change",
+      "predicted": "aggregation"
+    },
+    {
+      "query": "Which contract superseded ORC-2021-777?",
+      "expected": "temporal_change",
+      "predicted": "general"
+    },
+    {
+      "query": "How has the closing date for the loan management system changed?",
+      "expected": "temporal_change",
+      "predicted": "general"
+    },
+    {
+      "query": "What was the publication date before the latest revision of the BGS notice?",
+      "expected": "temporal_change",
+      "predicted": "general"
+    },
+    {
+      "query": "Does the supplier hold ISO 27001 certification?",
+      "expected": "compliance_check",
+      "predicted": "compliance_check"
+    },
+    {
+      "query": "Which GDPR certificates are linked to the ACE supplier?",
+      "expected": "compliance_check",
+      "predicted": "compliance_check"
+    },
+    {
+      "query": "Is Northwind compliant with the Modern Slavery Act?",
+      "expected": "compliance_check",
+      "predicted": "compliance_check"
+    },
+    {
+      "query": "What employer's liability insurance level is required?",
+      "expected": "compliance_check",
+      "predicted": "general"
+    },
+    {
+      "query": "Are there any audit non-conformities recorded for the supplier?",
+      "expected": "compliance_check",
+      "predicted": "compliance_check"
+    },
+    {
+      "query": "How many documents are in the workspace?",
+      "expected": "aggregation",
+      "predicted": "general"
+    },
+    {
+      "query": "How many contracts does Helios Technology Partners hold?",
+      "expected": "aggregation",
+      "predicted": "general"
+    },
+    {
+      "query": "What is the total value of all active contracts?",
+      "expected": "aggregation",
+      "predicted": "aggregation"
+    },
+    {
+      "query": "How many ingestion jobs failed?",
+      "expected": "aggregation",
+      "predicted": "general"
+    },
+    {
+      "query": "How many suppliers are recorded in total?",
+      "expected": "aggregation",
+      "predicted": "aggregation"
+    },
+    {
+      "query": "Which supplier is linked to contract HTP-2024-014?",
+      "expected": "relationship",
+      "predicted": "relationship"
+    },
+    {
+      "query": "Who is the buyer for the NBI Energy Centre?",
+      "expected": "relationship",
+      "predicted": "general"
+    },
+    {
+      "query": "Which contracts does Orion Components Co hold?",
+      "expected": "relationship",
+      "predicted": "general"
+    },
+    {
+      "query": "What is the relationship between the British Business Bank and the loan system supplier?",
+      "expected": "relationship",
+      "predicted": "general"
+    },
+    {
+      "query": "Who is the named contact for the Northern Gas Networks tender?",
+      "expected": "relationship",
+      "predicted": "general"
+    },
+    {
+      "query": "What is the notice identifier for the Fulwood Bridge Painting tender?",
+      "expected": "document_lookup",
+      "predicted": "general"
+    },
+    {
+      "query": "Show me the document 0685ae_tender_3.html.",
+      "expected": "document_lookup",
+      "predicted": "document_lookup"
+    },
+    {
+      "query": "What OCID identifies the Gallery 33 procurement?",
+      "expected": "document_lookup",
+      "predicted": "general"
+    },
+    {
+      "query": "What type of notice is 06d2dd_tender_8?",
+      "expected": "document_lookup",
+      "predicted": "general"
+    },
+    {
+      "query": "Find the tender titled Provision of Operated Plant.",
+      "expected": "document_lookup",
+      "predicted": "general"
+    },
+    {
+      "query": "Summarise the procurement landscape in these documents.",
+      "expected": "general",
+      "predicted": "general"
+    },
+    {
+      "query": "What should I know before bidding for council work?",
+      "expected": "general",
+      "predicted": "general"
+    },
+    {
+      "query": "Explain the difference between a framework and a dynamic market.",
+      "expected": "general",
+      "predicted": "comparison"
+    },
+    {
+      "query": "What are common risks in facilities management contracts?",
+      "expected": "general",
+      "predicted": "general"
+    },
+    {
+      "query": "Give me an overview of the waste management requirement.",
+      "expected": "general",
+      "predicted": "general"
+    }
+  ]
+}

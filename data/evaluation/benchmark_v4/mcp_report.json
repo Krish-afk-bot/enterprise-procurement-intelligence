@@ -1,0 +1,332 @@
+{
+  "available_tools": [
+    "get_contract_amendments",
+    "get_document",
+    "get_entity_neighbours",
+    "get_evaluation_metrics",
+    "get_ingestion_status",
+    "get_supplier_profile",
+    "search_contracts",
+    "search_documents",
+    "search_graph"
+  ],
+  "expected_nine_present": true,
+  "tool_calls": [
+    {
+      "tool": "search_documents",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "query": "tender",
+        "items": [
+          {
+            "id": "doc_81a1372efae24f649be81baae07b067b",
+            "title": "064670_tender_1",
+            "filename": "064670_tender_1.html",
+            "document_type": "tender",
+            "status": "indexed"
+          },
+          {
+            "id": "doc_2b670da46a684df78ec561ecc1e038a9",
+            "title": "06e110_tender_4",
+            "filename": "06e110_tender_4.html",
+            "document_type": "tender",
+            "status": "indexed"
+          },
+          {
+            "id": "doc_35e1f427b248454d90197be9658d6b30",
+            "title": "06da37_tender_9",
+            "filename": "06da37_tender_9.html",
+            "document_type": "tender",
+            "status": "indexed"
+          },
+          {
+            "id": "doc_66368bcbaff942a18e77afe03f9dff46",
+            "title": "06d2dd_tender_8",
+            "filename": "06d2dd_tender_8.html",
+            "document_type": "tender",
+            "status": "indexed"
+          },
+          {
+            "id": "doc_57026b72602f4b72a378eca33c14c115",
+            "title": "06d0c8_tender_17",
+            "filename": "06d0c8_tender_17.html",
+            "document_type": "tender",
+            "status": "indexed"
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "tool": "get_document",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+        "title": "04f6f2_tender_10",
+        "filename": "04f6f2_tender_10.html",
+        "document_type": "tender",
+        "status": "indexed",
+        "stage": "indexed"
+      }
+    },
+    {
+      "tool": "search_contracts",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "query": "contract",
+        "items": [
+          {
+            "id": "ctr_6b5f49970e5c498f86c1896f6cc2f730",
+            "supplier_id": null,
+            "supplier_name": null,
+            "contract_number": "POW-FTS-62602",
+            "title": "POW-FTS-62602 - Critical Ventilation Contract - PTHB - Find a Tender",
+            "contract_type": "agreement",
+            "category": null,
+            "currency": "GBP",
+            "total_value": null,
+            "effective_date": null,
+            "expiry_date": null,
+            "status": "active",
+            "version": 1,
+            "superseded_by_id": null,
+            "parent_contract_id": null,
+            "is_synthetic": false,
+            "source": "document_extraction",
+            "source_url": null,
+            "license": null,
+            "original_id": null,
+            "retrieved_at": null,
+            "metadata_json": {},
+            "is_expired": false,
+            "access_level": null
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "tool": "get_supplier_profile",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "id": "sup_51e4b0b985064f2fb0dbc6ddf497e702",
+        "name": "the Supplier shall not be considered by UKRI",
+        "normalized_name": "the supplier shall not be considered by ukri",
+        "category": null,
+        "country": null,
+        "region": null
+      }
+    },
+    {
+      "tool": "get_contract_amendments",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "contract_id": "ctr_6b5f49970e5c498f86c1896f6cc2f730",
+        "contract_number": "POW-FTS-62602",
+        "amendments": [],
+        "total": 0
+      }
+    },
+    {
+      "tool": "get_ingestion_status",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "jobs": [
+          {
+            "id": "job_e46e658b82334bac9694b964a0da272c",
+            "document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+            "document_title": "06e110_tender_4",
+            "status": "succeeded",
+            "stage": "indexed",
+            "progress": 1.0,
+            "attempts": 1,
+            "error_message": null,
+            "finished_at": "2026-11-14T07:49:56.529464"
+          },
+          {
+            "id": "job_5b546c2b28064e3da63528387eeb959d",
+            "document_id": "doc_35e1f427b248454d90197be9658d6b30",
+            "document_title": "06da37_tender_9",
+            "status": "succeeded",
+            "stage": "indexed",
+            "progress": 1.0,
+            "attempts": 1,
+            "error_message": null,
+            "finished_at": "2026-11-14T07:49:56.189559"
+          },
+          {
+            "id": "job_1023039e54e8411d9fc2c365cff8650c",
+            "document_id": "doc_66368bcbaff942a18e77afe03f9dff46",
+            "document_title": "06d2dd_tender_8",
+            "status": "succeeded",
+            "stage": "indexed",
+            "progress": 1.0,
+            "attempts": 1,
+            "error_message": null,
+            "finished_at": "2026-11-14T07:49:55.735388"
+          },
+          {
+            "id": "job_39909965262e462eb7ebe13e8fceecf6",
+            "document_id": "doc_57026b72602f4b72a378eca33c14c115",
+            "document_title": "06d0c8_tender_17",
+            "status": "succeeded",
+            "stage": "indexed",
+            "progress": 1.0,
+            "attempts": 1,
+            "error_message": null,
+            "finished_at": "2026-11-14T07:49:55.510893"
+          },
+          {
+            "id": "job_395e7a2ff4064b7a8f994c87e8c7355b",
+            "document_id": "doc_8d564e6bfcae4b28b8e0db582d54258f",
+            "document_title": "069b28_tender_16",
+            "status": "succeeded",
+            "stage": "indexed",
+            "progress": 1.0,
+            "attempts": 1,
+            "error_message": null,
+            "finished_at": "2026-11-14T07:49:55.015415"
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "tool": "get_evaluation_metrics",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "runs": [],
+        "total": 0,
+        "note": "Metrics are what the run recorded; unmeasured values are absent, not zero."
+      }
+    },
+    {
+      "tool": "search_graph",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "label": "ComplianceCertificate",
+        "query": "",
+        "items": [
+          {
+            "label": "ComplianceCertificate",
+            "key": "cmp_5a2732da752348f69ea3e986a5fc4878",
+            "properties": {
+              "certificate_type": "ISO 9001",
+              "status": "active",
+              "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+              "document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+              "tenant_id": "ten_7ad7d236a6e44153a5feccf953e4b417"
+            }
+          },
+          {
+            "label": "ComplianceCertificate",
+            "key": "cmp_5c4d7a0be9e8424fb00bf91ed9ddfaf0",
+            "properties": {
+              "certificate_type": "GDPR",
+              "status": "active",
+              "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+              "document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+              "tenant_id": "ten_7ad7d236a6e44153a5feccf953e4b417"
+            }
+          },
+          {
+            "label": "ComplianceCertificate",
+            "key": "cmp_5ed98592ba08422eaab521286cd6d172",
+            "properties": {
+              "certificate_type": "GDPR",
+              "status": "active",
+              "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+              "document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+              "tenant_id": "ten_7ad7d236a6e44153a5feccf953e4b417"
+            }
+          },
+          {
+            "label": "ComplianceCertificate",
+            "key": "cmp_7be6bf9802ff4aab9cf5eb3877da2a18",
+            "properties": {
+              "certificate_type": "ISO 27001",
+              "status": "active",
+              "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+              "document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+              "tenant_id": "ten_7ad7d236a6e44153a5feccf953e4b417"
+            }
+          },
+          {
+            "label": "ComplianceCertificate",
+            "key": "cmp_827c3b6afcad4e3898bd2e9c21cd367a",
+            "properties": {
+              "certificate_type": "GDPR",
+              "status": "active",
+              "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+              "document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+              "tenant_id": "ten_7ad7d236a6e44153a5feccf953e4b417"
+            }
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "tool": "get_entity_neighbours",
+      "ok": true,
+      "is_error": false,
+      "summary": {
+        "root": {
+          "label": "ComplianceCertificate",
+          "key": "cmp_052eca26c6184b25918a26df0ade1e10"
+        },
+        "as_of": null,
+        "hops": 1,
+        "edges": [],
+        "total": 0
+      }
+    }
+  ],
+  "successful": 9,
+  "total": 9,
+  "negative_cases": [
+    {
+      "tool": "delete_everything",
+      "arguments": {},
+      "rejected": true
+    },
+    {
+      "tool": "get_document",
+      "arguments": {
+        "document_id": "doc_does_not_exist"
+      },
+      "rejected": true
+    },
+    {
+      "tool": "search_graph",
+      "arguments": {
+        "label": "SecretTable",
+        "query": "",
+        "limit": 5
+      },
+      "rejected": true
+    },
+    {
+      "tool": "search_documents",
+      "arguments": {
+        "query": "tender",
+        "limit": "not-a-number"
+      },
+      "rejected": true
+    }
+  ],
+  "audit_log_rows_for_mcp": 22,
+  "not_tested": [
+    "tenant mismatch (only one tenant exists and creating one would modify source data)",
+    "rate-limit exhaustion (would require >60 calls in a minute against a read-only dev database)",
+    "timeout (no deterministic slow tool in this environment)"
+  ]
+}

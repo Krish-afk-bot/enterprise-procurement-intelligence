@@ -17,17 +17,16 @@ import re
 import time
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
-from datetime import date
 from typing import Any
-from app.core.clock import today as get_today
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.container import Container
 from app.config.settings import Settings
+from app.core.clock import today as get_today
 from app.core.errors import NotFoundError
-from app.core.ids import normalize_name
+from app.core.ids import normalize_name, sha256_text
 from app.db.models import (
     Chunk,
     ComplianceCertificate,
@@ -66,6 +65,29 @@ PAGE_VISION_PROMPT = (
 )
 
 CHUNK_COLLECTION = "procurement_chunks"
+
+
+def deterministic_chunk_id(
+    document_id: str,
+    indexing_version: int,
+    page_number: int | None,
+    chunk_index: int,
+    content: str,
+    *,
+    role: str = "leaf",
+) -> str:
+    """Stable chunk id so re-ingesting a document produces the same ids.
+
+    The id covers the document, the indexing version, the page, the ordinal, the
+    role (parent section vs leaf) and the exact text: editing a page changes only
+    the affected chunk ids instead of renumbering the whole document. The role is
+    part of the hash because a short section's parent text is often identical to
+    its leaf text.
+    """
+    digest = sha256_text(
+        f"{document_id}|{indexing_version}|{page_number}|{chunk_index}|{role}|{content}"
+    )
+    return f"chk_{digest[:32]}"
 
 
 def is_candidate_version(candidate_version: int | None, active_version: int | None) -> bool:
@@ -752,7 +774,7 @@ class IngestionPipeline:
         async with session_scope() as session:
             parent_map: dict[str, str] = {}
             table_ids: dict[int, str] = {}
-            for draft in drafts:
+            for draft_index, draft in enumerate(drafts):
                 is_parent = draft.metadata.get("role") == "parent_section"
                 if is_parent:
                     continue
@@ -761,6 +783,14 @@ class IngestionPipeline:
                     parent_id = parent_map.get(draft.parent_ref)
                     if parent_id is None and draft.parent_content:
                         parent = Chunk(
+                            id=deterministic_chunk_id(
+                                document_id,
+                                indexing_version,
+                                draft.page_number,
+                                draft_index,
+                                draft.parent_content,
+                                role="parent",
+                            ),
                             tenant_id=tenant_id,
                             document_id=document_id,
                             page_id=page_ids.get(draft.page_number or 0),
@@ -787,11 +817,19 @@ class IngestionPipeline:
                         parent_map[draft.parent_ref] = parent.id
                         parent_id = parent.id
                 chunk = Chunk(
+                    id=deterministic_chunk_id(
+                        document_id,
+                        indexing_version,
+                        draft.page_number,
+                        draft_index,
+                        draft.content,
+                    ),
                     tenant_id=tenant_id,
                     document_id=document_id,
                     page_id=page_ids.get(draft.page_number or 0),
                     page_number=draft.page_number,
                     parent_chunk_id=parent_id,
+                    chunk_index=draft_index,
                     section=draft.section,
                     subsection=draft.subsection,
                     clause=draft.clause,
@@ -841,16 +879,25 @@ class IngestionPipeline:
                     chunk.table_id = table.id
                     table_ids[draft.table_index] = table.id
             # parent drafts recorded as their own chunks for completeness
-            for draft in drafts:
+            for draft_index, draft in enumerate(drafts):
                 if draft.metadata.get("role") != "parent_section":
                     continue
                 key = draft.metadata.get("unit_key")
                 if key and key in parent_map:
                     continue
                 chunk = Chunk(
+                    id=deterministic_chunk_id(
+                        document_id,
+                        indexing_version,
+                        draft.page_number,
+                        len(drafts) + draft_index,
+                        draft.content,
+                        role="parent",
+                    ),
                     tenant_id=tenant_id,
                     document_id=document_id,
                     page_number=draft.page_number,
+                    chunk_index=draft_index,
                     section=draft.section,
                     subsection=draft.subsection,
                     content=draft.content,

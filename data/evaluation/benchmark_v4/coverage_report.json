@@ -1,0 +1,3624 @@
+{
+  "generated_at": "2026-11-14T10:02:36.683484+00:00",
+  "started_at": "2026-11-14T10:01:59.068594+00:00",
+  "duration_seconds": 37.6,
+  "documents": 20,
+  "chunks": 655,
+  "pages": 42,
+  "pages_with_text": 41,
+  "pages_with_chunk": 41,
+  "char_coverage": 0.9809,
+  "failed": [
+    "0664eb_tender_13.html"
+  ],
+  "below_page_target": [
+    "0664eb_tender_13.html"
+  ],
+  "below_char_target": [
+    "064670_tender_1.html",
+    "065b20_tender_6.pdf"
+  ],
+  "idempotency": {
+    "document": "064670_tender_1.html",
+    "status": "indexed",
+    "chunks_before": 4,
+    "chunks_after": 4,
+    "same_count": true,
+    "same_ids": true,
+    "ids_sample": [
+      "chk_40b540c68811ebfd464fd4e4595ff93a",
+      "chk_88d5b31a80cdad7fbfa40712e996202f",
+      "chk_b4d3bbbe6676fe246e88e3ae383403b2",
+      "chk_e6d8d96f1c7708ef85a5a2667ce7c20b"
+    ]
+  },
+  "documents_detail": [
+    {
+      "document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "filename": "04f6f2_tender_10.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 5722,
+      "char_coverage": 0.9956,
+      "chunks": 36,
+      "chunk_tokens": 1463,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 36,
+      "types": {
+        "paragraph": 23,
+        "heading": 7,
+        "clause": 4,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 5722,
+          "chunks": 36,
+          "char_coverage": 0.9956,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 36,
+        "vector_points": 36,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 864,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 36,
+        "vector_points": 36,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 20489
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 12
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 18
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 18
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 18
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 25
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 57
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 57
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 20378
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 20414
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 20442
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 20478
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 20489
+        }
+      ],
+      "duration_ms": 20489
+    },
+    {
+      "document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "filename": "0508f7_tender_5.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 6278,
+      "char_coverage": 0.9976,
+      "chunks": 37,
+      "chunk_tokens": 2223,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 1,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 2,
+      "embedding_indexed": 37,
+      "types": {
+        "paragraph": 24,
+        "heading": 7,
+        "section": 1,
+        "clause": 4,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 6278,
+          "chunks": 37,
+          "char_coverage": 0.9976,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 37,
+        "vector_points": 37,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 1015,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 37,
+        "vector_points": 37,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 256
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 17
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 17
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 17
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 26
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 42
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 43
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 161
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 195
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 219
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 245
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 256
+        }
+      ],
+      "duration_ms": 256
+    },
+    {
+      "document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "filename": "0523fd_tender_11.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 13129,
+      "char_coverage": 0.9987,
+      "chunks": 49,
+      "chunk_tokens": 4838,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 3,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 4,
+      "embedding_indexed": 48,
+      "types": {
+        "paragraph": 30,
+        "clause": 5,
+        "heading": 8,
+        "section": 3,
+        "list": 2,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 13129,
+          "chunks": 49,
+          "char_coverage": 0.9987,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 39,
+        "detected_type": "tender",
+        "chunk_count": 46,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 48,
+        "vector_points": 48,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 465,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 39,
+        "detected_type": "tender",
+        "chunk_count": 46,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 48,
+        "vector_points": 48,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 227
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 18
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 18
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 18
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 31
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 47
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 48
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 127
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 164
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 191
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 217
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 227
+        }
+      ],
+      "duration_ms": 228
+    },
+    {
+      "document_id": "doc_ab749f6d6a9a425893d18e85bf68d980",
+      "filename": "05a7e4_tender_18.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 9554,
+      "char_coverage": 0.9976,
+      "chunks": 46,
+      "chunk_tokens": 3277,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 2,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 3,
+      "embedding_indexed": 46,
+      "types": {
+        "paragraph": 32,
+        "heading": 7,
+        "section": 2,
+        "clause": 3,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 9554,
+          "chunks": 46,
+          "char_coverage": 0.9976,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 43,
+        "detected_type": "tender",
+        "chunk_count": 44,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 46,
+        "vector_points": 46,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 546,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 43,
+        "detected_type": "tender",
+        "chunk_count": 44,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 46,
+        "vector_points": 46,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 261
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 16
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 16
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 16
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 27
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 41
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 42
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 159
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 198
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 224
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 249
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 261
+        }
+      ],
+      "duration_ms": 261
+    },
+    {
+      "document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "filename": "060827_tender_19.docx",
+      "status": "indexed",
+      "page_count": 2,
+      "pages_persisted": 2,
+      "pages_with_text": 2,
+      "pages_with_chunk": 2,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 7360,
+      "char_coverage": 1.0,
+      "chunks": 11,
+      "chunk_tokens": 3130,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 1,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 3,
+      "embedding_indexed": 10,
+      "types": {
+        "paragraph": 8,
+        "section": 2,
+        "heading": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 232,
+          "chunks": 1,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 2,
+          "chars": 7128,
+          "chunks": 10,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "python-docx",
+        "page_count": 2,
+        "page_numbering": "physical",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 5,
+        "detected_type": "tender",
+        "chunk_count": 9,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 10,
+        "vector_points": 10,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 996,
+        "warnings": []
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "python-docx",
+        "page_count": 2,
+        "page_numbering": "physical",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 5,
+        "detected_type": "tender",
+        "chunk_count": 9,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 10,
+        "vector_points": 10,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 377
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 12
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 233
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 233
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 233
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 242
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 257
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 258
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 295
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 314
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 338
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 365
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 377
+        }
+      ],
+      "duration_ms": 377
+    },
+    {
+      "document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "filename": "06093e_tender_20.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 11344,
+      "char_coverage": 0.9937,
+      "chunks": 49,
+      "chunk_tokens": 3835,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 2,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 3,
+      "embedding_indexed": 49,
+      "types": {
+        "paragraph": 34,
+        "heading": 7,
+        "clause": 4,
+        "list": 1,
+        "section": 2,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 11344,
+          "chunks": 49,
+          "char_coverage": 0.9937,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 46,
+        "detected_type": "tender",
+        "chunk_count": 47,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 49,
+        "vector_points": 49,
+        "prices": 0,
+        "compliance_certificates": 3,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 606,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 46,
+        "detected_type": "tender",
+        "chunk_count": 47,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 49,
+        "vector_points": 49,
+        "prices": 0,
+        "compliance_certificates": 3,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 290
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 16
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 16
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 16
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 30
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 47
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 48
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 145
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 185
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 212
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 277
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 290
+        }
+      ],
+      "duration_ms": 290
+    },
+    {
+      "document_id": "doc_81a1372efae24f649be81baae07b067b",
+      "filename": "064670_tender_1.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 1051,
+      "char_coverage": 0.9724,
+      "chunks": 4,
+      "chunk_tokens": 278,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 4,
+      "types": {
+        "paragraph": 2,
+        "heading": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 1051,
+          "chunks": 4,
+          "char_coverage": 0.9722,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 2,
+        "detected_type": "tender",
+        "chunk_count": 4,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 4,
+        "vector_points": 4,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 455,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 2,
+        "detected_type": "tender",
+        "chunk_count": 4,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 4,
+        "vector_points": 4,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 131
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 13
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 13
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 13
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 18
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 43
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 43
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 53
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 70
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 92
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 119
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 131
+        }
+      ],
+      "duration_ms": 131
+    },
+    {
+      "document_id": "doc_dfd8dfb502de475ea023c44ddd793648",
+      "filename": "065308_tender_2.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 4660,
+      "char_coverage": 0.9964,
+      "chunks": 33,
+      "chunk_tokens": 1199,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 33,
+      "types": {
+        "paragraph": 22,
+        "heading": 6,
+        "clause": 3,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 4660,
+          "chunks": 33,
+          "char_coverage": 0.9963,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 32,
+        "detected_type": "tender",
+        "chunk_count": 33,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 33,
+        "vector_points": 33,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 457,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 32,
+        "detected_type": "tender",
+        "chunk_count": 33,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 33,
+        "vector_points": 33,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 203
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 16
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 16
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 16
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 23
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 48
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 48
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 100
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 135
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 164
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 192
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 203
+        }
+      ],
+      "duration_ms": 203
+    },
+    {
+      "document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "filename": "065b20_tender_6.pdf",
+      "status": "indexed",
+      "page_count": 22,
+      "pages_persisted": 22,
+      "pages_with_text": 22,
+      "pages_with_chunk": 22,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 45489,
+      "char_coverage": 0.9393,
+      "chunks": 60,
+      "chunk_tokens": 12971,
+      "table_chunks": 29,
+      "empty_chunks": 0,
+      "duplicate_chunks": 3,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 60,
+      "types": {
+        "paragraph": 20,
+        "heading": 11,
+        "table": 29
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 141,
+          "chunks": 1,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 2,
+          "chars": 452,
+          "chunks": 1,
+          "char_coverage": 0.7541,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 3,
+          "chars": 2177,
+          "chunks": 3,
+          "char_coverage": 0.9941,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 4,
+          "chars": 1800,
+          "chunks": 2,
+          "char_coverage": 0.9909,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 5,
+          "chars": 2350,
+          "chunks": 3,
+          "char_coverage": 0.9868,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 6,
+          "chars": 2713,
+          "chunks": 4,
+          "char_coverage": 0.9834,
+          "tables_detected": 2,
+          "table_chunks": 2,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 7,
+          "chars": 2258,
+          "chunks": 2,
+          "char_coverage": 0.9685,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 8,
+          "chars": 2376,
+          "chunks": 4,
+          "char_coverage": 0.9785,
+          "tables_detected": 2,
+          "table_chunks": 2,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 9,
+          "chars": 1829,
+          "chunks": 3,
+          "char_coverage": 0.9882,
+          "tables_detected": 2,
+          "table_chunks": 2,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 10,
+          "chars": 1992,
+          "chunks": 4,
+          "char_coverage": 0.9812,
+          "tables_detected": 3,
+          "table_chunks": 3,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 11,
+          "chars": 2298,
+          "chunks": 3,
+          "char_coverage": 0.9885,
+          "tables_detected": 2,
+          "table_chunks": 2,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 12,
+          "chars": 2327,
+          "chunks": 7,
+          "char_coverage": 0.9921,
+          "tables_detected": 4,
+          "table_chunks": 4,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 13,
+          "chars": 157,
+          "chunks": 1,
+          "char_coverage": 0.2368,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 14,
+          "chars": 2508,
+          "chunks": 3,
+          "char_coverage": 0.9933,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 15,
+          "chars": 2864,
+          "chunks": 2,
+          "char_coverage": 0.7144,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 16,
+          "chars": 3016,
+          "chunks": 2,
+          "char_coverage": 0.9149,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 17,
+          "chars": 2934,
+          "chunks": 2,
+          "char_coverage": 0.7833,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 18,
+          "chars": 2777,
+          "chunks": 2,
+          "char_coverage": 0.9913,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 19,
+          "chars": 2801,
+          "chunks": 2,
+          "char_coverage": 0.9424,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 20,
+          "chars": 2706,
+          "chunks": 2,
+          "char_coverage": 0.9617,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 21,
+          "chars": 2605,
+          "chunks": 5,
+          "char_coverage": 0.9454,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        },
+        {
+          "page": 22,
+          "chars": 408,
+          "chunks": 2,
+          "char_coverage": 0.9003,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "text",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "pymupdf",
+        "page_count": 22,
+        "page_numbering": "physical",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "unavailable",
+        "sections": 27,
+        "detected_type": "tender",
+        "chunk_count": 60,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 60,
+        "vector_points": 60,
+        "prices": 0,
+        "compliance_certificates": 2,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 26188,
+        "warnings": [
+          "Vision escalation failed for page 7 (ConnectError); the page kept its text/OCR extraction.",
+          "Vision escalation failed for page 8 (ConnectError); the page kept its text/OCR extraction.",
+          "Vision escalation failed for page 12 (ConnectError); the page kept its text/OCR extraction.",
+          "Vision escalation failed for page 19 (ConnectError); the page kept its text/OCR extraction.",
+          "Vision escalation failed for page 20 (ConnectError); the page kept its text/OCR extraction."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "Vision escalation failed for page 7 (HTTPStatusError); the page kept its text/OCR extraction.",
+        "Vision escalation failed for page 8 (HTTPStatusError); the page kept its text/OCR extraction.",
+        "Vision escalation failed for page 12 (HTTPStatusError); the page kept its text/OCR extraction.",
+        "Vision escalation failed for page 19 (HTTPStatusError); the page kept its text/OCR extraction.",
+        "Vision escalation failed for page 20 (HTTPStatusError); the page kept its text/OCR extraction."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "pymupdf",
+        "page_count": 22,
+        "page_numbering": "physical",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "unavailable",
+        "sections": 27,
+        "detected_type": "tender",
+        "chunk_count": 60,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 60,
+        "vector_points": 60,
+        "prices": 0,
+        "compliance_certificates": 2,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 4812
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 3665
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 3665
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 4279
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 4310
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 4400
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 4402
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 4599
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 4666
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 4696
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 4800
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 4812
+        }
+      ],
+      "duration_ms": 4812
+    },
+    {
+      "document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "filename": "066066_tender_12.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 4971,
+      "char_coverage": 0.996,
+      "chunks": 36,
+      "chunk_tokens": 1277,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 36,
+      "types": {
+        "paragraph": 24,
+        "heading": 7,
+        "clause": 4,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 4971,
+          "chunks": 36,
+          "char_coverage": 0.996,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 36,
+        "vector_points": 36,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 14051,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 36,
+        "vector_points": 36,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 226
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 17
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 17
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 17
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 29
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 61
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 61
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 128
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 163
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 188
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 214
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 226
+        }
+      ],
+      "duration_ms": 226
+    },
+    {
+      "document_id": "doc_e99e549dc84e499e86292b034ebea356",
+      "filename": "0664eb_tender_13.html",
+      "status": "needs_review",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 0,
+      "pages_with_chunk": 0,
+      "pages_without_chunk": [],
+      "page_chunk_rate": null,
+      "chars": 0,
+      "char_coverage": null,
+      "chunks": 0,
+      "chunk_tokens": 0,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 0,
+      "embedding_indexed": 0,
+      "types": {},
+      "pages": [
+        {
+          "page": 1,
+          "chars": 0,
+          "chunks": 0,
+          "char_coverage": null,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 0,
+        "detected_type": "tender",
+        "chunk_count": 0,
+        "vector_points": 0,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 10728,
+        "warnings": [
+          "The HTML page contained no readable text after cleanup.",
+          "No text could be extracted from this file, so there is nothing to index. Parser=html, OCR=not_needed, vision=not_needed. Enable OCR or configure a VLM, then re-run indexing."
+        ]
+      },
+      "ingest_status": "needs_review",
+      "ingest_error": null,
+      "warnings": [
+        "The HTML page contained no readable text after cleanup.",
+        "No text could be extracted from this file, so there is nothing to index. Parser=html, OCR=not_needed, vision=not_needed. Enable OCR or configure a VLM, then re-run indexing."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 0,
+        "detected_type": "tender",
+        "chunk_count": 0,
+        "vector_points": 0,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 7874
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 12
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 14
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 7814
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 7814
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 7819
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 7833
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 7833
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 7833
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 7833
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 7838
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 7864
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 7874
+        }
+      ],
+      "duration_ms": 7874
+    },
+    {
+      "document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "filename": "0679c4_tender_7.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 6875,
+      "char_coverage": 0.9962,
+      "chunks": 38,
+      "chunk_tokens": 2155,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 1,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 2,
+      "embedding_indexed": 38,
+      "types": {
+        "paragraph": 23,
+        "clause": 5,
+        "heading": 7,
+        "section": 1,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 6875,
+          "chunks": 38,
+          "char_coverage": 0.9963,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 36,
+        "detected_type": "tender",
+        "chunk_count": 37,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 38,
+        "vector_points": 38,
+        "prices": 0,
+        "compliance_certificates": 1,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 1037,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 36,
+        "detected_type": "tender",
+        "chunk_count": 37,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 38,
+        "vector_points": 38,
+        "prices": 0,
+        "compliance_certificates": 1,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 532
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 9
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 14
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 14
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 14
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 24
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 41
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 42
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 408
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 448
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 474
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 522
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 532
+        }
+      ],
+      "duration_ms": 532
+    },
+    {
+      "document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "filename": "0683f4_tender_14.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 5273,
+      "char_coverage": 1.0,
+      "chunks": 31,
+      "chunk_tokens": 1690,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 1,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 2,
+      "embedding_indexed": 31,
+      "types": {
+        "paragraph": 21,
+        "heading": 6,
+        "section": 1,
+        "clause": 3
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 5273,
+          "chunks": 31,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 30,
+        "detected_type": "tender",
+        "chunk_count": 30,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 31,
+        "vector_points": 31,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 586,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 30,
+        "detected_type": "tender",
+        "chunk_count": 30,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 31,
+        "vector_points": 31,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 196
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 9
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 15
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 15
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 15
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 22
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 37
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 37
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 101
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 134
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 159
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 186
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 196
+        }
+      ],
+      "duration_ms": 196
+    },
+    {
+      "document_id": "doc_5b5f9eb44f99454bbb1745d13b768695",
+      "filename": "0685ae_tender_3.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 6125,
+      "char_coverage": 0.9971,
+      "chunks": 36,
+      "chunk_tokens": 1554,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 36,
+      "types": {
+        "paragraph": 23,
+        "heading": 7,
+        "clause": 4,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 6125,
+          "chunks": 36,
+          "char_coverage": 0.9971,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 36,
+        "vector_points": 36,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 601,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 36,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 36,
+        "vector_points": 36,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 230
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 15
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 15
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 15
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 28
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 54
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 54
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 124
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 158
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 183
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 219
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 230
+        }
+      ],
+      "duration_ms": 230
+    },
+    {
+      "document_id": "doc_8734648b673b400bb4fd269634b812e6",
+      "filename": "069a8c_tender_15.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 15453,
+      "char_coverage": 0.9983,
+      "chunks": 50,
+      "chunk_tokens": 6283,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 1,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 4,
+      "embedding_indexed": 48,
+      "types": {
+        "paragraph": 35,
+        "heading": 7,
+        "section": 3,
+        "clause": 3,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 15453,
+          "chunks": 50,
+          "char_coverage": 0.9983,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 39,
+        "detected_type": "tender",
+        "chunk_count": 47,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 48,
+        "vector_points": 48,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 564,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 39,
+        "detected_type": "tender",
+        "chunk_count": 47,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 48,
+        "vector_points": 48,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 268
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 16
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 16
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 16
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 30
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 45
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 47
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 157
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 203
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 230
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 258
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 268
+        }
+      ],
+      "duration_ms": 268
+    },
+    {
+      "document_id": "doc_8d564e6bfcae4b28b8e0db582d54258f",
+      "filename": "069b28_tender_16.docx",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 409,
+      "char_coverage": 1.0,
+      "chunks": 1,
+      "chunk_tokens": 103,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 1,
+      "types": {
+        "paragraph": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 409,
+          "chunks": 1,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "python-docx",
+        "page_count": 1,
+        "page_numbering": "logical",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 0,
+        "detected_type": "tender",
+        "chunk_count": 1,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 1,
+        "vector_points": 1,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 520,
+        "warnings": [
+          "DOCX has no explicit page breaks: page numbering is logical (single section)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "DOCX has no explicit page breaks: page numbering is logical (single section)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "python-docx",
+        "page_count": 1,
+        "page_numbering": "logical",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 0,
+        "detected_type": "tender",
+        "chunk_count": 1,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 1,
+        "vector_points": 1,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 130
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 18
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 18
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 18
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 23
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 47
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 48
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 58
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 70
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 92
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 119
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 130
+        }
+      ],
+      "duration_ms": 130
+    },
+    {
+      "document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "filename": "06d0c8_tender_17.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 3871,
+      "char_coverage": 1.0,
+      "chunks": 31,
+      "chunk_tokens": 976,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 31,
+      "types": {
+        "paragraph": 22,
+        "heading": 6,
+        "clause": 3
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 3871,
+          "chunks": 31,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 31,
+        "detected_type": "tender",
+        "chunk_count": 31,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 31,
+        "vector_points": 31,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 518,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 31,
+        "detected_type": "tender",
+        "chunk_count": 31,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 31,
+        "vector_points": 31,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 180
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 15
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 15
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 15
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 22
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 50
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 51
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 88
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 119
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 145
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 170
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 180
+        }
+      ],
+      "duration_ms": 180
+    },
+    {
+      "document_id": "doc_66368bcbaff942a18e77afe03f9dff46",
+      "filename": "06d2dd_tender_8.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 5185,
+      "char_coverage": 1.0,
+      "chunks": 39,
+      "chunk_tokens": 1305,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 1,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 39,
+      "types": {
+        "paragraph": 28,
+        "heading": 8,
+        "list": 1,
+        "clause": 2
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 5185,
+          "chunks": 39,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 39,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 39,
+        "vector_points": 39,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 573,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 35,
+        "detected_type": "tender",
+        "chunk_count": 39,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 39,
+        "vector_points": 39,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 190
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 15
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 15
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 15
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 23
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 49
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 49
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 96
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 128
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 154
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 180
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 190
+        }
+      ],
+      "duration_ms": 190
+    },
+    {
+      "document_id": "doc_35e1f427b248454d90197be9658d6b30",
+      "filename": "06da37_tender_9.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 3706,
+      "char_coverage": 1.0,
+      "chunks": 28,
+      "chunk_tokens": 933,
+      "table_chunks": 0,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 28,
+      "types": {
+        "paragraph": 19,
+        "heading": 5,
+        "clause": 3,
+        "list": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 3706,
+          "chunks": 28,
+          "char_coverage": 1.0,
+          "tables_detected": 0,
+          "table_chunks": 0,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 28,
+        "detected_type": "tender",
+        "chunk_count": 28,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 28,
+        "vector_points": 28,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 528,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 28,
+        "detected_type": "tender",
+        "chunk_count": 28,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 28,
+        "vector_points": 28,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 177
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 10
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 15
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 15
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 15
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 22
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 47
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 48
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 88
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 115
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 140
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 167
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 177
+        }
+      ],
+      "duration_ms": 177
+    },
+    {
+      "document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+      "filename": "06e110_tender_4.html",
+      "status": "indexed",
+      "page_count": 1,
+      "pages_persisted": 1,
+      "pages_with_text": 1,
+      "pages_with_chunk": 1,
+      "pages_without_chunk": [],
+      "page_chunk_rate": 1.0,
+      "chars": 4281,
+      "char_coverage": 0.9956,
+      "chunks": 40,
+      "chunk_tokens": 1103,
+      "table_chunks": 1,
+      "empty_chunks": 0,
+      "duplicate_chunks": 0,
+      "oversized_chunks": 0,
+      "chunks_without_page": 0,
+      "chunks_without_page_id": 0,
+      "chunks_without_index": 1,
+      "embedding_indexed": 40,
+      "types": {
+        "paragraph": 26,
+        "heading": 7,
+        "clause": 5,
+        "list": 1,
+        "table": 1
+      },
+      "pages": [
+        {
+          "page": 1,
+          "chars": 4281,
+          "chunks": 40,
+          "char_coverage": 0.9957,
+          "tables_detected": 1,
+          "table_chunks": 1,
+          "extraction_method": "native",
+          "is_scanned": false,
+          "ocr_chars": 0,
+          "has_text_layer": true
+        }
+      ],
+      "job_status": "succeeded",
+      "job_error": null,
+      "job_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 39,
+        "detected_type": "tender",
+        "chunk_count": 40,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 40,
+        "vector_points": 40,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "graph_status": "candidate_deferred",
+        "duration_ms": 603,
+        "warnings": [
+          "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+        ]
+      },
+      "ingest_status": "indexed",
+      "ingest_error": null,
+      "warnings": [
+        "HTML has no physical pages: page 1 is the whole notice (logical numbering)."
+      ],
+      "stage_metrics": {
+        "candidate_run": false,
+        "write_version": 1,
+        "chunk_is_active": true,
+        "parser": "html",
+        "page_count": 1,
+        "page_numbering": "single",
+        "ocr_pages": 0,
+        "ocr": "not_needed",
+        "vision_pages": 0,
+        "vision": "not_needed",
+        "sections": 39,
+        "detected_type": "tender",
+        "chunk_count": 40,
+        "embeddings": "applied",
+        "embedding_dim": 384,
+        "embeddings_indexed": 40,
+        "vector_points": 40,
+        "prices": 0,
+        "compliance_certificates": 0,
+        "products_resolved": 0,
+        "prices_unattributed": 0,
+        "attribution": {},
+        "duration_ms": 194
+      },
+      "stage_timings_ms": [
+        {
+          "stage": "load",
+          "fraction": 0.02,
+          "at_ms": 11
+        },
+        {
+          "stage": "parse",
+          "fraction": 0.15,
+          "at_ms": 16
+        },
+        {
+          "stage": "ocr",
+          "fraction": 0.3,
+          "at_ms": 16
+        },
+        {
+          "stage": "vision",
+          "fraction": 0.4,
+          "at_ms": 16
+        },
+        {
+          "stage": "metadata",
+          "fraction": 0.48,
+          "at_ms": 24
+        },
+        {
+          "stage": "persist_pages",
+          "fraction": 0.58,
+          "at_ms": 53
+        },
+        {
+          "stage": "chunking",
+          "fraction": 0.66,
+          "at_ms": 54
+        },
+        {
+          "stage": "embedding",
+          "fraction": 0.78,
+          "at_ms": 99
+        },
+        {
+          "stage": "persist_chunks",
+          "fraction": 0.84,
+          "at_ms": 134
+        },
+        {
+          "stage": "vector_index",
+          "fraction": 0.9,
+          "at_ms": 159
+        },
+        {
+          "stage": "structured_and_graph",
+          "fraction": 0.96,
+          "at_ms": 184
+        },
+        {
+          "stage": "done",
+          "fraction": 1.0,
+          "at_ms": 194
+        }
+      ],
+      "duration_ms": 194
+    }
+  ]
+}

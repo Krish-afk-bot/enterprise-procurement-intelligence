@@ -1,0 +1,3072 @@
+{
+  "name": "epi-benchmark-150",
+  "version": "1.0.0",
+  "created": "2026-11-14T09:30:00.000000+00:00",
+  "question_count": 150,
+  "questions": [
+    {
+      "id": "Q150-001",
+      "question": "What notice identifier is recorded for the tender 'Gallery 33 - 3D and 2D Exhibition Design/Lead Designer'?",
+      "category": "document_metadata",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "2025/S 000-010515",
+      "expected_facts": [
+        "2025/S 000-010515"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-002",
+      "question": "What is the document reference number for the Critical Ventilation tender POW-FTS-62602?",
+      "category": "document_metadata",
+      "source_document_id": "doc_5b5f9eb44f99454bbb1745d13b768695",
+      "source_document": "0685ae_tender_3.html",
+      "expected_answer": "POW-FTS-62602",
+      "expected_facts": [
+        "POW-FTS-62602"
+      ],
+      "expected_documents": [
+        "0685ae_tender_3.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-003",
+      "question": "What tender reference number is assigned to the BGS Integrated Waste Management procurement?",
+      "category": "document_metadata",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "UKRI-5294",
+      "expected_facts": [
+        "UKRI-5294"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-004",
+      "question": "What reference is recorded for the ACE Provision of Financial Management System tender?",
+      "category": "document_metadata",
+      "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "ACE01.76",
+      "expected_facts": [
+        "ACE01.76"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-005",
+      "question": "What notice identifier is stated for the Loan Management System tender published by British Business Bank?",
+      "category": "document_metadata",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "2026/S 000-004732",
+      "expected_facts": [
+        "2026/S 000-004732"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-006",
+      "question": "What is the full tender title of document 0683f4_tender_14.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "Fulwood Bridge Painting",
+      "expected_facts": [
+        "Fulwood Bridge Painting"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-007",
+      "question": "What notice title is recorded for RFQ 2025/59 in Newry, Mourne and Down?",
+      "category": "document_metadata",
+      "source_document_id": "doc_dfd8dfb502de475ea023c44ddd793648",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "Castlewellan Peace Maze: Connecting Generations",
+      "expected_facts": [
+        "Castlewellan Peace Maze"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-008",
+      "question": "What tender title is associated with document 0508f7_tender_5.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Supporting Holocaust Survivor Testimony in Teaching",
+      "expected_facts": [
+        "Supporting Holocaust Survivor Testimony in Teaching"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-009",
+      "question": "What notice title is recorded for the procurement in 0523fd_tender_11.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "Provision of a Human Resource System & Duties Management System",
+      "expected_facts": [
+        "Human Resource System",
+        "Duties Management System"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-010",
+      "question": "What is the tender title of notice 05a7e4_tender_18.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_ab749f6d6a9a425893d18e85bf68d980",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "NBI Energy Centre - Next Generation Infrastructure Programme",
+      "expected_facts": [
+        "NBI Energy Centre"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-011",
+      "question": "What notice identifier is published for the Fulwood Bridge Painting procurement?",
+      "category": "document_metadata",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "2026/S 000-004812",
+      "expected_facts": [
+        "2026/S 000-004812"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-012",
+      "question": "What is the tender title in document 066066_tender_12.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "Dockless bike hire concession services Lot 1 (contract 1)",
+      "expected_facts": [
+        "Dockless bike hire concession services"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-013",
+      "question": "What procurement title is given in document 06d0c8_tender_17.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "source_document": "06d0c8_tender_17.html",
+      "expected_answer": "The Practice Education Facilitator role in Return to Practice",
+      "expected_facts": [
+        "Practice Education Facilitator role in Return to Practice"
+      ],
+      "expected_documents": [
+        "06d0c8_tender_17.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-014",
+      "question": "What notice title is recorded for 06da37_tender_9.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_35e1f427b248454d90197be9658d6b30",
+      "source_document": "06da37_tender_9.html",
+      "expected_answer": "The Provision of Driver Certificate of Professional Competence Training",
+      "expected_facts": [
+        "Driver Certificate of Professional Competence Training"
+      ],
+      "expected_documents": [
+        "06da37_tender_9.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-015",
+      "question": "What is the tender subject stated on page 1 of document 065b20_tender_6.pdf?",
+      "category": "document_metadata",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "BGS Integrated Waste Management & Recycling Service",
+      "expected_facts": [
+        "BGS Integrated Waste Management & Recycling Service"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-016",
+      "question": "What reference number is recorded for Master Vendor Recruitment in 064670_tender_1.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_81a1372efae24f649be81baae07b067b",
+      "source_document": "064670_tender_1.html",
+      "expected_answer": "FSCS569",
+      "expected_facts": [
+        "FSCS569"
+      ],
+      "expected_documents": [
+        "064670_tender_1.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-017",
+      "question": "What notice title is published in document 060827_tender_19.docx?",
+      "category": "document_metadata",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "Tender Notice for The Provision of Operated Plant",
+      "expected_facts": [
+        "Provision of Operated Plant"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-018",
+      "question": "What title is recorded for the milking system procurement in 06e110_tender_4.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+      "source_document": "06e110_tender_4.html",
+      "expected_answer": "Farms - Maintenance and Servicing of Robotic Milking System",
+      "expected_facts": [
+        "Robotic Milking System"
+      ],
+      "expected_documents": [
+        "06e110_tender_4.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-019",
+      "question": "What notice identifier is associated with the Old Oak Private Sector Partner procurement in 069a8c_tender_15.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_8734648b673b400bb4fd269634b812e6",
+      "source_document": "069a8c_tender_15.html",
+      "expected_answer": "2026/S 000-004921",
+      "expected_facts": [
+        "2026/S 000-004921"
+      ],
+      "expected_documents": [
+        "069a8c_tender_15.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-020",
+      "question": "What dynamic market notice is published in 06d2dd_tender_8.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_66368bcbaff942a18e77afe03f9dff46",
+      "source_document": "06d2dd_tender_8.html",
+      "expected_answer": "Holy Family Catholic School and Sixth From - Energy Dynamic Market",
+      "expected_facts": [
+        "Energy Dynamic Market"
+      ],
+      "expected_documents": [
+        "06d2dd_tender_8.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-021",
+      "question": "What title is recorded for document 069a8c_tender_15.html?",
+      "category": "document_metadata",
+      "source_document_id": "doc_8734648b673b400bb4fd269634b812e6",
+      "source_document": "069a8c_tender_15.html",
+      "expected_answer": "Old Oak Private Sector Partner Procurement",
+      "expected_facts": [
+        "Old Oak Private Sector Partner Procurement"
+      ],
+      "expected_documents": [
+        "069a8c_tender_15.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-022",
+      "question": "What is the notice title of document 069b28_tender_16.docx?",
+      "category": "document_metadata",
+      "source_document_id": "doc_8d564e6bfcae4b28b8e0db582d54258f",
+      "source_document": "069b28_tender_16.docx",
+      "expected_answer": "Vehicle Workshop Parts Cleaning & Waste Management Services",
+      "expected_facts": [
+        "Vehicle Workshop Parts Cleaning & Waste Management Services"
+      ],
+      "expected_documents": [
+        "069b28_tender_16.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-023",
+      "question": "Which procurement legislation governs notice 04f6f2_tender_10.html according to its header?",
+      "category": "document_metadata",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Procurement Act 2023",
+      "expected_facts": [
+        "Procurement Act 2023"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-024",
+      "question": "What type of notice is 04f6f2_tender_10.html classified as in Find a Tender?",
+      "category": "document_metadata",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "UK4: Tender notice",
+      "expected_facts": [
+        "UK4: Tender notice"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-025",
+      "question": "What type of notice is 06d2dd_tender_8.html classified as?",
+      "category": "document_metadata",
+      "source_document_id": "doc_66368bcbaff942a18e77afe03f9dff46",
+      "source_document": "06d2dd_tender_8.html",
+      "expected_answer": "UK13: Dynamic market intention notice",
+      "expected_facts": [
+        "Dynamic market intention notice"
+      ],
+      "expected_documents": [
+        "06d2dd_tender_8.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-026",
+      "question": "Which contracting body published tender 04f6f2_tender_10.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Natural History Museum",
+      "expected_facts": [
+        "Natural History Museum"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-027",
+      "question": "Which organisation is the contracting authority for 'Supporting Holocaust Survivor Testimony in Teaching'?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Department for Education",
+      "expected_facts": [
+        "Department for Education"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-028",
+      "question": "Which public body published the HR and Duties Management tender in 0523fd_tender_11.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "The Police and Crime Commissioner for Warwickshire",
+      "expected_facts": [
+        "Warwickshire",
+        "Police and Crime Commissioner"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-029",
+      "question": "Which organisation is the buyer for the NBI Energy Centre in 05a7e4_tender_18.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_ab749f6d6a9a425893d18e85bf68d980",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "JOHN INNES CENTRE",
+      "expected_facts": [
+        "JOHN INNES CENTRE"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-030",
+      "question": "Which utility company issued the operated plant tender notice in 060827_tender_19.docx?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "Northern Gas Networks",
+      "expected_facts": [
+        "Northern Gas Networks"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-031",
+      "question": "Which contracting authority issued tender 06093e_tender_20.html for financial software?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "Academies for Character & Excellence",
+      "expected_facts": [
+        "Academies for Character & Excellence"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-032",
+      "question": "Which organisation published the contingent workforce tender in 064670_tender_1.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_81a1372efae24f649be81baae07b067b",
+      "source_document": "064670_tender_1.html",
+      "expected_answer": "Financial Services Compensation Scheme",
+      "expected_facts": [
+        "Financial Services Compensation Scheme"
+      ],
+      "expected_documents": [
+        "064670_tender_1.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-033",
+      "question": "Which council published RFQ 2025/59 in document 065308_tender_2.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_dfd8dfb502de475ea023c44ddd793648",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "Newry, Mourne and Down District Council",
+      "expected_facts": [
+        "Newry, Mourne and Down District Council"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-034",
+      "question": "Which research council issued the waste management tender UKRI-5294 in 065b20_tender_6.pdf?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "UK Research and Innovation (UKRI)",
+      "expected_facts": [
+        "UK Research and Innovation",
+        "UKRI"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-035",
+      "question": "Which London borough published the dockless bike hire tender in 066066_tender_12.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "London Borough of Camden",
+      "expected_facts": [
+        "London Borough of Camden"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-036",
+      "question": "Which bank published the Loan Management System procurement in 0679c4_tender_7.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "British Business Bank",
+      "expected_facts": [
+        "British Business Bank"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-037",
+      "question": "Which company published the Fulwood Bridge Painting tender in 0683f4_tender_14.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "VIA EAST MIDLANDS LIMITED",
+      "expected_facts": [
+        "VIA EAST MIDLANDS LIMITED"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-038",
+      "question": "Which NHS partnership hosted the critical ventilation procurement in 0685ae_tender_3.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_5b5f9eb44f99454bbb1745d13b768695",
+      "source_document": "0685ae_tender_3.html",
+      "expected_answer": "NHS Wales Shared Services Partnership-Procurement Services",
+      "expected_facts": [
+        "NHS Wales Shared Services Partnership",
+        "Velindre University NHS Trust"
+      ],
+      "expected_documents": [
+        "0685ae_tender_3.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-039",
+      "question": "Which development corporation issued the private sector partner tender in 069a8c_tender_15.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_8734648b673b400bb4fd269634b812e6",
+      "source_document": "069a8c_tender_15.html",
+      "expected_answer": "The Old Oak and Park Royal Development Corporation (OPDC)",
+      "expected_facts": [
+        "Old Oak and Park Royal Development Corporation",
+        "OPDC"
+      ],
+      "expected_documents": [
+        "069a8c_tender_15.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-040",
+      "question": "Which emergency service issued the vehicle workshop tender in 069b28_tender_16.docx?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_8d564e6bfcae4b28b8e0db582d54258f",
+      "source_document": "069b28_tender_16.docx",
+      "expected_answer": "Mid and West Wales Fire and Rescue Authority",
+      "expected_facts": [
+        "Mid and West Wales Fire and Rescue Authority"
+      ],
+      "expected_documents": [
+        "069b28_tender_16.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-041",
+      "question": "Which health service organisation published 06d0c8_tender_17.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "source_document": "06d0c8_tender_17.html",
+      "expected_answer": "NHS England",
+      "expected_facts": [
+        "NHS England"
+      ],
+      "expected_documents": [
+        "06d0c8_tender_17.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-042",
+      "question": "Which school published the Energy Dynamic Market notice in 06d2dd_tender_8.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_66368bcbaff942a18e77afe03f9dff46",
+      "source_document": "06d2dd_tender_8.html",
+      "expected_answer": "Holy Family Catholic School and Sixth Form",
+      "expected_facts": [
+        "Holy Family Catholic School and Sixth Form"
+      ],
+      "expected_documents": [
+        "06d2dd_tender_8.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-043",
+      "question": "Which city council published the Driver CPC training tender in 06da37_tender_9.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_35e1f427b248454d90197be9658d6b30",
+      "source_document": "06da37_tender_9.html",
+      "expected_answer": "Leeds City Council",
+      "expected_facts": [
+        "Leeds City Council"
+      ],
+      "expected_documents": [
+        "06da37_tender_9.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-044",
+      "question": "Which university published the robotic milking system maintenance tender in 06e110_tender_4.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+      "source_document": "06e110_tender_4.html",
+      "expected_answer": "Aberystwyth University",
+      "expected_facts": [
+        "Aberystwyth University"
+      ],
+      "expected_documents": [
+        "06e110_tender_4.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-045",
+      "question": "Who is the primary contact named for Northern Gas Networks in 060827_tender_19.docx?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "Elle Flood",
+      "expected_facts": [
+        "Elle Flood"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-046",
+      "question": "What contact email is given for Elle Flood in 060827_tender_19.docx?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "eflood@northerngas.co.uk",
+      "expected_facts": [
+        "eflood@northerngas.co.uk"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-047",
+      "question": "Who is the contact person named in 04f6f2_tender_10.html for the Natural History Museum?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Chloe Higgins",
+      "expected_facts": [
+        "Chloe Higgins"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-048",
+      "question": "What organisation type is recorded for the Department for Education in 0508f7_tender_5.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Public authority - central government",
+      "expected_facts": [
+        "central government"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-049",
+      "question": "What buyer category describes London Borough of Camden in 066066_tender_12.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "Regional or local authority",
+      "expected_facts": [
+        "local authority"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-050",
+      "question": "What organisation type is recorded for British Business Bank in 0679c4_tender_7.html?",
+      "category": "contracting_authorities",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "Public authority - central government",
+      "expected_facts": [
+        "central government"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-051",
+      "question": "What is the estimated value of the Natural History Museum Gallery 33 design tender in 04f6f2_tender_10.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "£159,940",
+      "expected_facts": [
+        "159940",
+        "159,940"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-052",
+      "question": "What is the total value of the Supporting Holocaust Survivor Testimony contract in 0508f7_tender_5.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "£1,557,028",
+      "expected_facts": [
+        "1557028",
+        "1,557,028"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-053",
+      "question": "What is the estimated value of the HR and Duties Management System in 0523fd_tender_11.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "£2,967,909.26",
+      "expected_facts": [
+        "2967909",
+        "2,967,909"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-054",
+      "question": "What is the estimated contract value for the Loan Management System in 0679c4_tender_7.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "£4,973,032",
+      "expected_facts": [
+        "4973032",
+        "4,973,032"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-055",
+      "question": "What is the total contract value stated for Fulwood Bridge Painting in 0683f4_tender_14.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "£99,970",
+      "expected_facts": [
+        "99970",
+        "99,970"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-056",
+      "question": "What is the estimated procurement value for UKRI-5294 Integrated Waste Management in 065b20_tender_6.pdf?",
+      "category": "procurement_values",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "£320,000",
+      "expected_facts": [
+        "320000",
+        "320,000"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-057",
+      "question": "What is the contract value recorded for Vehicle Workshop Parts Cleaning in 069b28_tender_16.docx?",
+      "category": "procurement_values",
+      "source_document_id": "doc_8d564e6bfcae4b28b8e0db582d54258f",
+      "source_document": "069b28_tender_16.docx",
+      "expected_answer": "£50,000",
+      "expected_facts": [
+        "50000",
+        "50,000"
+      ],
+      "expected_documents": [
+        "069b28_tender_16.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-058",
+      "question": "What value is recorded for the Return to Practice facilitator role in 06d0c8_tender_17.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "source_document": "06d0c8_tender_17.html",
+      "expected_answer": "£20,000",
+      "expected_facts": [
+        "20000",
+        "20,000"
+      ],
+      "expected_documents": [
+        "06d0c8_tender_17.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-059",
+      "question": "What is the contract value recorded for the ACE Financial Management System tender in 06093e_tender_20.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "£250,000",
+      "expected_facts": [
+        "250000",
+        "250,000"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-060",
+      "question": "What currency is used for the procurement value in 04f6f2_tender_10.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "GBP (British Pound)",
+      "expected_facts": [
+        "GBP"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-061",
+      "question": "What currency is stated for the Loan Management System procurement in 0679c4_tender_7.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "GBP (British Pound)",
+      "expected_facts": [
+        "GBP"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-062",
+      "question": "What currency is stated for the Fulwood Bridge Painting contract in 0683f4_tender_14.html?",
+      "category": "procurement_values",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "GBP (British Pound)",
+      "expected_facts": [
+        "GBP"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-063",
+      "question": "What currency is used in 0508f7_tender_5.html for the Holocaust Survivor testimony contract?",
+      "category": "procurement_values",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "GBP (British Pound)",
+      "expected_facts": [
+        "GBP"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-064",
+      "question": "What is the value band recorded for tender 04f6f2_tender_10 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "100k-1M",
+      "expected_facts": [
+        "100k-1M",
+        "100k"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-065",
+      "question": "What value band is recorded for tender 0679c4_tender_7 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "1M-10M",
+      "expected_facts": [
+        "1M-10M",
+        "1M"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-066",
+      "question": "What value band is recorded for tender 0523fd_tender_11 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "1M-10M",
+      "expected_facts": [
+        "1M-10M",
+        "1M"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-067",
+      "question": "What value band is recorded for tender 0683f4_tender_14 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "10k-100k",
+      "expected_facts": [
+        "10k-100k",
+        "10k"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-068",
+      "question": "What value band is recorded for tender 06d0c8_tender_17 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "source_document": "06d0c8_tender_17.html",
+      "expected_answer": "10k-100k",
+      "expected_facts": [
+        "10k-100k",
+        "10k"
+      ],
+      "expected_documents": [
+        "06d0c8_tender_17.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-069",
+      "question": "What value band is recorded for tender 069b28_tender_16 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_8d564e6bfcae4b28b8e0db582d54258f",
+      "source_document": "069b28_tender_16.docx",
+      "expected_answer": "10k-100k",
+      "expected_facts": [
+        "10k-100k",
+        "10k"
+      ],
+      "expected_documents": [
+        "069b28_tender_16.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-070",
+      "question": "What value band is recorded for tender 065b20_tender_6 in OCDS records?",
+      "category": "procurement_values",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "100k-1M",
+      "expected_facts": [
+        "100k-1M",
+        "100k"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-071",
+      "question": "Which NUTS / regional code is recorded for the Natural History Museum in 04f6f2_tender_10.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "UKI33",
+      "expected_facts": [
+        "UKI33"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-072",
+      "question": "What geographic area corresponds to UKI33 in document 04f6f2_tender_10.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Kensington & Chelsea and Hammersmith & Fulham",
+      "expected_facts": [
+        "Kensington & Chelsea"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-073",
+      "question": "Which regional code is recorded for the Department for Education in 0508f7_tender_5.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "UKI32",
+      "expected_facts": [
+        "UKI32"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-074",
+      "question": "What geographic area corresponds to UKI32 in document 0508f7_tender_5.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Westminster",
+      "expected_facts": [
+        "Westminster"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-075",
+      "question": "Which regional code is recorded for Warwickshire Police in 0523fd_tender_11.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "UKG13",
+      "expected_facts": [
+        "UKG13"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-076",
+      "question": "What region is recorded for the contracting authority in 0523fd_tender_11.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "Warwickshire",
+      "expected_facts": [
+        "Warwickshire"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-077",
+      "question": "Which contract location region is listed in 06093e_tender_20.html for Academies for Character & Excellence?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "UKK - South West (England)",
+      "expected_facts": [
+        "South West",
+        "UKK"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-078",
+      "question": "What contract location code is recorded for British Business Bank in 0679c4_tender_7.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "UK - United Kingdom",
+      "expected_facts": [
+        "United Kingdom",
+        "UK"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-079",
+      "question": "Which country is recorded for the contracting authority in 04f6f2_tender_10.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "United Kingdom",
+      "expected_facts": [
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-080",
+      "question": "Which country is recorded for the contracting authority in 0508f7_tender_5.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "United Kingdom",
+      "expected_facts": [
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-081",
+      "question": "Which country is recorded for the contracting authority in 0523fd_tender_11.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "United Kingdom",
+      "expected_facts": [
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-082",
+      "question": "Which country is recorded for the contracting authority in 0679c4_tender_7.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "United Kingdom",
+      "expected_facts": [
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-083",
+      "question": "Which country is recorded for VIA East Midlands in 0683f4_tender_14.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "United Kingdom",
+      "expected_facts": [
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-084",
+      "question": "In which nation of the UK is Aberystwyth University located (06e110_tender_4.html)?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+      "source_document": "06e110_tender_4.html",
+      "expected_answer": "Wales / United Kingdom",
+      "expected_facts": [
+        "Wales",
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "06e110_tender_4.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-085",
+      "question": "In which country is Newry, Mourne and Down District Council located (065308_tender_2.html)?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_dfd8dfb502de475ea023c44ddd793648",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "Northern Ireland / United Kingdom",
+      "expected_facts": [
+        "Northern Ireland",
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-086",
+      "question": "Which part of England is Leeds City Council located in (06da37_tender_9.html)?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_35e1f427b248454d90197be9658d6b30",
+      "source_document": "06da37_tender_9.html",
+      "expected_answer": "Yorkshire / England",
+      "expected_facts": [
+        "Yorkshire",
+        "England"
+      ],
+      "expected_documents": [
+        "06da37_tender_9.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-087",
+      "question": "In which city is the London Borough of Camden located (066066_tender_12.html)?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "London",
+      "expected_facts": [
+        "London"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-088",
+      "question": "What region does Northern Gas Networks primarily serve according to 060827_tender_19.docx?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "Northern England (North East, Northern Yorkshire, Northern Cumbria)",
+      "expected_facts": [
+        "Northern"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-089",
+      "question": "Which regional code is recorded for VIA East Midlands Limited in 0683f4_tender_14.html?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "UKF1",
+      "expected_facts": [
+        "UKF1",
+        "East Midlands"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-090",
+      "question": "Where is the British Geological Survey (BGS) waste management contract performed according to 065b20_tender_6.pdf?",
+      "category": "locations_and_regions",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "BGS Keyworth / United Kingdom",
+      "expected_facts": [
+        "Keyworth",
+        "United Kingdom"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-091",
+      "question": "What contract number is recorded in the system for the Critical Ventilation contract?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_5b5f9eb44f99454bbb1745d13b768695",
+      "source_document": "0685ae_tender_3.html",
+      "expected_answer": "POW-FTS-62602",
+      "expected_facts": [
+        "POW-FTS-62602"
+      ],
+      "expected_documents": [
+        "0685ae_tender_3.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-092",
+      "question": "What contract reference is assigned to the Peace Maze project in Newry?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_dfd8dfb502de475ea023c44ddd793648",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "RFQ 2025/59",
+      "expected_facts": [
+        "RFQ 2025/59"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-093",
+      "question": "What procurement reference is used for the BGS waste management tender?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "UKRI-5294",
+      "expected_facts": [
+        "UKRI-5294"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-094",
+      "question": "What contract code is recorded for the ACE Financial Management System?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "ACE01.76",
+      "expected_facts": [
+        "ACE01.76"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-095",
+      "question": "What procurement reference is assigned to the FSCS Contingent Workforce contract?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_81a1372efae24f649be81baae07b067b",
+      "source_document": "064670_tender_1.html",
+      "expected_answer": "FSCS569",
+      "expected_facts": [
+        "FSCS569"
+      ],
+      "expected_documents": [
+        "064670_tender_1.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-096",
+      "question": "What is the contract number for supplier contract NS-2024-001 in the database?",
+      "category": "contracts_and_codes",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "NS-2024-001",
+      "expected_facts": [
+        "NS-2024-001"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-097",
+      "question": "What is the contract number for supplier agreement HTP-2024-014 in the database?",
+      "category": "contracts_and_codes",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "HTP-2024-014",
+      "expected_facts": [
+        "HTP-2024-014"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-098",
+      "question": "What is the contract number for expired contract ORC-2021-777 in the database?",
+      "category": "contracts_and_codes",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "ORC-2021-777",
+      "expected_facts": [
+        "ORC-2021-777"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-099",
+      "question": "What main procurement category is recorded for the Gallery 33 design tender in 04f6f2_tender_10.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-100",
+      "question": "What main procurement category is recorded for Supporting Holocaust Survivor Testimony in 0508f7_tender_5.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-101",
+      "question": "What main procurement category is recorded for the HR System tender in 0523fd_tender_11.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-102",
+      "question": "What main procurement category is recorded for the Loan Management System in 0679c4_tender_7.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-103",
+      "question": "What main procurement category is recorded for Fulwood Bridge Painting in 0683f4_tender_14.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "Works",
+      "expected_facts": [
+        "Works"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-104",
+      "question": "What main procurement category is recorded for the BGS Waste Management contract in 065b20_tender_6.pdf?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_f8d3520803b84d0aae0941499bbb0ed7",
+      "source_document": "065b20_tender_6.pdf",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "065b20_tender_6.pdf"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-105",
+      "question": "What main procurement category is recorded for the Operated Plant tender in 060827_tender_19.docx?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-106",
+      "question": "What main procurement category is recorded for Robotic Milking System Maintenance in 06e110_tender_4.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+      "source_document": "06e110_tender_4.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "06e110_tender_4.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-107",
+      "question": "What main procurement category is recorded for Driver CPC Training in 06da37_tender_9.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_35e1f427b248454d90197be9658d6b30",
+      "source_document": "06da37_tender_9.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "06da37_tender_9.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-108",
+      "question": "What main procurement category is recorded for the Return to Practice facilitator role in 06d0c8_tender_17.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "source_document": "06d0c8_tender_17.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "06d0c8_tender_17.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-109",
+      "question": "What main procurement category is recorded for Dockless bike hire concession in 066066_tender_12.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-110",
+      "question": "What main procurement category is recorded for Peace Maze festivals programme in 065308_tender_2.html?",
+      "category": "contracts_and_codes",
+      "source_document_id": "doc_dfd8dfb502de475ea023c44ddd793648",
+      "source_document": "065308_tender_2.html",
+      "expected_answer": "Services",
+      "expected_facts": [
+        "Services"
+      ],
+      "expected_documents": [
+        "065308_tender_2.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-111",
+      "question": "What issue date is stated on page 1 of document 060827_tender_19.docx?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "16/01/2026",
+      "expected_facts": [
+        "16/01/2026"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-112",
+      "question": "What is the closing date and time for the Northern Gas Networks tender in 060827_tender_19.docx?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_6631f9cbb6f34592a2ba4701ab1d92d7",
+      "source_document": "060827_tender_19.docx",
+      "expected_answer": "10/02/2026 - 5pm",
+      "expected_facts": [
+        "10/02/2026",
+        "5pm"
+      ],
+      "expected_documents": [
+        "060827_tender_19.docx"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-113",
+      "question": "In which year was the Natural History Museum Gallery 33 notice 04f6f2_tender_10 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_c9c685ea12aa4cfca706f7b2a4344588",
+      "source_document": "04f6f2_tender_10.html",
+      "expected_answer": "2025 / 2026",
+      "expected_facts": [
+        "2025",
+        "2026"
+      ],
+      "expected_documents": [
+        "04f6f2_tender_10.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-114",
+      "question": "In which year was the British Business Bank tender 0679c4_tender_7 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_97673dc85fe34c2c9b874fc64bce5d0e",
+      "source_document": "0679c4_tender_7.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "0679c4_tender_7.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-115",
+      "question": "In which year was the Fulwood Bridge Painting tender 0683f4_tender_14 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_2283ad96e6d245fe85662b70b0e1a00a",
+      "source_document": "0683f4_tender_14.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "0683f4_tender_14.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-116",
+      "question": "In which year was the Supporting Holocaust Survivor Testimony notice 0508f7_tender_5 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_1817b0c4b93247218d192b1c62147281",
+      "source_document": "0508f7_tender_5.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "0508f7_tender_5.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-117",
+      "question": "In which year was the Warwickshire Police HR System notice 0523fd_tender_11 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_3bf486f3872c43508c7d051628a5fed6",
+      "source_document": "0523fd_tender_11.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "0523fd_tender_11.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-118",
+      "question": "In which year was the NBI Energy Centre notice 05a7e4_tender_18 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_ab749f6d6a9a425893d18e85bf68d980",
+      "source_document": "05a7e4_tender_18.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "05a7e4_tender_18.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-119",
+      "question": "In which year was the Academies for Character & Excellence notice 06093e_tender_20 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_3f9d88fe13014b2b8b353e7dda75f54f",
+      "source_document": "06093e_tender_20.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "06093e_tender_20.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-120",
+      "question": "In which year was the Camden dockless bike hire notice 066066_tender_12 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_6e25bc76c0c3463c81455832855faf3c",
+      "source_document": "066066_tender_12.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "066066_tender_12.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-121",
+      "question": "In which year was the NHS England return to practice notice 06d0c8_tender_17 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_57026b72602f4b72a378eca33c14c115",
+      "source_document": "06d0c8_tender_17.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "06d0c8_tender_17.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-122",
+      "question": "In which year was the Leeds City Council CPC training notice 06da37_tender_9 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_35e1f427b248454d90197be9658d6b30",
+      "source_document": "06da37_tender_9.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "06da37_tender_9.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-123",
+      "question": "In which year was the Aberystwyth University milking system notice 06e110_tender_4 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_2b670da46a684df78ec561ecc1e038a9",
+      "source_document": "06e110_tender_4.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "06e110_tender_4.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-124",
+      "question": "In which year was the Old Oak Private Sector Partner notice 069a8c_tender_15 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_8734648b673b400bb4fd269634b812e6",
+      "source_document": "069a8c_tender_15.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "069a8c_tender_15.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-125",
+      "question": "In which year was the Holy Family Catholic School notice 06d2dd_tender_8 published?",
+      "category": "dates_and_deadlines",
+      "source_document_id": "doc_66368bcbaff942a18e77afe03f9dff46",
+      "source_document": "06d2dd_tender_8.html",
+      "expected_answer": "2026",
+      "expected_facts": [
+        "2026"
+      ],
+      "expected_documents": [
+        "06d2dd_tender_8.html"
+      ],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-126",
+      "question": "What is the name of the supplier associated with contract NS-2024-001 in the database?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "Northwind Industrial Supplies Ltd",
+      "expected_facts": [
+        "Northwind Industrial Supplies Ltd"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-127",
+      "question": "What is the name of the supplier associated with contract HTP-2024-014 in the database?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "Helios Technology Partners Inc",
+      "expected_facts": [
+        "Helios Technology Partners Inc"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-128",
+      "question": "What is the name of the supplier associated with contract ORC-2021-777 in the database?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "Orion Components Co",
+      "expected_facts": [
+        "Orion Components Co"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-129",
+      "question": "Which contract is held by Northwind Industrial Supplies Ltd in the system?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "NS-2024-001",
+      "expected_facts": [
+        "NS-2024-001"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-130",
+      "question": "Which contract is held by Helios Technology Partners Inc in the system?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "HTP-2024-014",
+      "expected_facts": [
+        "HTP-2024-014"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-131",
+      "question": "Which contract is held by Orion Components Co in the system?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "ORC-2021-777",
+      "expected_facts": [
+        "ORC-2021-777"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-132",
+      "question": "What is the title of the contract document for NS-2024-001?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "pricing_schedule_2026",
+      "expected_facts": [
+        "pricing_schedule_2026"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-133",
+      "question": "What is the title of the contract document for HTP-2024-014?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "supplier_b_supply_agreement_HTP-2024-014",
+      "expected_facts": [
+        "supplier_b_supply_agreement"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-134",
+      "question": "What is the title of the contract document for ORC-2021-777?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "supplier_c_expired_contract_ORC-2021-777",
+      "expected_facts": [
+        "supplier_c_expired_contract"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-135",
+      "question": "What currency is recorded for contract NS-2024-001 in the database?",
+      "category": "suppliers_and_products",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "USD",
+      "expected_facts": [
+        "USD"
+      ],
+      "expected_documents": [],
+      "expected_pages": [
+        1
+      ],
+      "answerability": "answerable",
+      "review_status": "auto_verified",
+      "expected_refusal": false,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-136",
+      "question": "What is the capital city of France?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-137",
+      "question": "What was Apple's total corporate revenue for fiscal year 2024?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-138",
+      "question": "Who won the FIFA Men's World Cup in 2022?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-139",
+      "question": "What is the airspeed velocity of an unladen swallow?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-140",
+      "question": "Which supplier was awarded the 2023 Heathrow Airport baggage handling contract?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-141",
+      "question": "What is the formula for calculating gravitational potential energy?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-142",
+      "question": "What is the current market stock price of Microsoft Corporation?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-143",
+      "question": "Who is the Prime Minister of Australia?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-144",
+      "question": "What is the boiling point of liquid nitrogen at standard atmospheric pressure?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-145",
+      "question": "What was the winning bid amount for the 2018 HS2 railway tunneling contract in Birmingham?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-146",
+      "question": "Which catering firm supplies meals to Manchester United FC at Old Trafford?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-147",
+      "question": "What are the rules of Texas Hold'em poker?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-148",
+      "question": "How many moons does Jupiter have according to NASA?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-149",
+      "question": "What was the procurement value for the Apollo 11 lunar module in 1969?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q150-150",
+      "question": "What is the population of Tokyo, Japan?",
+      "category": "unanswerable_refusal",
+      "source_document_id": "",
+      "source_document": "",
+      "expected_answer": "I cannot verify this from the available procurement documents.",
+      "expected_facts": [],
+      "expected_documents": [],
+      "expected_pages": [],
+      "answerability": "unanswerable",
+      "review_status": "auto_verified",
+      "expected_refusal": true,
+      "difficulty": "medium"
+    }
+  ]
+}

@@ -295,10 +295,14 @@ async def load_vocabulary(session: AsyncSession, tenant_id: str, *, limit: int =
     vocabulary.suppliers = [(row[0], row[1]) for row in supplier_rows]
     for supplier_id, supplier_name, attributes in supplier_rows:
         for alias in (attributes or {}).get("aliases", []) or []:
-            vocabulary.supplier_aliases[str(alias).strip().lower()] = (supplier_id, supplier_name)
+            alias_clean = str(alias).strip().lower()
+            if len(alias_clean) >= 2:
+                vocabulary.supplier_aliases[alias_clean] = (supplier_id, supplier_name)
         initial = _initials(supplier_name)
-        if initial and initial not in vocabulary.supplier_aliases:
-            vocabulary.supplier_aliases[initial] = (supplier_id, supplier_name)
+        if initial and len(initial) >= 2:
+            initial_lower = initial.lower()
+            if initial_lower not in vocabulary.supplier_aliases:
+                vocabulary.supplier_aliases[initial_lower] = (supplier_id, supplier_name)
     vocabulary.products = [
         (row[0], row[1], row[2] or "")
         for row in (
@@ -592,7 +596,7 @@ def _name_mentioned(text: str, name: str) -> bool:
 def _resolve_supplier(name: str, vocabulary: TenantVocabulary) -> tuple[str, str] | None:
     """Resolve a free-text supplier mention to a recorded supplier, if any."""
     label = (name or "").strip().lower()
-    if label and label in vocabulary.supplier_aliases:
+    if label and len(label) >= 2 and label in vocabulary.supplier_aliases:
         return vocabulary.supplier_aliases[label]
     for supplier_id, supplier_name in vocabulary.suppliers:
         if _name_mentioned(name, supplier_name):
@@ -610,14 +614,22 @@ def _resolve_product(name: str, vocabulary: TenantVocabulary) -> tuple[str, str]
 
 
 def _initials(name: str) -> str | None:
-    """Initials of a supplier name, e.g. 'Northwind Industrial Supplies' → 'N'.
+    """Acronym of a multi-word supplier name, e.g. 'Northwind Industrial Supplies' → 'NIS'.
 
     Used only as a fallback alias when the data itself records no label.
+    Never returns a single character (e.g. 'R'), which causes alias collisions.
     """
     cleaned = (name or "").strip()
     if not cleaned:
         return None
-    return cleaned[0].upper()
+    words = [
+        w for w in re.split(r"[^A-Za-z0-9]+", cleaned)
+        if w and w.lower() not in {"ltd", "limited", "llc", "inc", "corp", "corporation", "plc", "and", "the", "of", "for", "co"}
+    ]
+    if len(words) < 2:
+        return None
+    acronym = "".join(w[0].upper() for w in words if w)
+    return acronym if len(acronym) >= 2 else None
 
 
 UNDERSTANDING_SCHEMA_HINT = (

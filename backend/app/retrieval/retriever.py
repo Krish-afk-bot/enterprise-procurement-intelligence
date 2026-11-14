@@ -173,6 +173,18 @@ class HybridRetriever:
             sparse_hits, step = await self._sparse_search(query, principal, scoped_filters)
             result.steps.append(step)
 
+        # If scoped by plan_extras (e.g. single supplier) but zero candidates matched
+        # (e.g. tender notices lack supplier tags or supplier was not in document chunks),
+        # fall back to tenant-scoped search without plan_extras so evidence is not lost.
+        if plan_extras and not dense_hits and not sparse_hits:
+            fallback_filters = build_retrieval_filters(principal, **(filters or {}))
+            if mode in {"hybrid", "dense", "hybrid_rerank"}:
+                dense_hits, fallback_step = await self._dense_search(query, fallback_filters)
+                result.steps.append(fallback_step)
+            if mode in {"hybrid", "sparse", "hybrid_rerank"}:
+                sparse_hits, fallback_step = await self._sparse_search(query, principal, fallback_filters)
+                result.steps.append(fallback_step)
+
         if mode == "dense":
             fused = [
                 FusedHit(

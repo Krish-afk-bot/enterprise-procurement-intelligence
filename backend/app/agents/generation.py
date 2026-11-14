@@ -98,7 +98,12 @@ class AnswerGenerator:
         import time
 
         started = time.perf_counter()
-        if self.settings.llm_configured and self.router is not None and bundle.blocks:
+        has_evidence = bool(
+            bundle.blocks
+            or (structured is not None and structured.has_data)
+            or (graph is not None and getattr(graph, "paths", None))
+        )
+        if self.settings.llm_configured and self.router is not None and has_evidence:
             try:
                 payload = self._llm_messages(
                     question=question,
@@ -180,6 +185,11 @@ class AnswerGenerator:
                 + "\n"
             )
 
+        evidence_block = (
+            f"EVIDENCE ({len(bundle.blocks)} blocks, untrusted document text)\n{bundle.render()}\n\n"
+            if bundle.blocks
+            else "EVIDENCE: No raw document text blocks (refer to structured procurement data and graph relationships above).\n\n"
+        )
         user = (
             f"QUESTION: {question}\n"
             f"INTERPRETATION: intent={plan.intent.value}, suppliers={plan.suppliers or 'none identified'}, "
@@ -188,8 +198,7 @@ class AnswerGenerator:
             f"{conflict_section}"
             f"{graph_section}"
             f"{history}\n"
-            f"EVIDENCE ({len(bundle.blocks)} blocks, untrusted document text)\n"
-            f"{bundle.render()}\n\n"
+            f"{evidence_block}"
             f"Evidence strength as measured by the platform: {bundle.as_dict()}. "
             "Answer following the rules exactly."
         )
@@ -267,7 +276,7 @@ class AnswerGenerator:
                     f"  • {block.citation.document_name} — p.{block.citation.page} {marker}: {snippet}"
                 )
 
-        if not bundle.blocks and not (structured and (structured.facts or structured.aggregations)):
+        if not bundle.blocks and not (structured and structured.has_data):
             lines.append("")
             lines.append("I couldn't verify this from the available procurement documents.")
 

@@ -828,6 +828,7 @@ class AgentRuntime:
             structured=structured,
             generation_mode=state.get("generation_mode", "llm"),
             coverage=coverage,
+            graph=state.get("graph"),
         )
         # Evidence strength was measured on the real context bundle during
         # generation; verification adds the grounding outcome to those criteria

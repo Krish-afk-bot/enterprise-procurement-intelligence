@@ -135,11 +135,16 @@ async def main() -> int:
     parser.add_argument("--category", action="append", default=None)
     parser.add_argument("--strategy", default=None)
     parser.add_argument("--out", default=None)
+    parser.add_argument("--dataset-dir", default=None, help="Directory containing questions.json")
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("--no-llm", action="store_true", help="Disable LLM network calls, run extractive pipeline")
     args = parser.parse_args()
 
     settings = get_settings()
-    dataset = load_benchmark_dataset(settings.evaluation_dir / "benchmark_v3")
+    if args.no_llm:
+        settings.llm_base_url = ""
+    dataset_path = Path(args.dataset_dir) if args.dataset_dir else (settings.evaluation_dir / "benchmark_v3")
+    dataset = load_benchmark_dataset(dataset_path)
     out_dir = Path(args.out) if args.out else (
         PROJECT_ROOT / "data" / "evaluation" / "benchmark_v3" / "results" / "baseline"
     )

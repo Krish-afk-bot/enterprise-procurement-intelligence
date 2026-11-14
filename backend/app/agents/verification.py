@@ -211,7 +211,11 @@ def _mentions(text: str, needle: Any) -> bool:
     wanted = _name_tokens(name)
     if len(wanted) < 2:
         return False
-    return wanted <= _name_tokens(haystack)
+    tokens = _name_tokens(haystack)
+    intersection = wanted & tokens
+    if len(wanted) >= 3:
+        return (len(intersection) / len(wanted)) >= 0.6
+    return wanted <= tokens
 
 
 def _name_matches(candidate: Any, name: Any) -> bool:
@@ -831,6 +835,7 @@ def decide_status(
     structured: StructuredResult | None,
     generation_mode: str = "llm",
     coverage: CoverageResult | None = None,
+    graph: Any = None,
 ) -> str:
     """Decide the answer status.
 
@@ -854,7 +859,11 @@ def decide_status(
     4. LLM mode with 0 supported claims (even with some evidence) → insufficient_evidence
        (not merely "partial" — an answer with no verifiable claims is a refusal, not a partial).
     """
-    has_evidence = bool(bundle.blocks) or bool(structured and (structured.facts or structured.aggregations))
+    has_evidence = (
+        bool(bundle.blocks)
+        or bool(structured and structured.has_data)
+        or bool(graph and (getattr(graph, "paths", None) or getattr(graph, "nodes", None)))
+    )
     if not has_evidence:
         return "insufficient_evidence"
 
@@ -872,6 +881,8 @@ def decide_status(
     # reported as an answer. Uncovered constraints mean the question is
     # unanswerable from this corpus, whatever else was retrieved.
     if coverage is not None and not coverage.satisfied and not genuine_conflicts:
+        if grounding is not None and grounding.supported > 0:
+            return "partial"
         return "insufficient_evidence"
 
     if genuine_conflicts:

@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { MICROCOPY, microcopyPlain } from "@/lib/microcopy";
 import { useMood } from "@/lib/useMood";
 import { cn, formatDateTime, plural } from "@/lib/utils";
+import { useAuth } from "@/store/auth";
 
 const EXAMPLE_QUESTIONS = [
   "What is Supplier A's current price for the Industrial Laptop X200?",
@@ -80,18 +81,25 @@ export function AskPage() {
     }, 0);
   }
 
+  const token = useAuth((state) => state.token);
+
   const conversations = useQuery({
     queryKey: ["conversations"],
     queryFn: () => api.conversations({ limit: 25 }),
+    enabled: Boolean(token),
   });
 
   const transcript = useQuery({
     queryKey: ["conversation-messages", conversationId],
     queryFn: () => api.conversationMessages(conversationId!, { limit: 100 }),
-    enabled: Boolean(conversationId),
+    enabled: Boolean(conversationId) && Boolean(token),
   });
 
-  const filters = useQuery({ queryKey: ["filters"], queryFn: api.filters });
+  const filters = useQuery({
+    queryKey: ["filters"],
+    queryFn: api.filters,
+    enabled: Boolean(token),
+  });
   const strategies = useMemo(
     () => ["auto", ...(filters.data?.strategies ?? ["dense", "sparse", "hybrid", "hybrid_rerank", "agentic"])],
     [filters.data],

@@ -1,7 +1,7 @@
 # EPI benchmark v4 — full re-ingestion and 150-question run
 
 - Git commit at freeze: `3d15fbf` (the deterministic-chunk-id bug fix was committed after the runs).
-- Report commit: `80d1317c2048fb89053db132684bda9668e3ad7f`.
+- Code commit: `57b4bfe62d836f1f9ab890f198235b117825ff33`.
 - Dataset SHA-256: `0f6fa03db3b652db31961f364dcaf651fec29dcb1c4943c4c9e49c05f53606d3` (frozen before Run A).
 - Dataset: 150 questions — 94 answerable, 41 unanswerable, 15 needs_review.
 - Corpus: 20 source documents, 19 indexed, 1 empty portal page; 42 pages; 655 active chunks.

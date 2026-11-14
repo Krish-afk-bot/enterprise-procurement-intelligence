@@ -69,6 +69,28 @@
     /* Glass surface recipe, shared by every translucent panel. */
     --glass-top: 255 255 255;
     --glass-border: 255 255 255;
+
+    /* Cinematic Master Redesign Tokens */
+    --bg-0: #050505;
+    --bg-1: #0B0B0C;
+    --bg-loader: #141414;
+    --surface: rgba(255, 255, 255, 0.04);
+    --surface-active: rgba(255, 255, 255, 0.08);
+    --surface-hover: rgba(255, 255, 255, 0.06);
+    --border-v3: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.24);
+    --text-hi: #FFFFFF;
+    --text-mid: rgba(255, 255, 255, 0.62);
+    --text-low: rgba(255, 255, 255, 0.36);
+    --accent: #FF4D00;
+    --accent-hot: #FF7A1A;
+    --accent-deep: #7A1F00;
+    --sun-white: #FFF3E6;
+    --light-bg: #FAFAFA;
+    --light-peach: #FFF1E6;
+    --light-text: #0A0A0A;
+    --light-body: #6B6B6B;
+    --dome-blue: #CFE6F7;
   }
 
   /* The application is dark in every state; the class exists so a component can

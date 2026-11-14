@@ -26,7 +26,9 @@ export const getEffectiveMotionMode = (): MotionMode => {
 export const setMotionPref = (pref: MotionPref) => {
   try {
     localStorage.setItem(STORAGE_KEY, pref);
-  } catch {}
+  } catch {
+    // Ignore storage write errors (e.g. private browsing quota)
+  }
   applyMotionToDoc();
   subscribers.forEach((fn) => fn());
 };

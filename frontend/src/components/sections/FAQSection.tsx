@@ -5,15 +5,15 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function FAQSection() {
-  // F6.6: First item open by default
-  const [openId, setOpenId] = useState<string>(LANDING_CONTENT.faq.items[0]?.id || "faq-1");
+  // F6.6: First item ("faq-1") open by default
+  const [openId, setOpenId] = useState<string>("faq-1");
 
   const toggle = (id: string) => {
     setOpenId((prev) => (prev === id ? "" : id));
   };
 
   return (
-    <section id="faq" className="relative py-28 px-6 bg-[#050505] text-white">
+    <section id="faq" className="relative py-28 px-6 bg-[#050505] text-white scroll-mt-[112px]">
       <div className="max-w-4xl mx-auto">
         {/* Header Stack */}
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-16 gap-4">
@@ -31,7 +31,7 @@ export function FAQSection() {
           </WordReveal>
         </div>
 
-        {/* Accordion List with Left Chevron and ARIA tags */}
+        {/* Accordion List with Left Chevron, Smooth Grid Height Animation, and Full ARIA Tags */}
         <div className="flex flex-col gap-3">
           {LANDING_CONTENT.faq.items.map((item) => {
             const isOpen = openId === item.id;
@@ -39,18 +39,19 @@ export function FAQSection() {
               <div
                 key={item.id}
                 className={cn(
-                  "rounded-2xl border transition-all duration-200 overflow-hidden",
+                  "rounded-2xl border transition-all duration-300 overflow-hidden",
                   isOpen
-                    ? "bg-[#141414] border-[#FF4D00]/40 shadow-lg"
+                    ? "bg-[#141414] border-[#FF4D00]/50 shadow-[0_8px_30px_rgba(255,77,0,0.08)]"
                     : "bg-[#0B0B0C] border-white/10 hover:border-white/20"
                 )}
               >
                 <button
+                  id={`faq-trigger-${item.id}`}
                   type="button"
                   onClick={() => toggle(item.id)}
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${item.id}`}
-                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4D00]"
+                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4D00] transition-colors"
                 >
                   <div className="flex items-center gap-4">
                     <ChevronDown
@@ -65,14 +66,22 @@ export function FAQSection() {
                   </div>
                 </button>
 
-                {isOpen && (
-                  <div
-                    id={`faq-answer-${item.id}`}
-                    className="px-6 pb-6 pt-1 text-sm text-white/70 leading-relaxed pl-15"
-                  >
-                    {item.answer}
+                {/* Smooth Animated Height via CSS Grid Rows */}
+                <div
+                  id={`faq-answer-${item.id}`}
+                  role="region"
+                  aria-labelledby={`faq-trigger-${item.id}`}
+                  className={cn(
+                    "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  )}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-6 pt-1 text-sm text-white/70 leading-relaxed pl-15">
+                      {item.answer}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

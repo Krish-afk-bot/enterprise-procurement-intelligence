@@ -107,7 +107,7 @@ function BentoCard({ tile, className }: BentoCardProps) {
         {tile.type === "evidence-verification" && (
           <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/5 border border-white/10">
             <ShieldCheck className="w-5 h-5 text-[#FF4D00]" />
-            <span className="text-xs font-mono text-white/80">Page 14 • Conf 99.4%</span>
+            <span className="text-xs font-mono text-white/80">Page 14 • Confidence shown as example</span>
           </div>
         )}
 
@@ -164,7 +164,7 @@ export function FeatureBentoSection() {
 
   return (
     <CurtainTransition from="light" to="dark" id="bento">
-      <div className="relative py-28 px-6 max-w-7xl mx-auto">
+      <div className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-6 max-w-7xl mx-auto scroll-mt-[112px]">
         {/* Section Heading: Centered Stack */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 gap-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/5 border border-white/10 text-white/80">

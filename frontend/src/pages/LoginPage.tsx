@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { AlertTriangle, ArrowRight, BadgeCheck, FileSearch, ShieldQuestion } from "lucide-react";
+import { AlertTriangle, ArrowRight, BadgeCheck, Eye, EyeOff, FileSearch, ShieldQuestion } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Input, Label } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type CredentialErrors, hasErrors, validateCredentials } from "@/lib/validation";
 import { useAuth } from "@/store/auth";
+import { useMotionMode } from "@/motion/motion";
 
 const PRINCIPLES = [
   {
@@ -30,9 +31,11 @@ const PRINCIPLES = [
 export function LoginPage() {
   const { login, register, token, error, status } = useAuth();
   const navigate = useNavigate();
+  const motionMode = useMotionMode();
   const [mode, setMode] = useState<"signin" | "register">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<CredentialErrors>({});
@@ -52,8 +55,6 @@ export function LoginPage() {
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
-    // Validate before the request: a malformed address or a too-short new
-    // password would otherwise come back as a generic API error.
     const errors = validateCredentials({ mode, email, password, fullName });
     setFieldErrors(errors);
     if (hasErrors(errors)) return;
@@ -76,15 +77,27 @@ export function LoginPage() {
     <div className="relative grid min-h-screen overflow-x-clip bg-ink lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
       {/* ------------------------------------------------------------ narrative */}
       <aside className="relative hidden overflow-hidden border-r border-white/[0.08] bg-[#070708] lg:flex lg:flex-col lg:justify-between lg:px-14 lg:py-12">
-        {/* Subtle orange atmospheric beam */}
-        <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-[#FF4D00]/20 via-[#FF7A1A]/5 to-transparent rounded-full blur-[100px]" />
+        {/* Lightweight ambient visual: Slow orange beam drift + circuit pulses (SVG/CSS, obeys Motion mode) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className={cn(
+              "absolute -top-32 -left-32 w-[500px] h-[500px] bg-gradient-to-br from-[#FF4D00]/25 via-[#FF7A1A]/8 to-transparent rounded-full blur-[120px] transition-transform duration-1000",
+              motionMode === "full" ? "animate-pulse duration-[7000ms]" : ""
+            )}
+          />
+          <svg className="absolute inset-0 w-full h-full opacity-25" xmlns="http://www.w3.org/2000/svg">
+            <line x1="25%" y1="0%" x2="25%" y2="100%" stroke="rgba(255,77,0,0.2)" strokeWidth="1" strokeDasharray="6 8" />
+            <line x1="75%" y1="0%" x2="75%" y2="100%" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="4 6" />
+            <line x1="0%" y1="40%" x2="100%" y2="40%" stroke="rgba(255,77,0,0.12)" strokeWidth="1" />
+            <circle cx="25%" cy="40%" r="4" fill="#FF4D00" className={cn(motionMode === "full" ? "animate-ping" : "")} />
+            <circle cx="25%" cy="40%" r="2" fill="#FFFFFF" />
+            <circle cx="75%" cy="70%" r="3" fill="#FF7A1A" />
+          </svg>
+        </div>
         
         <div className="relative z-10 flex items-center justify-between">
-          <Link to="/" className="group flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-xl bg-[#FF4D00] flex items-center justify-center font-bold text-sm text-white shadow-lg shadow-[#FF4D00]/30 group-hover:scale-105 transition-transform">
-              E
-            </span>
-            <span className="font-semibold text-base text-white tracking-tight">EPI</span>
+          <Link to="/" className="group flex items-center gap-2.5" aria-label="EPI home">
+            <Logo variant="lockup" size={32} />
           </Link>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider bg-white/5 border border-white/10 text-white/70">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D00]" />
@@ -225,19 +238,31 @@ export function LoginPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  autoComplete={isSignIn ? "current-password" : "new-password"}
-                  required
-                  aria-invalid={Boolean(fieldErrors.password)}
-                  aria-describedby={fieldErrors.password ? "password-error" : undefined}
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                    clearFieldError("password");
-                  }}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    autoComplete={isSignIn ? "current-password" : "new-password"}
+                    required
+                    aria-invalid={Boolean(fieldErrors.password)}
+                    aria-describedby={fieldErrors.password ? "password-error" : undefined}
+                    onChange={(event) => {
+                      setPassword(event.target.value);
+                      clearFieldError("password");
+                    }}
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showPassword}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors p-1 rounded focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF4D00]"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
                 {fieldErrors.password ? (
                   <p id="password-error" className="text-[11px] text-destructive">
                     {fieldErrors.password}
@@ -262,7 +287,12 @@ export function LoginPage() {
             </form>
           </div>
 
-          <p className="mt-6 px-1 text-[11px] leading-relaxed text-subtle">
+          <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-white/40 font-mono">
+            <span>Argon2id + JWT Bearer</span>
+            <span>Tenant Isolation Enforced</span>
+          </div>
+
+          <p className="mt-4 px-1 text-[11px] leading-relaxed text-subtle">
             By signing in you accept the{" "}
             <Link to="/terms" className="text-muted-foreground underline decoration-white/25 underline-offset-2 hover:text-foreground">
               terms

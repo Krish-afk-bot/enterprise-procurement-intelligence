@@ -423,12 +423,22 @@ export function ProcurementGlobe({ className }: { className?: string }) {
     resizeObserver.observe(container);
     applySize(initialWidth, initialHeight);
 
-    // 10. Animation Loop
+    // 10. Animation Loop & Scroll-Tied Rotation
     let isVisible = true;
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
     });
     intersectionObserver.observe(container);
+
+    let lastScrollY = typeof window !== "undefined" ? window.scrollY : 0;
+    const handleScroll = () => {
+      if (!isVisible) return;
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+      globeGroup.rotation.y += delta * 0.0006;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     let animId: number;
 
@@ -536,6 +546,7 @@ export function ProcurementGlobe({ className }: { className?: string }) {
     animate();
 
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       cancelAnimationFrame(animId);

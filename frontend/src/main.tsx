@@ -15,6 +15,8 @@ const queryClient = new QueryClient({
       // A 4xx is a real answer from the server; retrying it just hides the cause.
       retry: (failureCount, error) => {
         if (error instanceof ApiError && error.status < 500) return false;
+        const status = (error as { status?: number })?.status;
+        if (status && status >= 400 && status < 500) return false;
         return failureCount < 2;
       },
     },

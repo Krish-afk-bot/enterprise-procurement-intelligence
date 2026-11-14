@@ -129,6 +129,11 @@
     text-wrap: balance;
   }
 
+  /* Hero headline: never balance — it must render at full clamp() size */
+  .hero-headline {
+    text-wrap: nowrap;
+  }
+
   /* Numeric columns line up; identifiers are monospaced. */
   .tnum {
     font-variant-numeric: tabular-nums;
@@ -581,4 +586,16 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes slideRight {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(200%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes dash {
+  0% { stroke-dashoffset: 200; }
+  50% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -200; }
 }

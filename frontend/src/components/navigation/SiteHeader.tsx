@@ -55,17 +55,13 @@ export function SiteHeader() {
       )}
       data-state={isPill ? "pill" : "top"}
     >
-      {/* Top viewport scrim so scrolled content fades smoothly behind floating pill */}
-      {isPill && (
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent pointer-events-none -z-10 transition-opacity duration-300" />
-      )}
-
+      {/* Only the pill itself floats - no full-width scrim or backdrop gradient strip */}
       <nav
         aria-label="Primary"
         className={cn(
           "bar pointer-events-auto flex items-center justify-between transition-all duration-300",
           isPill
-            ? "mx-auto w-[92%] max-w-4xl px-5 py-2.5 rounded-full bg-[#0C0C0C]/85 border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+            ? "mx-auto w-[92%] max-w-4xl px-5 py-2.5 rounded-full bg-[#0C0C0C]/85 border border-white/12 shadow-[0_8px_28px_rgba(0,0,0,0.18)] backdrop-blur-xl"
             : "w-full max-w-7xl px-6 sm:px-8 py-3 bg-transparent border-transparent"
         )}
       >

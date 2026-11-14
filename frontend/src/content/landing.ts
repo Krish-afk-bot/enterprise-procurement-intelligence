@@ -225,9 +225,9 @@ export const LANDING_CONTENT = {
     subtitle:
       "Conceptual visualization of procurement relationships across contracts, global suppliers, and regulatory filings.",
     nodes: [
-      { id: "rec", label: "Tender Records", count: "85,000+", type: "record" },
-      { id: "sup", label: "Active Suppliers", count: "14,200+", type: "supplier" },
-      { id: "con", label: "Contract Filings", count: "120,000+", type: "contract" },
+      { id: "con", label: "Contracts", count: "Tenders & Notices", type: "contract" },
+      { id: "sup", label: "Suppliers", count: "Bidders & Awardees", type: "supplier" },
+      { id: "rec", label: "Amendments", count: "Variations & Addenda", type: "record" },
     ],
     disclaimer: "Conceptual network topology visualizing global entity connections and document citations.",
   },
@@ -314,7 +314,7 @@ export const LANDING_CONTENT = {
       {
         id: "uc-1",
         title: "Contract Intelligence",
-        description: "Surface critical clauses, hidden liability liabilities, and non-standard indemnities.",
+        description: "Surface critical clauses, hidden liabilities, and non-standard indemnities.",
         outcomes: [
           "Automated clause classification against standard playbooks",
           "Detection of non-standard liability caps and warranties",
@@ -396,7 +396,7 @@ export const LANDING_CONTENT = {
           "PDF, Word, and Excel tabular extraction",
           "Document citation & page bounding box inspection",
           "Supplier & contract relational dashboards",
-          "Search filtering across 20+ procurement metadata fields",
+          "[VERIFY] Search filtering across 20+ procurement metadata fields",
         ],
       },
       {
@@ -423,7 +423,7 @@ export const LANDING_CONTENT = {
           "FastAPI REST endpoints with OpenAPI documentation",
           "Fast bulk ingestion for OCDS and FTS procurement dumps",
           "PostgreSQL + pgvector relational storage",
-          "Exportable audit dossiers and evidence reports",
+          "[VERIFY] Exportable audit dossiers and evidence reports",
         ],
       },
     ] as CapabilityTier[],

@@ -21,9 +21,18 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   BarChart3: <BarChart3 className="w-5 h-5 text-[#FF4D00]" />,
 };
 
+const MODULE_ACTION_LABELS: Record<string, string> = {
+  "cs-1": "Open Procurement Search",
+  "cs-2": "Open Documents",
+  "cs-3": "Open Suppliers",
+  "cs-4": "Open Contracts",
+  "cs-5": "Open Graph",
+  "cs-6": "Open Evaluation",
+};
+
 export function ProductCrossSellSection() {
   return (
-    <section id="cross-sell" className="relative py-28 px-6 bg-[#0B0B0C] text-white">
+    <section id="cross-sell" className="relative py-28 px-6 bg-[#0B0B0C] text-white scroll-mt-[112px]">
       <div className="max-w-7xl mx-auto">
         {/* Header: Vertical Stack, Badge Above (F6.2) */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 gap-4">
@@ -63,7 +72,7 @@ export function ProductCrossSellSection() {
               </div>
 
               <div className="flex items-center gap-1.5 text-xs font-semibold text-white/80 group-hover:text-white pt-4 border-t border-white/5">
-                <span>Explore workspace</span>
+                <span>{MODULE_ACTION_LABELS[card.id] || "Open workspace"}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#FF4D00] transform group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>

@@ -42,73 +42,34 @@ export function HeroSection() {
 
     const full = motionMode === "full";
 
-    // Failsafe: Ensure data-ready and all elements are 100% visible
-    const timer = setTimeout(() => {
-      root.setAttribute("data-ready", "true");
-      gsap.set(
-        ".hero-eyebrow, .hero-cta, .hero-card, .hero-sub, .hero-chip-container, .hero-headline",
-        { clearProps: "opacity,visibility,transform" }
-      );
-    }, 1500);
+    // Immediately mark ready — elements are visible by default via CSS
+    // Animation only adds y-slide, never hides anything (use .from not .fromTo)
+    root.setAttribute("data-ready", "true");
 
     if (motionMode === "off") {
-      root.setAttribute("data-ready", "true");
-      return () => clearTimeout(timer);
+      return;
     }
 
-    const ctx = gsap.context(() => {
-      // Intro Timeline using fromTo with clearProps so elements are never left hidden
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        onComplete: () => {
-          root.setAttribute("data-ready", "true");
-          gsap.set(".hero-eyebrow, .hero-cta, .hero-card, .hero-sub", {
-            clearProps: "opacity,visibility,transform",
-          });
-        },
-      });
+    // Safety net: clear any stuck GSAP transform props after 2s (NOT all — preserve inline styles like font-size)
+    const timer = setTimeout(() => {
+      gsap.set(
+        ".hero-eyebrow, .hero-cta, .hero-card, .hero-sub, .hero-chip-container, .hero-trace",
+        { clearProps: "transform,opacity,visibility" }
+      );
+    }, 2000);
 
-      tl.fromTo(
-        ".hero-eyebrow",
-        { opacity: 0, y: full ? 10 : 0 },
-        { opacity: 1, y: 0, duration: 0.5, clearProps: "opacity,visibility,transform" }
-      )
-        .fromTo(
-          ".hero-headline-span",
-          { opacity: 0, y: full ? 14 : 0 },
-          { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, clearProps: "opacity,visibility,transform" },
-          0.15
-        )
-        .fromTo(
-          ".hero-sub",
-          { opacity: 0, y: full ? 12 : 0 },
-          { opacity: 1, y: 0, duration: 0.6, clearProps: "opacity,visibility,transform" },
-          0.35
-        )
-        .fromTo(
-          ".hero-cta",
-          { opacity: 0, y: full ? 12 : 0 },
-          { opacity: 1, y: 0, stagger: 0.08, duration: 0.5, clearProps: "opacity,visibility,transform" },
-          0.5
-        )
-        .fromTo(
-          ".hero-chip-container",
-          { opacity: 0, scale: full ? 0.94 : 1 },
-          { opacity: 1, scale: 1, duration: 0.6, clearProps: "opacity,visibility,transform" },
-          0.65
-        )
-        .fromTo(
-          ".hero-trace",
-          { opacity: 0 },
-          { opacity: 1, duration: 0.6, clearProps: "opacity" },
-          0.8
-        )
-        .fromTo(
-          ".hero-card",
-          { opacity: 0, y: full ? 16 : 0 },
-          { opacity: 1, y: 0, stagger: 0.06, duration: 0.5, clearProps: "opacity,visibility,transform" },
-          0.9
-        );
+    const ctx = gsap.context(() => {
+      // .from() animates FROM a state TO the natural CSS state
+      // Elements are never invisible — GSAP only adds the slide-up motion
+      if (full) {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        tl.from(".hero-eyebrow", { y: 10, duration: 0.5 }, 0)
+          .from(".hero-headline-span", { y: 14, stagger: 0.1, duration: 0.6 }, 0.15)
+          .from(".hero-sub", { y: 12, duration: 0.6 }, 0.35)
+          .from(".hero-cta", { y: 12, stagger: 0.08, duration: 0.5 }, 0.5)
+          .from(".hero-chip-container", { scale: 0.94, duration: 0.6 }, 0.65)
+          .from(".hero-card", { y: 16, stagger: 0.06, duration: 0.5 }, 0.9);
+      }
 
       // Ambient breathing animations in full motion mode
       if (full) {
@@ -213,15 +174,18 @@ export function HeroSection() {
       ref={containerRef}
       id="hero"
       data-ready="true"
-      className="relative min-h-[100svh] flex flex-col items-center justify-start pt-32 sm:pt-36 pb-16 px-6 overflow-hidden bg-[#050505] text-white scroll-mt-24"
+      className="relative flex flex-col items-center justify-start pt-36 sm:pt-40 lg:pt-44 pb-20 px-6 overflow-hidden bg-[#050505] text-white scroll-mt-[112px]"
     >
       {/* Background ambient light */}
       <div className="hero-beam pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#FF4D00]/20 via-[#FF7A1A]/8 to-transparent rounded-full blur-[140px] transform -rotate-12 opacity-80" />
 
       {/* Main hero content stacked with tight, calibrated vertical rhythm */}
       <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center w-full">
-        {/* 1. Eyebrow badge (24px mb) */}
-        <div className="hero-eyebrow inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/5 border border-white/10 text-white/80 backdrop-blur-md mb-6 shadow-sm">
+        {/* 1. Eyebrow badge (24px mb = exactly 24px gap above headline) */}
+        <div
+          className="hero-eyebrow inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/5 border border-white/10 text-white/80 backdrop-blur-md mb-6 shadow-sm"
+          style={{ opacity: 1, visibility: "visible", display: "inline-flex" }}
+        >
           <Sparkles className="w-3.5 h-3.5 text-[#FF4D00]" />
           <span>{LANDING_CONTENT.hero.eyebrow}</span>
         </div>
@@ -229,7 +193,7 @@ export function HeroSection() {
         {/* 2. Headline: Two lines on desktop, clamp font-size, no descender clipping (24px mb) */}
         <h1
           className="hero-headline font-bold tracking-[-0.03em] text-white leading-[1.08] text-center mb-6 max-w-5xl"
-          style={{ fontSize: "clamp(2rem, 5.4vw, 4.75rem)" }}
+          style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)", textWrap: "nowrap" as React.CSSProperties["textWrap"] }}
         >
           <span className="hero-headline-span block md:whitespace-nowrap pb-1.5">
             Procurement Intelligence.
@@ -383,11 +347,10 @@ export function HeroSection() {
             return (
               <div
                 key={chip.id}
-                className={`hero-card group relative flex flex-col items-center text-center p-3.5 rounded-2xl bg-[#0B0B0C] border transition-all duration-300 backdrop-blur-md shadow-md hover:-translate-y-1 ${
-                  isFlashed
-                    ? "border-t-[#FF4D00] border-white/20 shadow-[0_-4px_18px_rgba(255,77,0,0.5)]"
-                    : "border-white/[0.08] hover:border-[#FF4D00]/60"
-                }`}
+                className={`hero-card group relative flex flex-col items-center text-center p-3.5 rounded-2xl bg-[#0B0B0C] border transition-all duration-300 backdrop-blur-md shadow-md hover:-translate-y-1 ${isFlashed
+                  ? "border-t-[#FF4D00] border-white/20 shadow-[0_-4px_18px_rgba(255,77,0,0.5)]"
+                  : "border-white/[0.08] hover:border-[#FF4D00]/60"
+                  }`}
               >
                 <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                   {ICON_MAP[chip.icon] ?? <FileText className="w-4 h-4 text-[#FF4D00]" />}

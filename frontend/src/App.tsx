@@ -86,6 +86,8 @@ export function App() {
       >
         {/* The overview is business information: every signed-in account can read it. */}
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/app/dashboard" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/app" element={<Navigate to="/dashboard" replace />} />
         <Route path="/ask" element={<AskPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/documents" element={<DocumentsPage />} />

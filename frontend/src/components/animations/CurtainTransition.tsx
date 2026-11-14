@@ -69,7 +69,7 @@ export function CurtainTransition({
     <div
       ref={containerRef}
       id={id}
-      className={cn("relative w-full overflow-hidden scroll-mt-24", className)}
+      className={cn("relative w-full overflow-hidden scroll-mt-[112px]", className)}
       data-theme={to}
     >
       {/* 

@@ -104,22 +104,22 @@ export function AppShell() {
                         className={cn(
                           "group relative flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] transition-colors duration-control",
                           isActive
-                            ? "bg-white/[0.075] font-medium text-foreground"
-                            : "text-muted-foreground hover:bg-white/[0.045] hover:text-foreground",
+                            ? "bg-[#FF4D00]/10 font-semibold text-white border border-[#FF4D00]/25"
+                            : "text-white/60 hover:bg-white/[0.045] hover:text-white",
                         )}
                       >
-                        {/* The active marker is a hairline, not a coloured bar. */}
+                        {/* The active marker is an orange hairline */}
                         <span
                           aria-hidden="true"
                           className={cn(
-                            "absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-white transition-opacity",
+                            "absolute left-0 top-1/2 h-5 w-[2.5px] -translate-y-1/2 rounded-full bg-[#FF4D00] transition-opacity",
                             isActive ? "opacity-100" : "opacity-0",
                           )}
                         />
                         <item.icon
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors",
-                            isActive ? "text-white" : "text-white/45 group-hover:text-white/80",
+                            isActive ? "text-[#FF4D00]" : "text-white/45 group-hover:text-white/80",
                           )}
                           aria-hidden="true"
                         />
